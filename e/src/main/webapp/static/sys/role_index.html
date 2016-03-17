@@ -1,0 +1,224 @@
+<div  id="role_container">
+	<div class="row">
+		<div class="col-xs-12 ">
+		
+		<div class="widget-box  ui-sortable-handle">
+				<div class="widget-header"><a href="#" ><span  onclick="$('#roleSearchBtn').click()" class="ace-icon fa fa-search icon-on-right bigger-110"></span></a>
+					<h5 class="widget-title" i18n="search_condition"></h5>
+
+					<div class="widget-toolbar">
+						<a href="#" data-action="collapse">
+							<i class="1 ace-icon fa bigger-125 fa-chevron-up"></i>
+						</a>
+					</div>
+
+				</div>
+
+				<div class="widget-body" style="display: block;">
+					<div class="widget-main">
+						   
+						 <div id="roleSearchDiv" class="input-group col-sm-4" style="padding-bottom: 2px">
+							<input type="text" id="roleQueryParam_name"  i18n="sys.role.name"  placeholder ="角色名称" class="form-control search-query" >
+							<span class="input-group-btn">
+								<button id="roleSearchBtn"  type="button" class="btn btn-purple btn-sm">
+									<span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
+									<span i18n="find"></span>
+								</button>
+							</span>
+						  </div>
+					</div>
+				</div>
+			</div>
+			
+			
+																												
+		  
+			<table id="role_grid-table"></table>
+
+			<div id="role_grid-pager"></div>
+
+		</div>
+		<!-- /.col -->
+	</div>
+	<!-- /.row -->
+	
+	
+	
+	<div id="authorityModalDiv" class="modal fade" tabindex="-1" data-backdrop="static">
+		<div class="modal-dialog">
+			<form id="informationForm">
+				<div class="modal-content">
+					<div class="modal-header no-padding">
+						<div class="table-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+								<span class="white">&times;</span>
+							</button>
+							<span i18n="sys.role.authorization">角色授权</span>
+						</div>
+					</div>
+					<div class="modal-body" style="max-height: 450px;overflow-y: scroll;">
+						<div id="modal-tip" class="red clearfix"></div>
+						<input id="roleIdInput" type="hidden" />
+						<div class="widget-box widget-color-blue2">
+							<div class="widget-body">
+								<div id="authorityTree"  class="widget-main padding-8 ztree">
+									
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer no-margin-top">
+						<div class="text-center">
+							
+							<button id="submitAuthorityBtn"  class="btn btn-sm btn-primary">
+							  <i class="ace-icon fa fa-floppy-o"></i>
+							  <span i18n="save"></span>
+							</button>
+							
+							<button class="btn btn-sm"  data-dismiss="modal">
+							  <i class="ace-icon fa fa-share "></i>
+							  <span i18n="cancel"></span>
+							</button>
+						</div>
+					</div>
+				</div><!-- /.modal-content -->
+			</form>
+		</div><!-- /.modal-dialog -->
+	</div>
+	
+</div>
+
+
+
+<script type="text/javascript">
+
+var scripts = [ null, null ];
+$('.page-content-area').ace_ajax('loadScripts', scripts, function() {
+	$container = $('#role_container');
+	var grid_selector  = "#role_grid-table";
+	var pager_selector = "#role_grid-pager";
+	var  roleGrid = null;
+	
+	var lang = $.homeGlobal.LANG.replace('_',"-");
+	var colNames;
+	$.loy.i18n(['sys/role'],$.homeGlobal.LANG,$container,{custCallback:function(){
+		colNames =[' ',
+	               $.i18n.prop("sys.role.name"),
+	               $.i18n.prop("sys.role.description")]
+	     
+		createRoleGrid();
+	}});
+	
+	
+	function  createRoleGrid(){
+		 roleGrid = jQuery(grid_selector).loyGrid({
+				url: 'role/page',
+				editurl:'role/update',
+				mtype: 'GET',
+				colNames:colNames,
+				colModel: [
+				 {name:'myac',index:'', width:120, fixed:true, sortable:false, resize:false,
+					 formatter:'actions', 
+					 formatoptions:getFormatoptions('role/')
+				 },
+
+		   		{ name: 'name', index: 'name', width: 100, align: "left",editable: true,
+					 editrules:{required:true} }, 
+		   		{ name: 'description', index:'description', edittype:'textarea', width: 550, align: "left",editable: true }
+		   	
+		   		],
+
+				pager: pager_selector,
+				width:$(".page-content").width(),
+				height: '310',
+				loadComplete:function(data){
+					loadComplete(data);
+					var list = data.data?data.data.content:null;
+					if(list){
+						for(var i=0;i<list.length;i++){
+							var delDivId = "jDeleteButton_"+list[i].id;
+							$('#'+delDivId).parent().append('<div title="'+$.i18n.prop("sys.role.authorization")+'"  onclick="showAuthority(\''+list[i].id+'\')" style="float:left;margin-left:5px;" class="ui-pg-div ui-inline-del"  onmouseover="jQuery(this).addClass(\'ui-state-hover\');" onmouseout="jQuery(this).removeClass(\'ui-state-hover\');"  data-original-title="所选记录"><span class="ui-icon fa-paw"></span></div>');
+						}
+					}
+					//role_grid-table
+				}
+				}).loyGrid('navGrid',pager_selector,{"baseUrl":"role/"}); 
+			    resizeToFitPage(roleGrid);
+	}
+	
+	
+	
+	$("#roleSearchBtn").click(function(){
+		var name = $("#roleQueryParam_name").val();
+		var postData ={"name":name,page:0};
+		roleGrid.loyGrid("setGridParam",{"postData":postData}).trigger("reloadGrid"); 
+	});
+	var $authorityTree = null;
+	
+	var setting = {
+			check: {
+				enable: true,
+				chkboxType: { "Y": "p", "N": "s" }
+			},
+			data: {
+				key:{
+					title:"text",
+					name:"text",
+					checked: "selected"
+				},
+				simpleData: {
+					enable: true,
+					pIdKey: "parentId"
+				}
+			}
+	};
+	
+	var $authorityModal =  $("#authorityModalDiv").on('shown.bs.modal', function() {
+		
+		$.loy.ajax({
+	        url: "role/resource",
+	        data:{"roleId":$('#roleIdInput').val()},
+	        success : function (data) { 
+	      	   var items = data.data;
+	      	   if(items){
+	      		   for(var i=0;i<items.length;i++){
+	      			 
+	      		   }
+	      	   }
+	      	   $authorityTree = $.fn.zTree.init($("#authorityTree"), setting, items);
+	      	   $authorityTree.expandAll(true)
+	        }
+	    }) ; 
+	   
+	});
+	$('#submitAuthorityBtn').on('click', function() {
+		var nodes = $authorityTree.getCheckedNodes();
+		var items =nodes;
+		//alert(JSON.stringify(items));
+		var resourceIdsArr = [];
+		if(items){
+    		for (var i =0;i<items.length;i++) {
+                var item = items[i];
+                var id = item['id' ];
+                resourceIdsArr.push(id);
+           }
+    	}
+		var resourceIds = resourceIdsArr.join(",");
+		$.loy.ajax({
+	          url: "role/authority",
+	          data:{"roleId":$('#roleIdInput').val(),"resourceIds":resourceIds},
+	          success : function (data) { 
+	        	  $authorityModal.modal("hide");
+	          },  
+	          error: function (response) {
+	               //console.log(response);  
+	          }
+	   }) ; 
+	});
+});
+
+function showAuthority(roleId){
+	$('#roleIdInput').val(roleId);	      
+	$('#authorityModalDiv').modal("toggle");
+}
+</script>

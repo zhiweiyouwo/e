@@ -1,0 +1,72 @@
+<div  id="performance_container">
+	<div class="row">
+		<div class="col-xs-12">
+			<table id="performance_grid-table"></table>
+
+			<div id="performance_grid-pager"></div>
+
+		</div>
+		<!-- /.col -->
+	</div>
+	<!-- /.row -->
+</div>
+
+
+
+
+<script type="text/javascript">
+var scripts = [ null,null ];
+$('.page-content-area').ace_ajax('loadScripts', scripts, function() {
+	$container = $('#performance_container');
+	var grid_selector  = "#performance_grid-table";
+	var pager_selector = "#performance_grid-pager";
+	
+	var  performanceGrid = null;
+	var colNames;
+	$.loy.i18n(['sys/monitor'],$.homeGlobal.LANG,$container,{custCallback:function(){
+		colNames =[
+                   $.i18n.prop("sys.monitor.performance.opName"),
+	               //$.i18n.prop("sys.monitor.performance.method"),
+	               
+	               $.i18n.prop("sys.monitor.performance.useTime")+'('+$.i18n.prop("sys.monitor.performance.unit")+')',
+	               $.i18n.prop("sys.monitor.performance.exeCount"),
+	               $.i18n.prop("sys.monitor.performance.maxTime")+'('+$.i18n.prop("sys.monitor.performance.unit")+')',
+	               $.i18n.prop("sys.monitor.performance.minTime")+'('+$.i18n.prop("sys.monitor.performance.unit")+')'
+	               ]
+		createPerformanceGrid();
+	}});
+	
+	function  createPerformanceGrid(){
+		performanceGrid =jQuery(grid_selector).loyGrid({
+			rowNum:30,
+			url: 'monitor/performance',
+			datatype: "json",
+			mtype: 'GET',
+			colNames:colNames,
+			colModel: [
+            { name: 'opName', index: 'opName', width: 100, align: "left",editable: false }, 
+	   		//{ name: 'method', index: 'method', width: 300, align: "left",editable: false }, 
+	   		{ name: 'useTime', index: 'useTime', width: 100, align: "left",editable: false },
+	   		{ name: 'count', index: 'count', width: 100, align: "left",editable: false },
+	   		{ name: 'maxUseTime', index: 'maxUseTime', width: 100, align: "left",editable: false },
+	   		{ name: 'minUseTime', index: 'minUseTime', width: 100, align: "left",editable: false }
+	   		],
+			pager: pager_selector,
+			height: '410',
+			loadComplete:function(data){
+				loadComplete(data);
+			}
+			
+		}).loyGrid('navGrid','#performance_grid-pager',{"baseUrl":"monitor/",
+			del:false,
+			edit:false,
+			add:false,
+			view: false
+		});
+		performanceGrid.jqGrid('setFrozenColumns');
+		resizeToFitPage(performanceGrid);
+	}
+
+});
+
+</script>

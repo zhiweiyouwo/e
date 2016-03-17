@@ -1,0 +1,104 @@
+<div  id="log_container">
+	<div class="row">
+		<div class="col-xs-12">
+		
+			<div class="widget-box  ui-sortable-handle">
+				<div class="widget-header"><a href="#" ><span  onclick="$('#logSearchBtn').click()" class="ace-icon fa fa-search icon-on-right bigger-110"></span></a>
+					<h5 class="widget-title"  i18n="search_condition"></h5>
+
+					<div class="widget-toolbar">
+						<a href="#" data-action="collapse">
+							<i class="1 ace-icon fa bigger-125 fa-chevron-up"></i>
+						</a>
+					</div>
+
+				</div>
+
+				<div class="widget-body" style="display: block;">
+					<div class="widget-main">
+						<div class="row">
+					           <div class="col-xs-12 col-sm-6 ">
+							    <div id="userSearchDiv" class="input-group col-xs-12  col-sm-6  " style="padding-bottom: 2px">
+									<input type="text" id="logQueryParam_name" i18n="sys.log.name" placeholder ="ÐÕÃû" class="form-control search-query" >
+									<span class="input-group-btn">
+										<button id="logSearchBtn" type="button" class="btn btn-purple btn-sm">
+											<span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
+											<span i18n="find"></span>
+										</button>
+									</span>
+				              </div>
+				              </div>
+				         </div>     
+			              
+					</div>
+				</div>
+			</div>
+			<table id="log_grid-table"></table>
+
+			<div id="log_grid-pager"></div>
+
+		</div>
+		<!-- /.col -->
+	</div>
+	<!-- /.row -->
+</div>
+
+
+
+
+<script type="text/javascript">
+var scripts = [ null,null ];
+$('.page-content-area').ace_ajax('loadScripts', scripts, function() {
+	$container = $('#log_container');
+	var grid_selector  = "#log_grid-table";
+	var pager_selector = "#log_grid-pager";
+	
+	var  logGrid = null;
+	var colNames;
+	$.loy.i18n(['sys/log'],$.homeGlobal.LANG,$container,{custCallback:function(){
+		colNames =[
+                   $.i18n.prop("sys.log.opName"),
+                   $.i18n.prop("sys.log.name"),
+                   $.i18n.prop("sys.log.operateTime"),
+                   $.i18n.prop("sys.log.data")
+	               ]
+		createLogGrid();
+	}});
+	
+	function  createLogGrid(){
+		logGrid =jQuery(grid_selector).loyGrid({
+			rowNum:30,
+			url: 'log/page',
+			datatype: "json",
+			mtype: 'GET',
+			colNames:colNames,
+			colModel: [
+            { name: 'opName', index: 'opName', width: 50, align: "left",editable: false,sortable: false }, 
+	   		{ name: 'operator', index: 'operator', width: 50, align: "left",editable: false ,sortable: false},
+	   		{ name: 'opTime', index: 'opTime', width: 50, align: "left",editable: false },
+	   		{ name: 'data', index: 'data', width: 200, align: "left",editable: false ,sortable: false}
+	   		],
+			pager: pager_selector,
+			height: '310',
+			loadComplete:function(data){
+				loadComplete(data);
+			}
+			
+		}).loyGrid('navGrid','#log_grid-pager',{"baseUrl":"log/",
+			del:false,
+			edit:false,
+			add:false,
+			view: false
+		});
+		logGrid.jqGrid('setFrozenColumns');
+		resizeToFitPage(logGrid);
+	}
+	$("#logSearchBtn").click(function(){
+		var name = $("#logQueryParam_name").val();
+		var postData ={"name":name,page:0};
+		logGrid.loyGrid("setGridParam",{"postData":postData}).trigger("reloadGrid"); 
+		
+	});
+});
+
+</script>

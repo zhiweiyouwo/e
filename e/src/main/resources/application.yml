@@ -1,0 +1,16 @@
+#spring.profiles: jpa
+#debug: true
+#server:
+#    port: 8080
+#    address: 127.0.0.1
+#    sessionTimeout:
+#spring:
+#    jpa:
+#        hibernate.ddl-auto: update
+#        show-sql: true
+#    datasource:
+#        url: jdbc:mysql://192.168.1.213/loy
+#        driverClassName: com.mysql.jdbc.Driver
+#        username: root
+#        password: root
+

@@ -1,0 +1,193 @@
+<div  id="user_container">
+	<div class="row">
+		<div class="col-xs-12">
+		
+			<div class="widget-box  ui-sortable-handle">
+				<div class="widget-header"><a href="#" ><span  onclick="$('#userSearchBtn').click()" class="ace-icon fa fa-search icon-on-right bigger-110"></span></a>
+					<h5 class="widget-title"  i18n="search_condition"></h5>
+
+					<div class="widget-toolbar">
+						<a href="#" data-action="collapse">
+							<i class="1 ace-icon fa bigger-125 fa-chevron-up"></i>
+						</a>
+					</div>
+
+				</div>
+
+				<div class="widget-body" style="display: block;">
+					<div class="widget-main">
+					
+						<div class="row">
+						       <div class="col-xs-12 col-sm-4 " style="padding-bottom: 2px">
+						        <input type="text" id="userQueryParam_username"  i18n="sys.user.username"  placeholder ="用户名" class="form-control search-query" >
+					           </div>
+					           <div class="col-xs-12 col-sm-6 ">
+							    <div id="userSearchDiv" class="input-group col-xs-12  col-sm-6  " style="padding-bottom: 2px">
+									<input type="text" id="userQueryParam_name" i18n="sys.user.name" placeholder ="姓名" class="form-control search-query" >
+									<span class="input-group-btn">
+										<button id="userSearchBtn" type="button" class="btn btn-purple btn-sm">
+											<span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
+											<span i18n="find"></span>
+										</button>
+									</span>
+				              </div>
+				              </div>
+				         </div>     
+			              
+					</div>
+				</div>
+			</div>
+							    
+			
+			<table id="user_grid-table"></table>
+
+			<div id="user_grid-pager"></div>
+
+		</div>
+		<!-- /.col -->
+	</div>
+	<!-- /.row -->
+</div>
+
+ 
+
+<script type="text/javascript">
+
+
+//$.getScript("static/component/assets/js/jqGrid/i18n/grid.locale-"+lang+".js",function(){
+var scripts = [null,null];
+$('.page-content-area').ace_ajax('loadScripts', scripts, function() {
+	$container = $('#user_container');
+	var grid_selector  = "#user_grid-table";
+	var pager_selector = "#user_grid-pager";
+	var lang = $.homeGlobal.LANG.replace('_',"-");
+	var colNames;
+	$.loy.i18n(['sys/user'],$.homeGlobal.LANG,$container,{custCallback:function(){
+		colNames =[' ',
+	               $.i18n.prop("sys.user.username"),
+	               $.i18n.prop("sys.user.name"),
+	               $.i18n.prop("sys.user.status"),
+	               $.i18n.prop("sys.user.email"),
+	               $.i18n.prop("sys.user.phone"),
+	               $.i18n.prop("sys.user.role")];
+		createUserGrid();
+	}});
+	
+	var  userGrid = null;
+
+	function  createUserGrid(){
+		
+		userGrid =jQuery(grid_selector).loyGrid({
+			url: 'user/page',
+			datatype: "json",
+			mtype: 'GET',
+			colNames:colNames,
+			colModel: [
+			 {name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false ,
+				formatter:'actions', 
+				formatoptions:getFormatoptions('user/')
+			 },
+	   		{ name: 'username', index: 'username',  mobile:{classes:'hidden-xs'},editoptions:{readonly:"readonly"},width: 140, align: "left",editable: true,editrules:{required:true}}, 
+	   		{ name: 'name', index: 'name', width: 100, align: "left",editable: true }, 
+	   		{ name: 'userStatus', index: 'userStatus', width: 60, align: "left",editable: true,
+	   			edittype:'select', editoptions:{value:'NORMAL:正常状态;DISABLED:禁用状态'} },
+	   		{ name: 'email', index: 'email', width: 100, align: "left",editable: true },
+	   		{ name: 'phone', index: 'phone', width: 80, align: "left",editable: true },
+	   		{ name: 'roleIds', index: 'roleIds', width: 150, align: "left",editable: true,
+	   			formatter:function(cellvalue, options, rowObject){   return '<div  class="roleId"  v="'+rowObject.roleIds+'">'+rowObject.roleNames+'</div>';},
+	   		 edittype:'custom', editoptions:{custom_element:createRoleInput ,custom_value:roleInputValue}
+	   		}
+	   		],
+	   		
+			pager: pager_selector,
+			//width:$(".page-content").width(),
+			height: '310'
+		}).loyGrid('navGrid','#user_grid-pager',{"baseUrl":"user/",add:false,excel:true});
+		userGrid.jqGrid('setFrozenColumns');
+		resizeToFitPage(userGrid);
+	}
+	/**
+	.navButtonAdd('#user_grid-pager',{
+		  caption : "",
+		  title : "导出Excel",
+		  buttonicon : "ace-icon fa fa-file-excel-o green",
+        onClickButton: function(){ 
+        	
+        }
+
+    });*/
+	
+	
+	
+	$("#userSearchBtn").click(function(){
+		var username = $("#userQueryParam_username").val();
+		var name = $("#userQueryParam_name").val();
+		var postData ={"username":username,"name":name,page:0};
+		userGrid.loyGrid("setGridParam",{"postData":postData}).trigger("reloadGrid"); 
+		
+	});
+	
+});
+
+function createRoleInput (value, options) {//alert(JSON.stringify(options));
+    var rowId = '#'+options.rowId;
+    var value = $(rowId).find('.roleId').attr('v');
+	var v = value?value:'';
+	var selectRoleIdArr = v.split(',');
+	var setting = {
+			check: {
+				enable: true
+			},
+			data: {
+				key:{
+					title:"text",
+					name:"text",
+					checked: "selected"
+				},
+				simpleData: {
+					enable: true,
+					pIdKey: "parentId"
+				}
+			}
+	 };
+	
+    var $roleTree = null;
+	$.loy.ajax({
+            url: "role/all", 
+            async:false,
+            success : function (data) {
+            	var items = data.data;
+            	for(var i=0;i<items.length;i++){
+                 	if($.inArray(items[i].id, selectRoleIdArr) > -1){
+                 		items[i].selected = true;
+                 	}
+                 }
+            	$roleTree = $('<div id="roleTree" class="ztree" ></div>');
+            	$.fn.zTree.init($roleTree, setting, items);
+            	
+            }
+   });
+   return $roleTree;
+}
+
+function roleInputValue(roleTree, operation, value) {
+   if(operation === 'get') {
+    	var roleIds = [];
+    	var nodes = $.fn.zTree.getZTreeObj("roleTree").getCheckedNodes();
+		var items =nodes;
+    	//alert(JSON.stringify(items));
+    	if(items){
+    		for (var i =0;i<items.length;i++) {
+                var item = items[i];
+                var id = item['id' ];
+                roleIds.push(id);
+           }
+    	}
+       return roleIds.join(",");
+    } else if(operation === 'set') {
+    	
+    }
+ }
+ 
+
+</script>

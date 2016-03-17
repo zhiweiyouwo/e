@@ -1,0 +1,55 @@
+﻿快速搭建开发环境
+
+下载工程源代码
+安装jdk1.7+ 
+通过eclipse 导入工程
+文件编码都为UTF-8
+删除pom.xml
+将lib下的jar添加到 Libraries中去
+创建数据库 数据库名为 loy
+修改e\src\main\resources\application.properties 文件中的数据库用户和密码修改为自己的数据库用户和密码
+运行com.loy.ApplicationMain
+执行loy_ds.sql 脚本
+在浏览器输入http://localhost:8080/index.html 进入登录页 输入用户名admin  密码123456
+
+
+
+
+开发构建
+
+下载工程源代码
+
+安装jdk1.7+  设置好环境变量
+
+安装Maven (我用的是3.2.2版本) 设置好环境变量
+
+通eclipse 导入工程
+
+创建数据库 数据库名为 loy
+
+修改e\src\main\resources\application.properties 文件中的数据库用户和密码修改为自己的数据库用户和密码
+
+运行com.loy.ApplicationMain
+
+执行loy_ds.sql 脚本
+
+在浏览器输入http://localhost:8080/index.html 进入登录页 输入用户名admin  密码123456
+
+
+mvn 运行工程
+下载源代码工程
+
+安装jdk1.7+  设置好环境变量
+
+安装Maven (我用的是3.2.2版本) 设置好环境变量
+
+创建数据库 数据库名为 loy
+
+修改e\src\main\resources\application.properties 文件中的数据库用户和密码修改为自己的数据库用户和密码
+
+执行 mvn spring-boot:run
+
+启动成功后执行loy_ds.sql 脚本
+
+在浏览器输入http://localhost:8080/index.html 进入登录页 输入用户名admin  密码123456
+

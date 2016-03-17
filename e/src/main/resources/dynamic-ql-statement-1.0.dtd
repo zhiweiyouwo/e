@@ -1,0 +1,23 @@
+<!-- HOP Hibernate Dynamic Statement Mapping DTD.  
+  
+<!DOCTYPE dynamic-ql-statement PUBLIC   
+    "-//Loy/HOP ql Dynamic Statement DTD 1.0//EN"  
+    "http://www.loy.com/dtd/dynamic-ql-statement-1.0.dtd">  
+这个文件时用来定义动态参数语句，类似itabis  
+-->  
+  
+ 
+<!ELEMENT dynamic-ql-statement (  
+    (hql-query|sql-query)*  
+)>  
+<!-- default: none -->  
+  
+<!-- The query element declares a named Hibernate query string -->  
+  
+<!ELEMENT hql-query (#PCDATA)>  
+    <!ATTLIST hql-query name CDATA #REQUIRED>  
+  
+<!-- The sql-query element declares a named SQL query string -->  
+  
+<!ELEMENT sql-query (#PCDATA)>  
+    <!ATTLIST sql-query name CDATA #REQUIRED>  
