@@ -74,11 +74,10 @@ public class LoyAspect {
 	        		 String methodName = method.getName();
 	        		 if("login".equals(methodName)){
 	        			 simpleUser = new SimpleUser();
-	        			 String userId = (String)args[0];
-	        			 simpleUser.setId(userId);
+	        			 String userName = (String)args[0];
 	        			 Object[] temp = {args[0]};
-	        			 UserEntity user = userRepository.get(userId);
-	        			 loyLogService.log(userId, user.getName(),description , temp); 
+	        			 UserEntity user = userRepository.findByUsername(userName);
+	        			 loyLogService.log(user.getId(), user.getName(),description , temp); 
 	        		 }
 	        	 }
 	         }
