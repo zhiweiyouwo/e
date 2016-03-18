@@ -77,7 +77,9 @@ public class LoyAspect {
 	        			 String userName = (String)args[0];
 	        			 Object[] temp = {args[0]};
 	        			 UserEntity user = userRepository.findByUsername(userName);
-	        			 loyLogService.log(user.getId(), user.getName(),description , temp); 
+	        			 if(user != null){
+	        				 loyLogService.log(user.getId(), user.getName(),description , temp); 
+	        			 }
 	        		 }
 	        	 }
 	         }
