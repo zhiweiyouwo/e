@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import com.loy.e.core.data.ErrorResponseData;
 import com.loy.e.core.exception.LoyException;
 import com.loy.e.core.log.LoyLogService;
+import com.loy.e.core.util.Assert;
 import com.loy.e.core.util.UserUtils;
 
 
@@ -84,10 +85,15 @@ public class ExceptionHandlerAdvice {
         PrintWriter pw=new PrintWriter(sw);  
         ex.printStackTrace(pw);
         String stackTraceMsg = sw.toString();
-        loyLogService.exception(exceptionName,stackTraceMsg);
+        try{
+        	 loyLogService.exception(exceptionName,stackTraceMsg);
+        }catch(Throwable e){
+        	logger.error(e);
+        }
 		logger.error(ex);
 		ErrorResponseData data = new ErrorResponseData();
-		data.setMsg(ex.getMessage());
+		String msg = messageSource.getMessage(Assert.SYS_ERROR_CODE,null, UserUtils.getLocale());
+		data.setMsg(msg);
 		return data;
 	 } 
 }
