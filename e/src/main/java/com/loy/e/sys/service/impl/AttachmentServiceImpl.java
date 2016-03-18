@@ -9,6 +9,8 @@ import java.net.URLEncoder;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.FileCopyUtils;
@@ -37,6 +39,7 @@ import com.loy.e.sys.repository.AttachmentRepository;
 @RequestMapping(value = "attachment",method={RequestMethod.POST,RequestMethod.GET})
 @Transactional
 public class AttachmentServiceImpl {
+	protected final Log logger = LogFactory.getLog(AttachmentServiceImpl.class);
 	@Autowired
 	AttachmentRepository attachmentRepository;
 	@Autowired
@@ -52,10 +55,11 @@ public class AttachmentServiceImpl {
 		String attachmentId = attachmentEntity.getId();
 		fileName = attachmentId+fileNameSuffix;
 		attachmentEntity.setFileName(fileName);
-		File file = new File(settings.getAttachmentBaseDirectory(),fileName);
 		try {
+		    File file = new File(settings.getAttachmentBaseDirectory(),fileName);
 			FileCopyUtils.copy(multipartFile.getBytes(), file);
 		} catch (IOException e) {
+			logger.error(e);
 			Assert.throwException();
 		}
 	}
