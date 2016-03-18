@@ -291,6 +291,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		$('#subject').val('');
 		$('#content').val('');
 		$('#contentDiv').html('');
+		$('#view-attachments').html('');
 		$('.notice-form .ace-file-input:not(:first-child)').remove();
 		$('.notice-form input[type=file]').ace_file_input('reset_input_ui');
 		$('a[data-action=delete]',$('#notice-form-attachments')).click();
