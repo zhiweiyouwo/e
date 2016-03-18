@@ -223,7 +223,7 @@
 											<label class="col-sm-3 control-label no-padding-right" i18n="personnel.notice.attachment"></label>
 
 											<div class="col-sm-9">
-												<div id="view-attachments">
+												<div id="detail-iew-attachments">
 												
 												
 												 
@@ -353,7 +353,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 				$('#view_content').html(result.content?result.content:'');
 				
 				var attachments = result.attachments;
-				var $viewAttachments = $('#view-attachments');
+				var $viewAttachments = $('#detail-iew-attachments');
 				$viewAttachments.html("");
 				if(attachments){
 					for(var i=0;i<attachments.length;i++){
