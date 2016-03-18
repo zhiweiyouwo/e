@@ -55,6 +55,10 @@ public class AttachmentServiceImpl {
 		fileName = attachmentId+fileNameSuffix;
 		attachmentEntity.setFileName(fileName);
 		try {
+			File dir = new File(settings.getAttachmentBaseDirectory());
+			if(!dir.exists()){
+				dir.mkdirs();
+			}
 		    File file = new File(settings.getAttachmentBaseDirectory(),fileName);
 			FileCopyUtils.copy(multipartFile.getBytes(), file);
 		} catch (IOException e) {
