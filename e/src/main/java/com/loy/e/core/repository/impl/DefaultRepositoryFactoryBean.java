@@ -15,6 +15,7 @@ import org.springframework.data.repository.core.support.RepositoryFactorySupport
 import org.springframework.data.repository.query.QueryLookupStrategy;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
+import com.loy.e.core.conf.Settings;
 import com.loy.e.core.entity.Entity;
 import com.loy.e.core.ql.DynamicQlStatementBuilder;
 import com.loy.e.core.repository.GenericRepository;
@@ -32,11 +33,13 @@ public class DefaultRepositoryFactoryBean<R extends JpaRepository<M, ID>, M exte
 	DynamicQlStatementBuilder dynamicQlStatementBuilder;
 	@Autowired
 	NamedParameterJdbcTemplate jdbcTemplate;
+	@Autowired
+	private Settings settings;
 	public DefaultRepositoryFactoryBean() {
 	}
 
 	protected RepositoryFactorySupport createRepositoryFactory(EntityManager entityManager) {
-		return new DefaultRepositoryFactory<M, ID >(entityManager,dynamicQlStatementBuilder, jdbcTemplate);
+		return new DefaultRepositoryFactory<M, ID >(entityManager,dynamicQlStatementBuilder, jdbcTemplate,settings);
 	}
 }
 
@@ -44,14 +47,16 @@ class DefaultRepositoryFactory< M extends Entity<ID>, ID extends Serializable> e
 	private EntityManager entityManager;
 	private DynamicQlStatementBuilder dynamicQlStatementBuilder;
 	private NamedParameterJdbcTemplate jdbcTemplate;
-	
+	private Settings settings;
 	public DefaultRepositoryFactory(EntityManager entityManager,
 			DynamicQlStatementBuilder dynamicQlStatementBuilder,
-			NamedParameterJdbcTemplate jdbcTemplate) {
+			NamedParameterJdbcTemplate jdbcTemplate ,
+			Settings settings) {
 		super(entityManager);
 		this.entityManager = entityManager;
 		this.dynamicQlStatementBuilder = dynamicQlStatementBuilder;
 		this.jdbcTemplate = jdbcTemplate;
+		this.settings = settings;
 	}
 
 	protected Object getTargetRepository(RepositoryInformation metadata) {
@@ -59,7 +64,7 @@ class DefaultRepositoryFactory< M extends Entity<ID>, ID extends Serializable> e
 		if (isBaseRepository(repositoryInterface)) {
 			JpaEntityInformation<M, ID> entityInformation = getEntityInformation((Class<M>) metadata.getDomainType());
 			GenericRepository<M, ID> repository = new GenericRepositoryImpl<M, ID>(entityInformation,
-					entityManager,dynamicQlStatementBuilder,jdbcTemplate);
+					entityManager,dynamicQlStatementBuilder,jdbcTemplate,settings);
 			return repository;
 		}
 		return super.getTargetRepository(metadata);

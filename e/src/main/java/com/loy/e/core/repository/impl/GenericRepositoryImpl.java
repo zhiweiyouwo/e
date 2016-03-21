@@ -36,6 +36,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.loy.e.core.conf.Settings;
 import com.loy.e.core.data.LoyPageRequest;
 import com.loy.e.core.entity.BaseEntity;
 import com.loy.e.core.entity.Entity;
@@ -47,7 +48,6 @@ import com.loy.e.core.query.MapQueryParam;
 import com.loy.e.core.query.QueryParamHelper;
 import com.loy.e.core.repository.GenericRepository;
 import com.loy.e.core.util.JsonUtil;
-import com.sun.org.apache.bcel.internal.generic.StoreInstruction;
 
 
 /**
@@ -65,7 +65,7 @@ public  class GenericRepositoryImpl<T extends Entity<ID>, ID extends Serializabl
 	private JpaEntityInformation<T, ?> entityInformation = null;
 	private Class<T> entityClass = null;
 	private CrudMethodMetadata crudMethodMetadata = null;
-	
+	private Settings settings;
 	
 	DynamicQlStatementBuilder dynamicQlStatementBuilder;
 	NamedParameterJdbcTemplate jdbcTemplate;
@@ -77,13 +77,16 @@ public  class GenericRepositoryImpl<T extends Entity<ID>, ID extends Serializabl
 	public GenericRepositoryImpl(JpaEntityInformation<T, ?> entityInformation,
 			EntityManager entityManager,
 			DynamicQlStatementBuilder dynamicQlStatementBuilder,
-			NamedParameterJdbcTemplate jdbcTemplate) {
+			NamedParameterJdbcTemplate jdbcTemplate,
+			Settings settings) {
 		//super(entityInformation, entityManager);
 		this.entityInformation = entityInformation;
 		this.entityClass = this.entityInformation.getJavaType();
 		this.em = entityManager;
 		this.dynamicQlStatementBuilder = dynamicQlStatementBuilder;
 		this.jdbcTemplate = jdbcTemplate;
+		this.settings = settings;
+		
 	}
 	
 //	public GenericRepositoryImpl(Class<T> domainClass, EntityManager em) {
@@ -182,9 +185,11 @@ public  class GenericRepositoryImpl<T extends Entity<ID>, ID extends Serializabl
 				list = jdbcTemplate.queryForList(ql, values,resultClass);
 			}
 		}
-		logger.debug("查询结果");
-		String data = JsonUtil.json(list);
-		logger.debug(JsonUtil.formatJson(data));
+		if(settings.getDebugPageResult()){
+			logger.debug("查询结果");
+			String data = JsonUtil.json(list);
+			logger.debug(JsonUtil.formatJson(data));
+		}
 		return list;
 	}
 
@@ -283,9 +288,12 @@ public  class GenericRepositoryImpl<T extends Entity<ID>, ID extends Serializabl
 			}
 			page = new PageImpl<R>(list, pageable, total);
 		}
-		logger.debug("分页结果");
-		String data = JsonUtil.json(page);
-		logger.debug(JsonUtil.formatJson(data));
+		if(settings.getDebugPageResult()){
+			logger.debug("分页结果");
+			String data = JsonUtil.json(page);
+			logger.debug(JsonUtil.formatJson(data));
+		}
+
 		return page;
 	}  
 	

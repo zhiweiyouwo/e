@@ -10,12 +10,14 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @version 1.0.0
  *
  */
-@ConfigurationProperties(prefix = "com.loy.easy.conf")
+@ConfigurationProperties(prefix = "com.loy.e.conf")
 public class Settings {
 
 	private String attachmentBaseDirectory;
     private String supportLocales;
-	
+    private Boolean debugPageResult = false;
+    private Boolean recordOperateLog = true;
+    
 	public String getAttachmentBaseDirectory() {
 		return attachmentBaseDirectory;
 	}
@@ -30,6 +32,22 @@ public class Settings {
 
 	public void setSupportLocales(String supportLocales) {
 		this.supportLocales = supportLocales;
+	}
+
+	public Boolean getDebugPageResult() {
+		return debugPageResult;
+	}
+
+	public void setDebugPageResult(Boolean debugPageResult) {
+		this.debugPageResult = debugPageResult;
+	}
+
+	public Boolean getRecordOperateLog() {
+		return recordOperateLog;
+	}
+
+	public void setRecordOperateLog(Boolean recordOperateLog) {
+		this.recordOperateLog = recordOperateLog;
 	}
 	
 	

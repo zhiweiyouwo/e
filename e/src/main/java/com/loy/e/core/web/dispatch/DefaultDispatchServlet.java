@@ -21,10 +21,10 @@ import com.loy.e.core.web.SimpleUser;
 @SuppressWarnings("serial")
 public class DefaultDispatchServlet extends DispatcherServlet{
 	
-	@Value("${com.loy.easy.conf.supportLocales}")
+	@Value("${com.loy.e.conf.supportLocales}")
 	private String supportLocales;
 	
-	@Value("${com.loy.easy.conf.defaultLocale}")
+	@Value("${com.loy.e.conf.defaultLocale}")
 	private String defaultLocale;
 	
 	@Override

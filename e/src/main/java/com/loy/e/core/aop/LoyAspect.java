@@ -16,6 +16,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.loy.e.core.annotation.ControllerLogExeTime;
+import com.loy.e.core.conf.Settings;
 import com.loy.e.core.entity.BaseEntity;
 import com.loy.e.core.log.LoyLogService;
 import com.loy.e.core.util.UserUtils;
@@ -39,7 +40,8 @@ public class LoyAspect {
 	 LoyLogService loyLogService;
 	 @Autowired
 	 UserRepository userRepository;
-	 
+	 @Autowired
+	 private Settings settings;
 	 @Before(value  = "@annotation(org.springframework.web.bind.annotation.RequestMapping)")
      public void beforAdvice( JoinPoint joinPoint) throws Throwable{
     	 Object[] args = joinPoint.getArgs();
@@ -60,32 +62,34 @@ public class LoyAspect {
      @Around(value  = "@annotation(com.loy.e.core.annotation.ControllerLogExeTime)")
      public Object aroundAdvice( ProceedingJoinPoint joinPoint) throws Throwable{
     	 Object[] args = joinPoint.getArgs();
-    	 try{
-	    	 MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-	         Method method = signature.getMethod();
-	         
-	         SimpleUser simpleUser = UserUtils.getSimipleUser();
-	         ControllerLogExeTime controllerLogExeTime = method.getAnnotation(ControllerLogExeTime.class);
-	         if(controllerLogExeTime.log()){
-	        	 String description  = method.getAnnotation(ControllerLogExeTime.class).description();
-	        	 if(simpleUser != null){
-	        		 loyLogService.log(simpleUser.getId(), simpleUser.getName(),description , args); 
-	        	 }else{
-	        		 String methodName = method.getName();
-	        		 if("login".equals(methodName)){
-	        			 simpleUser = new SimpleUser();
-	        			 String userName = (String)args[0];
-	        			 Object[] temp = {args[0]};
-	        			 UserEntity user = userRepository.findByUsername(userName);
-	        			 if(user != null){
-	        				 loyLogService.log(user.getId(), user.getName(),description , temp); 
-	        			 }
-	        		 }
-	        	 }
-	         }
-    	 }catch(Throwable e){
-    		 logger.error("记录操作日志错误", e);
+    	 if(settings.getRecordOperateLog()){
+    		 try{
+    	    	 MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+    	         Method method = signature.getMethod();
+    	         SimpleUser simpleUser = UserUtils.getSimipleUser();
+    	         ControllerLogExeTime controllerLogExeTime = method.getAnnotation(ControllerLogExeTime.class);
+    	         if(controllerLogExeTime.log()){
+    	        	 String description  = method.getAnnotation(ControllerLogExeTime.class).description();
+    	        	 if(simpleUser != null){
+    	        		 loyLogService.log(simpleUser.getId(), simpleUser.getName(),description , args);
+    	        	 }else{
+		        			String methodName = method.getName();
+			        		if("login".equals(methodName)){
+			        			 simpleUser = new SimpleUser();
+			        			 String userName = (String)args[0];
+			        			 Object[] temp = {args[0]};
+			        			 UserEntity user = userRepository.findByUsername(userName);
+			        			 if(user != null){
+			        				 loyLogService.log(user.getId(), user.getName(),description , temp); 
+			        			 }
+			        		} 
+    	        	 }
+    	         }
+        	 }catch(Throwable e){
+        		 logger.error("记录操作日志错误", e);
+        	 }
     	 }
+    	 
     	 Object rt = joinPoint.proceed(args);
     	 return rt;
        
