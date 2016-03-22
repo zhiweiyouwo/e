@@ -257,7 +257,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 			 $.loy.ajax({
 					url:'profile/password',
 					data:{
-						"oldPassword":$('#newPassword').val(),
+						"oldPassword":$('#oldPassword').val(),
 						"newPassword":$('#newPassword').val()
 					},
 					success:function(data){
