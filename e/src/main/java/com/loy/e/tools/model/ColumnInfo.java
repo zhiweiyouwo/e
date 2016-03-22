@@ -18,7 +18,7 @@ public class ColumnInfo {
 	private boolean detail = true;
 	private String name;
 	private String fieldName;
-	private String inputType =  "text";
+	private InputClazz inputType = InputClazz.TEXT;
 	
 	private boolean condition = false;
 	private Op op = Op.eq;
@@ -56,10 +56,11 @@ public class ColumnInfo {
 	public void setFieldName(String fieldName) {
 		this.fieldName = fieldName;
 	}
-	public String getInputType() {
+	
+	public InputClazz getInputType() {
 		return inputType;
 	}
-	public void setInputType(String inputType) {
+	public void setInputType(InputClazz inputType) {
 		this.inputType = inputType;
 	}
 	public boolean isCondition() {

@@ -1,5 +1,13 @@
 package com.loy.e.core.annotation;
 
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+import com.loy.e.tools.model.InputClazz;
+
 /**
  * 
  * 
@@ -8,12 +16,15 @@ package com.loy.e.core.annotation;
  * @version 1.0.0
  *
  */
+@Retention(RetentionPolicy.RUNTIME) 
+@Target({ElementType.FIELD})
+@Documented
 public @interface LoyColumn {
 
 	boolean list() default true;
 	boolean edit() default true;
 	boolean detail() default true;
 	String name() default "";
-	String inputType() default "text";
+	InputClazz inputType() default InputClazz.TEXT;
 	ConditionParam condition(); 
 }
