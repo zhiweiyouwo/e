@@ -25,10 +25,9 @@
 	$.loy.showSysMsg = function(msg){  
 		$('#systemMsgDiv').show();
 		$('#systemMsgSpan').html(msg);
-		//获取滚动条的滑动距离
 		var winHeight = $(window).height();
         var scroH = $(window).scrollTop();
-        var topH = winHeight + scroH -100;
+        var topH = winHeight + scroH -150;
         $("#systemMsgDiv").css("top", topH + "px").css("position", "absolute").css("right", "5px");
 		setTimeout(function(){
 			$('#systemMsgDiv').hide();
