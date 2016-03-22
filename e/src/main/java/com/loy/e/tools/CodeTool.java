@@ -21,7 +21,7 @@ import freemarker.template.TemplateException;
  *
  */
 public class CodeTool {
-	public static String javaSrcPath = "D:\\git\\jee_framework\\e\\src\\main\\java";
+	public static String javaSrcPath = "D:\\git\\jee_framework\\e\\src\\main\\java\\";
 	
 	public static void main(String[] args) throws IOException, TemplateException {
 		String templatePath = CodeTool.class.getResource("").getPath()+"template";
@@ -34,7 +34,7 @@ public class CodeTool {
 		
 		Template t = cfg.getTemplate("queryParam.ftl"); 
 		String packageName = entityInfo.getDomainPackageName();
-		packageName = packageName.replaceAll(".", "/");
+		packageName = packageName.replaceAll("\\.", "/");
 		packageName = javaSrcPath+packageName;
 		File f = new File(packageName);
 		if(!f.exists()){
@@ -50,7 +50,7 @@ public class CodeTool {
         
         t = cfg.getTemplate("ql.ftl"); 
 		packageName = entityInfo.getQlPackageName();
-		packageName = packageName.replaceAll(".", "/");
+		packageName = packageName.replaceAll("\\.", "/");
 		packageName = javaSrcPath+packageName;
 		f = new File(packageName);
 		if(!f.exists()){
@@ -65,8 +65,8 @@ public class CodeTool {
         
         
         t = cfg.getTemplate("repository.ftl"); 
-		packageName = entityInfo.getQlPackageName();
-		packageName = packageName.replaceAll(".", "/");
+		packageName = entityInfo.getRepositoryPackageName();
+		packageName = packageName.replaceAll("\\.", "/");
 		packageName = javaSrcPath+packageName;
 		f = new File(packageName);
 		if(!f.exists()){
@@ -82,8 +82,8 @@ public class CodeTool {
         
         
         t = cfg.getTemplate("serviceImpl.ftl"); 
-		packageName = entityInfo.getQlPackageName();
-		packageName = packageName.replaceAll(".", "/");
+		packageName = entityInfo.getServiceImplPackageName();
+		packageName = packageName.replaceAll("\\.", "/");
 		packageName = javaSrcPath+packageName;
 		f = new File(packageName);
 		if(!f.exists()){
