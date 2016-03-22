@@ -83,17 +83,17 @@ public class MyProfileServiceImpl {
 	
 	@ControllerLogExeTime(description="修改个人密码")
 	@RequestMapping(value="/password",method={RequestMethod.POST})
-	public SuccessResponse  updatePassword(String oldPassword,String newPassword){
+	public void  updatePassword(String oldPassword,String newPassword){
 		String id = UserUtils.getSimipleUser().getId();
 		UserEntity user = employeeRepository.get(id);
 		String password = user.getPassword();
+		oldPassword = passwordService.encryptPassword(oldPassword);
 		if(password.equals(oldPassword)){
 			String enPassword = passwordService.encryptPassword(newPassword);
 			user.setPassword(enPassword);
-			user.setPassword(newPassword);
 		}else{
 			Assert.throwException("sys.user.old_password");
 		}
-		return SuccessResponse.newInstance();
+		
 	}
 }
