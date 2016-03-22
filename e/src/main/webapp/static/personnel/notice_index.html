@@ -1,4 +1,4 @@
-	<div  id="notice_container">
+	<div  id="notice_container" ng-app="noticeApp">
 	<div class="row">
 		<div class="col-xs-12">
 			<div class="widget-box  ui-sortable-handle">
@@ -171,7 +171,7 @@
 	
 	
 		
-	<div id="noticeViewModalDiv" class="modal fade" tabindex="-1" data-backdrop="static">
+	<div id="noticeViewModalDiv" class="modal fade" tabindex="-1" data-backdrop="static" ng-controller="noticeViewCtrl">
 		<div class="modal-dialog modal-lg" >
 				<div class="modal-content">
 					<div class="modal-header no-padding">
@@ -564,8 +564,13 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 			$(this).closest('.file-input-container').hide(300, function(){ $(this).remove() });
 		});
 	});
-
-
+/**
+	var app = angular.module('noticeApp', []);
+	app.controller('noticeViewCtrl', function($scope) {
+	   
+	});
+	*/
+	
 });
 
 </script>
