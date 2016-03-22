@@ -1,5 +1,7 @@
 package com.loy.e.sys.domain.entity;
 
+import javax.persistence.Entity;
+
 import com.loy.e.core.annotation.ConditionParam;
 import com.loy.e.core.annotation.LoyColumn;
 import com.loy.e.core.annotation.LoyEntity;
@@ -15,6 +17,7 @@ import com.loy.e.core.entity.BaseEntity;
  */
 
 @LoyEntity(name="测试实体")
+@Entity(name="loy_test")
 public class TestEntity extends BaseEntity{
 	
     @LoyColumn(name="姓名", condition = @ConditionParam(op=Op.eq, name = "name"))

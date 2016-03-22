@@ -59,6 +59,11 @@ public class CodeTool {
 		entityName = entityInfo.getEntityName();
 		entityName = entityName.replaceFirst("Entity", "");
 		fileName = entityName+"-dynamic.xml";
+		char[] temp = fileName.toCharArray();
+		if(temp[0]>='A'&&temp[0]<='Z'){
+		    temp[0]+=32;
+		}
+		fileName = new String(temp);
 		f = new File(packageName,fileName);
         t.process(entityInfo, new OutputStreamWriter(System.out)); 
         t.process(entityInfo, new OutputStreamWriter(new FileOutputStream(f))); 
