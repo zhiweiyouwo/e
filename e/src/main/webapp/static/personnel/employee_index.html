@@ -232,7 +232,9 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	               $.i18n.prop("personnel.emp.email"),
 	               $.i18n.prop("personnel.emp.phone"),
 	               $.i18n.prop("personnel.emp.dob"),
-	               $.i18n.prop("personnel.emp.sex")
+	               $.i18n.prop("personnel.emp.sex"),
+	               $.i18n.prop("personnel.emp.organization")
+	               
 	               ]
 	     
 		createEmployeeGrid();
@@ -321,7 +323,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 				formatter:'actions', 
 				formatoptions:getFormatoptions('employee/')
 			 },
-	   		{ name: 'employeeNo', index: 'employeeNo',width: 140, align: "left",editable: true,editrules:{required:true},
+	   		{ name: 'employeeNo', index: 'employeeNo',width: 100, align: "left",editable: true,editrules:{required:true},
 				 editoptions:{disabled:true}
 	   		},
 	   		{ name: 'name', index: 'name', width: 100, align: "left",editable: true }, 
@@ -330,7 +332,13 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	   		{ name: 'email', index: 'email', width: 100, align: "left",editable: true },
 	   		{ name: 'phone', index: 'phone', width: 80, align: "left",editable: true },
 	   		{ name: 'dob', index: 'dob', width: 100, align: "left",editable: true,formatter:'date', editoptions:{ctype:'date'}},
-	   		{ name: 'sex', index: 'sex', width: 100, align: "left",editable: true ,formatter: "select",  editoptions:{value:'MALE:男;FEMALE:女'} }
+	   		{ name: 'sex', index: 'sex', width: 100, align: "left",editable: true ,formatter: "select",  editoptions:{value:'MALE:男;FEMALE:女'} },
+	   		{ name: 'organization.name', index: 'organization.name', width: 100, align: "left",editable: false,formatter:function(cellvalue, options, rowObject){
+	   			if(rowObject.organization){
+	   				return rowObject.organization.name;
+	   			}
+	   			return "";
+	   		} }
 	   		],
 			pager: pager_selector,
 			//width:$(".page-content").width(),

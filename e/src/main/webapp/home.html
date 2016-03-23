@@ -21,6 +21,7 @@
 		<link rel="stylesheet" href="static/component/assets/css/ace-fonts.css" />
 		<link rel="stylesheet" href="static/component/assets/css/bootstrap-editable.css" />
         <link rel="stylesheet" href="static/component/assets/css/zTreeStyle/zTreeStyle.css" />
+        <link rel="stylesheet" href="static/component/assets/css/chosen.css" />
 
 		<!-- ace styles -->
 		<link rel="stylesheet" href="static/component/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
@@ -617,6 +618,7 @@
         <script src="static/component/assets/js/jquery.gritter.js"></script>
        
         <script src="static/component/assets/js/jqGrid/jquery.jqGrid.js"></script>
+        <script src="static/component/custom/cust_chosen.jquery.js"></script>
         
         <script src="static/component/assets/js/ace/elements.fileinput.js"></script>
         <script src="static/component/assets/js/x-editable/bootstrap-editable.js"></script>
@@ -653,7 +655,10 @@
        <script>
         
         jQuery(function($) {
-           
+        	$('.chosen-select').cchosen({allow_single_deselect:true,
+        		tableName:"loy_user",
+        		}); 
+
         	 if($('#myprofileDropdownDiv').is(':visible')){
         		$('#myprofileDropdown').click();
         	 }
@@ -823,6 +828,9 @@
         
        
         </script>
+        <select class="chosen-select" style="width: 150px">
+      <option></option>
+        </select>
     </body>
 </html>
 

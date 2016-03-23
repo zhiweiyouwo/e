@@ -10,9 +10,15 @@ package com.loy.e.tools.component;
 public class TextInput extends AbstractInput{
 	
 	@Override
+	public
 	String getHtml() {
-		return null;
+		StringBuilder buffer = new StringBuilder();
+		buffer.append("<input type=\"text\"  class=\"form-control\" ");
+		String fieldName = this.getFieldName();
+		fieldName.replace("\\.", "_");
+		buffer.append("id=\"").append(fieldName).append("\"");
+		buffer.append(" name=\"").append(this.getFieldName()).append("\"");
+		buffer.append(" />");
+		return buffer.toString();
 	}
-
-	
 }

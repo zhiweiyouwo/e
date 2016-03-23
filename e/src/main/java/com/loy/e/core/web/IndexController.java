@@ -6,12 +6,18 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.loy.e.core.annotation.ControllerLogExeTime;
+import com.loy.e.core.query.MapQueryParam;
 import com.loy.e.core.util.UserUtils;
+import com.loy.e.sys.domain.CommonQueryParam;
+import com.loy.e.sys.repository.PerformanceRepository;
 /**
  * 
  * 
@@ -24,6 +30,8 @@ import com.loy.e.core.util.UserUtils;
 @RequestMapping(value="/",method={RequestMethod.POST,RequestMethod.GET})
 
 public class IndexController { 
+	@Autowired
+	PerformanceRepository performanceRepository;
 	
 	@ControllerLogExeTime(description="登入")
 	@RequestMapping(value="/login") 
@@ -50,4 +58,10 @@ public class IndexController {
 		Locale locale = new Locale(temp[0], temp[1]);
 		simpleUser.setLocale(locale);
 	}
+	
+	@RequestMapping(value="/select") 
+	public Page select(CommonQueryParam param,Pageable pageable) { 
+		return performanceRepository.findPage("sys.common.findSelectPage",new MapQueryParam(param), pageable);
+	}
+	
 }

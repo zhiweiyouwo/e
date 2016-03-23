@@ -1,5 +1,7 @@
 package com.loy.e.sys.domain.entity;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 
 import com.loy.e.core.annotation.ConditionParam;
@@ -19,10 +21,16 @@ import com.loy.e.core.entity.BaseEntity;
 @LoyEntity(name="测试实体")
 @Entity(name="loy_test")
 public class TestEntity extends BaseEntity{
-	
-    @LoyColumn(name="姓名", condition = @ConditionParam(op=Op.eq, name = "name"))
+	@ConditionParam(op=Op.eq, name = "name")
+    @LoyColumn(name="姓名")
 	private String name;
 
+    @LoyColumn(name="日期")
+	private Date date;
+    
+    @LoyColumn(name="用户",column="name",lists={"name,姓名","email,邮箱"})
+    private UserEntity user;
+    
 	public String getName() {
 		return name;
 	}

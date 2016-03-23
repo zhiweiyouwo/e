@@ -20,11 +20,13 @@ import com.loy.e.tools.model.InputClazz;
 @Target({ElementType.FIELD})
 @Documented
 public @interface LoyColumn {
-
 	boolean list() default true;
 	boolean edit() default true;
 	boolean detail() default true;
 	String name() default "";
-	InputClazz inputType() default InputClazz.TEXT;
-	ConditionParam condition(); 
+	String column() default "";
+	InputClazz inputType() default InputClazz.NONE;
+	
+	String[] lists() default {};//格式如{"age,年龄"}
+	String[] details() default {};
 }

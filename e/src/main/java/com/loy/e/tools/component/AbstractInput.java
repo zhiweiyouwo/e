@@ -1,7 +1,5 @@
 package com.loy.e.tools.component;
 
-import com.loy.e.tools.model.InputClazz;
-
 /**
  * 
  * @author Loy Fu qq群 540553957
@@ -10,10 +8,12 @@ import com.loy.e.tools.model.InputClazz;
  * 
  */
 public abstract class AbstractInput {
+	
 	private String fieldName;
 	private String labelName;
+	private String html;
 	
-	abstract String getHtml();
+	public abstract String getHtml();
 	public String getFieldName() {
 		return fieldName;
 	}
@@ -26,11 +26,5 @@ public abstract class AbstractInput {
 	public void setLabelName(String labelName) {
 		this.labelName = labelName;
 	}
-	
-	public static AbstractInput newInput(InputClazz inputClazz){
-		if(inputClazz == InputClazz.TEXT){
-			return new TextInput();
-		}
-		return null;
-	}
+
 }

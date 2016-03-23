@@ -8,7 +8,7 @@ package com.loy.e.tools.model;
  * 
  */
 public enum InputClazz {
-
+    NONE,
 	TEXT,
 	TEXTAREA,
 	CHECKBOX,

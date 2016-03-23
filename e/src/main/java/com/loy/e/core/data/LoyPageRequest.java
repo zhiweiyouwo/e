@@ -31,7 +31,11 @@ public class LoyPageRequest implements Pageable{
 	@Override
 	public int getOffset() {
 		// TODO Auto-generated method stub
-		return pageable.getOffset()-pageable.getPageSize();
+		int offset = pageable.getOffset()-pageable.getPageSize();
+		if(offset<0){
+			offset = 0;
+		}
+		return offset;
 	}
 
 	@Override

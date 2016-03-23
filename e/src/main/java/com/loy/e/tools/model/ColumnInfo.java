@@ -63,12 +63,7 @@ public class ColumnInfo {
 	public void setInputType(InputClazz inputType) {
 		this.inputType = inputType;
 	}
-	public boolean isCondition() {
-		return condition;
-	}
-	public void setCondition(boolean condition) {
-		this.condition = condition;
-	}
+	
 	public Op getOp() {
 		return op;
 	}
@@ -83,11 +78,6 @@ public class ColumnInfo {
 			this.detail = loyColumn.detail();
 			this.inputType = loyColumn.inputType();
 			this.name = loyColumn.name();
-			ConditionParam conditionParam = loyColumn.condition();
-			if(conditionParam != null){
-				this.condition = true;
-				this.op = conditionParam.op();
-			}
 		}
 	}
 	

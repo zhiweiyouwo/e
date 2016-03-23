@@ -300,6 +300,9 @@ public  class GenericRepositoryImpl<T extends Entity<ID>, ID extends Serializabl
 	
 	protected String processTemplate(StatementTemplate statementTemplate,Map<String, ?> parameters){  
         StringWriter stringWriter = new StringWriter();  
+        if(statementTemplate == null){
+        	 logger.error("没能找到模板");
+        }
         try {  
             statementTemplate.getTemplate().process(parameters, stringWriter);  
         } catch (Exception e) {

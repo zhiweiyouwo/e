@@ -49,7 +49,7 @@ public class EmployeeServiceImpl{
 	
 	@RequestMapping(value="/page")
 	@ControllerLogExeTime(description="查询员工",log = false)
-	@Converter(value=DefaultPageConverter.class)
+	//@Converter(value=DefaultPageConverter.class)
 	public Page<EmployeeEntity>  queryPage(EmployeeQueryParam employeeQueryParam,Pageable pageable){
 		Page<EmployeeEntity> page = employeeRepository.findPage( new MapQueryParam(employeeQueryParam), pageable);
 		return page;

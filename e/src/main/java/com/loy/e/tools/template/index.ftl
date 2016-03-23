@@ -260,25 +260,22 @@
 
 
 <script type="text/javascript">
-var scripts = [ null,"static/component/assets/js/jquery.hotkeys.js",
-                "static/component/assets/js/bootstrap-wysiwyg.js",
-                "static/component/assets/js/ace/elements.wysiwyg.js",null ];
+var scripts = [ null,null ];
 $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
-	$container = $('#notice_container');
-	var grid_selector  = "#notice_grid-table";
-	var pager_selector = "#notice_grid-pager";
+	$container = $('#${entityName?replace("Entity","")?uncap_first}_container');
+	var grid_selector  = "#${entityName?replace("Entity","")?uncap_first}_grid-table";
+	var pager_selector = "#${entityName?replace("Entity","")?uncap_first}_grid-pager";
 	var colNames;
-	var  noticeGrid = null;
-	$.loy.i18n(['personnel/notice'],$.homeGlobal.LANG,$container,{custCallback:function(){
+	var  ${entityName?replace("Entity","")?uncap_first}Grid = null;
+	$.loy.i18n(['${modelName}/${entityName?replace("Entity","")?uncap_first}'],$.homeGlobal.LANG,$container,{custCallback:function(){
 		colNames =[' ',
-	               $.i18n.prop("personnel.notice.subject"),
-	               $.i18n.prop("personnel.notice.status"),
-	               $.i18n.prop("personnel.notice.createdTime")
+	               $.i18n.prop("${modelName}.${entityName?replace("Entity","")?uncap_first}.subject")
+	              
 	               ];
-	    createNoticeGrid();
+	    create${entityName?replace("Entity","")}Grid();
 	}});
 	
-	var $validateNoticeForm = $('#noticeForm').validate({
+	var $validate${entityName?replace("Entity","")}Form = $('#${modelName}.${entityName?replace("Entity","")?uncap_first}Form').validate({
     	onsubmit:false,
     	rules : {
 			subject : {
@@ -330,21 +327,25 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		$('#submitNoticeBtn').show();
   }
   
-  function  createNoticeGrid(){
-		noticeGrid =jQuery(grid_selector).loyGrid({
-			url: 'notice/page',
+  function  create${entityName?replace("Entity","")}Grid(){
+		${entityName?replace("Entity","")?uncap_first}Grid =jQuery(grid_selector).loyGrid({
+			url: '${entityName?replace("Entity","")?uncap_first}/page',
 			datatype: "json",
 			mtype: 'GET',
 			colNames:colNames,
 			colModel: [
 			 {name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false ,
 				formatter:'actions', 
-				formatoptions:getFormatoptions('notice/')
+				formatoptions:getFormatoptions('${entityName?replace("Entity","")?uncap_first}/')
 			 },
-	   		
-	   		{ name: 'subject', index: 'subject', width: 100, align: "left",editable: true }, 
-	   		
-	   		{ name: 'createdTime', index: 'createdTime', width: 100, align: "left",editable: true,formatter:'time', editoptions:{ctype:'date'}}
+	   		 <#list listColumns as col> 
+	   		{ name: '${col.fieldName}', index: '${col.fieldName}', width: 100, align: "left", editable: false<#if col.fieldName?contains(".")?string == 'true'>, formatter:function(cellvalue, options, rowObject){
+	   			if(rowObject.${col.fieldName?substring(0,col.fieldName?index_of("."))}){
+	   				return rowObject.${col.fieldName};
+	   			}
+	   			return "";
+	   		} }</#if>}<#if col_has_next> ,</#if>
+	   		 </#list> 
 	   		],
 			pager: pager_selector,
 			//width:$(".page-content").width(),
@@ -358,7 +359,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 					}
 				}	
 			}
-		}).loyGrid('navGrid','#notice_grid-pager',{"baseUrl":"notice/",
+		}).loyGrid('navGrid','#${entityName?replace("Entity","")?uncap_first}_grid-pager',{"baseUrl":"${entityName?replace("Entity","")?uncap_first}/",
 			"addfunc":function(){
 				add();
 			},
@@ -370,8 +371,8 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 			},
 			view: true
 		});
-		noticeGrid.jqGrid('setFrozenColumns');
-		resizeToFitPage(noticeGrid);
+		${entityName?replace("Entity","")?uncap_first}Grid.jqGrid('setFrozenColumns');
+		resizeToFitPage(${entityName?replace("Entity","")?uncap_first}Grid);
 	}
 	
 	$("#noticeSearchBtn").click(function(){
@@ -406,3 +407,12 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 });
 
 </script>
+
+
+
+
+<#list editColumns as input>  
+
+${input.html}
+   
+</#list> 

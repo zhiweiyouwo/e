@@ -2,6 +2,7 @@ package com.loy.e.tools.model;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.core.annotation.AnnotationUtils;
@@ -9,7 +10,11 @@ import org.springframework.core.annotation.AnnotationUtils;
 import com.loy.e.core.annotation.ConditionParam;
 import com.loy.e.core.annotation.LoyColumn;
 import com.loy.e.core.annotation.LoyEntity;
+import com.loy.e.core.entity.Entity;
 import com.loy.e.tools.component.AbstractInput;
+import com.loy.e.tools.component.DateInput;
+import com.loy.e.tools.component.SearchInput;
+import com.loy.e.tools.component.TextInput;
 
 /**
  * 
@@ -63,19 +68,82 @@ public class EntityInfo {
 				String fieldName = fields[i].getName();
 				columnInfo.setFieldName(fieldName);
 				if(loyColumn.list()){
-					this.listColumns.add(columnInfo);
+					Class type = fields[i].getType();
+					boolean entityFlag = Entity.class.isAssignableFrom(type);
+					if(entityFlag){
+						String[] lists = loyColumn.lists();
+						if(lists.length>0){
+							for(String c : lists){
+								ColumnInfo listColumnInfo = new ColumnInfo(loyColumn);
+								String fName = fieldName;
+								String[] cc = c.split(",");
+								fName = fName+"."+cc[0];
+								listColumnInfo.setFieldName(fName);
+								listColumnInfo.setName(cc[1]);
+								this.listColumns.add(listColumnInfo);
+							}
+						}
+					}else{
+						this.listColumns.add(columnInfo);
+					}
 				}
 				if(loyColumn.edit()){
-					AbstractInput abstractInput = AbstractInput.newInput(loyColumn.inputType());
+					AbstractInput abstractInput = null;
+					InputClazz inputClazz = loyColumn.inputType();
+					Class type = fields[i].getType();
+					boolean entityFlag = Entity.class.isAssignableFrom(type);
+					if(entityFlag){
+						String sName = type.getSimpleName();
+						sName= sName.replaceFirst("Entity", "");
+						String tableName = "loy_"+sName.toLowerCase();
+						SearchInput input = new SearchInput();
+						abstractInput = input;
+						input.setTableName(tableName);
+						String column = loyColumn.column();
+						if(column.equals("")){
+							input.setLabel("name");
+						}else{
+							input.setLabel(column);
+						}
+					}else{
+						if(type == String.class){
+							TextInput input = new TextInput();
+							abstractInput = input;
+						}else if(type == Date.class){
+							DateInput input = new DateInput();
+							abstractInput = input;
+						}
+					};
+					
+					
 					abstractInput.setFieldName(columnInfo.getFieldName());
 					abstractInput.setLabelName(columnInfo.getName());
 					this.editColumns.add(abstractInput);
 				}
 				if(loyColumn.detail()){
-					this.detailColumns.add(columnInfo);
+					Class type = fields[i].getType();
+					boolean entityFlag = Entity.class.isAssignableFrom(type);
+					if(entityFlag){
+						String[] lists = loyColumn.details();
+						if(lists.length>0){
+							for(String c : lists){
+								ColumnInfo listColumnInfo = new ColumnInfo(loyColumn);
+								String fName = listColumnInfo.getFieldName();
+								String[] cc = c.split(",");
+								fName = fName+"."+cc[0];
+								listColumnInfo.setFieldName(fName);
+								listColumnInfo.setName(cc[1]);
+								this.detailColumns.add(listColumnInfo);
+							}
+						}
+					}else{
+						this.detailColumns.add(columnInfo);
+					}
+					
 				}
-				ConditionParam conditionParam = loyColumn.condition();
-				if(conditionParam != null){
+				ConditionParam conditionColumn = AnnotationUtils.findAnnotation(fields[i], ConditionParam.class);
+				if(conditionColumn != null){
+					columnInfo.setOp(conditionColumn.op());
 					this.conditionColumns.add(columnInfo);
 				}
 			}

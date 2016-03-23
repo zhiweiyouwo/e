@@ -21,89 +21,128 @@ import freemarker.template.TemplateException;
  *
  */
 public class CodeTool {
+	public static class Options{
+		boolean debug = true;
+	}
 	public static String javaSrcPath = "D:\\git\\jee_framework\\e\\src\\main\\java\\";
 	
 	public static void main(String[] args) throws IOException, TemplateException {
+		Options options = new Options();
+		generateCode(TestEntity.class,options);
+	}
+	
+	public static void generateCode(Class entityClass,Options options) throws IOException, TemplateException{
 		String templatePath = CodeTool.class.getResource("").getPath()+"template";
 		Configuration cfg = new Configuration();
 		File file = new File(templatePath);
 		cfg.setDirectoryForTemplateLoading(file);
 		
 		EntityInfo entityInfo = new EntityInfo(TestEntity.class);
-		
-		
+		File f = null;
+		String entityName = null;
+		String fileName = null;
 		Template t = cfg.getTemplate("queryParam.ftl"); 
 		String packageName = entityInfo.getDomainPackageName();
-		packageName = packageName.replaceAll("\\.", "/");
-		packageName = javaSrcPath+packageName;
-		File f = new File(packageName);
-		if(!f.exists()){
-			f.mkdirs();
+		if(!options.debug){
+			packageName = packageName.replaceAll("\\.", "/");
+			packageName = javaSrcPath+packageName;
+			f = new File(packageName);
+			if(!f.exists()){
+				f.mkdirs();
+			}
+			entityName = entityInfo.getEntityName();
+			entityName = entityName.replaceFirst("Entity", "");
+			fileName = entityName+"QueryParam.java";
+			f = new File(packageName,fileName);
+			t.process(entityInfo, new OutputStreamWriter(new FileOutputStream(f))); 
 		}
-		String entityName = entityInfo.getEntityName();
-		entityName = entityName.replaceFirst("Entity", "");
-		String fileName = entityName+"QueryParam.java";
-		f = new File(packageName,fileName);
+		
         t.process(entityInfo, new OutputStreamWriter(System.out)); 
-        t.process(entityInfo, new OutputStreamWriter(new FileOutputStream(f))); 
+       
         
         
         t = cfg.getTemplate("ql.ftl"); 
 		packageName = entityInfo.getQlPackageName();
-		packageName = packageName.replaceAll("\\.", "/");
-		packageName = javaSrcPath+packageName;
-		f = new File(packageName);
-		if(!f.exists()){
-			f.mkdirs();
+		if(!options.debug){
+			packageName = packageName.replaceAll("\\.", "/");
+			packageName = javaSrcPath+packageName;
+			f = new File(packageName);
+			if(!f.exists()){
+				f.mkdirs();
+			}
+			entityName = entityInfo.getEntityName();
+			entityName = entityName.replaceFirst("Entity", "");
+			fileName = entityName+"-dynamic.xml";
+			char[] temp = fileName.toCharArray();
+			if(temp[0]>='A'&&temp[0]<='Z'){
+			    temp[0]+=32;
+			}
+			fileName = new String(temp);
+			f = new File(packageName,fileName);
+			t.process(entityInfo, new OutputStreamWriter(new FileOutputStream(f))); 
 		}
-		entityName = entityInfo.getEntityName();
-		entityName = entityName.replaceFirst("Entity", "");
-		fileName = entityName+"-dynamic.xml";
-		char[] temp = fileName.toCharArray();
-		if(temp[0]>='A'&&temp[0]<='Z'){
-		    temp[0]+=32;
-		}
-		fileName = new String(temp);
-		f = new File(packageName,fileName);
+		
         t.process(entityInfo, new OutputStreamWriter(System.out)); 
-        t.process(entityInfo, new OutputStreamWriter(new FileOutputStream(f))); 
+        
         
         
         t = cfg.getTemplate("repository.ftl"); 
 		packageName = entityInfo.getRepositoryPackageName();
-		packageName = packageName.replaceAll("\\.", "/");
-		packageName = javaSrcPath+packageName;
-		f = new File(packageName);
-		if(!f.exists()){
-			f.mkdirs();
+		if(!options.debug){
+			packageName = packageName.replaceAll("\\.", "/");
+			packageName = javaSrcPath+packageName;
+			f = new File(packageName);
+			if(!f.exists()){
+				f.mkdirs();
+			}
+			entityName = entityInfo.getEntityName();
+			entityName = entityName.replaceFirst("Entity", "");
+			fileName = entityName+"Repository.java";
+			f = new File(packageName,fileName);
+			 t.process(entityInfo, new OutputStreamWriter(new FileOutputStream(f))); 
 		}
-		entityName = entityInfo.getEntityName();
-		entityName = entityName.replaceFirst("Entity", "");
-		fileName = entityName+"Repository.java";
-		f = new File(packageName,fileName);
-        t.process(entityInfo, new OutputStreamWriter(System.out)); 
-        t.process(entityInfo, new OutputStreamWriter(new FileOutputStream(f))); 
-        
-        
-        
+	    t.process(entityInfo, new OutputStreamWriter(System.out)); 
+	    
         t = cfg.getTemplate("serviceImpl.ftl"); 
-		packageName = entityInfo.getServiceImplPackageName();
-		packageName = packageName.replaceAll("\\.", "/");
-		packageName = javaSrcPath+packageName;
-		f = new File(packageName);
-		if(!f.exists()){
-			f.mkdirs();
+	    if(!options.debug){ 
+			packageName = entityInfo.getServiceImplPackageName();
+			packageName = packageName.replaceAll("\\.", "/");
+			packageName = javaSrcPath+packageName;
+			f = new File(packageName);
+			if(!f.exists()){
+				f.mkdirs();
+			}
+			entityName = entityInfo.getEntityName();
+			entityName = entityName.replaceFirst("Entity", "");
+			fileName = entityName+"ServiceImpl.java";
+			f = new File(packageName,fileName);
+			t.process(entityInfo, new OutputStreamWriter(new FileOutputStream(f))); 
 		}
-		entityName = entityInfo.getEntityName();
-		entityName = entityName.replaceFirst("Entity", "");
-		fileName = entityName+"ServiceImpl.java";
-		f = new File(packageName,fileName);
         t.process(entityInfo, new OutputStreamWriter(System.out)); 
-        t.process(entityInfo, new OutputStreamWriter(new FileOutputStream(f))); 
-	}
-	
-	public static void generateCode(Class entityClass){
-		
+        
+        
+        t = cfg.getTemplate("index.ftl");
+        if(!options.debug){ 
+			packageName = "webapp/static/"+entityInfo.getModelName();
+			packageName = packageName.replaceAll("\\.", "/");
+			packageName = javaSrcPath.replace("java", "")+packageName;
+			f = new File(packageName);
+			if(!f.exists()){
+				f.mkdirs();
+			}
+			entityName = entityInfo.getEntityName();
+			entityName = entityName.replaceFirst("Entity", "");
+			fileName = entityName+"_index.html";
+			char[] temp = fileName.toCharArray();
+			if(temp[0]>='A'&&temp[0]<='Z'){
+			    temp[0]+=32;
+			}
+			fileName = new String(temp);
+			f = new File(packageName,fileName);
+			t.process(entityInfo, new OutputStreamWriter(new FileOutputStream(f))); 
+		}
+        t.process(entityInfo, new OutputStreamWriter(System.out)); 
+        
 	}
 
 }
