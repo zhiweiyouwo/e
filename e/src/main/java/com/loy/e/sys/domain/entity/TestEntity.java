@@ -24,7 +24,8 @@ public class TestEntity extends BaseEntity{
 	@ConditionParam(op=Op.eq, name = "name")
     @LoyColumn(description="姓名")
 	private String name;
-
+    
+	
     @LoyColumn(description="日期")
 	private Date date;
     

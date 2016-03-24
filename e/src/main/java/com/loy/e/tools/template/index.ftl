@@ -1,8 +1,8 @@
-	<div  id="notice_container">
+	<div  id="${entityName?replace("Entity","")?uncap_first}_container">
 	<div class="row">
 		<div class="col-xs-12">
 			<div class="widget-box  ui-sortable-handle">
-				<div class="widget-header"><a href="#" ><span  onclick="$('#noticeSearchBtn').click()" class="ace-icon fa fa-search icon-on-right bigger-110"></span></a>
+				<div class="widget-header"><a href="#" ><span  onclick="$('#${entityName?replace("Entity","")?uncap_first}SearchBtn').click()" class="ace-icon fa fa-search icon-on-right bigger-110"></span></a>
 					<h5 class="widget-title" i18n="search_condition"></h5>
 
 					<div class="widget-toolbar">
@@ -15,26 +15,27 @@
 
 				<div class="widget-body" style="display: block;">
 					<div class="widget-main">
-					
 						<div class="row">
+						      <#list conditionColumns as col> 
+						       <#if col_has_next>
 						       <div class="col-xs-12 col-sm-2 " style="padding-bottom: 2px">
-							       <select id="noticeQueryParam_noticeStatus" class="form-control search-query">
-							       <option value="" i18n="all"></option>
-							       <option value="DRAFT">草稿</option>
-							       <option value="SENT">发送</option>
-							       </select>
+							       ${col.conditionHtml}
 					           </div>
+					          <#else>
+					           
 					           <div class="col-xs-12 col-sm-6 ">
 							    <div id="noticeSearchDiv" class="input-group col-xs-12  col-sm-6  " style="padding-bottom: 2px">
-									 <input type="text" id="noticeQueryParam_subject"  i18n="personnel.notice.subject"  placeholder ="主题" class="form-control search-query" >
+									${col.conditionHtml}
 									<span class="input-group-btn">
-										<button id="noticeSearchBtn" type="button" class="btn btn-purple btn-sm">
+										<button id="${entityName?replace("Entity","")?uncap_first}SearchBtn" type="button" class="btn btn-purple btn-sm">
 											<span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
 											<span i18n="find"></span>
 										</button>
 									</span>
 				              </div>
 				              </div>
+				              </#if>
+				              </#list>
 				         </div>     
 			              
 					</div>
@@ -42,9 +43,9 @@
 			</div>
 							    
 			
-			<table id="notice_grid-table"></table>
+			<table id="${entityName?replace("Entity","")?uncap_first}_grid-table"></table>
 
-			<div id="notice_grid-pager"></div>
+			<div id="${entityName?replace("Entity","")?uncap_first}_grid-pager"></div>
 
 		</div>
 		<!-- /.col -->
@@ -52,7 +53,7 @@
 	<!-- /.row -->
 	
 	
-	<div id="noticeModalDiv" class="modal fade" tabindex="-1" data-backdrop="static">
+	<div id="${entityName?replace("Entity","")?uncap_first}ModalDiv" class="modal fade" tabindex="-1" data-backdrop="static">
 		<div class="modal-dialog modal-lg" >
 				<div class="modal-content">
 					<div class="modal-header no-padding">
@@ -67,95 +68,31 @@
 						<div id="modal-tip" class="red clearfix"></div>
 						<div>
 							<div class="widget-body">
-								
-								<form id="noticeForm" name="noticeForm" class="form-horizontal notice-form col-xs-12">
+								<form id="${entityName?replace("Entity","")?uncap_first}Form" name="${entityName?replace("Entity","")?uncap_first}Form" class="form-horizontal  col-xs-12">
 								     <input type="hidden"  name="id" id="id"/>
-								     <input id = "content" type="hidden"  name="content" />
-									<!-- #section:pages/inbox.compose -->
-									<div>
-										<div class="form-group">
-											<label class="col-sm-3 control-label no-padding-right" i18n="personnel.notice.subject" for="form-field-subject">主题:</label>
-											<div class="col-sm-8">
-												<div class="input-icon block col-xs-12 no-padding">
-													<input maxlength="100" type="text" class="col-xs-12" name="subject" id="subject" />
-													<i class="ace-icon fa fa-comment-o"></i>
-												</div>
-											</div>
-										</div>
-
-										<div class="hr hr-18 dotted"></div>
-
-										<div class="form-group">
-											<label class="col-sm-3 control-label no-padding-right">
-												<span class="inline space-24 hidden-480"></span>
-												<span i18n="personnel.notice.content"></span>
-											</label>
-
-											<!-- #section:plugins/editor.wysiwyg -->
-											<div class="col-sm-9">
-												<div id="contentDiv"  style="height: 150px;border:1px solid  #BBC0CA;" class="wysiwyg-editor"></div>
-											</div>
-
-											<!-- /section:plugins/editor.wysiwyg -->
-										</div>
-
-										<div class="hr hr-18 dotted"></div>
-
-
-                                         <div class="form-group no-margin-bottom">
-											<label class="col-sm-3 control-label  i18n="personnel.notice.attachment"  no-padding-right">附件:</label>
-
-											<div class="col-sm-9">
-												<div id="view-attachments">
-												
-												
-												 
-												</div>
-											</div>
-										</div>
-										
-										
-										<div class="form-group no-margin-bottom">
-											<label class="col-sm-3 control-label no-padding-right"></label>
-
-											<div class="col-sm-9">
-												<div id="notice-form-attachments">
-													<!-- #section:custom/file-input -->
-													<input type="file" name="uploadAttachments" />
-
-													<!-- /section:custom/file-input -->
-												</div>
-											</div>
-										</div>
-
-										<div class="align-right">
-											<button id="id-add-attachment" type="button" class="btn btn-sm btn-danger">
-												<i class="ace-icon fa fa-paperclip bigger-140"></i>
-												<span i18n="personnel.notice.addAttachment"></span>
-											</button>
-										</div>
-
-										<div class="space"></div>
-									</div>
-
-									<!-- /section:pages/inbox.compose -->
+								    <#list editColumns as col> 
+                                    <div class="row" style="padding-bottom: 2px">
+								         <div class="form-group">
+					                          <label class="col-sm-3 control-label"  i18n="${col.i18nKey}"></label>
+					                          <div class="col-sm-6">
+					                             ${col.html}
+					                          </div>
+					                     </div>
+                                    </div>
+							       </#list>
 								</form>
 									
-								
 							</div>
 						</div>
 					</div>
 					<div class="modal-footer no-margin-top">
 						<div class="text-center">
 							
-							<button id="submitNoticeBtn"  class="btn btn-sm btn-primary">
+							<button id="submit${entityName?replace("Entity","")}Btn"  class="btn btn-sm btn-primary">
 							  <i class="ace-icon fa fa-floppy-o"></i>
 							  <span i18n="save"></span>
 							</button>
-							<button id="sendNoticeBtn"  class="btn btn-sm btn-primary">
-							  <i class="ace-icon fa fa-floppy-o"></i>
-							  <span i18n="personnel.notice.send"></span>
-							</button>
+							
 							<button class="btn btn-sm"  data-dismiss="modal">
 							  <i class="ace-icon fa fa-share "></i>
 							 <span i18n="cancel"></span>
@@ -170,8 +107,7 @@
 	
 	
 	
-		
-	<div id="noticeViewModalDiv" class="modal fade" tabindex="-1" data-backdrop="static" ng-controller="noticeViewCtrl">
+     <div id="${entityName?replace("Entity","")?uncap_first}ViewModalDiv" class="modal fade" tabindex="-1" data-backdrop="static">
 		<div class="modal-dialog modal-lg" >
 				<div class="modal-content">
 					<div class="modal-header no-padding">
@@ -179,66 +115,26 @@
 							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 								<span class="white">&times;</span>
 							</button>
-							<span i18n="personnel.notice"></span>
+							<span i18n="personnel.notice.editNotice">编辑通知</span>
 						</div>
 					</div>
 					<div class="modal-body" style="max-height: 450px;overflow-y: scroll;">
 						<div id="modal-tip" class="red clearfix"></div>
 						<div>
-								<div class="widget-body">
-								
-								<form id="noticeForm" name="noticeForm" class="form-horizontal notice-form col-xs-12">
-								     <input type="hidden"  name="id" id="id"/>
-								     <input id = "content" type="hidden"  name="content" />
-									<!-- #section:pages/inbox.compose -->
-									<div>
-										<div class="form-group">
-											<label class="col-sm-3 control-label no-padding-right" i18n="personnel.notice.subject" for="form-field-subject">主题:</label>
-											<div class="col-sm-8">
-												<div class="input-icon block col-xs-12 no-padding">
-													<div id="view_subject"></div>
-												</div>
-											</div>
-										</div>
-
-										<div class="hr hr-18 dotted"></div>
-
-										<div class="form-group">
-											<label class="col-sm-3 control-label no-padding-right">
-												<span class="inline space-24 hidden-480"></span>
-												<span i18n="personnel.notice.content"></span>
-											</label>
-
-											<!-- #section:plugins/editor.wysiwyg -->
-											<div class="col-sm-9">
-												<div id="view_content" ></div>
-											</div>
-
-											<!-- /section:plugins/editor.wysiwyg -->
-										</div>
-
-										<div class="hr hr-18 dotted"></div>
-
-										<div class="form-group no-margin-bottom">
-											<label class="col-sm-3 control-label no-padding-right" i18n="personnel.notice.attachment"></label>
-
-											<div class="col-sm-9">
-												<div id="detail-iew-attachments">
-												
-												
-												 
-												</div>
-											</div>
-										</div>
-
-
-										<div class="space"></div>
-									</div>
-
-									<!-- /section:pages/inbox.compose -->
+							<div class="widget-body">
+								<form class="form-horizontal  col-xs-12">
+								    
+								    <#list detailColumns as col> 
+                                    <div class="row" style="padding-bottom: 2px">
+								         <div class="form-group">
+					                          <label class="col-sm-3 control-label"  i18n="${col.i18nKey}"></label>
+					                          <div class="col-sm-6"  id="view_${col.combineFieldName}"> 
+					                          </div>
+					                     </div>
+                                    </div>
+							       </#list>
 								</form>
 									
-								
 							</div>
 						</div>
 					</div>
@@ -246,7 +142,7 @@
 						<div class="text-center">
 							<button class="btn btn-sm"  data-dismiss="modal">
 							  <i class="ace-icon fa fa-share "></i>
-							  <span i18n="cancel"></span>
+							 <span i18n="cancel"></span>
 							</button>
 						</div>
 					</div>
@@ -283,48 +179,44 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 			}
 		}
     });
-	function clearNoticeForm(){
-		$('#id').val('');
-		$('#subject').val('');
-		$('#content').val('');
-		$('#contentDiv').html('');
-		$('#view-attachments').html('');
-		$('.notice-form .ace-file-input:not(:first-child)').remove();
-		$('.notice-form input[type=file]').ace_file_input('reset_input_ui');
-		$('a[data-action=delete]',$('#notice-form-attachments')).click();
+	function clear${entityName?replace("Entity","")}Form(){
+		 <#list editColumns as col> 
+		 $('#${col.inputId}').val('');
+		 </#list>
 	}
 	function edit (id){
-		clearNoticeForm();
-		$('#submitNoticeBtn').attr("url","notice/update");
+		clear${entityName?replace("Entity","")}Form();
+		$('#submit${entityName?replace("Entity","")}Btn').attr("url","${entityName?replace("Entity","")?uncap_first}/update");
 		$.loy.ajax({
-			url:'notice/get',
+			url:'${entityName?replace("Entity","")?uncap_first}/get',
 			data:{id:id},
 			success:function(data){
 				var result = data.data;
 				$('#id').val(result.id?result.id:'');
-				$('#subject').val(result.subject?result.subject:'');
-				$('#content').val(result.content?result.content:'');
-				$('#contentDiv').html((result.content?result.content:''));
+				<#list editColumns as col> 
+				$('#${col.inputId}').val(result.${col.fieldName}?result.${col.fieldName}:'');
+				</#list>
 			}
 	   });
 	}
 	function view (id){
-		$('#noticeViewModalDiv').modal("show");
+		$('#${entityName?replace("Entity","")?uncap_first}ViewModalDiv').modal("show");
 		$.loy.ajax({
-			url:'notice/get',
+			url:'${entityName?replace("Entity","")?uncap_first}/get',
 			data:{id:id},
 			success:function(data){
 				var result = data.data;
-				$('#view_subject').html(result.subject?result.subject:'');
-				$('#view_content').html(result.content?result.content:'');
+				<#list detailColumns as col> 
+				$('#view_${col.combineFieldName}').html(result.${col.fieldName}?result.${col.fieldName}:'');
+				</#list>
 			}
 	});
   }
   function add(){
-		clearNoticeForm();
-		$('#submitNoticeBtn').attr("url","notice/save");
-		$('#noticeModalDiv').modal("show");
-		$('#submitNoticeBtn').show();
+		clear${entityName?replace("Entity","")}Form();
+		$('#submit${entityName?replace("Entity","")}Btn').attr("url","${entityName?replace("Entity","")?uncap_first}/save");
+		$('#${entityName?replace("Entity","")}ModalDiv').modal("show");
+		$('#submit${entityName?replace("Entity","")}Btn').show();
   }
   
   function  create${entityName?replace("Entity","")}Grid(){
@@ -375,30 +267,30 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		resizeToFitPage(${entityName?replace("Entity","")?uncap_first}Grid);
 	}
 	
-	$("#noticeSearchBtn").click(function(){
-		var subject = $("#noticeQueryParam_subject").val();
-		var noticeStatus = $("#noticeQueryParam_noticeStatus").val();
-		var postData ={"subject":subject,"noticeStatus":noticeStatus,page:0};
-		noticeGrid.loyGrid("setGridParam",{"postData":postData}).trigger("reloadGrid"); 
+	$("#${entityName?replace("Entity","")?uncap_first}SearchBtn").click(function(){
+	    var postData ={page:0};
+	    <#list conditionColumns as col> 
+		var ${col.searchQueryId} = $("#${col.searchQueryId}").val();
+		postData.["${col.combineFieldName}"] = ${col.searchQueryId};	
+		</#list>
+		
+		${entityName?replace("Entity","")?uncap_first}Grid.loyGrid("setGridParam",{"postData":postData}).trigger("reloadGrid"); 
 		
 	});
 	
-	$('#submitNoticeBtn').click(function(){
-	     if(!$validateNoticeForm.checkForm()){
-			$validateNoticeForm.defaultShowErrors();
+	$('#submit${entityName?replace("Entity","")}Btn').click(function(){
+	     if(!$validate${entityName?replace("Entity","")}Form.checkForm()){
+			$validate${entityName?replace("Entity","")}Form.defaultShowErrors();
 			return;
 		 }
 		 var url = $(this).attr("url");
-		 $('#content').val($('#contentDiv').html());
-		 var form = $("#noticeForm")[0];
-		 var formData = new FormData(form);
-		 $.loy.ajax({
+         $.loy.ajax({
 				url:url,
-				data:formData,
+				data:$("#${entityName?replace("Entity","")}Form").serialize(),
 				success:function(data){
 					if(data.success){
-						$('#noticeModalDiv').modal("hide");
-						noticeGrid.trigger("reloadGrid");
+						$('#${entityName?replace("Entity","")?uncap_first}ModalDiv').modal("hide");
+						${entityName?replace("Entity","")?uncap_first}Grid.trigger("reloadGrid");
 					}
 				}
 		});
@@ -408,11 +300,3 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 
 </script>
 
-
-
-
-<#list editColumns as input>  
-
-${input.html}
-   
-</#list> 

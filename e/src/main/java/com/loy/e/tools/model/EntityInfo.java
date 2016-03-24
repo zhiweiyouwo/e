@@ -90,7 +90,7 @@ public class EntityInfo {
 			String sName = type.getSimpleName();
 			sName= sName.replaceFirst("Entity", "");
 			String tableName = "loy_"+sName.toLowerCase();
-			SearchInput input = new SearchInput();
+			SearchInput input = new SearchInput(this);
 			abstractInput = input;
 			input.setTableName(tableName);
 			String column = loyColumn.column();
@@ -102,10 +102,10 @@ public class EntityInfo {
 			
 		}else{
 			if(type == String.class){
-				TextInput input = new TextInput();
+				TextInput input = new TextInput(this);
 				abstractInput = input;
 			}else if(type == Date.class){
-				DateInput input = new DateInput();
+				DateInput input = new DateInput(this);
 				abstractInput = input;
 			}
 		}
@@ -121,7 +121,7 @@ public class EntityInfo {
 			LoyField[]  lists = loyColumn.details();
 			if(lists.length>0){
 				for(LoyField c : lists){
-					ColumnInfo columnInfo = new ColumnInfo();
+					ColumnInfo columnInfo = new ColumnInfo(this);
 					String fName = field.getName();
 					fName = fName+"."+c.fieldName();
 					columnInfo.setFieldName(fName);
@@ -130,7 +130,7 @@ public class EntityInfo {
 				}
 			}
 		}else{
-			ColumnInfo columnInfo = new ColumnInfo();
+			ColumnInfo columnInfo = new ColumnInfo(this);
 			columnInfo.setFieldName(field.getName());
 			columnInfo.setDescription(loyColumn.description());
 			this.detailColumns.add(columnInfo);
@@ -144,7 +144,7 @@ public class EntityInfo {
 			LoyField[]  lists = loyColumn.lists();
 			if(lists.length>0){
 				for(LoyField c : lists){
-					ColumnInfo columnInfo = new ColumnInfo();
+					ColumnInfo columnInfo = new ColumnInfo(this);
 					String fName = field.getName();
 					fName = fName+"."+c.fieldName();
 					columnInfo.setFieldName(fName);
@@ -153,7 +153,7 @@ public class EntityInfo {
 				}
 			}
 		}else{
-			ColumnInfo columnInfo = new ColumnInfo();
+			ColumnInfo columnInfo = new ColumnInfo(this);
 			columnInfo.setFieldName(field.getName());
 			columnInfo.setDescription(loyColumn.description());
 			this.listColumns.add(columnInfo);
@@ -168,7 +168,7 @@ public class EntityInfo {
 				LoyField[]  lists = conditionColumn.list();
 				if(lists.length>0){
 					for(LoyField c : lists){
-						TextInput searchInput = new TextInput();
+						TextInput searchInput = new TextInput(this);
 						String fName = field.getName();
 						fName = fName+"."+c.fieldName();
 						searchInput.setFieldName(fName);
@@ -177,7 +177,7 @@ public class EntityInfo {
 						this.conditionColumns.add(searchInput);
 					}
 				}else{
-					TextInput searchInput = new TextInput();
+					TextInput searchInput = new TextInput(this);
 					searchInput.setFieldName(conditionColumn.name());
 					searchInput.setLabelName(loyColumn.description());
 					searchInput.setOp(conditionColumn.op());
@@ -187,10 +187,10 @@ public class EntityInfo {
 				AbstractInput searchInput = null;
 				int count = conditionColumn.count();
 				if(type == Date.class){
-					searchInput = new DateInput();
+					searchInput = new DateInput(this);
 					searchInput.setCount(count);
 				}else{
-					searchInput = new TextInput();
+					searchInput = new TextInput(this);
 				}
 				searchInput.setFieldName(conditionColumn.name());
 				searchInput.setLabelName(loyColumn.description());
