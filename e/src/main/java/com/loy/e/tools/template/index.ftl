@@ -219,7 +219,12 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 				var result = data.data;
 				$('#id').val(result.id?result.id:'');
 				<#list editColumns as col> 
-				$('#${col.inputId}').val(result.${col.fieldName}?result.${col.fieldName}:'');
+				<#if col.formatter =='date'>
+				   $('#${col.inputId}').val(result.${col.fieldName}?result.${col.fieldName}.substring(0,10):'');
+				<#else>
+				   $('#${col.inputId}').val(result.${col.fieldName}?result.${col.fieldName}:'');
+				</#if>
+				
 				</#list>
 			}
 	   });
@@ -232,7 +237,11 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 			success:function(data){
 				var result = data.data;
 				<#list detailColumns as col> 
-				$('#view_${col.combineFieldName}').html(result.${col.fieldName}?result.${col.fieldName}:'');
+				<#if col.formatter =='date'>
+				   $('#view_${col.combineFieldName}').html(result.${col.fieldName}?result.${col.fieldName}.substring(0,10):'');
+				<#else>
+				  $('#view_${col.combineFieldName}').html(result.${col.fieldName}?result.${col.fieldName}:'');
+				</#if>
 				</#list>
 			}
 	});
@@ -255,7 +264,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 				formatoptions:getFormatoptions('${entityName?replace("Entity","")?uncap_first}/')
 			 },
 	   		 <#list listColumns as col> 
-	   		{ name: '${col.fieldName}', index: '${col.fieldName}', width: 100, align: "left", editable: false<#if col.fieldName?contains(".")?string == 'true'>, formatter:function(cellvalue, options, rowObject){
+	   		{ name: '${col.fieldName}', index: '${col.fieldName}', <#if col.formatter !=''>formatter:'${col.formatter}' ,</#if> width: 100, align: "left", editable: false<#if col.fieldName?contains(".")?string == 'true'>, formatter:function(cellvalue, options, rowObject){
 	   			if(rowObject.${col.fieldName?substring(0,col.fieldName?index_of("."))}){
 	   				return rowObject.${col.fieldName};
 	   			}

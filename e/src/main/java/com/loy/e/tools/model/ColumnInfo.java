@@ -13,7 +13,7 @@ public class ColumnInfo {
 	
 	private String description;
 	private String fieldName;
-	
+	private String formatter = "";
 	private EntityInfo entityInfo;
 	
 	public ColumnInfo(EntityInfo entityInfo){
@@ -79,5 +79,13 @@ public class ColumnInfo {
 	
 	public String getI18nKey(){
 		return this.entityInfo.getModelName()+"."+deleteEntity(getEntityNameFirstCharLower())+"."+this.fieldName;
+	}
+
+	public String getFormatter() {
+		return formatter;
+	}
+
+	public void setFormatter(String formatter) {
+		this.formatter = formatter;
 	}
 }

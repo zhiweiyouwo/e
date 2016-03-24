@@ -110,4 +110,8 @@ public abstract class AbstractInput {
 	public String getInputName(){
 		return fieldName;
 	}
+	
+	public String getFormatter(){
+		return "";
+	}
 }

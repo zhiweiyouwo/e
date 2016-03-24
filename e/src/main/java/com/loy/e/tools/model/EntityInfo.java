@@ -133,6 +133,9 @@ public class EntityInfo {
 			ColumnInfo columnInfo = new ColumnInfo(this);
 			columnInfo.setFieldName(field.getName());
 			columnInfo.setDescription(loyColumn.description());
+			if(type == Date.class){
+				columnInfo.setFormatter("date");
+			}
 			this.detailColumns.add(columnInfo);
 		}
 	}
@@ -156,6 +159,9 @@ public class EntityInfo {
 			ColumnInfo columnInfo = new ColumnInfo(this);
 			columnInfo.setFieldName(field.getName());
 			columnInfo.setDescription(loyColumn.description());
+			if(type == Date.class){
+				columnInfo.setFormatter("date");
+			}
 			this.listColumns.add(columnInfo);
 		}
 	}

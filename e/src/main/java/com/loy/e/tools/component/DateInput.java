@@ -72,5 +72,7 @@ public class DateInput extends AbstractInput{
 		}
 		
 	}
-
+	public String getFormatter(){
+		return "date";
+	}
 }
