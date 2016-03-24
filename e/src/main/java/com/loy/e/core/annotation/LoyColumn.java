@@ -23,10 +23,10 @@ public @interface LoyColumn {
 	boolean list() default true;
 	boolean edit() default true;
 	boolean detail() default true;
-	String name() default "";
+	String description();
 	String column() default "";
 	InputClazz inputType() default InputClazz.NONE;
 	
-	String[] lists() default {};//格式如{"age,年龄"}
-	String[] details() default {};
+	LoyField[] lists() default {};
+	LoyField[] details() default {};
 }

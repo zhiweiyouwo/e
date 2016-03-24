@@ -23,4 +23,6 @@ public @interface ConditionParam {
 	public String name();
 	public Op op() default Op.eq;
 	public boolean rootAlias() default true;
+	public int count() default 1;
+	public LoyField[] list()default {};
 }

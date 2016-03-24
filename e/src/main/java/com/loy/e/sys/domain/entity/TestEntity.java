@@ -9,7 +9,7 @@ import com.loy.e.core.annotation.LoyColumn;
 import com.loy.e.core.annotation.LoyEntity;
 import com.loy.e.core.annotation.Op;
 import com.loy.e.core.entity.BaseEntity;
-
+import com.loy.e.core.annotation.LoyField;
 /**
  * 
  * @author Loy Fu qq群 540553957
@@ -22,13 +22,15 @@ import com.loy.e.core.entity.BaseEntity;
 @Entity(name="loy_test")
 public class TestEntity extends BaseEntity{
 	@ConditionParam(op=Op.eq, name = "name")
-    @LoyColumn(name="姓名")
+    @LoyColumn(description="姓名")
 	private String name;
 
-    @LoyColumn(name="日期")
+    @LoyColumn(description="日期")
 	private Date date;
     
-    @LoyColumn(name="用户",column="name",lists={"name,姓名","email,邮箱"})
+    @LoyColumn(description="用户",column="name",
+    		lists={@LoyField(description="姓名",fieldName="name"),
+    			  @LoyField(description="邮箱",fieldName="email")})
     private UserEntity user;
     
 	public String getName() {

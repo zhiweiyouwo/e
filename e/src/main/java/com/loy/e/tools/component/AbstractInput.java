@@ -1,5 +1,7 @@
 package com.loy.e.tools.component;
 
+import com.loy.e.core.annotation.Op;
+
 /**
  * 
  * @author Loy Fu qq群 540553957
@@ -11,9 +13,11 @@ public abstract class AbstractInput {
 	
 	private String fieldName;
 	private String labelName;
-	private String html;
+	private Op op;
+	private int count = 1;
 	
 	public abstract String getHtml();
+	public abstract String getConditionHtml();
 	public String getFieldName() {
 		return fieldName;
 	}
@@ -25,6 +29,18 @@ public abstract class AbstractInput {
 	}
 	public void setLabelName(String labelName) {
 		this.labelName = labelName;
+	}
+	public Op getOp() {
+		return op;
+	}
+	public void setOp(Op op) {
+		this.op = op;
+	}
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
 	}
 
 }
