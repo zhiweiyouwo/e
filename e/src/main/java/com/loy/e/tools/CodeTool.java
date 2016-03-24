@@ -22,7 +22,7 @@ import freemarker.template.TemplateException;
  */
 public class CodeTool {
 	public static class Options{
-		boolean debug = true;
+		boolean debug = false;
 	}
 	public static String javaSrcPath = "D:\\git\\jee_framework\\e\\src\\main\\java\\";
 	

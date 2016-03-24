@@ -161,17 +161,41 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	$container = $('#${entityName?replace("Entity","")?uncap_first}_container');
 	var grid_selector  = "#${entityName?replace("Entity","")?uncap_first}_grid-table";
 	var pager_selector = "#${entityName?replace("Entity","")?uncap_first}_grid-pager";
+	
+	$('.date-picker').datepicker({
+		autoclose: true,
+		format : 'yyyy-mm-dd',
+		language: $.homeGlobal.LANG,
+		todayHighlight: true
+	}).next().on(ace.click_event, function(){
+		$(this).prev().focus();
+	});
+	<#list editColumns as col> 
+	     <#if col.inputName?contains(".")?string == 'true'>
+	     $('#${col.inputId}').cchosen();
+	     </#if>
+	</#list>
+	$(window)
+		.off('resize.chosen')
+		.on('resize.chosen', function() {
+			$('.chosen-select').each(function() {
+				 var $this = $(this);
+				 $this.next().css({'width': $this.parent().width()});
+			})
+		}).trigger('resize.chosen');
+		
 	var colNames;
 	var  ${entityName?replace("Entity","")?uncap_first}Grid = null;
 	$.loy.i18n(['${modelName}/${entityName?replace("Entity","")?uncap_first}'],$.homeGlobal.LANG,$container,{custCallback:function(){
 		colNames =[' ',
-	               $.i18n.prop("${modelName}.${entityName?replace("Entity","")?uncap_first}.subject")
-	              
-	               ];
+		    <#list listColumns as col> 
+	   		$.i18n.prop("${col.i18nKey}")<#if col_has_next> ,</#if>
+	   		</#list> 
+        ];
 	    create${entityName?replace("Entity","")}Grid();
 	}});
 	
-	var $validate${entityName?replace("Entity","")}Form = $('#${modelName}.${entityName?replace("Entity","")?uncap_first}Form').validate({
+	var $validate${entityName?replace("Entity","")}Form = $('#${entityName?replace("Entity","")?uncap_first}Form').validate({
     	onsubmit:false,
     	rules : {
 			subject : {
@@ -187,6 +211,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	function edit (id){
 		clear${entityName?replace("Entity","")}Form();
 		$('#submit${entityName?replace("Entity","")}Btn').attr("url","${entityName?replace("Entity","")?uncap_first}/update");
+		$('#${entityName?replace("Entity","")?uncap_first}ModalDiv').modal("show");
 		$.loy.ajax({
 			url:'${entityName?replace("Entity","")?uncap_first}/get',
 			data:{id:id},
@@ -215,8 +240,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
   function add(){
 		clear${entityName?replace("Entity","")}Form();
 		$('#submit${entityName?replace("Entity","")}Btn').attr("url","${entityName?replace("Entity","")?uncap_first}/save");
-		$('#${entityName?replace("Entity","")}ModalDiv').modal("show");
-		$('#submit${entityName?replace("Entity","")}Btn').show();
+		$('#${entityName?replace("Entity","")?uncap_first}ModalDiv').modal("show");
   }
   
   function  create${entityName?replace("Entity","")}Grid(){
@@ -236,7 +260,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	   				return rowObject.${col.fieldName};
 	   			}
 	   			return "";
-	   		} }</#if>}<#if col_has_next> ,</#if>
+	   		}</#if>}<#if col_has_next> ,</#if>
 	   		 </#list> 
 	   		],
 			pager: pager_selector,
@@ -247,7 +271,10 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 				var list = data.data?data.data.content:null;
 				if(list){
 					for(var i=0;i<list.length;i++){
-						
+						var editDivId = "jEditButton_"+list[i].id;
+						$('#'+editDivId,${entityName?replace("Entity","")?uncap_first}Grid).attr('onclick','').on('click',function(){
+							edit($(this).closest('tr').attr('id'));
+						});
 					}
 				}	
 			}
@@ -271,7 +298,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	    var postData ={page:0};
 	    <#list conditionColumns as col> 
 		var ${col.searchQueryId} = $("#${col.searchQueryId}").val();
-		postData.["${col.combineFieldName}"] = ${col.searchQueryId};	
+		postData["${col.combineFieldName}"] = ${col.searchQueryId};	
 		</#list>
 		
 		${entityName?replace("Entity","")?uncap_first}Grid.loyGrid("setGridParam",{"postData":postData}).trigger("reloadGrid"); 
@@ -286,7 +313,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		 var url = $(this).attr("url");
          $.loy.ajax({
 				url:url,
-				data:$("#${entityName?replace("Entity","")}Form").serialize(),
+				data:$("#${entityName?replace("Entity","")?uncap_first}Form").serialize(),
 				success:function(data){
 					if(data.success){
 						$('#${entityName?replace("Entity","")?uncap_first}ModalDiv').modal("hide");

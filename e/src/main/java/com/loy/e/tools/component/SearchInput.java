@@ -21,8 +21,8 @@ public class SearchInput extends AbstractInput{
 	@Override
 	public String getHtml() {
 		StringBuilder buffer = new StringBuilder();
-		buffer.append("<select class=\"chosen-select\" ");
-		buffer.append("id=\"").append(getInputId()+"_id").append("\"");
+		buffer.append("<select class=\"form-control chosen-select\" ");
+		buffer.append("id=\"").append(getInputId()).append("\"");
 		buffer.append(" name=\"").append(getInputName()).append("\"");
 		buffer.append(" label=\"").append(this.label).append("\"");
 		buffer.append(" tableName=\"").append(this.tableName).append("\">");
@@ -55,6 +55,9 @@ public class SearchInput extends AbstractInput{
 		buffer.append(" name=\"").append(this.getFieldName()).append("\"");
 		buffer.append(" />");
 		return buffer.toString();
+	}
+	public String getInputId(){
+		return super.getInputId()+"_id";
 	}
 	public String getInputName(){
 		return super.getInputName()+".id";

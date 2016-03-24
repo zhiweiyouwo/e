@@ -3,8 +3,11 @@ package ${serviceImplPackageName};
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.loy.e.core.annotation.ControllerLogExeTime;
 import com.loy.e.core.query.MapQueryParam;
@@ -18,6 +21,9 @@ import ${repositoryPackageName}.${entityName?replace("Entity","")}Repository;
  * @version 1.0.0
  * 
  */
+@RestController
+@RequestMapping(value = "/${entityName?replace("Entity","")?uncap_first}",method={RequestMethod.POST,RequestMethod.GET})
+@Transactional
 public class ${entityName?replace("Entity","")}ServiceImpl {
 
 	@Autowired
@@ -27,7 +33,7 @@ public class ${entityName?replace("Entity","")}ServiceImpl {
 	@ControllerLogExeTime(description="分页查询${name}",log = false)
 	public Page${left}${entityName}>  queryPage(${entityName?replace("Entity","")}QueryParam ${entityName?replace("Entity","")?uncap_first}QueryParam,Pageable pageable){
 	
-		Page${left}${entityName}> page = ${entityName?replace("Entity","")?uncap_first}Repository.findPage("${entityName?replace("Entity","")?uncap_first}.findPage${entityName?replace("Entity","")}", new MapQueryParam(${entityName?replace("Entity","")?uncap_first}QueryParam), pageable);
+		Page${left}${entityName}> page = ${entityName?replace("Entity","")?uncap_first}Repository.findPage("${modelName}.${entityName?replace("Entity","")?cap_first}.findPage${entityName?replace("Entity","")}", new MapQueryParam(${entityName?replace("Entity","")?uncap_first}QueryParam), pageable);
 		return page;
 	}
 	
@@ -57,6 +63,18 @@ public class ${entityName?replace("Entity","")}ServiceImpl {
 	@RequestMapping(value="/save")
 	@ControllerLogExeTime(description="保存${name}")
 	public ${entityName}  save(${entityName} ${entityName?uncap_first}){
+	    <#list editColumns as col> 
+	    <#if col.inputName?contains(".")?string == 'true'>
+	    ${col.fieldName?cap_first}Entity ${col.fieldName} = ${entityName?uncap_first}.get${col.fieldName?replace("Entity","")?cap_first}();
+		if(${col.fieldName} != null){
+			String ${col.fieldName}Id = ${col.fieldName}.getId();
+			if(StringUtils.isEmpty(${col.fieldName}Id)){
+				${col.fieldName} = null;
+			}
+		}
+		${entityName?uncap_first}.set${col.fieldName?cap_first}(${col.fieldName}); 
+	    </#if>
+	    </#list>
 	    ${entityName?replace("Entity","")?uncap_first}Repository.save(${entityName?uncap_first});
         return ${entityName?uncap_first};
 	}
@@ -64,6 +82,18 @@ public class ${entityName?replace("Entity","")}ServiceImpl {
 	@RequestMapping(value="/update")
 	@ControllerLogExeTime(description="修改${name}")
 	public void  update(${entityName} ${entityName?uncap_first}){
+	<#list editColumns as col> 
+	    <#if col.inputName?contains(".")?string == 'true'>
+	    ${col.fieldName?cap_first}Entity ${col.fieldName} = ${entityName?uncap_first}.get${col.fieldName?replace("Entity","")?cap_first}();
+		if(${col.fieldName} != null){
+			String ${col.fieldName}Id = ${col.fieldName}.getId();
+			if(StringUtils.isEmpty(${col.fieldName}Id)){
+				${col.fieldName} = null;
+			}
+		}
+		${entityName?uncap_first}.set${col.fieldName?cap_first}(${col.fieldName}); 
+	    </#if>
+	    </#list>
         ${entityName?replace("Entity","")?uncap_first}Repository.save(${entityName?uncap_first});
 	}
 }
