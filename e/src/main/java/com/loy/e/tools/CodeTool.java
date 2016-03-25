@@ -28,7 +28,8 @@ public class CodeTool {
 	
 	public static void main(String[] args) throws IOException, TemplateException {
 		Options options = new Options();
-		generateCode(TestEntity.class,options);
+		//generateCode(TestEntity.class,options);
+		deleteGenerateCode(TestEntity.class);
 	}
 	
 	public static void generateCode(Class entityClass,Options options) throws IOException, TemplateException{
@@ -45,7 +46,7 @@ public class CodeTool {
 		File file = new File(templatePath);
 		cfg.setDirectoryForTemplateLoading(file);
 		cfg.setEncoding(Locale.getDefault(), "UTF-8");
-		EntityInfo entityInfo = new EntityInfo(TestEntity.class);
+		EntityInfo entityInfo = new EntityInfo(entityClass);
 		File f = null;
 		String entityName = null;
 		String fileName = null;
@@ -172,6 +173,102 @@ public class CodeTool {
         
         
         System.out.println(entityInfo.getI18ns());
+	}
+	
+	
+	public static void deleteGenerateCode(Class entityClass){
+		String path = CodeTool.class.getResource("").getPath();
+        String projectPath = path.replaceAll("classes(.)+", "");
+        projectPath = path.replaceAll("target(.)+", "");
+        
+        String javaSrcPath = projectPath+"src/main/java/";
+        String resourcePath = projectPath+"src/main/resources/";
+        String i18nPath = resourcePath+"i18n/";
+        
+		
+		EntityInfo entityInfo = new EntityInfo(entityClass);
+		File f = null;
+		String entityName = null;
+		String fileName = null;
+		
+		String packageName = entityInfo.getDomainPackageName();
+		
+			packageName = packageName.replaceAll("\\.", "/");
+			packageName = javaSrcPath+packageName;
+			entityName = entityInfo.getEntityName();
+			entityName = entityName.replaceFirst("Entity", "");
+			fileName = entityName+"QueryParam.java";
+			f = new File(packageName,fileName);
+			if(f.exists()){
+				f.delete();
+			}
+			packageName = entityInfo.getQlPackageName();
+			packageName = packageName.replaceAll("\\.", "/");
+			packageName = javaSrcPath+packageName;
+			entityName = entityInfo.getEntityName();
+			entityName = entityName.replaceFirst("Entity", "");
+			fileName = entityName+"-dynamic.xml";
+			char[] temp = fileName.toCharArray();
+			if(temp[0]>='A'&&temp[0]<='Z'){
+			    temp[0]+=32;
+			}
+			fileName = new String(temp);
+			f = new File(packageName,fileName);
+			if(f.exists()){
+				f.delete();
+			}
+       
+		    packageName = entityInfo.getRepositoryPackageName();
+			packageName = packageName.replaceAll("\\.", "/");
+			packageName = javaSrcPath+packageName;
+			f = new File(packageName);
+			entityName = entityInfo.getEntityName();
+			entityName = entityName.replaceFirst("Entity", "");
+			fileName = entityName+"Repository.java";
+			f = new File(packageName,fileName);
+			if(f.exists()){
+				f.delete();
+			}
+		
+	   
+			packageName = entityInfo.getServiceImplPackageName();
+			packageName = packageName.replaceAll("\\.", "/");
+			packageName = javaSrcPath+packageName;
+			
+			entityName = entityInfo.getEntityName();
+			entityName = entityName.replaceFirst("Entity", "");
+			fileName = entityName+"ServiceImpl.java";
+			f = new File(packageName,fileName);
+			if(f.exists()){
+				f.delete();
+			}
+			
+			packageName = "webapp/static/"+entityInfo.getModelName();
+			packageName = packageName.replaceAll("\\.", "/");
+			packageName = javaSrcPath.replace("java", "")+packageName;
+			
+			entityName = entityInfo.getEntityName();
+			entityName = entityName.replaceFirst("Entity", "");
+			fileName = entityName+"_index.html";
+			temp = fileName.toCharArray();
+			if(temp[0]>='A'&&temp[0]<='Z'){
+			    temp[0]+=32;
+			}
+			fileName = new String(temp);
+			f = new File(packageName,fileName);
+			if(f.exists()){
+				f.delete();
+			}
+		    packageName = entityInfo.getQlPackageName();
+		
+			packageName = entityInfo.getModelName();
+			packageName = i18nPath+packageName;
+			fileName = entityInfo.getEntityNameFirstLower()+".properties";
+			f = new File(packageName,fileName);
+			if(f.exists()){
+				f.delete();
+			}
+			 
 	}
 
 }

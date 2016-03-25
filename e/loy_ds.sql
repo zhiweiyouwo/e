@@ -28,6 +28,10 @@ begin;
 (id,created_time,creator_id,modified_time,modifier_id,available,name,parent_id,permission,resource_type,url,cls,lable_key,sort_num,access_code) 
  VALUES ('0104',NULL,NULL,NULL,NULL,1,'操作日志','01',NULL,'MENU','static/sys/log_index.html','menu-icon fa fa-caret-right','menu.log_manage',30,NULL);
  
+ INSERT INTO loy_resource 
+(id,created_time,creator_id,modified_time,modifier_id,available,name,parent_id,permission,resource_type,url,cls,lable_key,sort_num,access_code) 
+ VALUES ('test',NULL,NULL,NULL,NULL,1,'自动测试页','01',NULL,'MENU','static/sys/test_index.html','menu-icon fa fa-caret-right',null,30,NULL);
+ 
  
  INSERT INTO loy_resource 
 (id,created_time,creator_id,modified_time,modifier_id,available,name,parent_id,permission,resource_type,url,cls,lable_key,sort_num,access_code) 
@@ -69,6 +73,7 @@ INSERT INTO loy_role_resource (role_id,resource_id) VALUES ('ADMIN','0103');
 INSERT INTO loy_role_resource (role_id,resource_id) VALUES ('ADMIN','010201');
 INSERT INTO loy_role_resource (role_id,resource_id) VALUES ('ADMIN','0104');
 
+INSERT INTO loy_role_resource (role_id,resource_id) VALUES ('ADMIN','test');
 
 INSERT INTO loy_role_resource (role_id,resource_id) VALUES ('ADMIN','02');
 INSERT INTO loy_role_resource (role_id,resource_id) VALUES ('ADMIN','0201');
