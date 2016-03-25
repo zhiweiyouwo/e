@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.persistence.Column;
+
 import org.springframework.core.annotation.AnnotationUtils;
 
 import com.loy.e.core.annotation.ConditionParam;
@@ -23,6 +25,7 @@ import com.loy.e.tools.component.DateInput;
 import com.loy.e.tools.component.FloatInput;
 import com.loy.e.tools.component.IntegerInput;
 import com.loy.e.tools.component.SearchInput;
+import com.loy.e.tools.component.TextAreaInput;
 import com.loy.e.tools.component.TextInput;
 import com.loy.e.tools.util.ToolStringUtils;
 
@@ -118,8 +121,20 @@ public class EntityInfo {
 			
 		}else{
 			if(type == String.class){
-				TextInput input = new TextInput(this);
-				abstractInput = input;
+				Column columnAnnotation = field.getAnnotation(Column.class);
+				if(columnAnnotation != null){
+					int length = columnAnnotation.length();
+					if(length>255){
+						TextAreaInput input = new TextAreaInput(this);
+						abstractInput = input;
+					}else{
+						TextInput input = new TextInput(this);
+						abstractInput = input;
+					}
+				}else{
+					TextInput input = new TextInput(this);
+					abstractInput = input;
+				}
 			}else if(type == Date.class){
 				DateInput input = new DateInput(this);
 				abstractInput = input;
@@ -225,6 +240,7 @@ public class EntityInfo {
 				if(type == Date.class){
 					searchInput = new DateInput(this);
 					searchInput.setCount(count);
+					importParamClassNames.add("import org.springframework.format.annotation.DateTimeFormat");
 					
 				}else if(type == Integer.class || type == Long.class || type==BigInteger.class || type==Short.class){
 						IntegerInput input = new IntegerInput(this);

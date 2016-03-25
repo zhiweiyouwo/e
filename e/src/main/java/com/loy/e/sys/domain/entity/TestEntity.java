@@ -2,6 +2,7 @@ package com.loy.e.sys.domain.entity;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -26,6 +27,14 @@ import com.loy.e.core.annotation.LoyField;
 @Entity
 @Table(name="loy_test")
 public class TestEntity extends BaseEntity{
+	
+	 @LoyColumn(description="用户",column="name",
+	    		lists={@LoyField(description="姓名",fieldName="name"),
+	    			  @LoyField(description="邮箱",fieldName="email")})
+	    @ManyToOne
+	    private UserEntity user;
+	 
+	 
 	@ConditionParam(op=Op.eq, name = "name")
     @LoyColumn(description="姓名")
 	private String name;
@@ -39,15 +48,14 @@ public class TestEntity extends BaseEntity{
 	 @LoyColumn(description="整数")
 	private Long ll;
 	
-	 @LoyColumn(description="小数")
+	@LoyColumn(description="小数")
 	private Float ff;
+	 
+	@LoyColumn(description="长字符串")
+	@Column(length=500)
+	private String longString;
 	
-    @LoyColumn(description="用户",column="name",
-    		lists={@LoyField(description="姓名",fieldName="name"),
-    			  @LoyField(description="邮箱",fieldName="email")})
-    
-    @ManyToOne
-    private UserEntity user;
+   
     
 	public String getName() {
 		return name;
@@ -87,6 +95,14 @@ public class TestEntity extends BaseEntity{
 
 	public void setFf(Float ff) {
 		this.ff = ff;
+	}
+
+	public String getLongString() {
+		return longString;
+	}
+
+	public void setLongString(String longString) {
+		this.longString = longString;
 	}
 	
 	
