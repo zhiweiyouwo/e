@@ -20,6 +20,7 @@ public abstract class AbstractInput {
 	private Op op;
 	private int count = 1;
 	private EntityInfo entityInfo;
+	private String returnClazz = "String";
 	
 	public AbstractInput(EntityInfo entityInfo){
 		this.entityInfo = entityInfo;
@@ -98,4 +99,12 @@ public abstract class AbstractInput {
 	public String getFormatter(){
 		return "";
 	}
+	public String getReturnClazz() {
+		return returnClazz;
+	}
+	public void setReturnClazz(String returnClazz) {
+		this.returnClazz = returnClazz;
+	}
+	
+	
 }

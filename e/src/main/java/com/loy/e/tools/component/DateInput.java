@@ -37,7 +37,7 @@ public class DateInput extends AbstractInput{
 		if(this.getCount()>1){
 			StringBuilder buffer = new StringBuilder();
 			
-			buffer.append("<div class=\"input-group\"  style=\"float:left\">");
+			buffer.append("<div class=\"input-group col-xs-12 col-sm-2\"  style=\"float:left\">");
 			buffer.append("<input type=\"text\"  i18n=\""+this.getI18nKey()+"Start"+"\" placeholder =\""+this.getLabelName()+"\" class=\"form-control  date-picker\" ");
 			String fieldName = this.getFieldName();
 			fieldName.replace("\\.", "_");
@@ -48,7 +48,7 @@ public class DateInput extends AbstractInput{
 			buffer.append("</div>");
 			
 			
-			buffer.append("<div class=\"input-group\" style=\"float:left\">");
+			buffer.append("<div class=\"input-group col-xs-12 col-sm-2\" style=\"float:left\">");
 			buffer.append("<input type=\"text\" i18n=\""+this.getI18nKey()+"End"+"\" placeholder =\""+this.getLabelName()+"\" class=\"form-control  date-picker\" ");
 			fieldName = this.getFieldName();
 			fieldName.replace("\\.", "_");
@@ -61,7 +61,7 @@ public class DateInput extends AbstractInput{
 			return buffer.toString();
 		}else{
 			StringBuilder buffer = new StringBuilder();
-			//buffer.append("<div class=\"input-group\" style=\"float:left\">");
+			buffer.append("<div class=\"input-group col-xs-12 col-sm-2\" style=\"float:left\">");
 			buffer.append("<input type=\"text\"  i18n=\""+this.getI18nKey()+"\" placeholder =\""+this.getLabelName()+"\"  class=\"form-control search-query date-picker\" ");
 			String fieldName = this.getFieldName();
 			fieldName.replace("\\.", "_");
@@ -69,7 +69,7 @@ public class DateInput extends AbstractInput{
 			buffer.append(" name=\"").append(this.getFieldName()).append("\"");
 			buffer.append(" />");
 			buffer.append("<span class=\"input-group-addon\"><i class=\"fa fa-calendar bigger-110\"></i></span>");
-			//buffer.append("</div>");
+			buffer.append("</div>");
 			return buffer.toString();
 		}
 		

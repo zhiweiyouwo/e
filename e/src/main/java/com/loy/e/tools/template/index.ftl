@@ -17,16 +17,11 @@
 					<div class="widget-main">
 						<div class="row">
 						      <#list conditionColumns as col> 
-						       <#if col_has_next>
-						       <div class="col-xs-12 col-sm-2 " style="padding-bottom: 2px">
-							       ${col.conditionHtml}
-					           </div>
-					          <#else>
-					           
-					           <div class="col-xs-12 col-sm-6 ">
+							   ${col.conditionHtml}
+							   </#list>
+					           <div class="col-xs-12 col-sm-2 " style="float:right">
 							    <div id="${entityName?replace("Entity","")?uncap_first}SearchDiv" class="input-group" style="padding-bottom: 2px">
-									${col.conditionHtml}
-									<span class="input-group-btn" style="float:left">
+									<span class="input-group-btn" >
 										<button id="${entityName?replace("Entity","")?uncap_first}SearchBtn" type="button" class="btn btn-purple btn-sm">
 											<span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
 											<span i18n="find"></span>
@@ -34,8 +29,6 @@
 									</span>
 				              </div>
 				              </div>
-				              </#if>
-				              </#list>
 				         </div>     
 			              
 					</div>

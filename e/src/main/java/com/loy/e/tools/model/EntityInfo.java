@@ -261,6 +261,7 @@ public class EntityInfo {
 				}else{
 					i18ns.put(getPreI18n()+"."+field.getName(), loyColumn.description());
 				}
+				searchInput.setReturnClazz(field.getType().getSimpleName());
 				this.conditionColumns.add(searchInput);
 			}
 		}

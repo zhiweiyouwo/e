@@ -18,7 +18,7 @@ public class ${entityName?replace("Entity","")}QueryParam {
 <#list conditionColumns as condition>  
  <#if condition.count ==1>
  @ConditionParam(name="${condition.fieldName}")
-   private String ${condition.fieldName};
+   private ${condition.returnClazz} ${condition.fieldName};
  <#else>
  @ConditionParam(name="${condition.fieldName}")
    @DateTimeFormat(pattern="yyyy-MM-dd")
@@ -32,11 +32,11 @@ public class ${entityName?replace("Entity","")}QueryParam {
 
 <#list conditionColumns as condition>  
 <#if condition.count ==1>
-   public String get${condition.fieldName?cap_first}() {
+   public ${condition.returnClazz} get${condition.fieldName?cap_first}() {
        return ${condition.fieldName};
    }
 
-   public void set${condition.fieldName?cap_first}(String ${condition.fieldName}) {
+   public void set${condition.fieldName?cap_first}(${condition.returnClazz} ${condition.fieldName}) {
         this.${condition.fieldName} = ${condition.fieldName};
    }
  <#else>
