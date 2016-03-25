@@ -13,6 +13,9 @@ import com.loy.e.core.annotation.ControllerLogExeTime;
 import com.loy.e.core.query.MapQueryParam;
 import ${domainPackageName}.${entityName?replace("Entity","")}QueryParam;
 import ${domainPackageName}.entity.${entityName};
+<#list  importClassNames as importClassName>
+${importClassName};
+</#list>
 import ${repositoryPackageName}.${entityName?replace("Entity","")}Repository;
 /**
  * 

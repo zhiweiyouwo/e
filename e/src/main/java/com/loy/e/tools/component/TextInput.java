@@ -14,7 +14,9 @@ public class TextInput extends AbstractInput{
 	public TextInput(EntityInfo entityInfo) {
 		super(entityInfo);
 	}
-
+	public  String getType(){
+		return "text";
+	}
 	@Override
 	public
 	String getHtml() {

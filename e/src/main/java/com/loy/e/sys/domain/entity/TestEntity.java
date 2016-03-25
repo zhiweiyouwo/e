@@ -32,8 +32,16 @@ public class TestEntity extends BaseEntity{
     
 	@DateTimeFormat(pattern="yyyy-MM-dd")
     @LoyColumn(description="日期")
+	@ConditionParam(op=Op.eq, name = "date",count=2)
 	private Date date;
     
+	@ConditionParam(op=Op.eq, name = "ll")
+	 @LoyColumn(description="整数")
+	private Long ll;
+	
+	 @LoyColumn(description="小数")
+	private Float ff;
+	
     @LoyColumn(description="用户",column="name",
     		lists={@LoyField(description="姓名",fieldName="name"),
     			  @LoyField(description="邮箱",fieldName="email")})
@@ -64,6 +72,24 @@ public class TestEntity extends BaseEntity{
 	public void setUser(UserEntity user) {
 		this.user = user;
 	}
+
+	public Long getLl() {
+		return ll;
+	}
+
+	public void setLl(Long ll) {
+		this.ll = ll;
+	}
+
+	public Float getFf() {
+		return ff;
+	}
+
+	public void setFf(Float ff) {
+		this.ff = ff;
+	}
+	
+	
 	
 	
 }

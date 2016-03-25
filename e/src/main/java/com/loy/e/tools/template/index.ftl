@@ -24,9 +24,9 @@
 					          <#else>
 					           
 					           <div class="col-xs-12 col-sm-6 ">
-							    <div id="noticeSearchDiv" class="input-group col-xs-12  col-sm-6  " style="padding-bottom: 2px">
+							    <div id="${entityName?replace("Entity","")?uncap_first}SearchDiv" class="input-group" style="padding-bottom: 2px">
 									${col.conditionHtml}
-									<span class="input-group-btn">
+									<span class="input-group-btn" style="float:left">
 										<button id="${entityName?replace("Entity","")?uncap_first}SearchBtn" type="button" class="btn btn-purple btn-sm">
 											<span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
 											<span i18n="find"></span>
@@ -54,14 +54,14 @@
 	
 	
 	<div id="${entityName?replace("Entity","")?uncap_first}ModalDiv" class="modal fade" tabindex="-1" data-backdrop="static">
-		<div class="modal-dialog modal-lg" >
+		<div class="modal-dialog" >
 				<div class="modal-content">
 					<div class="modal-header no-padding">
 						<div class="table-header">
 							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 								<span class="white">&times;</span>
 							</button>
-							<span i18n="personnel.notice.editNotice">编辑通知</span>
+							<span i18n="${editI18nKey}"></span>
 						</div>
 					</div>
 					<div class="modal-body" style="max-height: 450px;overflow-y: scroll;">
@@ -108,14 +108,14 @@
 	
 	
      <div id="${entityName?replace("Entity","")?uncap_first}ViewModalDiv" class="modal fade" tabindex="-1" data-backdrop="static">
-		<div class="modal-dialog modal-lg" >
+		<div class="modal-dialog" >
 				<div class="modal-content">
 					<div class="modal-header no-padding">
 						<div class="table-header">
 							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 								<span class="white">&times;</span>
 							</button>
-							<span i18n="personnel.notice.editNotice">编辑通知</span>
+							<span i18n="${detailI18nKey}"></span>
 						</div>
 					</div>
 					<div class="modal-body" style="max-height: 450px;overflow-y: scroll;">
@@ -170,11 +170,20 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	}).next().on(ace.click_event, function(){
 		$(this).prev().focus();
 	});
+	
+	$('.spinner',$container).ace_spinner({value:0,min:0,max:500,step:1, on_sides: true,
+		icon_up:'ace-icon fa fa-plus smaller-75', 
+		icon_down:'ace-icon fa fa-minus smaller-75',
+		btn_up_class:'btn-success' , 
+		btn_down_class:'btn-danger'});
+		
+	<#assign cchosen = false>
 	<#list editColumns as col> 
-	     <#if col.inputName?contains(".")?string == 'true'>
-	     $('#${col.inputId}').cchosen();
-	     </#if>
+	 <#if col.inputName?contains(".")?string == 'true'>
+	 $('#${col.inputId}').cchosen();<#assign cchosen = true>
+	</#if>
 	</#list>
+	<#if cchosen>
 	$(window)
 		.off('resize.chosen')
 		.on('resize.chosen', function() {
@@ -183,7 +192,13 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 				 $this.next().css({'width': $this.parent().width()});
 			})
 		}).trigger('resize.chosen');
-		
+		$('#${entityName?replace("Entity","")?uncap_first}ModalDiv').on('shown.bs.modal', function () {
+		$('.chosen-select',$('#${entityName?replace("Entity","")?uncap_first}ModalDiv')).each(function() {
+			 var $this = $(this);
+			 $this.next().css({'width': $this.parent().width()});
+		});
+	});
+	</#if>	
 	var colNames;
 	var  ${entityName?replace("Entity","")?uncap_first}Grid = null;
 	$.loy.i18n(['${modelName}/${entityName?replace("Entity","")?uncap_first}'],$.homeGlobal.LANG,$container,{custCallback:function(){
@@ -206,6 +221,9 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	function clear${entityName?replace("Entity","")}Form(){
 		 <#list editColumns as col> 
 		 $('#${col.inputId}').val('');
+		 <#if col.inputName?contains(".")?string == 'true'>
+		 $('#${col.inputId}').trigger("chosen:updated");
+		 </#if>
 		 </#list>
 	}
 	function edit (id){
@@ -219,12 +237,20 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 				var result = data.data;
 				$('#id').val(result.id?result.id:'');
 				<#list editColumns as col> 
-				<#if col.formatter =='date'>
-				   $('#${col.inputId}').val(result.${col.fieldName}?result.${col.fieldName}.substring(0,10):'');
+				<#if col.type=='search_text'>
+				 var idValue = result.${col.fieldName}.id?result.${col.fieldName}.id:'';
+				 if(idValue && idValue !=''){
+					 var name = result.${col.fieldName}.name?result.${col.fieldName}.name:'';
+					 $('#${col.inputId}').html('<option value=""></option> <option selected value="'+idValue+'">'+name+'</option>');
+					 $('#${col.inputId}').trigger("chosen:updated");
+				 }
+					 <#else>
+					 <#if col.formatter =='date'>
+				$('#${col.inputId}').val(result.${col.fieldName}?result.${col.fieldName}.substring(0,10):'');
 				<#else>
-				   $('#${col.inputId}').val(result.${col.fieldName}?result.${col.fieldName}:'');
+				 $('#${col.inputId}').val(result.${col.fieldName}?result.${col.fieldName}:'');
 				</#if>
-				
+				</#if>
 				</#list>
 			}
 	   });
@@ -305,11 +331,14 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	
 	$("#${entityName?replace("Entity","")?uncap_first}SearchBtn").click(function(){
 	    var postData ={page:0};
-	    <#list conditionColumns as col> 
-		var ${col.searchQueryId} = $("#${col.searchQueryId}").val();
-		postData["${col.combineFieldName}"] = ${col.searchQueryId};	
+	    <#list conditionColumns as col>
+	    <#if col.count ==1>
+		postData["${col.combineFieldName}"] = $("#${col.searchQueryId}").val();	
+		<#else>
+		postData["${col.combineFieldName}Start"] = $("#${col.searchQueryId}_start").val();
+		postData["${col.combineFieldName}End"] = $("#${col.searchQueryId}_end").val();
+		</#if>
 		</#list>
-		
 		${entityName?replace("Entity","")?uncap_first}Grid.loyGrid("setGridParam",{"postData":postData}).trigger("reloadGrid"); 
 		
 	});

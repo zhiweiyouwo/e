@@ -14,7 +14,9 @@ public class SearchInput extends AbstractInput{
     public SearchInput(EntityInfo entityInfo) {
 		super(entityInfo);
 	}
-
+    public  String getType(){
+		return "search_text";
+	}
 	private String label;
     private String tableName;
 

@@ -1,9 +1,15 @@
 package com.loy.e.tools.model;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.springframework.core.annotation.AnnotationUtils;
 
@@ -14,8 +20,11 @@ import com.loy.e.core.annotation.LoyField;
 import com.loy.e.core.entity.Entity;
 import com.loy.e.tools.component.AbstractInput;
 import com.loy.e.tools.component.DateInput;
+import com.loy.e.tools.component.FloatInput;
+import com.loy.e.tools.component.IntegerInput;
 import com.loy.e.tools.component.SearchInput;
 import com.loy.e.tools.component.TextInput;
+import com.loy.e.tools.util.ToolStringUtils;
 
 /**
  * 
@@ -48,7 +57,9 @@ public class EntityInfo {
 	List<AbstractInput> editColumns = new ArrayList<AbstractInput>();
 	List<ColumnInfo> detailColumns = new ArrayList<ColumnInfo>();
 	List<AbstractInput> conditionColumns = new ArrayList<AbstractInput>();
-	
+	Set<String> importClassNames = new HashSet<String>();
+	Set<String> importParamClassNames = new HashSet<String>();
+	Map<String,String> i18ns = new HashMap<String,String>();
 	
 	public void build(Class clazz){
 		String packageName = clazz.getPackage().getName();
@@ -61,6 +72,11 @@ public class EntityInfo {
 		if(loyEntity != null){
 			this.name = loyEntity.name();
 		}
+		i18ns.put(getPreI18n(), this.name);
+		
+		i18ns.put(getEditI18nKey(), "编辑"+this.name);
+		i18ns.put(getDetailI18nKey(), "查看"+this.name);
+		
 		Field[] fields = clazz.getDeclaredFields(); 
 		for(int i=0;i<fields.length;i++) { 
 			LoyColumn loyColumn = AnnotationUtils.findAnnotation(fields[i], LoyColumn.class);
@@ -98,7 +114,7 @@ public class EntityInfo {
 				column = "name";
 			}
 			input.setLabel(column);
-
+            this.importClassNames.add("import "+type.getName());
 			
 		}else{
 			if(type == String.class){
@@ -107,10 +123,17 @@ public class EntityInfo {
 			}else if(type == Date.class){
 				DateInput input = new DateInput(this);
 				abstractInput = input;
+			}else if(type == Integer.class || type == Long.class || type==BigInteger.class || type==Short.class){
+				IntegerInput input = new IntegerInput(this);
+				abstractInput = input;
+			}else if(type == Float.class || type == Double.class || type==BigDecimal.class){
+				FloatInput input = new FloatInput(this);
+				abstractInput = input;
 			}
 		}
 		abstractInput.setFieldName(field.getName());
 		abstractInput.setLabelName(loyColumn.description());
+		i18ns.put(getPreI18n()+"."+field.getName(), loyColumn.description());
 		this.editColumns.add(abstractInput);
 	
 	}
@@ -127,6 +150,7 @@ public class EntityInfo {
 					columnInfo.setFieldName(fName);
 					columnInfo.setDescription(c.description());
 					this.detailColumns.add(columnInfo);
+					i18ns.put(getPreI18n()+"."+fName, c.description());
 				}
 			}
 		}else{
@@ -136,6 +160,7 @@ public class EntityInfo {
 			if(type == Date.class){
 				columnInfo.setFormatter("date");
 			}
+			i18ns.put(getPreI18n()+"."+field.getName(), loyColumn.description());
 			this.detailColumns.add(columnInfo);
 		}
 	}
@@ -152,6 +177,7 @@ public class EntityInfo {
 					fName = fName+"."+c.fieldName();
 					columnInfo.setFieldName(fName);
 					columnInfo.setDescription(c.description());
+					i18ns.put(getPreI18n()+"."+fName, c.description());
 					this.listColumns.add(columnInfo);
 				}
 			}
@@ -162,6 +188,7 @@ public class EntityInfo {
 			if(type == Date.class){
 				columnInfo.setFormatter("date");
 			}
+			i18ns.put(getPreI18n()+"."+field.getName(), loyColumn.description());
 			this.listColumns.add(columnInfo);
 		}
 	}
@@ -180,6 +207,7 @@ public class EntityInfo {
 						searchInput.setFieldName(fName);
 						searchInput.setLabelName(c.description());
 						searchInput.setOp(c.op());
+						i18ns.put(getPreI18n()+"."+fName, c.description());
 						this.conditionColumns.add(searchInput);
 					}
 				}else{
@@ -187,20 +215,36 @@ public class EntityInfo {
 					searchInput.setFieldName(conditionColumn.name());
 					searchInput.setLabelName(loyColumn.description());
 					searchInput.setOp(conditionColumn.op());
+					i18ns.put(getPreI18n()+"."+field.getName(), loyColumn.description());
 					this.conditionColumns.add(searchInput);
 				}
 			}else{
 				AbstractInput searchInput = null;
+				importParamClassNames.add("import "+field.getType().getName());
 				int count = conditionColumn.count();
 				if(type == Date.class){
 					searchInput = new DateInput(this);
 					searchInput.setCount(count);
-				}else{
-					searchInput = new TextInput(this);
+					
+				}else if(type == Integer.class || type == Long.class || type==BigInteger.class || type==Short.class){
+						IntegerInput input = new IntegerInput(this);
+						searchInput = input;
+				}else if(type == Float.class || type == Double.class || type==BigDecimal.class){
+					FloatInput input = new FloatInput(this);
+					searchInput = input;
+				}
+				else{
+				searchInput = new TextInput(this);
 				}
 				searchInput.setFieldName(conditionColumn.name());
 				searchInput.setLabelName(loyColumn.description());
 				searchInput.setOp(conditionColumn.op());
+				if(count>1){
+					i18ns.put(getPreI18n()+"."+field.getName()+"Start", loyColumn.description()+"开始");
+					i18ns.put(getPreI18n()+"."+field.getName()+"End", loyColumn.description()+"结束");
+				}else{
+					i18ns.put(getPreI18n()+"."+field.getName(), loyColumn.description());
+				}
 				this.conditionColumns.add(searchInput);
 			}
 		}
@@ -308,5 +352,41 @@ public class EntityInfo {
 	public void setLeft(String left) {
 		this.left = left;
 	}
-	
+
+	public Set<String> getImportClassNames() {
+		return importClassNames;
+	}
+
+	public void setImportClassNames(Set<String> importClassNames) {
+		this.importClassNames = importClassNames;
+	}
+
+	public Map<String, String> getI18ns() {
+		return i18ns;
+	}
+
+	public void setI18ns(Map<String, String> i18ns) {
+		this.i18ns = i18ns;
+	}
+    public String getEntityNameFirstLower(){
+    	return ToolStringUtils.firstCharLower(entityName.replaceFirst("Entity", ""));
+    }
+    public String getPreI18n(){
+    	return modelName+"."+getEntityNameFirstLower();
+    }
+    public String getEditI18nKey(){
+    	return getPreI18n()+".edit"+entityName.replaceFirst("Entity", "");
+    }
+    public String getDetailI18nKey(){
+    	return getPreI18n()+".detail"+entityName.replaceFirst("Entity", "");
+    }
+
+	public Set<String> getImportParamClassNames() {
+		return importParamClassNames;
+	}
+
+	public void setImportParamClassNames(Set<String> importParamClassNames) {
+		this.importParamClassNames = importParamClassNames;
+	}
+    
 }

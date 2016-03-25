@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.Locale;
 
 import com.loy.e.sys.domain.entity.TestEntity;
 import com.loy.e.tools.model.EntityInfo;
@@ -24,7 +25,6 @@ public class CodeTool {
 	public static class Options{
 		boolean debug = false;
 	}
-	public static String javaSrcPath = "D:\\git\\jee_framework\\e\\src\\main\\java\\";
 	
 	public static void main(String[] args) throws IOException, TemplateException {
 		Options options = new Options();
@@ -32,11 +32,19 @@ public class CodeTool {
 	}
 	
 	public static void generateCode(Class entityClass,Options options) throws IOException, TemplateException{
+		String path = CodeTool.class.getResource("").getPath();
+        String projectPath = path.replaceAll("classes(.)+", "");
+        projectPath = path.replaceAll("target(.)+", "");
+        
+        String javaSrcPath = projectPath+"src/main/java/";
+        String resourcePath = projectPath+"src/main/resources/";
+        String i18nPath = resourcePath+"i18n/";
+        
 		String templatePath = CodeTool.class.getResource("").getPath()+"template";
 		Configuration cfg = new Configuration();
 		File file = new File(templatePath);
 		cfg.setDirectoryForTemplateLoading(file);
-		
+		cfg.setEncoding(Locale.getDefault(), "UTF-8");
 		EntityInfo entityInfo = new EntityInfo(TestEntity.class);
 		File f = null;
 		String entityName = null;
@@ -142,7 +150,28 @@ public class CodeTool {
 			t.process(entityInfo, new OutputStreamWriter(new FileOutputStream(f))); 
 		}
         t.process(entityInfo, new OutputStreamWriter(System.out)); 
+
         
+        t = cfg.getTemplate("i18n.ftl"); 
+		packageName = entityInfo.getQlPackageName();
+		if(!options.debug){
+			packageName = entityInfo.getModelName();
+			packageName = i18nPath+packageName;
+			f = new File(packageName);
+			if(!f.exists()){
+				f.mkdirs();
+			}
+			fileName = entityInfo.getEntityNameFirstLower()+".properties";
+			
+			f = new File(packageName,fileName);
+			
+			t.process(entityInfo, new OutputStreamWriter(new FileOutputStream(f))); 
+		}
+		
+        t.process(entityInfo, new OutputStreamWriter(System.out)); 
+        
+        
+        System.out.println(entityInfo.getI18ns());
 	}
 
 }
