@@ -37,7 +37,7 @@ public class DateInput extends AbstractInput{
 		if(this.getCount()>1){
 			StringBuilder buffer = new StringBuilder();
 			
-			buffer.append("<div class=\"input-group col-xs-12 col-sm-2\"  style=\"float:left\">");
+			buffer.append("<div class=\"input-group col-xs-12 col-sm-2\"  style=\"float:left;padding-left: 15px;padding-right: 15px\">");
 			buffer.append("<input type=\"text\"  i18n=\""+this.getI18nKey()+"Start"+"\" placeholder =\""+this.getLabelName()+"\" class=\"form-control  date-picker\" ");
 			String fieldName = this.getFieldName();
 			fieldName.replace("\\.", "_");
@@ -48,7 +48,7 @@ public class DateInput extends AbstractInput{
 			buffer.append("</div>");
 			
 			
-			buffer.append("<div class=\"input-group col-xs-12 col-sm-2\" style=\"float:left\">");
+			buffer.append("<div class=\"input-group col-xs-12 col-sm-2\" style=\"float:left;padding-left: 15px;padding-right: 15px\">");
 			buffer.append("<input type=\"text\" i18n=\""+this.getI18nKey()+"End"+"\" placeholder =\""+this.getLabelName()+"\" class=\"form-control  date-picker\" ");
 			fieldName = this.getFieldName();
 			fieldName.replace("\\.", "_");
