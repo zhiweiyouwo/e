@@ -1,5 +1,7 @@
 package com.loy.e.tools.util;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * 
  * @author Loy Fu qq群 540553957
@@ -26,6 +28,17 @@ public class ToolStringUtils {
 	}
 	public static String deleteEntity(String s){
 		s = s.replaceAll("Entity","");
+		return s;
+	}
+	
+	
+	public static String getCombineFieldName(String fieldName){
+		String[] temp = fieldName.split("\\.");
+		for(int i=0;i<temp.length;i++){
+			temp[i] = ToolStringUtils.firstCharUpper(temp[i]);
+		}
+		String s = StringUtils.join(temp);
+		s = ToolStringUtils.firstCharLower(s);
 		return s;
 	}
 }

@@ -7,14 +7,13 @@
         from ${entityName} x where 1=1 
         <#list conditionColumns as condition>
         <#if condition.count ==1>
-        ${left}@notEmpty name="${condition.fieldName}">
-          and x.${condition.fieldName} = :${condition.fieldName} 
+        ${left}@notEmpty name="${condition.combineFieldName}">
+          and x.${condition.fieldName} = :${condition.combineFieldName} 
         ${left}/@notEmpty>
         <#else>
         ${left}@notEmpty name="${condition.combineFieldName}Start">
           and x.${condition.fieldName} >= :${condition.combineFieldName}Start 
         ${left}/@notEmpty>
-        
         ${left}@notEmpty name="${condition.combineFieldName}End">
           and x.${condition.fieldName} < :${condition.combineFieldName}End 
         ${left}/@notEmpty>

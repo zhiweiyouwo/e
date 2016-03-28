@@ -20,6 +20,7 @@ import java.lang.annotation.Target;
 public @interface LoyField {
 
 	public String fieldName();
+	public boolean detail() default true;
 	public String description();
 	public Op op() default Op.eq;
 	public int count() default 1;

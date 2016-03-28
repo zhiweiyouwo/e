@@ -57,7 +57,7 @@ public abstract class AbstractInput {
 	}
 	
 	public String getSearchQueryId(){
-		String fieldName = this.getFieldName();
+		String fieldName = this.getCombineFieldName();
 		fieldName.replace("\\.", "_");
 		String eName = this.getEntityName();
 		eName = ToolStringUtils.firstCharLower(eName);
@@ -86,7 +86,7 @@ public abstract class AbstractInput {
 	}
 	
 	public String getI18nKey(){
-		return this.entityInfo.getModelName()+"."+ToolStringUtils.deleteEntity(getEntityNameFirstCharLower())+"."+this.fieldName;
+		return this.entityInfo.getPreI18n()+"."+this.getCombineFieldName();
 	}
 	
 	public String getInputId(){

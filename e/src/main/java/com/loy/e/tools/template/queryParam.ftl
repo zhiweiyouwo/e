@@ -17,14 +17,14 @@ public class ${entityName?replace("Entity","")}QueryParam {
 
 <#list conditionColumns as condition>  
  <#if condition.count ==1>
- @ConditionParam(name="${condition.fieldName}")
-   private ${condition.returnClazz} ${condition.fieldName};
+ @ConditionParam(name="${condition.combineFieldName}")
+   private ${condition.returnClazz} ${condition.combineFieldName};
  <#else>
- @ConditionParam(name="${condition.fieldName}")
+ @ConditionParam(name="${condition.combineFieldName}")
    @DateTimeFormat(pattern="yyyy-MM-dd")
    private Date ${condition.combineFieldName}Start;
  
- @ConditionParam(name="${condition.fieldName}")
+ @ConditionParam(name="${condition.combineFieldName}")
    @DateTimeFormat(pattern="yyyy-MM-dd")
    private Date ${condition.combineFieldName}End;
  </#if>
@@ -32,12 +32,12 @@ public class ${entityName?replace("Entity","")}QueryParam {
 
 <#list conditionColumns as condition>  
 <#if condition.count ==1>
-   public ${condition.returnClazz} get${condition.fieldName?cap_first}() {
-       return ${condition.fieldName};
+   public ${condition.returnClazz} get${condition.combineFieldName?cap_first}() {
+       return ${condition.combineFieldName};
    }
 
-   public void set${condition.fieldName?cap_first}(${condition.returnClazz} ${condition.fieldName}) {
-        this.${condition.fieldName} = ${condition.fieldName};
+   public void set${condition.combineFieldName?cap_first}(${condition.returnClazz} ${condition.combineFieldName}) {
+        this.${condition.combineFieldName} = ${condition.combineFieldName};
    }
  <#else>
    public Date get${condition.combineFieldName?cap_first}Start() {

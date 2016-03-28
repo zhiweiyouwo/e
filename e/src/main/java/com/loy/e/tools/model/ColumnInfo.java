@@ -60,7 +60,7 @@ public class ColumnInfo {
 	}
 	
 	public String getI18nKey(){
-		return this.entityInfo.getModelName()+"."+ToolStringUtils.deleteEntity(getEntityNameFirstCharLower())+"."+this.fieldName;
+		return this.entityInfo.getPreI18n()+"."+this.getCombineFieldName();
 	}
 
 	public String getFormatter() {

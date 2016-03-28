@@ -239,7 +239,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 				 }
 					 <#else>
 					 <#if col.formatter =='date'>
-				$('#${col.inputId}').val(result.${col.fieldName}?result.${col.fieldName}.substring(0,10):'');
+				 $('#${col.inputId}').val(result.${col.fieldName}?result.${col.fieldName}.substring(0,10):'');
 				<#else>
 				 $('#${col.inputId}').val(result.${col.fieldName}?result.${col.fieldName}:'');
 				</#if>

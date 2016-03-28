@@ -20,7 +20,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD})//定义注解的作用目标**作用范围字段、枚举的常量/方法
 @Documented//说明该注解将被包含在javadoc中
 public @interface ConditionParam {
-	public String name();
+	public String name() default "";
 	public Op op() default Op.eq;
 	public boolean rootAlias() default true;
 	public int count() default 1;

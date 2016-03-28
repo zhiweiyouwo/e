@@ -19,6 +19,7 @@ import com.loy.e.core.annotation.ConditionParam;
 import com.loy.e.core.annotation.LoyColumn;
 import com.loy.e.core.annotation.LoyEntity;
 import com.loy.e.core.annotation.LoyField;
+import com.loy.e.core.annotation.Op;
 import com.loy.e.core.entity.Entity;
 import com.loy.e.tools.component.AbstractInput;
 import com.loy.e.tools.component.DateInput;
@@ -145,6 +146,7 @@ public class EntityInfo {
 				FloatInput input = new FloatInput(this);
 				abstractInput = input;
 			}
+			
 		}
 		abstractInput.setFieldName(field.getName());
 		abstractInput.setLabelName(loyColumn.description());
@@ -156,7 +158,21 @@ public class EntityInfo {
 		Class type = field.getType();
 		boolean entityFlag = Entity.class.isAssignableFrom(type);
 		if(entityFlag){
-			LoyField[]  lists = loyColumn.details();
+			LoyField[]  lists = loyColumn.lists();
+			if(lists.length>0){
+				for(LoyField c : lists){
+					if(c.detail()){
+						ColumnInfo columnInfo = new ColumnInfo(this);
+						String fName = field.getName();
+						fName = fName+"."+c.fieldName();
+						columnInfo.setFieldName(fName);
+						columnInfo.setDescription(c.description());
+						this.detailColumns.add(columnInfo);
+						i18ns.put(getPreI18n()+"."+ToolStringUtils.getCombineFieldName(fName), c.description());
+					}
+				}
+			}
+			lists = loyColumn.details();
 			if(lists.length>0){
 				for(LoyField c : lists){
 					ColumnInfo columnInfo = new ColumnInfo(this);
@@ -165,7 +181,7 @@ public class EntityInfo {
 					columnInfo.setFieldName(fName);
 					columnInfo.setDescription(c.description());
 					this.detailColumns.add(columnInfo);
-					i18ns.put(getPreI18n()+"."+fName, c.description());
+					i18ns.put(getPreI18n()+"."+ToolStringUtils.getCombineFieldName(fName), c.description());
 				}
 			}
 		}else{
@@ -192,7 +208,7 @@ public class EntityInfo {
 					fName = fName+"."+c.fieldName();
 					columnInfo.setFieldName(fName);
 					columnInfo.setDescription(c.description());
-					i18ns.put(getPreI18n()+"."+fName, c.description());
+					i18ns.put(getPreI18n()+"."+ToolStringUtils.getCombineFieldName(fName), c.description());
 					this.listColumns.add(columnInfo);
 				}
 			}
@@ -214,58 +230,74 @@ public class EntityInfo {
 			boolean entityFlag = Entity.class.isAssignableFrom(type);
 			if(entityFlag){
 				LoyField[]  lists = conditionColumn.list();
+				Field[] fields = type.getDeclaredFields();
+				Map<String,Field> fieldMap = new HashMap<String,Field>();
+				for(Field f : fields){
+					fieldMap.put(f.getName(), f);
+				}
 				if(lists.length>0){
 					for(LoyField c : lists){
-						TextInput searchInput = new TextInput(this);
 						String fName = field.getName();
-						fName = fName+"."+c.fieldName();
-						searchInput.setFieldName(fName);
-						searchInput.setLabelName(c.description());
-						searchInput.setOp(c.op());
-						i18ns.put(getPreI18n()+"."+fName, c.description());
-						this.conditionColumns.add(searchInput);
+						String fieldName =c.fieldName();
+						Field f = fieldMap.get(fieldName);
+						fieldName = fName+"."+c.fieldName();
+						
+						buildCondition(f.getType(),c.count(),
+								fieldName,c.description(),c.op());
 					}
 				}else{
-					TextInput searchInput = new TextInput(this);
-					searchInput.setFieldName(conditionColumn.name());
-					searchInput.setLabelName(loyColumn.description());
-					searchInput.setOp(conditionColumn.op());
-					i18ns.put(getPreI18n()+"."+field.getName(), loyColumn.description());
-					this.conditionColumns.add(searchInput);
+					buildCondition(type,conditionColumn.count(),
+							field.getName(),loyColumn.description(),conditionColumn.op());
 				}
 			}else{
-				AbstractInput searchInput = null;
-				importParamClassNames.add("import "+field.getType().getName());
-				int count = conditionColumn.count();
-				if(type == Date.class){
-					searchInput = new DateInput(this);
-					searchInput.setCount(count);
-					importParamClassNames.add("import org.springframework.format.annotation.DateTimeFormat");
-					
-				}else if(type == Integer.class || type == Long.class || type==BigInteger.class || type==Short.class){
-						IntegerInput input = new IntegerInput(this);
-						searchInput = input;
-				}else if(type == Float.class || type == Double.class || type==BigDecimal.class){
-					FloatInput input = new FloatInput(this);
-					searchInput = input;
-				}
-				else{
-				searchInput = new TextInput(this);
-				}
-				searchInput.setFieldName(conditionColumn.name());
-				searchInput.setLabelName(loyColumn.description());
-				searchInput.setOp(conditionColumn.op());
-				if(count>1){
-					i18ns.put(getPreI18n()+"."+field.getName()+"Start", loyColumn.description()+"开始");
-					i18ns.put(getPreI18n()+"."+field.getName()+"End", loyColumn.description()+"结束");
-				}else{
-					i18ns.put(getPreI18n()+"."+field.getName(), loyColumn.description());
-				}
-				searchInput.setReturnClazz(field.getType().getSimpleName());
-				this.conditionColumns.add(searchInput);
+				buildCondition(type,conditionColumn.count(),
+				field.getName(),loyColumn.description(),conditionColumn.op());
 			}
 		}
 	}
+	
+	private void buildCondition(Class type,int count,
+			String fieldName,String fieldDiscription,Op op){
+		
+		AbstractInput searchInput = null;
+		importParamClassNames.add("import "+type.getName());
+		if(type == Date.class){
+			searchInput = new DateInput(this);
+			searchInput.setCount(count);
+			importParamClassNames.add("import org.springframework.format.annotation.DateTimeFormat");
+			
+		}else if(type == Integer.class || 
+				type == Long.class || 
+				type==BigInteger.class || 
+				type==Short.class){
+			
+				IntegerInput input = new IntegerInput(this);
+				searchInput = input;
+				
+		}else if(type == Float.class || 
+				type == Double.class || 
+				type==BigDecimal.class){
+			
+			FloatInput input = new FloatInput(this);
+			searchInput = input;
+		}
+		else{
+		   searchInput = new TextInput(this);
+		}
+		searchInput.setFieldName(fieldName);
+		searchInput.setLabelName(fieldDiscription);
+		searchInput.setOp(op);
+		String combineFieldName = ToolStringUtils.getCombineFieldName(fieldName);
+		if(count>1){
+			i18ns.put(getPreI18n()+"."+combineFieldName+"Start", fieldDiscription+"开始");
+			i18ns.put(getPreI18n()+"."+combineFieldName+"End", fieldDiscription+"结束");
+		}else{
+			i18ns.put(getPreI18n()+"."+combineFieldName, fieldDiscription);
+		}
+		searchInput.setReturnClazz(type.getSimpleName());
+		this.conditionColumns.add(searchInput);
+	}
+	
 	public String getModelPackageName() {
 		return modelPackageName;
 	}

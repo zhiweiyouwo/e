@@ -31,12 +31,14 @@ public class TestEntity extends BaseEntity{
 	 @LoyColumn(description="用户",column="name",
 	    		lists={@LoyField(description="姓名",fieldName="name"),
 	    			  @LoyField(description="邮箱",fieldName="email")})
-	    @ManyToOne
-	    private UserEntity user;
+	 
+	@ConditionParam(list={@LoyField(fieldName="name",description="姓名")})
+    @ManyToOne
+    private UserEntity user;
 	 
 	 
-	@ConditionParam(op=Op.eq, name = "name")
-    @LoyColumn(description="姓名")
+	//@ConditionParam(op=Op.eq, name = "name")
+    @LoyColumn(description="测试名")
 	private String name;
     
 	@DateTimeFormat(pattern="yyyy-MM-dd")
@@ -44,7 +46,7 @@ public class TestEntity extends BaseEntity{
 	@ConditionParam(op=Op.eq, name = "date",count=2)
 	private Date date;
     
-	@ConditionParam(op=Op.eq, name = "ll")
+	//@ConditionParam(op=Op.eq, name = "ll")
 	 @LoyColumn(description="整数")
 	private Long ll;
 	
