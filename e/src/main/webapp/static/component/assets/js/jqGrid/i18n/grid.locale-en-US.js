@@ -80,7 +80,9 @@ $.extend($.jgrid,{
 		alertcap: "Warning",
 		alerttext: "Please, select row",
 		viewtext: "",
-		viewtitle: "View selected row"
+		viewtitle: "View selected row",
+		exceltext:"",
+	    exceltitle:"Export Excel"
 	},
 	col : {
 		caption: "Select columns",

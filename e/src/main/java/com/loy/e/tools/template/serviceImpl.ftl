@@ -1,5 +1,6 @@
 package ${serviceImplPackageName};
-
+import java.io.IOException;
+import java.io.OutputStream;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.loy.e.core.annotation.ControllerLogExeTime;
 import com.loy.e.core.query.MapQueryParam;
+import com.loy.e.core.util.TableToExcelUtil;
 import ${domainPackageName}.${entityName?replace("Entity","")}QueryParam;
 import ${domainPackageName}.entity.${entityName};
 <#list  importClassNames as importClassName>
@@ -98,5 +100,16 @@ public class ${entityName?replace("Entity","")}ServiceImpl {
 	    </#if>
 	    </#list>
         ${entityName?replace("Entity","")?uncap_first}Repository.save(${entityName?uncap_first});
+	}
+	
+	@RequestMapping(value="/excel",method={RequestMethod.POST})
+	@ControllerLogExeTime(description="导出${name}",log=false)
+    public void  excel(String html ,HttpServletResponse response) throws IOException{
+		response.setContentType("application/msexcel;charset=UTF-8");
+		response.addHeader("Content-Disposition", "attachment;filename=${entityName?replace("Entity","")?uncap_first}s.xls");
+		OutputStream out = response.getOutputStream();
+		TableToExcelUtil.createExcelFormTable("${entityName?replace("Entity","")?uncap_first}", html, 1, out);
+		out.flush();
+		out.close();
 	}
 }

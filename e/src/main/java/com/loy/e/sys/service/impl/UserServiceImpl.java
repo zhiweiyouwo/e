@@ -1,5 +1,6 @@
 package com.loy.e.sys.service.impl;
 
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -25,6 +26,7 @@ import com.loy.e.core.data.SuccessResponse;
 import com.loy.e.core.data.TreeNode;
 import com.loy.e.core.query.MapQueryParam;
 import com.loy.e.core.util.Assert;
+import com.loy.e.core.util.TableToExcelUtil;
 import com.loy.e.core.util.TreeUtil;
 import com.loy.e.core.util.UserUtils;
 import com.loy.e.core.web.LocaleVO;
@@ -215,17 +217,13 @@ public class UserServiceImpl{
 	
 	@RequestMapping(value="/excel",method={RequestMethod.POST})
 	@ControllerLogExeTime(description="导出用户",log=false)
-    public void  excel(String csvBuffer ,HttpServletResponse response){
+    public void  excel(String html ,HttpServletResponse response) throws IOException{
 		response.setContentType("application/msexcel;charset=UTF-8");
-		try {
-			response.addHeader("Content-Disposition", "attachment;filename=file.xls");
-			OutputStream out = response.getOutputStream();
-			out.write(csvBuffer.getBytes());
-			out.flush();
-			out.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		response.addHeader("Content-Disposition", "attachment;filename=users.xls");
+		OutputStream out = response.getOutputStream();
+		TableToExcelUtil.createExcelFormTable("user", html, 1, out);
+		out.flush();
+		out.close();
 	}
 	
 }

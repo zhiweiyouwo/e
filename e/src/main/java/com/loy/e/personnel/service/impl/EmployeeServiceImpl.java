@@ -1,8 +1,12 @@
 package com.loy.e.personnel.service.impl;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authc.credential.PasswordService;
@@ -19,6 +23,7 @@ import com.loy.e.core.annotation.Converter;
 import com.loy.e.core.converter.DefaultPageConverter;
 import com.loy.e.core.data.SuccessResponse;
 import com.loy.e.core.query.MapQueryParam;
+import com.loy.e.core.util.TableToExcelUtil;
 import com.loy.e.personnel.domain.EmployeeQueryParam;
 import com.loy.e.personnel.domain.entity.EmployeeEntity;
 import com.loy.e.personnel.domain.entity.OrgEntity;
@@ -136,5 +141,17 @@ public class EmployeeServiceImpl{
 			}
 		}
 		return SuccessResponse.newInstance();
+	}
+	
+	@RequestMapping(value="/excel",method={RequestMethod.POST})
+	@ControllerLogExeTime(description="导出员工",log=false)
+    public void  excel(String html ,HttpServletResponse response) throws IOException{
+		response.setContentType("application/msexcel;charset=UTF-8");
+		response.addHeader("Content-Disposition", "attachment;filename=employees.xls");
+		OutputStream out = response.getOutputStream();
+		TableToExcelUtil.createExcelFormTable("employee", html, 1, out);
+		out.flush();
+		out.close();
+		
 	}
 }

@@ -1,9 +1,13 @@
 package com.loy.e.sys.service.impl;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +23,7 @@ import com.loy.e.core.annotation.ControllerLogExeTime;
 import com.loy.e.core.data.SuccessResponse;
 import com.loy.e.core.data.TreeNode;
 import com.loy.e.core.query.MapQueryParam;
+import com.loy.e.core.util.TableToExcelUtil;
 import com.loy.e.core.util.UserUtils;
 import com.loy.e.sys.domain.RoleQueryParam;
 import com.loy.e.sys.domain.entity.ResourceEntity;
@@ -163,5 +168,16 @@ public class RoleServiceImpl {
 		roleEntity.setResources(resources);
 		roleRepository.save(roleEntity);
 		return SuccessResponse.newInstance();
+	}
+	
+	@RequestMapping(value="/excel",method={RequestMethod.POST})
+	@ControllerLogExeTime(description="导出角色",log=false)
+    public void  excel(String html ,HttpServletResponse response) throws IOException{
+		response.setContentType("application/msexcel;charset=UTF-8");
+		response.addHeader("Content-Disposition", "attachment;filename=roles.xls");
+		OutputStream out = response.getOutputStream();
+		TableToExcelUtil.createExcelFormTable("role", html, 1, out);
+		out.flush();
+		out.close();
 	}
 }

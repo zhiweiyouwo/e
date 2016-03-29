@@ -22,6 +22,49 @@ function pickDate(cellvalue, options, cell) {
 		});
 	}, 0);
 }
+
+function  getTableHtml(tableId,removeCols){
+	if(!removeCols){
+		removeCols = [1,2];
+	}
+	var $table = $('#'+tableId);
+	var headerHtml = ["<tr>"];
+	var $htable = $('.ui-jqgrid-htable',$("#gbox_"+tableId));
+	var $headerTable = $('th',$htable).each(function(index){
+		if($.inArray(index, removeCols) == -1){
+			headerHtml.push("<td>"+$(this).text()+"</td>");
+		}
+	});
+	headerHtml.push("</tr>");
+	var html =  $table.html();
+	var $newHtml  = $(html);
+	$('tr',$table).each(function(){
+		headerHtml.push("<tr>");
+		$(this).find('td').each(function(index){
+			if($.inArray(index, removeCols)==-1){
+				var text = $(this).text();
+				headerHtml.push('<td>'+text+'</td>');
+			}
+		});
+		headerHtml.push("</tr>");
+	});
+	html = "<table>"+headerHtml.join("")+"</table>";
+	return html;
+}
+
+function exportExcel(url,tableId,removeCols){
+   var html = getTableHtml(tableId,removeCols);
+  
+   var $exportForm = $('#exportForm');
+   if($exportForm.length == 0){
+	   var form = "<form id ='exportForm' name='exportForm'  style='display:none' action='"+url+"' method='post'>";
+	   form = form + "<input type='hidden' name='html' value='" +html + "'>";
+	   form = form + "</form>";
+	   $exportForm = $(form);
+       $('body').append($exportForm);
+   }
+   exportForm.submit();
+}
 function getFitGridWidth(w){
 //	var v = window.screen.width;
 //	if(v<1024){
@@ -310,6 +353,10 @@ function getFitGridWidth(w){
 			form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
 		}
 	};
+	
+	var mExcel = {
+			
+		};
 	var setting = {
 			cellEdit:false,
 			datatype: "json",
@@ -388,6 +435,8 @@ function getFitGridWidth(w){
 				refreshicon : 'ace-icon fa fa-refresh green',
 				view: false,
 				viewicon : 'ace-icon fa fa-search-plus grey',
+				excel:true,
+				excelicon:'ace-icon fa fa-file-excel-o green',
 				refreshstate:'current'
 					
 			}, $.jgrid.nav, o ||{});
@@ -511,7 +560,7 @@ function getFitGridWidth(w){
 						}).hover(onHoverIn, onHoverOut);
 						tbd = null;
 					}
-					if (o.view) {
+					if (o.view && hasPermission(o.baseUrl,"detail")) {
 						tbd = $("<td class='ui-pg-button ui-corner-all'></td>");
 						pView = pView || {};
 						pView = $.extend(pView,mView);
@@ -537,7 +586,7 @@ function getFitGridWidth(w){
 						}).hover(onHoverIn, onHoverOut);
 						tbd = null;
 					}
-					if (o.del) {
+					if (o.del && hasPermission(o.baseUrl,"del")) {
 						tbd = $("<td class='ui-pg-button ui-corner-all'></td>");
 						pDel = pDel || {};
 						pDel = $.extend(pDel,mDel);
@@ -571,6 +620,28 @@ function getFitGridWidth(w){
 						}).hover(onHoverIn, onHoverOut);
 						tbd = null;
 					}
+					if (o.excel && hasPermission(o.baseUrl,"excel")) {
+						tbd = $("<td class='ui-pg-button ui-corner-all'></td>");
+						pExcel = pExcel ||{};
+						var pExcel = $.extend(pExcel,mExcel);
+						if(!pExcel.url && o.baseUrl){
+							pExcel.url = o.baseUrl+"/excel";
+						}
+						$(tbd).append("<div class='ui-pg-div'><span class='ui-icon "+o.excelicon+"'></span>"+o.exceltext+"</div>");
+						$("tr",navtbl).append(tbd);
+						$(tbd,navtbl)
+						.attr({"title":o.exceltitle || "",id: pExcel.id || "excel_"+elemids})
+						.click(function(){
+							if($.isFunction( o.excelfunc )) {
+								o.excelfunc.call($t, pExcel);
+							} else {
+								var tableId = o.baseUrl.replace("/","");
+								exportExcel(pExcel.url,tableId+"_grid-table");
+							}
+						}).hover(onHoverIn, onHoverOut);
+						tbd = null;
+					}
+					
 					if(o.add || o.edit || o.del || o.view) {$("tr",navtbl).append(sep);}
 					if (o.search) {
 						tbd = $("<td class='ui-pg-button ui-corner-all'></td>");

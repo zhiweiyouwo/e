@@ -1,7 +1,11 @@
 package com.loy.e.personnel.service.impl;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +24,7 @@ import com.loy.e.core.converter.DefaultPageConverter;
 import com.loy.e.core.data.Response;
 import com.loy.e.core.data.SuccessResponse;
 import com.loy.e.core.query.MapQueryParam;
+import com.loy.e.core.util.TableToExcelUtil;
 import com.loy.e.core.util.UserUtils;
 import com.loy.e.core.web.SimpleUser;
 import com.loy.e.personnel.domain.NoticeQueryParam;
@@ -233,5 +238,17 @@ public class NoticeServiceImpl {
 			}
 		}
 		return SuccessResponse.newInstance();
+	}
+	
+	@RequestMapping(value="/excel",method={RequestMethod.POST})
+	@ControllerLogExeTime(description="导出通知",log=false)
+    public void  excel(String html ,HttpServletResponse response) throws IOException{
+		response.setContentType("application/msexcel;charset=UTF-8");
+		response.addHeader("Content-Disposition", "attachment;filename=notices.xls");
+		OutputStream out = response.getOutputStream();
+		TableToExcelUtil.createExcelFormTable("notice", html, 1, out);
+		out.flush();
+		out.close();
+		
 	}
 }

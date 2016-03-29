@@ -102,20 +102,12 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 			pager: pager_selector,
 			//width:$(".page-content").width(),
 			height: '310'
-		}).loyGrid('navGrid','#user_grid-pager',{"baseUrl":"user/",add:false,excel:true});
+		}).loyGrid('navGrid','#user_grid-pager',{"baseUrl":"user/",add:false});
 		userGrid.jqGrid('setFrozenColumns');
 		resizeToFitPage(userGrid);
 	}
-	/**
-	.navButtonAdd('#user_grid-pager',{
-		  caption : "",
-		  title : "导出Excel",
-		  buttonicon : "ace-icon fa fa-file-excel-o green",
-        onClickButton: function(){ 
-        	
-        }
-
-    });*/
+	
+	
 	
 	
 	

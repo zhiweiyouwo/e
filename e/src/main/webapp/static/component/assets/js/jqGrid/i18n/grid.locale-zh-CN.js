@@ -79,7 +79,9 @@ $.extend($.jgrid,{
         alertcap: "注意",
         alerttext: "请选择记录",
         viewtext: "",
-        viewtitle: "查看所选记录"
+        viewtitle: "查看所选记录",
+        exceltext:"",
+        exceltitle:"导出Excel"
     },
     col : {
         caption: "选择列",
