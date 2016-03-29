@@ -207,9 +207,9 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	var $validate${entityName?replace("Entity","")}Form = $('#${entityName?replace("Entity","")?uncap_first}Form').validate({
     	onsubmit:false,
     	rules : {
-			subject : {
+			/**name : {
 				required : true,
-			}
+			}*/
 		}
     });
 	function clear${entityName?replace("Entity","")}Form(){

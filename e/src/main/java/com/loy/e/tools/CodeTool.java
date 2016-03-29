@@ -28,8 +28,8 @@ public class CodeTool {
 	
 	public static void main(String[] args) throws IOException, TemplateException {
 		Options options = new Options();
-		//generateCode(TestEntity.class,options);
-		deleteGenerateCode(TestEntity.class);
+		generateCode(TestEntity.class,options);
+		//deleteGenerateCode(TestEntity.class);
 	}
 	
 	public static void generateCode(Class entityClass,Options options) throws IOException, TemplateException{
@@ -172,7 +172,7 @@ public class CodeTool {
         t.process(entityInfo, new OutputStreamWriter(System.out)); 
         
         
-        System.out.println(entityInfo.getI18ns());
+        //System.out.println(entityInfo.getI18ns());
 	}
 	
 	
