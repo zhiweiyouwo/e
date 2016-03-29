@@ -214,9 +214,9 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
     });
 	function clear${entityName?replace("Entity","")}Form(){
 		 <#list editColumns as col> 
-		 $('#${col.inputId}').val('');
+		 $('#${col.inputId}',$container).val('');
 		 <#if col.inputName?contains(".")?string == 'true'>
-		 $('#${col.inputId}').trigger("chosen:updated");
+		 $('#${col.inputId}',$container).trigger("chosen:updated");
 		 </#if>
 		 </#list>
 	}
@@ -235,14 +235,14 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 				 var idValue = result.${col.fieldName}.id?result.${col.fieldName}.id:'';
 				 if(idValue && idValue !=''){
 					 var name = result.${col.fieldName}.name?result.${col.fieldName}.name:'';
-					 $('#${col.inputId}').html('<option value=""></option> <option selected value="'+idValue+'">'+name+'</option>');
-					 $('#${col.inputId}').trigger("chosen:updated");
+					 $('#${col.inputId}',$container).html('<option value=""></option> <option selected value="'+idValue+'">'+name+'</option>');
+					 $('#${col.inputId}',$container).trigger("chosen:updated");
 				 }
 					 <#else>
 					 <#if col.formatter =='date'>
-				 $('#${col.inputId}').val(result.${col.fieldName}?result.${col.fieldName}.substring(0,10):'');
+				 $('#${col.inputId}',$container).val(result.${col.fieldName}?result.${col.fieldName}.substring(0,10):'');
 				<#else>
-				 $('#${col.inputId}').val(result.${col.fieldName}?result.${col.fieldName}:'');
+				 $('#${col.inputId}',$container).val(result.${col.fieldName}?result.${col.fieldName}:'');
 				</#if>
 				</#if>
 				</#list>
@@ -258,9 +258,9 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 				var result = data.data;
 				<#list detailColumns as col> 
 				<#if col.formatter =='date'>
-				   $('#view_${col.combineFieldName}').html(result.${col.fieldName}?result.${col.fieldName}.substring(0,10):'');
+				   $('#view_${col.combineFieldName}',$container).html(result.${col.fieldName}?result.${col.fieldName}.substring(0,10):'');
 				<#else>
-				  $('#view_${col.combineFieldName}').html(result.${col.fieldName}?result.${col.fieldName}:'');
+				  $('#view_${col.combineFieldName}',$container).html(result.${col.fieldName}?result.${col.fieldName}:'');
 				</#if>
 				</#list>
 			}
