@@ -30,7 +30,7 @@ begin;
  
  INSERT INTO loy_resource 
 (id,created_time,creator_id,modified_time,modifier_id,available,name,parent_id,permission,resource_type,url,cls,lable_key,sort_num,access_code) 
- VALUES ('test',NULL,NULL,NULL,NULL,1,'自动测试页','01',NULL,'MENU','static/sys/test_index.html','menu-icon fa fa-caret-right',null,30,NULL);
+ VALUES ('test',NULL,NULL,NULL,NULL,1,'自动代码页','01',NULL,'MENU','static/sys/test_index.html','menu-icon fa fa-caret-right',null,30,NULL);
  
  
  INSERT INTO loy_resource 
