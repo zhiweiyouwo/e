@@ -2,8 +2,6 @@ package com.loy.e.sys.service.impl;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.loy.e.core.annotation.ControllerLogExeTime;
-import com.loy.e.core.query.MapQueryParam;
 import com.loy.e.core.util.TableToExcelUtil;
 import com.loy.e.sys.repository.PerformanceRepository;
 /**

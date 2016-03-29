@@ -1,9 +1,9 @@
-<div  id="performance_container">
+<div  id="monitor_container">
 	<div class="row">
 		<div class="col-xs-12">
-			<table id="performance_grid-table"></table>
+			<table id="monitor_grid-table"></table>
 
-			<div id="performance_grid-pager"></div>
+			<div id="monitor_grid-pager"></div>
 
 		</div>
 		<!-- /.col -->
@@ -18,8 +18,8 @@
 var scripts = [ null,null ];
 $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	$container = $('#performance_container');
-	var grid_selector  = "#performance_grid-table";
-	var pager_selector = "#performance_grid-pager";
+	var grid_selector  = "#monitor_grid-table";
+	var pager_selector = "#monitor_grid-pager";
 	
 	var  performanceGrid = null;
 	var colNames;
@@ -57,11 +57,14 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 				loadComplete(data);
 			}
 			
-		}).loyGrid('navGrid','#performance_grid-pager',{"baseUrl":"monitor/",
+		}).loyGrid('navGrid','#monitor_grid-pager',{"baseUrl":"monitor/",
 			del:false,
 			edit:false,
 			add:false,
-			view: false
+			view: false,
+			excelfunc:function(){
+				exportExcel('monitor/excel','monitor_grid-table',[0,1])
+			},
 		});
 		performanceGrid.jqGrid('setFrozenColumns');
 		resizeToFitPage(performanceGrid);

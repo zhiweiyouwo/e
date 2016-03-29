@@ -25,7 +25,7 @@ function pickDate(cellvalue, options, cell) {
 
 function  getTableHtml(tableId,removeCols){
 	if(!removeCols){
-		removeCols = [1,2];
+		removeCols = [0,1,2];
 	}
 	var $table = $('#'+tableId);
 	var headerHtml = ["<tr>"];
