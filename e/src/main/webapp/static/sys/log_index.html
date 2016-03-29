@@ -19,7 +19,7 @@
 						<div class="row">
 					           <div class="col-xs-12 col-sm-6 ">
 							    <div id="userSearchDiv" class="input-group col-xs-12  col-sm-6  " style="padding-bottom: 2px">
-									<input type="text" id="logQueryParam_name" i18n="sys.log.name" placeholder ="ÐÕÃû" class="form-control search-query" >
+									<input type="text" id="logQueryParam_name" i18n="sys.log.name" placeholder ="æ“ä½œè€…" class="form-control search-query" >
 									<span class="input-group-btn">
 										<button id="logSearchBtn" type="button" class="btn btn-purple btn-sm">
 											<span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
@@ -56,6 +56,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	var  logGrid = null;
 	var colNames;
 	$.loy.i18n(['sys/log'],$.homeGlobal.LANG,$container,{custCallback:function(){
+		$('input, textarea',$container).placeholder();
 		colNames =[
                    $.i18n.prop("sys.log.opName"),
                    $.i18n.prop("sys.log.name"),

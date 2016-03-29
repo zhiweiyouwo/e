@@ -102,6 +102,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	var lang = $.homeGlobal.LANG.replace('_',"-");
 	var colNames;
 	$.loy.i18n(['sys/role'],$.homeGlobal.LANG,$container,{custCallback:function(){
+		$('input, textarea',$container).placeholder();
 		colNames =[' ',
 	               $.i18n.prop("sys.role.name"),
 	               $.i18n.prop("sys.role.description")]

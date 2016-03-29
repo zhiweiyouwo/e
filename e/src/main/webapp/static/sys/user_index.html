@@ -63,6 +63,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	var lang = $.homeGlobal.LANG.replace('_',"-");
 	var colNames;
 	$.loy.i18n(['sys/user'],$.homeGlobal.LANG,$container,{custCallback:function(){
+		$('input, textarea',$container).placeholder();
 		colNames =[' ',
 	               $.i18n.prop("sys.user.username"),
 	               $.i18n.prop("sys.user.name"),

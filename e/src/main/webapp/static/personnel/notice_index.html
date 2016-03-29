@@ -270,6 +270,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	var colNames;
 	var  noticeGrid = null;
 	$.loy.i18n(['personnel/notice'],$.homeGlobal.LANG,$container,{custCallback:function(){
+		$('input, textarea',$container).placeholder();
 		colNames =[' ',
 	               $.i18n.prop("personnel.notice.subject"),
 	               $.i18n.prop("personnel.notice.status"),

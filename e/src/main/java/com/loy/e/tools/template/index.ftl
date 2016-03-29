@@ -195,6 +195,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	var colNames;
 	var  ${entityName?replace("Entity","")?uncap_first}Grid = null;
 	$.loy.i18n(['${modelName}/${entityName?replace("Entity","")?uncap_first}'],$.homeGlobal.LANG,$container,{custCallback:function(){
+		$('input, textarea',$container).placeholder();
 		colNames =[' ',
 		    <#list listColumns as col> 
 	   		$.i18n.prop("${col.i18nKey}")<#if col_has_next> ,</#if>

@@ -1,6 +1,7 @@
 package ${serviceImplPackageName};
 import java.io.IOException;
 import java.io.OutputStream;
+import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
