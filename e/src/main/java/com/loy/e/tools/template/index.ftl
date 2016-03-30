@@ -350,9 +350,9 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	    <#list conditionColumns as col>
 	    <#if col.count ==1>
 	    <#if col.type ='select'>
-	      postData["${col.combineFieldName}Id"] = $("#${col.searchQueryId}").val();	
+	    postData["${col.combineFieldName}Id"] = $("#${col.searchQueryId}").val();	
 	    <#else>
-	      postData["${col.combineFieldName}"] = $("#${col.searchQueryId}").val();	
+	    postData["${col.combineFieldName}"] = $("#${col.searchQueryId}").val();	
 	    </#if>
 		<#else>
 		postData["${col.combineFieldName}Start"] = $("#${col.searchQueryId}_start").val();
