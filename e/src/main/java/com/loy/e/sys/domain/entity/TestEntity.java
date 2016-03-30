@@ -52,10 +52,10 @@ public class TestEntity extends BaseEntity{
     
 	//@ConditionParam(op=Op.eq, name = "ll")
 	 @LoyColumn(description="整数")
-	private Long ll;
+	private Long testLong;
 	
 	@LoyColumn(description="小数")
-	private Float ff;
+	private Float testFloat;
 	 
 	@LoyColumn(description="长字符串")
 	@Column(length=500)
@@ -86,20 +86,22 @@ public class TestEntity extends BaseEntity{
 		this.user = user;
 	}
 
-	public Long getLl() {
-		return ll;
+	
+
+	public Long getTestLong() {
+		return testLong;
 	}
 
-	public void setLl(Long ll) {
-		this.ll = ll;
+	public void setTestLong(Long testLong) {
+		this.testLong = testLong;
 	}
 
-	public Float getFf() {
-		return ff;
+	public Float getTestFloat() {
+		return testFloat;
 	}
 
-	public void setFf(Float ff) {
-		this.ff = ff;
+	public void setTestFloat(Float testFloat) {
+		this.testFloat = testFloat;
 	}
 
 	public String getLongString() {
