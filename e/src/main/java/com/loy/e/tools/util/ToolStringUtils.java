@@ -41,4 +41,16 @@ public class ToolStringUtils {
 		s = ToolStringUtils.firstCharLower(s);
 		return s;
 	}
+	
+	public static String splitNameUpper(String str){
+		StringBuilder sb = new StringBuilder();
+		char[] chars = str.toCharArray();
+		for(int i=0;i<chars.length;i++){
+			if(chars[i]<='Z' &&  chars[0]>='A'){
+				sb.append(" ");
+			}
+			sb.append(chars[i]);
+		}
+		return sb.toString().toUpperCase();
+	}
 }

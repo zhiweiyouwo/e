@@ -5,9 +5,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import com.loy.e.sys.domain.entity.TestEntity;
 import com.loy.e.tools.model.EntityInfo;
+import com.loy.e.tools.util.ToolStringUtils;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -163,9 +166,21 @@ public class CodeTool {
 				f.mkdirs();
 			}
 			fileName = entityInfo.getEntityNameFirstLower()+".properties";
-			
 			f = new File(packageName,fileName);
+			t.process(entityInfo, new OutputStreamWriter(new FileOutputStream(f))); 
 			
+			fileName = entityInfo.getEntityNameFirstLower()+"_zh_CN.properties";
+			f = new File(packageName,fileName);
+			t.process(entityInfo, new OutputStreamWriter(new FileOutputStream(f))); 
+			
+			Map<String, String> i18nMap = entityInfo.getI18ns();
+			for(Entry<String, String> entry : i18nMap.entrySet() ){
+				String key = entry.getKey();
+				String[] temp = key.split("\\.");
+				i18nMap.put(key,ToolStringUtils.splitNameUpper(temp[temp.length-1]));
+			}
+			fileName = entityInfo.getEntityNameFirstLower()+"_en_US.properties";
+			f = new File(packageName,fileName);
 			t.process(entityInfo, new OutputStreamWriter(new FileOutputStream(f))); 
 		}
 		
@@ -264,6 +279,16 @@ public class CodeTool {
 			packageName = entityInfo.getModelName();
 			packageName = i18nPath+packageName;
 			fileName = entityInfo.getEntityNameFirstLower()+".properties";
+			f = new File(packageName,fileName);
+			if(f.exists()){
+				f.delete();
+			}
+			fileName = entityInfo.getEntityNameFirstLower()+"_zh_CN.properties";
+			f = new File(packageName,fileName);
+			if(f.exists()){
+				f.delete();
+			}
+			fileName = entityInfo.getEntityNameFirstLower()+"_en_US.properties";
 			f = new File(packageName,fileName);
 			if(f.exists()){
 				f.delete();
