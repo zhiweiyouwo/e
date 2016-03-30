@@ -169,30 +169,29 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		icon_down:'ace-icon fa fa-minus smaller-75',
 		btn_up_class:'btn-success' , 
 		btn_down_class:'btn-danger'});
-	
-	<#list conditionColumns as col> 
-	<#if col.type=='select'>
-	 $.loy.buildSelectOptions('${col.searchQueryId}',$('#${col.searchQueryId}',$container).attr("group"));
-	</#if>
-	</#list>
-	
-	<#list editColumns as col> 
-	<#if col.type=='select'>
-	 $.loy.buildSelectOptions('${col.inputId}',$('#${col.inputId}',$container).attr("group"));
-	</#if>
-	</#list>
 		
-	<#assign cchosen = false>
+	
+	var colNames;
+	var  ${entityName?replace("Entity","")?uncap_first}Grid = null;
+	$.loy.i18n(['${modelName}/${entityName?replace("Entity","")?uncap_first}'],$.homeGlobal.LANG,$container,{custCallback:function(){
+		$('input, textarea',$container).placeholder();
+		colNames =[' ',
+		    <#list listColumns as col> 
+	   		$.i18n.prop("${col.i18nKey}")<#if col_has_next> ,</#if>
+	   		</#list> 
+        ];
+        
+    <#assign cchosen = false>
 	<#list editColumns as col> 
 	 <#if col.type=='search_text'>
-	 $('#${col.inputId}').cchosen({allow_single_deselect:true});<#assign cchosen = true>
+	 $('#${col.inputId}').cchosen({allow_single_deselect:true,placeholder_text_single:$.i18n.prop("pleaseChoose")});<#assign cchosen = true>
 	</#if>
 	<#if col.type=='select'>
 	 <#assign cchosen = true>
 	</#if>
 	</#list>
 	<#if cchosen>
-	$(window)
+	 $(window)
 		.off('resize.chosen')
 		.on('resize.chosen', function() {
 			$('.chosen-select').each(function() {
@@ -205,17 +204,20 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 			 var $this = $(this);
 			 $this.next().css({'width': $this.parent().width()});
 		});
-	});
+	 });
 	</#if>	
-	var colNames;
-	var  ${entityName?replace("Entity","")?uncap_first}Grid = null;
-	$.loy.i18n(['${modelName}/${entityName?replace("Entity","")?uncap_first}'],$.homeGlobal.LANG,$container,{custCallback:function(){
-		$('input, textarea',$container).placeholder();
-		colNames =[' ',
-		    <#list listColumns as col> 
-	   		$.i18n.prop("${col.i18nKey}")<#if col_has_next> ,</#if>
-	   		</#list> 
-        ];
+	
+    <#list conditionColumns as col> 
+	<#if col.type=='select'>
+	 $.loy.buildSelectOptions('${col.searchQueryId}',$('#${col.searchQueryId}',$container).attr("group"),$.i18n.prop("all"));
+	</#if>
+	</#list>
+	
+	<#list editColumns as col> 
+	<#if col.type=='select'>
+	 $.loy.buildSelectOptions('${col.inputId}',$('#${col.inputId}',$container).attr("group"),$.i18n.prop("pleaseChoose"));
+	</#if>
+	</#list>
 	    create${entityName?replace("Entity","")}Grid();
 	}});
 	
@@ -243,8 +245,8 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 			url:'${entityName?replace("Entity","")?uncap_first}/get',
 			data:{id:id},
 			success:function(data){
-				var result = data.data;
-				$('#id').val(result.id?result.id:'');
+				 var result = data.data;
+				 $('#id').val(result.id?result.id:'');
 				<#list editColumns as col> 
 				<#if col.type=='search_text' || col.type=='select'>
 				<#if col.type=='search_text'>
@@ -280,7 +282,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 				var result = data.data;
 				<#list detailColumns as col> 
 				<#if col.formatter =='date'>
-				   $('#view_${col.combineFieldName}',$container).html(result.${col.fieldName}?result.${col.fieldName}.substring(0,10):'');
+				  $('#view_${col.combineFieldName}',$container).html(result.${col.fieldName}?result.${col.fieldName}.substring(0,10):'');
 				<#else>
 				  $('#view_${col.combineFieldName}',$container).html(result.${col.fieldName}?result.${col.fieldName}:'');
 				</#if>

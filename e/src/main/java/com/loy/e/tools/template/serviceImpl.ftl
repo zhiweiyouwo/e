@@ -46,10 +46,10 @@ public class ${entityName?replace("Entity","")}ServiceImpl {
     @Autowired
     DictionaryRepository  dictionaryRepository;
     </#if>
+    
 	@RequestMapping(value="/page")
 	@ControllerLogExeTime(description="分页查询${name}",log = false)
 	public Page${left}${entityName}>  queryPage(${entityName?replace("Entity","")}QueryParam ${entityName?replace("Entity","")?uncap_first}QueryParam,Pageable pageable){
-	
 		Page${left}${entityName}> page = ${entityName?replace("Entity","")?uncap_first}Repository.findPage("${modelName}.${entityName?replace("Entity","")?cap_first}.findPage${entityName?replace("Entity","")}", new MapQueryParam(${entityName?replace("Entity","")?uncap_first}QueryParam), pageable);
 		return page;
 	}

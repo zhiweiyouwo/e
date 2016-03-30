@@ -22,7 +22,7 @@
         if (r != null) return unescape(r[2]); return null; //返回参数值
 	       
 	}
-	$.loy.buildSelectOptions= function(selectId,group){
+	$.loy.buildSelectOptions= function(selectId,group,placeholder_text){
 		$.ajax({ url: "dict",data:{"group":group}, 
         	success: function(data){
             if(data.success){
@@ -38,7 +38,7 @@
             		}
             	}
             	$('#'+selectId).html(temp.join(' '));
-            	$('#'+selectId).chosen({allow_single_deselect:true});
+            	$('#'+selectId).chosen({allow_single_deselect:true,placeholder_text_single:placeholder_text});
             }
         }
         
