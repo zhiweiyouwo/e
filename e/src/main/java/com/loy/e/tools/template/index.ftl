@@ -169,11 +169,26 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		icon_down:'ace-icon fa fa-minus smaller-75',
 		btn_up_class:'btn-success' , 
 		btn_down_class:'btn-danger'});
+	
+	<#list conditionColumns as col> 
+	<#if col.type=='select'>
+	 $.loy.buildSelectOptions('${col.searchQueryId}',$('#${col.searchQueryId}',$container).attr("group"));
+	</#if>
+	</#list>
+	
+	<#list editColumns as col> 
+	<#if col.type=='select'>
+	 $.loy.buildSelectOptions('${col.inputId}',$('#${col.inputId}',$container).attr("group"));
+	</#if>
+	</#list>
 		
 	<#assign cchosen = false>
 	<#list editColumns as col> 
-	 <#if col.inputName?contains(".")?string == 'true'>
-	 $('#${col.inputId}').cchosen();<#assign cchosen = true>
+	 <#if col.type=='search_text'>
+	 $('#${col.inputId}').cchosen({allow_single_deselect:true});<#assign cchosen = true>
+	</#if>
+	<#if col.type=='select'>
+	 <#assign cchosen = true>
 	</#if>
 	</#list>
 	<#if cchosen>
@@ -215,7 +230,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	function clear${entityName?replace("Entity","")}Form(){
 		 <#list editColumns as col> 
 		 $('#${col.inputId}',$container).val('');
-		 <#if col.inputName?contains(".")?string == 'true'>
+		 <#if col.type=='search_text' || col.type=='select'>
 		 $('#${col.inputId}',$container).trigger("chosen:updated");
 		 </#if>
 		 </#list>
@@ -231,14 +246,21 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 				var result = data.data;
 				$('#id').val(result.id?result.id:'');
 				<#list editColumns as col> 
+				<#if col.type=='search_text' || col.type=='select'>
 				<#if col.type=='search_text'>
-				 var idValue = result.${col.fieldName}.id?result.${col.fieldName}.id:'';
-				 if(idValue && idValue !=''){
+				 var ${col.fieldName}IdValue = result.${col.fieldName}.id?result.${col.fieldName}.id:'';
+				 if(${col.fieldName}IdValue && ${col.fieldName}IdValue !=''){
 					 var name = result.${col.fieldName}.name?result.${col.fieldName}.name:'';
-					 $('#${col.inputId}',$container).html('<option value=""></option> <option selected value="'+idValue+'">'+name+'</option>');
+					 $('#${col.inputId}',$container).html('<option value=""></option> <option selected value="'+${col.fieldName}IdValue+'">'+name+'</option>');
 					 $('#${col.inputId}',$container).trigger("chosen:updated");
 				 }
-					 <#else>
+				 </#if>
+				 <#if col.type=='select'>
+				 var ${col.fieldName}IdValue = result.${col.fieldName}.id?result.${col.fieldName}.id:'';
+				 $('#${col.inputId}',$container).val(${col.fieldName}IdValue);
+				 $('#${col.inputId}',$container).trigger("chosen:updated");
+				 </#if>
+				<#else>
 					 <#if col.formatter =='date'>
 				 $('#${col.inputId}',$container).val(result.${col.fieldName}?result.${col.fieldName}.substring(0,10):'');
 				<#else>
@@ -327,7 +349,11 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	    var postData ={page:0};
 	    <#list conditionColumns as col>
 	    <#if col.count ==1>
-		postData["${col.combineFieldName}"] = $("#${col.searchQueryId}").val();	
+	    <#if col.type ='select'>
+	      postData["${col.combineFieldName}Id"] = $("#${col.searchQueryId}").val();	
+	    <#else>
+	      postData["${col.combineFieldName}"] = $("#${col.searchQueryId}").val();	
+	    </#if>
 		<#else>
 		postData["${col.combineFieldName}Start"] = $("#${col.searchQueryId}_start").val();
 		postData["${col.combineFieldName}End"] = $("#${col.searchQueryId}_end").val();

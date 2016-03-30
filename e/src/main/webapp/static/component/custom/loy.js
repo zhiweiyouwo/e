@@ -22,6 +22,29 @@
         if (r != null) return unescape(r[2]); return null; //返回参数值
 	       
 	}
+	$.loy.buildSelectOptions= function(selectId,group){
+		$.ajax({ url: "dict",data:{"group":group}, 
+        	success: function(data){
+            if(data.success){
+            	var list = data.data;
+            	var temp = [];
+            	if(list){
+            		$('#'+selectId).html('');
+            		temp.push('<option value=""></option>');
+            		for(var i=0;i<list.length;i++){
+            			var k = list[i].id;
+            			var l = list[i].name;
+            			temp.push('<option value="'+k+'">'+l+'</option>');
+            		}
+            	}
+            	$('#'+selectId).html(temp.join(' '));
+            	$('#'+selectId).chosen({allow_single_deselect:true});
+            }
+        }
+        
+        });
+	       
+	}
 	$.loy.showSysMsg = function(msg){  
 		$('#systemMsgDiv').show();
 		$('#systemMsgSpan').html(msg);

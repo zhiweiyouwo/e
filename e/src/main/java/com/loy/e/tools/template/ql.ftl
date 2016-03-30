@@ -7,9 +7,16 @@
         from ${entityName} x where 1=1 
         <#list conditionColumns as condition>
         <#if condition.count ==1>
-        ${left}@notEmpty name="${condition.combineFieldName}">
-          and x.${condition.fieldName} = :${condition.combineFieldName} 
+        <#if condition.type =='select'>
+         ${left}@notEmpty name="${condition.combineFieldName}Id">
+          and x.${condition.fieldName}.id = :${condition.combineFieldName}Id 
         ${left}/@notEmpty>
+        <#else>
+         ${left}@notEmpty name="${condition.combineFieldName}">
+          and x.${condition.fieldName} = :${condition.combineFieldName} 
+         ${left}/@notEmpty>
+        </#if>
+       
         <#else>
         ${left}@notEmpty name="${condition.combineFieldName}Start">
           and x.${condition.fieldName} >= :${condition.combineFieldName}Start 

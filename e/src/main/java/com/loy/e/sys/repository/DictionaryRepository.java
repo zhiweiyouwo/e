@@ -1,5 +1,7 @@
 package com.loy.e.sys.repository;
 
+import java.util.List;
+
 import com.loy.e.core.repository.GenericRepository;
 import com.loy.e.sys.domain.entity.DictionaryEntity;
 
@@ -11,5 +13,7 @@ import com.loy.e.sys.domain.entity.DictionaryEntity;
  * 
  */
 public interface DictionaryRepository extends GenericRepository<DictionaryEntity,String>{
+
+	List<DictionaryEntity> findByGroup(String group);
 
 }

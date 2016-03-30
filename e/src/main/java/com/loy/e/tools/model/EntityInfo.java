@@ -21,11 +21,14 @@ import com.loy.e.core.annotation.LoyEntity;
 import com.loy.e.core.annotation.LoyField;
 import com.loy.e.core.annotation.Op;
 import com.loy.e.core.entity.Entity;
+import com.loy.e.sys.domain.entity.DictionaryEntity;
+import com.loy.e.sys.repository.DictionaryRepository;
 import com.loy.e.tools.component.AbstractInput;
 import com.loy.e.tools.component.DateInput;
 import com.loy.e.tools.component.FloatInput;
 import com.loy.e.tools.component.IntegerInput;
 import com.loy.e.tools.component.SearchInput;
+import com.loy.e.tools.component.SelectInput;
 import com.loy.e.tools.component.TextAreaInput;
 import com.loy.e.tools.component.TextInput;
 import com.loy.e.tools.util.ToolStringUtils;
@@ -109,15 +112,23 @@ public class EntityInfo {
 		if(entityFlag){
 			String sName = type.getSimpleName();
 			sName= sName.replaceFirst("Entity", "");
-			String tableName = "loy_"+sName.toLowerCase();
-			SearchInput input = new SearchInput(this);
-			abstractInput = input;
-			input.setTableName(tableName);
-			String column = loyColumn.column();
-			if(column.equals("")){
-				column = "name";
+			if(type == DictionaryEntity.class){
+				SelectInput input = new SelectInput(this);
+				input.setGroup(field.getName());
+				abstractInput = input;
+				this.importClassNames.add("import "+DictionaryRepository.class.getName());
+			}else{
+				String tableName = "loy_"+sName.toLowerCase();
+				SearchInput input = new SearchInput(this);
+				abstractInput = input;
+				input.setTableName(tableName);
+				String column = loyColumn.column();
+				if(column.equals("")){
+					column = "name";
+				}
+				input.setLabel(column);
 			}
-			input.setLabel(column);
+			
             this.importClassNames.add("import "+type.getName());
 			
 		}else{
@@ -280,8 +291,11 @@ public class EntityInfo {
 			
 			FloatInput input = new FloatInput(this);
 			searchInput = input;
-		}
-		else{
+		}else if(type == DictionaryEntity.class){
+			SelectInput input = new SelectInput(this);
+			input.setGroup(fieldName);
+			searchInput = input;
+		}else{
 		   searchInput = new TextInput(this);
 		}
 		searchInput.setFieldName(fieldName);

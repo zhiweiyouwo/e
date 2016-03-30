@@ -36,6 +36,10 @@ public class TestEntity extends BaseEntity{
     @ManyToOne
     private UserEntity user;
 	 
+	 @LoyColumn(description="状态",lists={@LoyField(description="状态",fieldName="name")})
+	 @ConditionParam()
+	 @ManyToOne
+	 private DictionaryEntity status;
 	 
 	//@ConditionParam(op=Op.eq, name = "name")
     @LoyColumn(description="测试名")
@@ -57,7 +61,6 @@ public class TestEntity extends BaseEntity{
 	@Column(length=500)
 	private String longString;
 	
-   
     
 	public String getName() {
 		return name;
@@ -105,6 +108,14 @@ public class TestEntity extends BaseEntity{
 
 	public void setLongString(String longString) {
 		this.longString = longString;
+	}
+
+	public DictionaryEntity getStatus() {
+		return status;
+	}
+
+	public void setStatus(DictionaryEntity status) {
+		this.status = status;
 	}
 	
 	

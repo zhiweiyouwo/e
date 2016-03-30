@@ -1,5 +1,6 @@
 package com.loy.e.core.web;
 
+import java.util.List;
 import java.util.Locale;
 
 import org.apache.shiro.SecurityUtils;
@@ -17,6 +18,8 @@ import com.loy.e.core.annotation.ControllerLogExeTime;
 import com.loy.e.core.query.MapQueryParam;
 import com.loy.e.core.util.UserUtils;
 import com.loy.e.sys.domain.CommonQueryParam;
+import com.loy.e.sys.domain.entity.DictionaryEntity;
+import com.loy.e.sys.repository.DictionaryRepository;
 import com.loy.e.sys.repository.PerformanceRepository;
 /**
  * 
@@ -32,7 +35,8 @@ import com.loy.e.sys.repository.PerformanceRepository;
 public class IndexController { 
 	@Autowired
 	PerformanceRepository performanceRepository;
-	
+	@Autowired
+	DictionaryRepository dictionaryRepository;
 	@ControllerLogExeTime(description="登入")
 	@RequestMapping(value="/login") 
 	public void login(String username,
@@ -64,4 +68,9 @@ public class IndexController {
 		return performanceRepository.findPage("sys.common.findSelectPage",new MapQueryParam(param), pageable);
 	}
 	
+	@RequestMapping(value="/dict") 
+	public List<DictionaryEntity> dict(String group) { 
+		List<DictionaryEntity> list = dictionaryRepository.findByGroup(group);
+		return list;
+	}
 }

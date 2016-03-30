@@ -4,7 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import com.loy.e.core.entity.BaseEntity;
+import com.loy.e.core.entity.AbstractEntity;
 
 /**
  * 
@@ -16,13 +16,15 @@ import com.loy.e.core.entity.BaseEntity;
  */
 @Entity
 @Table(name="loy_dictionary") 
-public class DictionaryEntity extends BaseEntity{
+public class DictionaryEntity extends AbstractEntity <String>{
 	@Column(length = 100)
 	private String i18nKey;
 	@Column(length = 100)
 	private String code;
 	@Column(length = 255)
-	private String defaultLable;
+	private String name;
+	@Column(length = 100)
+	private String group;
 	
 	
 	public String getI18nKey() {
@@ -37,10 +39,17 @@ public class DictionaryEntity extends BaseEntity{
 	public void setCode(String code) {
 		this.code = code;
 	}
-	public String getDefaultLable() {
-		return defaultLable;
+	
+	public String getName() {
+		return name;
 	}
-	public void setDefaultLable(String defaultLable) {
-		this.defaultLable = defaultLable;
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getGroup() {
+		return group;
+	}
+	public void setGroup(String group) {
+		this.group = group;
 	}
 }

@@ -34,7 +34,18 @@ public class ${entityName?replace("Entity","")}ServiceImpl {
 
 	@Autowired
 	${entityName?replace("Entity","")}Repository ${entityName?replace("Entity","")?uncap_first}Repository;
-	
+	<#assign hasSelect = false>
+	<#list editColumns as col> 
+	    <#if col.inputName?contains(".")?string == 'true'>
+		    <#if col.type == 'select'>
+		    <#assign hasSelect = true>
+	        </#if>
+        </#if>
+    </#list> 
+    <#if hasSelect>
+    @Autowired
+    DictionaryRepository  dictionaryRepository;
+    </#if>
 	@RequestMapping(value="/page")
 	@ControllerLogExeTime(description="分页查询${name}",log = false)
 	public Page${left}${entityName}>  queryPage(${entityName?replace("Entity","")}QueryParam ${entityName?replace("Entity","")?uncap_first}QueryParam,Pageable pageable){
@@ -71,12 +82,21 @@ public class ${entityName?replace("Entity","")}ServiceImpl {
 	public ${entityName}  save(${entityName} ${entityName?uncap_first}){
 	    <#list editColumns as col> 
 	    <#if col.inputName?contains(".")?string == 'true'>
-	    ${col.fieldName?cap_first}Entity ${col.fieldName} = ${entityName?uncap_first}.get${col.fieldName?replace("Entity","")?cap_first}();
+	    <#if col.type == 'select'>
+	    DictionaryEntity ${col.fieldName} = ${entityName?uncap_first}.get${col.fieldName?replace("Entity","")?cap_first}();
+		<#else>
+		${col.fieldName?cap_first}Entity ${col.fieldName} = ${entityName?uncap_first}.get${col.fieldName?replace("Entity","")?cap_first}();
+		</#if>
 		if(${col.fieldName} != null){
-			String ${col.fieldName}Id = ${col.fieldName}.getId();
+		    String ${col.fieldName}Id = ${col.fieldName}.getId();
 			if(StringUtils.isEmpty(${col.fieldName}Id)){
 				${col.fieldName} = null;
 			}
+			<#if col.type == 'select'>
+			else{
+		      ${col.fieldName} = dictionaryRepository.get(${col.fieldName}Id);
+			}
+			</#if>
 		}
 		${entityName?uncap_first}.set${col.fieldName?cap_first}(${col.fieldName}); 
 	    </#if>
@@ -90,17 +110,26 @@ public class ${entityName?replace("Entity","")}ServiceImpl {
 	public void  update(${entityName} ${entityName?uncap_first}){
 	<#list editColumns as col> 
 	    <#if col.inputName?contains(".")?string == 'true'>
-	    ${col.fieldName?cap_first}Entity ${col.fieldName} = ${entityName?uncap_first}.get${col.fieldName?replace("Entity","")?cap_first}();
+	    <#if col.type == 'select'>
+		      DictionaryEntity ${col.fieldName} = ${entityName?uncap_first}.get${col.fieldName?replace("Entity","")?cap_first}();
+		<#else>
+		    ${col.fieldName?cap_first}Entity ${col.fieldName} = ${entityName?uncap_first}.get${col.fieldName?replace("Entity","")?cap_first}();
+		</#if>
 		if(${col.fieldName} != null){
-			String ${col.fieldName}Id = ${col.fieldName}.getId();
+		    String ${col.fieldName}Id = ${col.fieldName}.getId();
 			if(StringUtils.isEmpty(${col.fieldName}Id)){
 				${col.fieldName} = null;
 			}
+			<#if col.type == 'select'>
+			else{
+		      ${col.fieldName} = dictionaryRepository.get(${col.fieldName}Id);
+			}
+			</#if>
 		}
 		${entityName?uncap_first}.set${col.fieldName?cap_first}(${col.fieldName}); 
 	    </#if>
 	    </#list>
-        ${entityName?replace("Entity","")?uncap_first}Repository.save(${entityName?uncap_first});
+	    ${entityName?replace("Entity","")?uncap_first}Repository.save(${entityName?uncap_first});
 	}
 	
 	@RequestMapping(value="/excel",method={RequestMethod.POST})
