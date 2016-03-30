@@ -50,6 +50,17 @@ public class ${entityName?replace("Entity","")}ServiceImpl {
 	@RequestMapping(value="/page")
 	@ControllerLogExeTime(description="分页查询${name}",log = false)
 	public Page${left}${entityName}>  queryPage(${entityName?replace("Entity","")}QueryParam ${entityName?replace("Entity","")?uncap_first}QueryParam,Pageable pageable){
+       <#list conditionColumns as condition>
+       <#if condition.count==2 && condition.type =='date'>
+		if(${entityName?replace("Entity","")?uncap_first}QueryParam != null){
+			Date ${condition.combineFieldName}End = ${entityName?replace("Entity","")?uncap_first}QueryParam.get${condition.combineFieldName?cap_first}End();
+			if(${condition.combineFieldName}End != null){
+				${condition.combineFieldName}End = DateUtil.addOneDay(dateEnd);
+				${entityName?replace("Entity","")?uncap_first}QueryParam.set${condition.combineFieldName?cap_first}End(${condition.combineFieldName}End);
+			}
+		}
+		</#if>
+		</#list>
 		Page${left}${entityName}> page = ${entityName?replace("Entity","")?uncap_first}Repository.findPage("${modelName}.${entityName?replace("Entity","")?cap_first}.findPage${entityName?replace("Entity","")}", new MapQueryParam(${entityName?replace("Entity","")?uncap_first}QueryParam), pageable);
 		return page;
 	}

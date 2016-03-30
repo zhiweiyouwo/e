@@ -22,7 +22,7 @@
           and x.${condition.fieldName} >= :${condition.combineFieldName}Start 
         ${left}/@notEmpty>
         ${left}@notEmpty name="${condition.combineFieldName}End">
-          and x.${condition.fieldName} < :${condition.combineFieldName}End 
+          and x.${condition.fieldName} <= :${condition.combineFieldName}End 
         ${left}/@notEmpty>
         </#if>
 		</#list> 

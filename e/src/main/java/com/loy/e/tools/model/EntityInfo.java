@@ -21,6 +21,7 @@ import com.loy.e.core.annotation.LoyEntity;
 import com.loy.e.core.annotation.LoyField;
 import com.loy.e.core.annotation.Op;
 import com.loy.e.core.entity.Entity;
+import com.loy.e.core.util.DateUtil;
 import com.loy.e.sys.domain.entity.DictionaryEntity;
 import com.loy.e.sys.repository.DictionaryRepository;
 import com.loy.e.tools.component.AbstractInput;
@@ -275,6 +276,7 @@ public class EntityInfo {
 		if(type == Date.class){
 			searchInput = new DateInput(this);
 			searchInput.setCount(count);
+			importClassNames.add("import "+Date.class.getName());
 			importParamClassNames.add("import org.springframework.format.annotation.DateTimeFormat");
 			
 		}else if(type == Integer.class || 
@@ -305,6 +307,7 @@ public class EntityInfo {
 		if(count>1){
 			i18ns.put(getPreI18n()+"."+combineFieldName+"Start", fieldDiscription+"开始");
 			i18ns.put(getPreI18n()+"."+combineFieldName+"End", fieldDiscription+"结束");
+			importClassNames.add("import "+DateUtil.class.getName());
 		}else{
 			i18ns.put(getPreI18n()+"."+combineFieldName, fieldDiscription);
 		}
