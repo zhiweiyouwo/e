@@ -7,7 +7,6 @@
 	<packaging>war</packaging>
 	<name>loy - e</name>
 	<url>http://maven.apache.org</url>
-    
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -15,43 +14,43 @@
 		<relativePath></relativePath>
 	</parent>
 
-	
+
 	<dependencies>
 		<dependency>
-	    <groupId>org.springframework.boot</groupId>
-	    <artifactId>spring-boot-starter-web</artifactId>
-	  </dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
 
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
-        <dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-starter-jdbc</artifactId>
-			</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
-	  
+
 		<dependency>
-		    <groupId>org.springframework</groupId>
-		     <artifactId>spring-context-support</artifactId>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
 		</dependency>
 
 		<dependency>
-              <groupId>net.sf.ehcache</groupId>
-              <artifactId>ehcache</artifactId>
-        </dependency>
-
-		 <dependency>
-		    <groupId>org.springframework.boot</groupId>
-		    <artifactId>spring-boot-starter-actuator</artifactId>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
 			<artifactId>shiro-core</artifactId>
@@ -77,44 +76,55 @@
 			<artifactId>commons-lang</artifactId>
 			<version>2.6</version>
 		</dependency>
-		<dependency>  
-		        <groupId>commons-codec</groupId>  
-		        <artifactId>commons-codec</artifactId>  
-		        <version>1.10</version>  
-		</dependency>  
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.10</version>
+		</dependency>
 		<dependency>
 			<groupId>org.freemarker</groupId>
 			<artifactId>freemarker</artifactId>
 			<version>2.3.16</version>
 		</dependency>
-	   <dependency>
-           <groupId>org.springframework.boot</groupId>
-           <artifactId>spring-boot-starter-tomcat</artifactId>
-           <scope>provided</scope>
-       </dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.jdom</groupId>
 			<artifactId>jdom</artifactId>
 			<version>1.1.3</version>
 		</dependency>
-		<dependency>  
-            <groupId>org.apache.poi</groupId>  
-            <artifactId>poi-excelant</artifactId>  
-            <version>3.9</version>  
-        </dependency> 
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-excelant</artifactId>
+			<version>3.9</version>
+		</dependency>
+
+		<dependency>
+			<groupId>me.chanjar</groupId>
+			<artifactId>weixin-java-mp</artifactId>
+			<version>1.3.3</version>
+		</dependency>
+		<dependency>
+			<groupId>me.chanjar</groupId>
+			<artifactId>weixin-java-cp</artifactId>
+			<version>1.3.3</version>
+		</dependency>
 	</dependencies>
- 
+
 
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>  
-                    <jvmArguments>-Dfile.encoding=UTF-8</jvmArguments>  
-                </configuration>  
+				<configuration>
+					<jvmArguments>-Dfile.encoding=UTF-8</jvmArguments>
+				</configuration>
 			</plugin>
-			
+
 		</plugins>
 
 
@@ -125,7 +135,7 @@
 					<configuration>
 						<source>1.7</source>
 						<target>1.7</target>
-						<encoding>UTF-8</encoding> 
+						<encoding>UTF-8</encoding>
 					</configuration>
 				</plugin>
 			</plugins>

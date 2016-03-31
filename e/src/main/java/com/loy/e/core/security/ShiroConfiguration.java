@@ -113,7 +113,7 @@ public class ShiroConfiguration implements ApplicationContextAware {
         
         shiroFilterFactoryBean.setLoginUrl("/index.html");  
         shiroFilterFactoryBean.setSuccessUrl("/home.html"); 
-        
+        filterChainDefinitionMap.put("/weixin**", "anon");
         filterChainDefinitionMap.put("/i18n/**", "anon");
         filterChainDefinitionMap.put("/**.html", "anon");
         filterChainDefinitionMap.put("/**.css", "anon");

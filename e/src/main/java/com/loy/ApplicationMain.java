@@ -7,6 +7,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
+import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
@@ -32,7 +34,7 @@ import com.loy.e.core.repository.impl.DefaultRepositoryFactoryBean;
 @ComponentScan
 @EnableConfigurationProperties(Settings.class)
 @EnableJpaRepositories(repositoryFactoryBeanClass=DefaultRepositoryFactoryBean.class)
-public class ApplicationMain extends SpringBootServletInitializer implements CommandLineRunner {
+public class ApplicationMain extends SpringBootServletInitializer implements EmbeddedServletContainerCustomizer, CommandLineRunner {
 
 	static final Log logger = LogFactory.getLog(ApplicationMain.class);
     public static void main(String[] args) throws Exception { 
@@ -46,6 +48,10 @@ public class ApplicationMain extends SpringBootServletInitializer implements Com
     public void run(String... args) throws Exception {
     	
     	
+	}
+	@Override
+	public void customize(ConfigurableEmbeddedServletContainer container) {
+		container.setPort(80);
 	}
 
 } 
