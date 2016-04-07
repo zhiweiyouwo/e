@@ -88,9 +88,9 @@ public class ExceptionHandlerAdvice {
         try{
         	 loyLogService.exception(exceptionName,stackTraceMsg);
         }catch(Throwable e){
-        	logger.error(e);
+        	logger.error("",e);
         }
-		logger.error(ex);
+		logger.error("",ex);
 		ErrorResponseData data = new ErrorResponseData();
 		String msg = messageSource.getMessage(Assert.SYS_ERROR_CODE,null, UserUtils.getLocale());
 		data.setMsg(msg);
