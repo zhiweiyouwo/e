@@ -100,9 +100,8 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	   		}
 	   		],
 	   		
-			pager: pager_selector,
-			//width:$(".page-content").width(),
-			height: '310'
+			pager: pager_selector
+			//width:$(".page-content").width()
 		}).loyGrid('navGrid','#user_grid-pager',{"baseUrl":"user/",add:false});
 		userGrid.jqGrid('setFrozenColumns');
 		resizeToFitPage(userGrid);

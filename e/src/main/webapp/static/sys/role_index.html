@@ -131,7 +131,6 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 
 				pager: pager_selector,
 				width:$(".page-content").width(),
-				height: '310',
 				loadComplete:function(data){
 					loadComplete(data);
 					var list = data.data?data.data.content:null;

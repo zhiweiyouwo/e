@@ -104,7 +104,12 @@ function getFitGridWidth(w){
 		};
 	   return formatoptions;
    }
-   
+   function setGridDefaultHeight(){
+	   if($.homeGlobal.gridDefaultHeight){
+		   return $.homeGlobal.gridDefaultHeight;
+	   }
+	   return 310;
+   }
    function resizeToFitPage($jqGrid){
 	   removeHorizontalScrollBar($jqGrid);
 	// resize to fit page size
@@ -361,6 +366,7 @@ function getFitGridWidth(w){
 			cellEdit:false,
 			datatype: "json",
 	   		scrollOffset:20,
+	   		height: setGridDefaultHeight()+'',
 			shrinkToFit:window.screen.width>=$.homeGlobal.BIG_SCREEN?true:false,
 			//toppager: true, 
 			pagerpos:'center',

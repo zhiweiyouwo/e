@@ -79,11 +79,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	   		{ name: 'opTime', index: 'opTime', width: 50, align: "left",editable: false },
 	   		{ name: 'data', index: 'data', width: 200, align: "left",editable: false ,sortable: false}
 	   		],
-			pager: pager_selector,
-			height: '310',
-			loadComplete:function(data){
-				loadComplete(data);
-			}
+			pager: pager_selector
 			
 		}).loyGrid('navGrid','#log_grid-pager',{"baseUrl":"log/",
 			del:false,
