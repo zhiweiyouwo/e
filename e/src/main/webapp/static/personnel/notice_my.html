@@ -263,7 +263,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		resizeToFitPage(noticeGrid);
 	}
 	
-	$("#noticeSearchBtn").click(function(){
+	$("#noticeSearchBtn",$container).click(function(){
 		var subject = $("#noticeQueryParam_subject",$container).val();
 		var seen = $("#noticeQueryParam_seen",$container).val();
 		var postData ={"subject":subject,page:0};

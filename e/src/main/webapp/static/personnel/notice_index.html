@@ -299,7 +299,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	}
 	function edit (id){
 		clearNoticeForm();
-		$('#submitNoticeBtn').attr("url","notice/update");
+		$('#submitNoticeBtn',$container).attr("url","notice/update");
 		$.loy.ajax({
 			url:'notice/get',
 			data:{id:id},
@@ -413,10 +413,10 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 						var editDivId = "jEditButton_"+list[i].id;
 						var deleteDivId ="jDeleteButton_"+list[i].id;
 						if(list[i].noticeStatus == 'SENT'){
-							$('#'+deleteDivId,noticeGrid,$container).remove();
-							$('#'+editDivId,noticeGrid,$container).hide();
+							$('#'+deleteDivId,noticeGrid).remove();
+							$('#'+editDivId,noticeGrid).hide();
 						}else{
-							$('#'+editDivId,noticeGrid,$container).attr('onclick','').on('click',function(){
+							$('#'+editDivId,noticeGrid).attr('onclick','').on('click',function(){
 								edit($(this).closest('tr').attr('id'));
 							});
 						}
@@ -439,7 +439,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		resizeToFitPage(noticeGrid);
 	}
 	
-	$("#noticeSearchBtn").click(function(){
+	$("#noticeSearchBtn",$container).click(function(){
 		var subject = $("#noticeQueryParam_subject",$container).val();
 		var noticeStatus = $("#noticeQueryParam_noticeStatus",$container).val();
 		var postData ={"subject":subject,"noticeStatus":noticeStatus,page:0};
@@ -447,7 +447,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		
 	});
 	
-	$('#submitNoticeBtn').click(function(){
+	$('#submitNoticeBtn',$container).click(function(){
 		 var url = $(this).attr("url");
 		 $('#content',$container).val($('#contentDiv',$container).html());
 		 var form = $("#noticeForm",$container)[0];
@@ -485,7 +485,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 					 }
 				 });
 			 }
-			 $("#noticeForm").attr({
+			 $("#noticeForm",$container).attr({
 				  action: url,
 				  method: 'POST',
 				  enctype: 'multipart/form-data',
