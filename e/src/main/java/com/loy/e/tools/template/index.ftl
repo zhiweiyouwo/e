@@ -151,11 +151,11 @@
 <script type="text/javascript">
 var scripts = [ null,null ];
 $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
-	$container = $('#${entityName?replace("Entity","")?uncap_first}_container');
+	var $container = $('#${entityName?replace("Entity","")?uncap_first}_container');
 	var grid_selector  = "#${entityName?replace("Entity","")?uncap_first}_grid-table";
 	var pager_selector = "#${entityName?replace("Entity","")?uncap_first}_grid-pager";
 	
-	$('.date-picker').datepicker({
+	$('.date-picker',$container).datepicker({
 		autoclose: true,
 		format : 'yyyy-mm-dd',
 		language: $.homeGlobal.LANG,
@@ -199,8 +199,8 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 				 $this.next().css({'width': $this.parent().width()});
 			})
 		}).trigger('resize.chosen');
-		$('#${entityName?replace("Entity","")?uncap_first}ModalDiv').on('shown.bs.modal', function () {
-		$('.chosen-select',$('#${entityName?replace("Entity","")?uncap_first}ModalDiv')).each(function() {
+		$('#${entityName?replace("Entity","")?uncap_first}ModalDiv',$container).on('shown.bs.modal', function () {
+		$('.chosen-select',$('#${entityName?replace("Entity","")?uncap_first}ModalDiv',$container)).each(function() {
 			 var $this = $(this);
 			 $this.next().css({'width': $this.parent().width()});
 		});
@@ -221,7 +221,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	    create${entityName?replace("Entity","")}Grid();
 	}});
 	
-	var $validate${entityName?replace("Entity","")}Form = $('#${entityName?replace("Entity","")?uncap_first}Form').validate({
+	var $validate${entityName?replace("Entity","")}Form = $('#${entityName?replace("Entity","")?uncap_first}Form',$container).validate({
     	onsubmit:false,
     	rules : {
 			/**name : {
@@ -239,14 +239,14 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	}
 	function edit (id){
 		clear${entityName?replace("Entity","")}Form();
-		$('#submit${entityName?replace("Entity","")}Btn').attr("url","${entityName?replace("Entity","")?uncap_first}/update");
-		$('#${entityName?replace("Entity","")?uncap_first}ModalDiv').modal("show");
+		$('#submit${entityName?replace("Entity","")}Btn',$container).attr("url","${entityName?replace("Entity","")?uncap_first}/update");
+		$('#${entityName?replace("Entity","")?uncap_first}ModalDiv',$container).modal("show");
 		$.loy.ajax({
 			url:'${entityName?replace("Entity","")?uncap_first}/get',
 			data:{id:id},
 			success:function(data){
 				 var result = data.data;
-				 $('#id').val(result.id?result.id:'');
+				 $('#id',$container).val(result.id?result.id:'');
 				<#list editColumns as col> 
 				<#if col.type=='search_text' || col.type=='select'>
 				<#if col.type=='search_text'>
@@ -292,8 +292,8 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
   }
   function add(){
 		clear${entityName?replace("Entity","")}Form();
-		$('#submit${entityName?replace("Entity","")}Btn').attr("url","${entityName?replace("Entity","")?uncap_first}/save");
-		$('#${entityName?replace("Entity","")?uncap_first}ModalDiv').modal("show");
+		$('#submit${entityName?replace("Entity","")}Btn',$container).attr("url","${entityName?replace("Entity","")?uncap_first}/save");
+		$('#${entityName?replace("Entity","")?uncap_first}ModalDiv',$container).modal("show");
   }
   
   function  create${entityName?replace("Entity","")}Grid(){
@@ -308,7 +308,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 				formatoptions:getFormatoptions('${entityName?replace("Entity","")?uncap_first}/')
 			 },
 	   		 <#list listColumns as col> 
-	   		{ name: '${col.fieldName}', index: '${col.fieldName}', <#if col.formatter !=''>formatter:'${col.formatter}' ,</#if> width: 100, align: "left", editable: false<#if col.fieldName?contains(".")?string == 'true'>, formatter:function(cellvalue, options, rowObject){
+	   		{ name: '${col.fieldName}', index: '${col.fieldName}',sortable:false, <#if col.formatter !=''>formatter:'${col.formatter}' ,</#if> width: 100, align: "left", editable: false<#if col.fieldName?contains(".")?string == 'true'>, formatter:function(cellvalue, options, rowObject){
 	   			if(rowObject.${col.fieldName?substring(0,col.fieldName?index_of("."))}){
 	   				return rowObject.${col.fieldName};
 	   			}
@@ -347,18 +347,18 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		resizeToFitPage(${entityName?replace("Entity","")?uncap_first}Grid);
 	}
 	
-	$("#${entityName?replace("Entity","")?uncap_first}SearchBtn").click(function(){
+	$("#${entityName?replace("Entity","")?uncap_first}SearchBtn",$container).click(function(){
 	    var postData ={page:0};
 	    <#list conditionColumns as col>
 	    <#if col.count ==1>
 	    <#if col.type ='select'>
-	    postData["${col.combineFieldName}Id"] = $("#${col.searchQueryId}").val();	
+	    postData["${col.combineFieldName}Id"] = $("#${col.searchQueryId}",$container).val();	
 	    <#else>
-	    postData["${col.combineFieldName}"] = $("#${col.searchQueryId}").val();	
+	    postData["${col.combineFieldName}"] = $("#${col.searchQueryId}",$container).val();	
 	    </#if>
 		<#else>
-		postData["${col.combineFieldName}Start"] = $("#${col.searchQueryId}_start").val();
-		postData["${col.combineFieldName}End"] = $("#${col.searchQueryId}_end").val();
+		postData["${col.combineFieldName}Start"] = $("#${col.searchQueryId}_start",$container).val();
+		postData["${col.combineFieldName}End"] = $("#${col.searchQueryId}_end",$container).val();
 		</#if>
 		</#list>
 		${entityName?replace("Entity","")?uncap_first}Grid.loyGrid("setGridParam",{"postData":postData}).trigger("reloadGrid"); 
@@ -373,10 +373,10 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		 var url = $(this).attr("url");
          $.loy.ajax({
 				url:url,
-				data:$("#${entityName?replace("Entity","")?uncap_first}Form").serialize(),
+				data:$("#${entityName?replace("Entity","")?uncap_first}Form",$container).serialize(),
 				success:function(data){
 					if(data.success){
-						$('#${entityName?replace("Entity","")?uncap_first}ModalDiv').modal("hide");
+						$('#${entityName?replace("Entity","")?uncap_first}ModalDiv',$container).modal("hide");
 						${entityName?replace("Entity","")?uncap_first}Grid.trigger("reloadGrid");
 					}
 				}

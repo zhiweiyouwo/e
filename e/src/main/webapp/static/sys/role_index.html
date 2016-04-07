@@ -137,7 +137,11 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 					if(list){
 						for(var i=0;i<list.length;i++){
 							var delDivId = "jDeleteButton_"+list[i].id;
-							$('#'+delDivId,roleGrid).parent().append('<div title="'+$.i18n.prop("sys.role.authorization")+'"  onclick="showAuthority(\''+list[i].id+'\')" style="float:left;margin-left:5px;" class="ui-pg-div ui-inline-del"  onmouseover="jQuery(this).addClass(\'ui-state-hover\');" onmouseout="jQuery(this).removeClass(\'ui-state-hover\');"  data-original-title="所选记录"><span class="ui-icon fa-paw"></span></div>');
+							var $authority = $('<div title="'+$.i18n.prop("sys.role.authorization")+'"  id="'+list[i].id+'"  style="float:left;margin-left:5px;" class="ui-pg-div ui-inline-del"  onmouseover="jQuery(this).addClass(\'ui-state-hover\');" onmouseout="jQuery(this).removeClass(\'ui-state-hover\');"  data-original-title="所选记录"><span class="ui-icon fa-paw"></span></div>');
+							$authority.on('click',function(){
+								showAuthority($(this).attr('id'));
+							});
+							$('#'+delDivId,roleGrid).parent().append($authority);
 						}
 					}
 					//role_grid-table
@@ -191,6 +195,11 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	    }) ; 
 	   
 	});
+
+	function showAuthority(roleId){
+		$('#roleIdInput',$container).val(roleId);	      
+		$('#authorityModalDiv',$container).modal("toggle");
+	}
 	$('#submitAuthorityBtn',$container).on('click', function() {
 		var nodes = $authorityTree.getCheckedNodes();
 		var items =nodes;
@@ -217,8 +226,4 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	});
 });
 
-function showAuthority(roleId){
-	$('#roleIdInput',$container).val(roleId);	      
-	$('#authorityModalDiv',$container).modal("toggle");
-}
 </script>
