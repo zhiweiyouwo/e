@@ -184,11 +184,6 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	        data:{"roleId":$('#roleIdInput',$container).val()},
 	        success : function (data) { 
 	      	   var items = data.data;
-	      	   if(items){
-	      		   for(var i=0;i<items.length;i++){
-	      			 
-	      		   }
-	      	   }
 	      	   $authorityTree = $.fn.zTree.init($("#authorityTree",$container), setting, items);
 	      	   $authorityTree.expandAll(true)
 	        }
