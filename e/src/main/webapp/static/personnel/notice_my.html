@@ -147,7 +147,7 @@ var scripts = [ null,"static/component/assets/js/jquery.hotkeys.js",
                 "static/component/assets/js/bootstrap-wysiwyg.js",
                 "static/component/assets/js/ace/elements.wysiwyg.js",null ];
 $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
-	$container = $('#notice_my_container');
+	var $container = $('#notice_my_container');
 	var grid_selector  = "#notice_my_grid-table";
 	var pager_selector = "#notice_my_grid-pager";
 	
@@ -166,7 +166,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	}});
 	
 	
-	var $validateNoticeForm = $('#noticeForm').validate({
+	var $validateNoticeForm = $('#noticeForm',$container).validate({
     	onsubmit:false,
     	rules : {
 			subject : {
@@ -176,17 +176,17 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
     });
 	
 	function view (id){
-		$('#noticeViewModalDiv').modal("show");
+		$('#noticeViewModalDiv',$container).modal("show");
 		$.loy.ajax({
 			url:'notice/read',
 			data:{id:id},
 			success:function(data){
 				var result = data.data;
-				$('#view_subject').html(result.subject?result.subject:'');
-				$('#view_content').html(result.content?result.content:'');
+				$('#view_subject',$container).html(result.subject?result.subject:'');
+				$('#view_content',$container).html(result.content?result.content:'');
 				
 				var attachments = result.attachments;
-				var $viewAttachments = $('#view-attachments');
+				var $viewAttachments = $('#view-attachments',$container);
 				$viewAttachments.html("");
 				if(attachments){
 					for(var i=0;i<attachments.length;i++){
@@ -241,7 +241,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 						for(var i=0;i<list.length;i++){
 							var delDivId = "jSaveButton_"+list[i].notice_id;
 							var $viewButton = $('<div title="'+$.i18n.prop("look")+'"   noticeId ="'+list[i].notice_id+'"  style="float:left;margin-left:5px;" class="ui-pg-div ui-inline-del"  onmouseover="jQuery(this).addClass(\'ui-state-hover\');" onmouseout="jQuery(this).removeClass(\'ui-state-hover\');"  ><span  class="ui-icon fa-search-plus"></span></div>');
-							$('#'+delDivId).parent().append($viewButton);
+							$('#'+delDivId,$container).parent().append($viewButton);
 							$viewButton.bind('click',function(){
 								view($(this).attr("noticeId"));
 							});
@@ -265,8 +265,8 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	}
 	
 	$("#noticeSearchBtn").click(function(){
-		var subject = $("#noticeQueryParam_subject").val();
-		var seen = $("#noticeQueryParam_seen").val();
+		var subject = $("#noticeQueryParam_subject",$container).val();
+		var seen = $("#noticeQueryParam_seen",$container).val();
 		var postData ={"subject":subject,page:0};
 		if(seen != ''){
 			postData.seen=seen;

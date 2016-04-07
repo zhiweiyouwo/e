@@ -94,7 +94,7 @@
 
 var scripts = [ null, null ];
 $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
-	$container = $('#role_container');
+	var $container = $('#role_container');
 	var grid_selector  = "#role_grid-table";
 	var pager_selector = "#role_grid-pager";
 	var  roleGrid = null;
@@ -138,7 +138,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 					if(list){
 						for(var i=0;i<list.length;i++){
 							var delDivId = "jDeleteButton_"+list[i].id;
-							$('#'+delDivId).parent().append('<div title="'+$.i18n.prop("sys.role.authorization")+'"  onclick="showAuthority(\''+list[i].id+'\')" style="float:left;margin-left:5px;" class="ui-pg-div ui-inline-del"  onmouseover="jQuery(this).addClass(\'ui-state-hover\');" onmouseout="jQuery(this).removeClass(\'ui-state-hover\');"  data-original-title="所选记录"><span class="ui-icon fa-paw"></span></div>');
+							$('#'+delDivId,roleGrid).parent().append('<div title="'+$.i18n.prop("sys.role.authorization")+'"  onclick="showAuthority(\''+list[i].id+'\')" style="float:left;margin-left:5px;" class="ui-pg-div ui-inline-del"  onmouseover="jQuery(this).addClass(\'ui-state-hover\');" onmouseout="jQuery(this).removeClass(\'ui-state-hover\');"  data-original-title="所选记录"><span class="ui-icon fa-paw"></span></div>');
 						}
 					}
 					//role_grid-table
@@ -149,8 +149,8 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	
 	
 	
-	$("#roleSearchBtn").click(function(){
-		var name = $("#roleQueryParam_name").val();
+	$("#roleSearchBtn",$container).click(function(){
+		var name = $("#roleQueryParam_name",$container).val();
 		var postData ={"name":name,page:0};
 		roleGrid.loyGrid("setGridParam",{"postData":postData}).trigger("reloadGrid"); 
 	});
@@ -174,11 +174,11 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 			}
 	};
 	
-	var $authorityModal =  $("#authorityModalDiv").on('shown.bs.modal', function() {
+	var $authorityModal =  $("#authorityModalDiv",$container).on('shown.bs.modal', function() {
 		
 		$.loy.ajax({
 	        url: "role/resource",
-	        data:{"roleId":$('#roleIdInput').val()},
+	        data:{"roleId":$('#roleIdInput',$container).val()},
 	        success : function (data) { 
 	      	   var items = data.data;
 	      	   if(items){
@@ -186,13 +186,13 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	      			 
 	      		   }
 	      	   }
-	      	   $authorityTree = $.fn.zTree.init($("#authorityTree"), setting, items);
+	      	   $authorityTree = $.fn.zTree.init($("#authorityTree",$container), setting, items);
 	      	   $authorityTree.expandAll(true)
 	        }
 	    }) ; 
 	   
 	});
-	$('#submitAuthorityBtn').on('click', function() {
+	$('#submitAuthorityBtn',$container).on('click', function() {
 		var nodes = $authorityTree.getCheckedNodes();
 		var items =nodes;
 		//alert(JSON.stringify(items));
@@ -207,7 +207,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		var resourceIds = resourceIdsArr.join(",");
 		$.loy.ajax({
 	          url: "role/authority",
-	          data:{"roleId":$('#roleIdInput').val(),"resourceIds":resourceIds},
+	          data:{"roleId":$('#roleIdInput',$container).val(),"resourceIds":resourceIds},
 	          success : function (data) { 
 	        	  $authorityModal.modal("hide");
 	          },  
@@ -219,7 +219,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 });
 
 function showAuthority(roleId){
-	$('#roleIdInput').val(roleId);	      
-	$('#authorityModalDiv').modal("toggle");
+	$('#roleIdInput',$container).val(roleId);	      
+	$('#authorityModalDiv',$container).modal("toggle");
 }
 </script>

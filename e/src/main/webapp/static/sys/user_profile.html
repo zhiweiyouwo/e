@@ -177,17 +177,17 @@
 var scripts = [ null, null ]
 $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	
-	$container = $('#user_profile_container');
+	var $container = $('#user_profile_container');
 	var lang = $.homeGlobal.LANG.replace('_',"-");
 	$.loy.i18n(['sys/user'],$.homeGlobal.LANG,$container,{custCallback:function(){
 		init();
 	}});
 
-	if($('#myprofileDropdownDiv').is(':visible')){
-   		$('#myprofileDropdown').click();
+	if($('#myprofileDropdownDiv',$container).is(':visible')){
+   		$('#myprofileDropdown',$container).click();
    	}
 	
-	var $validateModifyPasswordForm = $('#modifyPasswordForm').validate({
+	var $validateModifyPasswordForm = $('#modifyPasswordForm',$container).validate({
     	onsubmit:false,
     	rules : {
     		oldPassword : {
@@ -202,7 +202,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 			},
 		}
     });
-	var $validateProfileForm = $('#profileForm').validate({
+	var $validateProfileForm = $('#profileForm',$container).validate({
     	onsubmit:false,
     	rules : {
     		email:{
@@ -215,23 +215,23 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 			url:'profile/edit',
 			success:function(data){
 				var result = data.data;
-				$('#user_name').text(result.name);
+				$('#user_name',$container).text(result.name);
 				if(result.photo){
-					$('#avatar').attr('src', "profile/photo?id="+result.id+"&m="+Math.random());
+					$('#avatar',$container).attr('src', "profile/photo?id="+result.id+"&m="+Math.random());
 				}else{
-					$('#avatar').attr('src', "static/component/assets/avatars/profile-pic.jpg");
+					$('#avatar',$container).attr('src', "static/component/assets/avatars/profile-pic.jpg");
 				}
 				
-				$('#username').text(result.username?result.username:'');
-				$('#userStatus').text(result.userStatus?result.userStatus:'');
-				$('#roleNames').text(result.roleNames?result.roleNames:'');
-				$('#name').val(result.name?result.name:'');
-				$('#email').val(result.email?result.email:'');
-				$('#phone').val(result.phone?result.phone:'');
+				$('#username',$container).text(result.username?result.username:'');
+				$('#userStatus',$container).text(result.userStatus?result.userStatus:'');
+				$('#roleNames',$container).text(result.roleNames?result.roleNames:'');
+				$('#name',$container).val(result.name?result.name:'');
+				$('#email',$container).val(result.email?result.email:'');
+				$('#phone',$container).val(result.phone?result.phone:'');
 			}
 	});
 	$('#submitBtn').click(function(){ 
-		 if(!$("#name").is(":hidden")){
+		 if(!$("#name",$container).is(":hidden")){
 			 if(!$validateProfileForm.checkForm()){
 				 $validateProfileForm.defaultShowErrors();
 				 return;
@@ -239,9 +239,9 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 			 $.loy.ajax({
 					url:'profile/update',
 					data:{
-						"name":$('#name').val(),
-						"email":$('#email').val(),
-						"phone":$('#phone').val()
+						"name":$('#name',$container).val(),
+						"email":$('#email',$container).val(),
+						"phone":$('#phone',$container).val()
 					},
 					success:function(data){
 						if(data.success){
@@ -257,8 +257,8 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 			 $.loy.ajax({
 					url:'profile/password',
 					data:{
-						"oldPassword":$('#oldPassword').val(),
-						"newPassword":$('#newPassword').val()
+						"oldPassword":$('#oldPassword',$container).val(),
+						"newPassword":$('#newPassword',$container).val()
 					},
 					success:function(data){
 						if(data.success){

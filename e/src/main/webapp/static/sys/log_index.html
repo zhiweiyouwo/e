@@ -49,7 +49,7 @@
 <script type="text/javascript">
 var scripts = [ null,null ];
 $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
-	$container = $('#log_container');
+	var $container= $('#log_container');
 	var grid_selector  = "#log_grid-table";
 	var pager_selector = "#log_grid-pager";
 	

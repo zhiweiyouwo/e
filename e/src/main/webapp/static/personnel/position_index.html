@@ -80,24 +80,25 @@
 		</div>
 	</div>
 </div>
+
 <script type="text/javascript">
 
 var scripts = [ null, null ];
 $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
-	$container = $('#position_container');
+	var $container = $('#position_container');
 	$.loy.i18n(['personnel/pos'],$.homeGlobal.LANG,$container);
     var $positionTree;
 	if(window.screen.width>=$.homeGlobal.BIG_SCREEN){
-		$('#positionTreeModal').css('height',450);
+		$('#positionTreeModal',$container).css('height',450);
 	}else{
-		$('#positionTreeModal').css('max-height',450);
+		$('#positionTreeModal',$container).css('max-height',450);
 	}
-	$('#sortNum').ace_spinner({value:0,min:0,max:500,step:1, on_sides: true,
+	$('#sortNum',$container).ace_spinner({value:0,min:0,max:500,step:1, on_sides: true,
 		icon_up:'ace-icon fa fa-plus smaller-75', 
 		icon_down:'ace-icon fa fa-minus smaller-75',
 		btn_up_class:'btn-success' , 
 		btn_down_class:'btn-danger'});
-    var $validatePositionForm = $('#positionForm').validate({
+    var $validatePositionForm = $('#positionForm',$container).validate({
     	onsubmit:false,
     	rules : {
 			name : {
@@ -106,17 +107,17 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		}
     });
 
-	$('#addBtn').click(function(){ 
-		$('#deleteBtn').hide();
+	$('#addBtn',$container).click(function(){ 
+		$('#deleteBtn',$container).hide();
 		$('#id').val('');
-		$('#parentName').val($('#name').val());
-		$('#name').val('');
-		$('#sortNum').val('');
-		$('#description').val('');
-		$('#editPositionDiv').show();
+		$('#parentName',$container).val($('#name',$container).val());
+		$('#name',$container).val('');
+		$('#sortNum',$container).val('');
+		$('#description',$container).val('');
+		$('#editPositionDiv',$container).show();
 	});
 
-	$('#submitBtn').click(function(){
+	$('#submitBtn',$container).click(function(){
 		if(!$validatePositionForm.checkForm()){
 			$validatePositionForm.defaultShowErrors();
 			return;
@@ -130,33 +131,33 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 			url:url,
 			data:{
 				"id":id,
-				"name":$('#name').val(),
-				"sortNum":$('#sortNum').val(),
-				"description":$('#description').val(),
-				"parentId":$('#parentId').val()
+				"name":$('#name',$container).val(),
+				"sortNum":$('#sortNum',$container).val(),
+				"description":$('#description',$container).val(),
+				"parentId":$('#parentId',$container).val()
 			},
 			success : function (data) {
 				if(data.success){
 					if(url == 'position/update'){
 						var node = $positionTree.getNodeByParam("id", id, null);
-						node.data = $('#name').val();
+						node.data = $('#name',$container).val();
 						$positionTree.updateNode(node);
 					}else{
 						var  id = data.data.id;
 						var pnode = $positionTree.getNodeByParam("id", $('#parentId').val(), null);
-						var newNodes = [{id:id,data:$('#name').val()}];
+						var newNodes = [{id:id,data:$('#name',$container).val()}];
 						$positionTree.addNodes(pnode, newNodes);
 						$positionTree.selectNode(newNodes[0]);
-						$('#id').val(id);
-						$('#deleteBtn').show();
+						$('#id',$container).val(id);
+						$('#deleteBtn',$container).show();
 					}
 				}
 			}
 	    });
 	});
-	$('#deleteBtn').click(function(){ 
+	$('#deleteBtn',$container).click(function(){ 
 		$.loy.confirm($.i18n.prop("personnel.pos.confirm_delete"),function(){
-			 var id = $('#id').val();
+			 var id = $('#id',$container).val();
 			 $.loy.ajax({
 					url:'position/del',
 					data:{
@@ -164,9 +165,9 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 					},
 					success : function (data) { 
 						if(data.success){
-							$('#editPositionDiv').hide();
-							$('#parentId').val(id);
-							$('#name').val(data.text);
+							$('#editPositionDiv',$container).hide();
+							$('#parentId',$container).val(id);
+							$('#name',$container).val(data.text);
 							var node = $positionTree.getNodeByParam("id", id, null);
 							$positionTree.removeNode(node);
 						}
@@ -183,15 +184,15 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 			},
 			success:function(data){
 				var data = data.data;
-				$('#parentId').val(id);
-				$('#id').val(id);
-				$('#name').val(data.name);
-				$('#sortNum').val(data.sortNum);
-				$('#description').val(data.description);
-				$('#parentName').val(data.parentName);
-				$('#editPositionDiv').show();
-				$('#deleteBtn').show();
-				$('#addBtn').show();
+				$('#parentId',$container).val(id);
+				$('#id',$container).val(id);
+				$('#name',$container).val(data.name);
+				$('#sortNum',$container).val(data.sortNum);
+				$('#description',$container).val(data.description);
+				$('#parentName',$container).val(data.parentName);
+				$('#editPositionDiv',$container).show();
+				$('#deleteBtn',$container).show();
+				$('#addBtn',$container).show();
 			}
 	   });
     }
@@ -219,7 +220,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
         url: "position/all",
         success : function (data) { 
       	   var items = data.data;
-      	   $positionTree = $.fn.zTree.init($("#positionTree"), setting, items);
+      	   $positionTree = $.fn.zTree.init($("#positionTree",$container), setting, items);
       	 $positionTree.expandAll(true);
       	   var nodes = $positionTree.getNodes();
 	       if (nodes.length>0) {
@@ -235,3 +236,4 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 
 
 </script>
+	

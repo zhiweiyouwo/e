@@ -80,24 +80,25 @@
 		</div>
 	</div>
 </div>
+
 <script type="text/javascript">
 
 var scripts = [ null, null ];
 $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
-	$container = $('#org_container');
+	var $container = $('#org_container');
 	$.loy.i18n(['personnel/org'],$.homeGlobal.LANG,$container);
 	var $orgTree;
 	if(window.screen.width>=$.homeGlobal.BIG_SCREEN){
-		$('#orgTreeModal').css('height',450);
+		$('#orgTreeModal',$container).css('height',450);
 	}else{
-		$('#orgTreeModal').css('max-height',450);
+		$('#orgTreeModal',$container).css('max-height',450);
 	}
-	$('#sortNum').ace_spinner({value:0,min:0,max:500,step:1, on_sides: true,
+	$('#sortNum',$container).ace_spinner({value:0,min:0,max:500,step:1, on_sides: true,
 		icon_up:'ace-icon fa fa-plus smaller-75', 
 		icon_down:'ace-icon fa fa-minus smaller-75',
 		btn_up_class:'btn-success' , 
 		btn_down_class:'btn-danger'});
-    var $validateOrgForm = $('#orgForm').validate({
+    var $validateOrgForm = $('#orgForm',$container).validate({
     	onsubmit:false,
     	rules : {
 			name : {
@@ -105,12 +106,12 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 			}
 		}
     });
-	$('#submitBtn').click(function(){
+	$('#submitBtn',$container).click(function(){
 		if(!$validateOrgForm.checkForm()){
 			$validateOrgForm.defaultShowErrors();
 			return;
 		}
-		var id = $('#id').val();
+		var id = $('#id',$container).val();
 		var  url ='org/save';
 		if(id && id.length>0){
 			 url ='org/update';
@@ -119,33 +120,33 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 			url:url,
 			data:{
 				"id":id,
-				"name":$('#name').val(),
-				"sortNum":$('#sortNum').val(),
-				"description":$('#description').val(),
-				"parentId":$('#parentId').val()
+				"name":$('#name',$container).val(),
+				"sortNum":$('#sortNum',$container).val(),
+				"description":$('#description',$container).val(),
+				"parentId":$('#parentId',$container).val()
 			},
 			success : function (data) {
 				if(data.success){
 					if(url == 'org/update'){
 						var node = $orgTree.getNodeByParam("id", id, null);
-						node.data = $('#name').val();
+						node.data = $('#name',$container).val();
 						$orgTree.updateNode(node);
 					}else{
 						var  id = data.data.id;
-						var pnode = $orgTree.getNodeByParam("id", $('#parentId').val(), null);
-						var newNodes = [{id:id,data:$('#name').val()}];
+						var pnode = $orgTree.getNodeByParam("id", $('#parentId',$container).val(), null);
+						var newNodes = [{id:id,data:$('#name',$container).val()}];
 						$orgTree.addNodes(pnode, newNodes);
 						$orgTree.selectNode(newNodes[0]);
-						$('#id').val(id);
-						$('#deleteBtn').show();
+						$('#id',$container).val(id);
+						$('#deleteBtn',$container).show();
 					}
 				}
 			}
 	    });
 	});
-	$('#deleteBtn').click(function(){ 
+	$('#deleteBtn',$container).click(function(){ 
 		$.loy.confirm($.i18n.prop("personnel.org.confirm_delete"),function(){
-			var id = $('#id').val();
+			var id = $('#id',$container).val();
 			 $.loy.ajax({
 					url:'org/del',
 					data:{
@@ -153,9 +154,9 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 					},
 					success : function (data) { 
 						if(data.success){
-							$('#editOrgDiv').hide();
-							$('#parentId').val(id);
-							$('#name').val(data.text);
+							$('#editOrgDiv',$container).hide();
+							$('#parentId',$container).val(id);
+							$('#name',$container).val(data.text);
 							var node = $orgTree.getNodeByParam("id", id, null);
 							$orgTree.removeNode(node);
 						}
@@ -163,14 +164,14 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 			});
 		}); 
 	 });
-	$('#addBtn').click(function(){ 
-		$('#deleteBtn').hide();
-		$('#id').val('');
-		$('#parentName').val($('#name').val());
-		$('#name').val('');
-		$('#sortNum').val('');
-		$('#description').val('');
-		$('#editOrgDiv').show();
+	$('#addBtn',$container).click(function(){ 
+		$('#deleteBtn',$container).hide();
+		$('#id',$container).val('');
+		$('#parentName',$container).val($('#name',$container).val());
+		$('#name',$container).val('');
+		$('#sortNum',$container).val('');
+		$('#description',$container).val('');
+		$('#editOrgDiv',$container).show();
 	});
     function showEdit(id){
     	 $.loy.ajax({
@@ -181,15 +182,15 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 				},
 				success:function(data){
 					var data = data.data;
-					$('#parentId').val(id);
-					$('#id').val(id);
-					$('#name').val(data.name);
-					$('#sortNum').val(data.sortNum);
-					$('#description').val(data.description);
-					$('#parentName').val(data.parentName);
-					$('#editOrgDiv').show();
-					$('#deleteBtn').show();
-					$('#addBtn').show();
+					$('#parentId',$container).val(id);
+					$('#id',$container).val(id);
+					$('#name',$container).val(data.name);
+					$('#sortNum',$container).val(data.sortNum);
+					$('#description',$container).val(data.description);
+					$('#parentName',$container).val(data.parentName);
+					$('#editOrgDiv',$container).show();
+					$('#deleteBtn',$container).show();
+					$('#addBtn',$container).show();
 				}
 		});
     }
@@ -216,7 +217,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
         url: "org/all",
         success : function (data) { 
       	   var items = data.data;
-      	   $orgTree = $.fn.zTree.init($("#orgTree"), setting, items);
+      	   $orgTree = $.fn.zTree.init($("#orgTree",$container), setting, items);
       	   $orgTree.expandAll(true);
 	       var nodes = $orgTree.getNodes();
 	       if (nodes.length>0) {
@@ -228,6 +229,5 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
      }) ; 
 
 });
-
 
 </script>

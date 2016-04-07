@@ -264,7 +264,7 @@ var scripts = [ null,"static/component/assets/js/jquery.hotkeys.js",
                 "static/component/assets/js/bootstrap-wysiwyg.js",
                 "static/component/assets/js/ace/elements.wysiwyg.js",null ];
 $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
-	$container = $('#notice_container');
+	var $container = $('#notice_container');
 	var grid_selector  = "#notice_grid-table";
 	var pager_selector = "#notice_grid-pager";
 	var colNames;
@@ -279,7 +279,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	    createNoticeGrid();
 	}});
 	
-	var $validateNoticeForm = $('#noticeForm').validate({
+	var $validateNoticeForm = $('#noticeForm',$container).validate({
     	onsubmit:false,
     	rules : {
 			subject : {
@@ -288,14 +288,14 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		}
     });
 	function clearNoticeForm(){
-		$('#id').val('');
-		$('#subject').val('');
-		$('#content').val('');
-		$('#contentDiv').html('');
-		$('#view-attachments').html('');
-		$('.notice-form .ace-file-input:not(:first-child)').remove();
-		$('.notice-form input[type=file]').ace_file_input('reset_input_ui');
-		$('a[data-action=delete]',$('#notice-form-attachments')).click();
+		$('#id',$container).val('');
+		$('#subject',$container).val('');
+		$('#content',$container).val('');
+		$('#contentDiv',$container).html('');
+		$('#view-attachments',$container).html('');
+		$('.notice-form .ace-file-input:not(:first-child)',$container).remove();
+		$('.notice-form input[type=file]',$container).ace_file_input('reset_input_ui');
+		$('a[data-action=delete]',$('#notice-form-attachments',$container)).click();
 	}
 	function edit (id){
 		clearNoticeForm();
@@ -305,20 +305,20 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 			data:{id:id},
 			success:function(data){
 				var result = data.data;
-				$('#id').val(result.id?result.id:'');
-				$('#subject').val(result.subject?result.subject:'');
-				$('#content').val(result.content?result.content:'');
-				$('#contentDiv').html((result.content?result.content:''));
+				$('#id',$container).val(result.id?result.id:'');
+				$('#subject',$container).val(result.subject?result.subject:'');
+				$('#content',$container).val(result.content?result.content:'');
+				$('#contentDiv',$container).html((result.content?result.content:''));
 				if(result.noticeStatus == 'DRAFT'){
-					$('#noticeModalDiv').modal("show");
-					$('#sendNoticeBtn').show();
-					$('#submitNoticeBtn').show();
+					$('#noticeModalDiv',$container).modal("show");
+					$('#sendNoticeBtn',$container).show();
+					$('#submitNoticeBtn',$container).show();
 				}else{
-					$('#noticeModalDiv').modal("hide");
+					$('#noticeModalDiv',$container).modal("hide");
 					return;
 				}
 				var attachments = result.attachments;
-				var $viewAttachments = $('#view-attachments');
+				var $viewAttachments = $('#view-attachments',$container);
 				$viewAttachments.html("");
 				if(attachments){
 					for(var i=0;i<attachments.length;i++){
@@ -345,14 +345,14 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	   });
 	}
 	function view (id){
-		$('#noticeViewModalDiv').modal("show");
+		$('#noticeViewModalDiv',$container).modal("show");
 		$.loy.ajax({
 			url:'notice/get',
 			data:{id:id},
 			success:function(data){
 				var result = data.data;
-				$('#view_subject').html(result.subject?result.subject:'');
-				$('#view_content').html(result.content?result.content:'');
+				$('#view_subject',$container).html(result.subject?result.subject:'');
+				$('#view_content',$container).html(result.content?result.content:'');
 				
 				var attachments = result.attachments;
 				var $viewAttachments = $('#detail-iew-attachments');
@@ -379,10 +379,10 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
   }
   function add(){
 		clearNoticeForm();
-		$('#submitNoticeBtn').attr("url","notice/save");
-		$('#noticeModalDiv').modal("show");
-		$('#sendNoticeBtn').show();
-		$('#submitNoticeBtn').show();
+		$('#submitNoticeBtn',$container).attr("url","notice/save");
+		$('#noticeModalDiv',$container).modal("show");
+		$('#sendNoticeBtn',$container).show();
+		$('#submitNoticeBtn',$container).show();
   }
   
   function  createNoticeGrid(){
@@ -414,10 +414,10 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 						var editDivId = "jEditButton_"+list[i].id;
 						var deleteDivId ="jDeleteButton_"+list[i].id;
 						if(list[i].noticeStatus == 'SENT'){
-							$('#'+deleteDivId,noticeGrid).remove();
-							$('#'+editDivId,noticeGrid).hide();
+							$('#'+deleteDivId,noticeGrid,$container).remove();
+							$('#'+editDivId,noticeGrid,$container).hide();
 						}else{
-							$('#'+editDivId,noticeGrid).attr('onclick','').on('click',function(){
+							$('#'+editDivId,noticeGrid,$container).attr('onclick','').on('click',function(){
 								edit($(this).closest('tr').attr('id'));
 							});
 						}
@@ -441,8 +441,8 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	}
 	
 	$("#noticeSearchBtn").click(function(){
-		var subject = $("#noticeQueryParam_subject").val();
-		var noticeStatus = $("#noticeQueryParam_noticeStatus").val();
+		var subject = $("#noticeQueryParam_subject",$container).val();
+		var noticeStatus = $("#noticeQueryParam_noticeStatus",$container).val();
 		var postData ={"subject":subject,"noticeStatus":noticeStatus,page:0};
 		noticeGrid.loyGrid("setGridParam",{"postData":postData}).trigger("reloadGrid"); 
 		
@@ -450,8 +450,8 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	
 	$('#submitNoticeBtn').click(function(){
 		 var url = $(this).attr("url");
-		 $('#content').val($('#contentDiv').html());
-		 var form = $("#noticeForm")[0];
+		 $('#content',$container).val($('#contentDiv',$container).html());
+		 var form = $("#noticeForm",$container)[0];
 		 if( "FormData" in window) {
 			 var formData = new FormData(form);
 			 $.loy.ajax({
@@ -461,7 +461,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 					data:formData,
 					success:function(data){
 						if(data.success){
-							$('#noticeModalDiv').modal("hide");
+							$('#noticeModalDiv',$container).modal("hide");
 							noticeGrid.trigger("reloadGrid");
 						}
 					}
@@ -475,7 +475,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 					 var result = $(window.frames["uploadFrame"].document).contents().text();
 					 var jsonResult = $.parseJSON(result)
 					 if(jsonResult.success){
-						 $('#noticeModalDiv').modal("hide");
+						 $('#noticeModalDiv',$container).modal("hide");
 						 noticeGrid.trigger("reloadGrid");
 					 }else{
 						 if(jsonResult.msg && jsonResult.msg.length>0){
@@ -497,13 +497,13 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		 } 
     });
 	
-	$('#sendNoticeBtn').click(function(){
+	$('#sendNoticeBtn',$container).click(function(){
 		 if(!$validateNoticeForm.checkForm()){
 			$validateNoticeForm.defaultShowErrors();
 			return;
 		 }
-		 $('#content').val($('#contentDiv').html());
-		 var $form = $("#noticeForm")[0];
+		 $('#content',$container).val($('#contentDiv',$container).html());
+		 var $form = $("#noticeForm",$container)[0];
 		 var formData = new FormData($form);
 		 
 		 $.loy.ajax({
@@ -513,7 +513,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 				data:formData,
 				success:function(data){
 					if(data.success){
-						$('#noticeModalDiv').modal("hide");
+						$('#noticeModalDiv',$container).modal("hide");
 						noticeGrid.trigger("reloadGrid");
 					}
 				}
@@ -541,17 +541,17 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		]
 	}).prev().addClass('wysiwyg-style1');
 	
-	$('.notice-form input[type=file]').ace_file_input()
-	.closest('.ace-file-input')
+	$('.notice-form input[type=file]',$container).ace_file_input()
+	.closest('.ace-file-input',$container)
 	.addClass('width-90 inline')
 	.wrap('<div class="form-group file-input-container"><div class="col-sm-7"></div></div>');
 	
-	$('#id-add-attachment')
+	$('#id-add-attachment',$container)
 	.on('click', function(){
-		var file = $('<input type="file" name="uploadAttachments" />').appendTo('#notice-form-attachments');
+		var file = $('<input type="file" name="uploadAttachments" />').appendTo('#notice-form-attachments',$container);
 		file.ace_file_input();
 		
-		file.closest('.ace-file-input')
+		file.closest('.ace-file-input',$container)
 		.addClass('width-90 inline')
 		.wrap('<div class="form-group file-input-container"><div class="col-sm-7"></div></div>')
 		.parent().append('<div class="action-buttons pull-right col-xs-1">\
@@ -559,7 +559,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 				<i class="ace-icon fa fa-trash-o red bigger-130 middle"></i>\
 			</a>\
 		</div>')
-		.find('a[data-action=delete]').on('click', function(e){
+		.find('a[data-action=delete]',$container).on('click', function(e){
 			//the button that removes the newly inserted file input
 			e.preventDefault();
 			$(this).closest('.file-input-container').hide(300, function(){ $(this).remove() });

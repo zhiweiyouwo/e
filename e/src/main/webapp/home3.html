@@ -336,7 +336,7 @@
                                 </li>
                                 -->
                                 <li>
-                                    <a data-url="static/sys/user_profile.html"   onclick="addMenuTab('user_profile','static/sys/user_profile.html',$(this).text())" href="#">
+                                    <a data-url="static/sys/user_profile.html" href="home.html#static/sys/user_profile.html">
                                         <i class="ace-icon fa fa-user"></i>
 										<span i18n="personal_profile"></span>
                                     </a>
@@ -422,14 +422,22 @@
             <!-- /section:basics/sidebar -->
             <div class="main-content">
                 <!-- #section:basics/content.breadcrumbs -->
-                <div id="breadcrumbs">
+                <div class="breadcrumbs" id="breadcrumbs">
                     <script type="text/javascript">
 						try {
 							ace.settings.check('breadcrumbs', 'fixed')
 						} catch (e) {
 						}
 					</script>
-                   
+                    <ul class="breadcrumb">
+                        <li>
+                            <i class="ace-icon fa fa-home home-icon"></i>
+                            <a href="home.html"  i18n="home_page">
+								 
+                            </a>
+                        </li>
+                       
+                    </ul>
                     <!-- /.breadcrumb -->
                     <!-- #section:basics/content.searchbox -->
                     <!-- 
@@ -553,19 +561,8 @@
                     </div>
                     <!-- /.ace-settings-container -->
                     <!-- /section:settings.box -->
-                   <div  style="display:" class="page-content-area" data-ajax-content="false">
+                    <div class="page-content-area" data-ajax-content="true">
                         <!-- ajax content goes here -->
-                 </div>
-                 <div class="row">
-                        <div class="col-xs-12" style="padding-left:5px;">
-                            <ul class="nav nav-tabs" role="tablist">
-                                <li class="active"><a href="#Index" role="tab" data-toggle="tab"><span i18n="home_page"></span></a></li>
-                            </ul>
-                            <div class="tab-content" style="border:0px">
-                                <div role="tabpanel" class="tab-pane active" id="Index">
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <!-- /.page-content-area -->
                 </div>
@@ -726,14 +723,7 @@
 	                        	 var cls = item.data.cls;
 	                        	 var url = item.data.url?item.data.url:'';
 	                        	 menuBuffer.push(' <li class="">');
-	                        	 var menuParams = [];
-	                        	 var id = item.id?item.id:'';
-	                        	 menuParams.push("'"+id+"'");
-	                        	 menuParams.push(",");
-	                        	 menuParams.push("'"+url+"'");
-	                        	 menuParams.push(',');
-	                        	 menuParams.push("'"+name+"'");
-	                        	 menuBuffer.push('<a  href="#" onclick=\"addMenuTab('+menuParams.join('')+')\">');
+	                        	 menuBuffer.push('<a  data-url="'+url+'" href="home.html#'+url+'">');
 	                        	 menuBuffer.push('<i class="'+cls+'"></i>');
 	                        	 menuBuffer.push(name);
 	                        	 menuBuffer.push('</a>');
@@ -820,74 +810,6 @@
         	       }
                  });
         	 }
-        });
-        addMenuTab = function(id,url,title){
-        	var options ={"id":id,"title":title,"url":url,"close": true,iframe:false};
-        	addTabs(options);
-        }
-        var addTabs = function (options) {
-            //var rand = Math.random().toString();
-            //var id = rand.substring(rand.indexOf('.') + 1);
-            //var url = window.location.protocol + '//' + window.location.host;
-            //options.url = url + options.url;
-            id = "tab_" + options.id;
-            $(".active").removeClass("active");
-            //如果TAB不存在，创建一个新的TAB
-            if (!$("#" + id)[0]) {
-                //固定TAB中IFRAME高度
-                mainHeight = $(document.body).height() - 90;
-                //创建新TAB的title
-                title = '<li role="presentation" id="tab_' + id + '"><a href="#' + id + '" aria-controls="' + id + '" role="tab" data-toggle="tab">' + options.title;
-                //是否允许关闭
-                if (options.close) {
-                    title += ' <i class="glyphicon glyphicon-remove" tabclose="' + id + '"></i>';
-                }
-                title += '</a></li>';
-                //是否指定TAB内容
-                if(options.iframe){
-                	 content = '<div role="tabpanel" class="tab-pane" id="' + id + '"><iframe src="' + options.url + '" width="100%" height="' + mainHeight +
-                     '" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="yes" allowtransparency="yes"></iframe></div>';
-                	 $(".tab-content").append(content);
-                }else{
-                	 var $content = $('<div role="tabpanel" class="tab-pane" id="' + id + '">' + '</div>');
-                	 $(".tab-content").append($content);
-                	 $.ajax({
-         				'url': options.url
-         			}).done(function(result) {
-         				$content.empty().html(result);
-         				
-         			});
-                	
-                }
-                //加入TABS
-                $(".nav-tabs").append(title);
-               
-            }
-            //激活TAB
-            $("#tab_" + id).addClass('active');
-            $("#" + id).addClass("active");
-        };
-        var closeTab = function (id) {
-            //如果关闭的是当前激活的TAB，激活他的前一个TAB
-            if ($("li.active").attr('id') == "tab_" + id) {
-                $("#tab_" + id).prev().addClass('active');
-                $("#" + id).prev().addClass('active');
-            }
-            //关闭TAB
-            $("#tab_" + id).remove();
-            $("#" + id).remove();
-        };
-        $(function () {
-            mainHeight = $(document.body).height() - 45;
-            $('.main-left,.main-right').height(mainHeight);
-            $("[addtabs]").click(function () {
-                addTabs({ id: $(this).attr("id"), title: $(this).attr('title'), close: true });
-            });
-
-            $(".nav-tabs").on("click", "[tabclose]", function (e) {
-                id = $(this).attr("tabclose");
-                closeTab(id);
-            });
         });
         function logout(){
         	

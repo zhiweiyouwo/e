@@ -65,7 +65,7 @@
 <script type="text/javascript">
 var scripts = [ null,null ];
 $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
-	$container = $('#notice_detail_container');
+	var $container = $('#notice_detail_container');
 	$.loy.i18n(['personnel/notice'],$.homeGlobal.LANG,$container);
 	
 	var id = $.loy.getUrlParam("id");
@@ -76,11 +76,11 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 			data:{id:id},
 			success:function(data){
 				var result = data.data;
-				$('#view_subject').html(result.subject?result.subject:'');
-				$('#view_content').html(result.content?result.content:'');
+				$('#view_subject',$container).html(result.subject?result.subject:'');
+				$('#view_content',$container).html(result.content?result.content:'');
 				
 				var attachments = result.attachments;
-				var $viewAttachments = $('#view-attachments');
+				var $viewAttachments = $('#view-attachments',$container);
 				$viewAttachments.html("");
 				if(attachments){
 					for(var i=0;i<attachments.length;i++){

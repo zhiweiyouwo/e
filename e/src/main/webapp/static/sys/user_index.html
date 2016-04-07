@@ -57,7 +57,7 @@
 //$.getScript("static/component/assets/js/jqGrid/i18n/grid.locale-"+lang+".js",function(){
 var scripts = [null,null];
 $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
-	$container = $('#user_container');
+	var $container = $('#user_container');
 	var grid_selector  = "#user_grid-table";
 	var pager_selector = "#user_grid-pager";
 	var lang = $.homeGlobal.LANG.replace('_',"-");
@@ -113,8 +113,8 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	
 	
 	$("#userSearchBtn").click(function(){
-		var username = $("#userQueryParam_username").val();
-		var name = $("#userQueryParam_name").val();
+		var username = $("#userQueryParam_username",$container).val();
+		var name = $("#userQueryParam_name",$container).val();
 		var postData ={"username":username,"name":name,page:0};
 		userGrid.loyGrid("setGridParam",{"postData":postData}).trigger("reloadGrid"); 
 		
