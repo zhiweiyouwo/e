@@ -197,7 +197,7 @@
 								</li>
 
 								<li class="dropdown-footer">
-									 <a data-url="static/personnel/notice_my.html" href="home.html#static/personnel/notice_my.html">
+									 <a data-url="static/personnel/notice_my.html"  onclick="addMenuTab('notice_my','static/personnel/notice_my.html',$(this).text())" href="#">
 										<span i18n="more_notification"></span>
 										<i class="ace-icon fa fa-arrow-right"></i>
 									</a>
@@ -680,8 +680,19 @@
         							   len = 5;
         						   }
         						   for(var i=0;i<len;i++){
-        							   var url = "home.html#static/personnel/notice_detail.html?id="+notices[i].id;
-        							   list.push('<li><a href="'+url+'"><i class="btn btn-xs btn-primary fa fa-user"></i>'+notices[i].subject+'</a></li>');
+       							     var url = "static/personnel/notice_detail.html?id="+notices[i].id;
+       							     var id = notices[i].id;
+       							     var name = notices[i].subject;
+        							   
+        							 var menuParams = [];
+      	                        	 menuParams.push("'"+id+"'");
+      	                        	 menuParams.push(",");
+      	                        	 menuParams.push("'"+url+"'");
+      	                        	 menuParams.push(',');
+      	                        	 menuParams.push("'"+name+"'");
+      	                        	 var addMenuStr = '<a  href="home.html#'+url+'" onclick=\"addMenuTab('+menuParams.join('')+')\">';
+      	                        	 
+        							 list.push('<li>'+addMenuStr+'<i class="btn btn-xs btn-primary fa fa-user"></i>'+notices[i].subject+'</a></li>');
         						   }
         						}
             					$noticeList.html(list.join(''));
