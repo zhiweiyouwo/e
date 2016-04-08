@@ -26,5 +26,6 @@ public @interface LoyField {
 	public String description();
 	public Op op() default Op.eq;
 	public int count() default 1;
+	public boolean often() default false;
 	boolean sortable() default false;
 }

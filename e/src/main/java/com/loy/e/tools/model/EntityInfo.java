@@ -59,6 +59,7 @@ public class EntityInfo {
 	public String orderProperty="${orderProperty}";
 	public String direction = "${direction}";
 	private boolean sortable = false;
+	private AbstractInput oftenField = null;
 	private List<String> orderFields = new ArrayList<String>();
 	public EntityInfo(Class clazz){
 		build(clazz);
@@ -252,6 +253,7 @@ public class EntityInfo {
 		ConditionParam conditionColumn = AnnotationUtils.findAnnotation(field, ConditionParam.class);
 		if(conditionColumn != null){
 			Class type = field.getType();
+			boolean often = false;
 			boolean entityFlag = Entity.class.isAssignableFrom(type);
 			if(entityFlag){
 				LoyField[]  lists = conditionColumn.list();
@@ -266,23 +268,32 @@ public class EntityInfo {
 						String fieldName =c.fieldName();
 						Field f = fieldMap.get(fieldName);
 						fieldName = fName+"."+c.fieldName();
-						
+						if(c.often()){
+							often = true;
+						}
 						buildCondition(f.getType(),c.count(),
-								fieldName,c.description(),c.op());
+								fieldName,c.description(),c.op(),often);
 					}
 				}else{
+					if(conditionColumn.often()){
+						often = true;
+					}
+						
 					buildCondition(type,conditionColumn.count(),
-							field.getName(),loyColumn.description(),conditionColumn.op());
+							field.getName(),loyColumn.description(),conditionColumn.op(),often);
 				}
 			}else{
+				if(conditionColumn.often()){
+					often = true;
+				}
 				buildCondition(type,conditionColumn.count(),
-				field.getName(),loyColumn.description(),conditionColumn.op());
+				field.getName(),loyColumn.description(),conditionColumn.op(),often);
 			}
 		}
 	}
 	
 	private void buildCondition(Class type,int count,
-			String fieldName,String fieldDiscription,Op op){
+			String fieldName,String fieldDiscription,Op op,boolean often){
 		
 		AbstractInput searchInput = null;
 		importParamClassNames.add("import "+type.getName());
@@ -325,6 +336,10 @@ public class EntityInfo {
 			i18ns.put(getPreI18n()+"."+combineFieldName, fieldDiscription);
 		}
 		searchInput.setReturnClazz(type.getSimpleName());
+		searchInput.setOften(often);
+		if(often){
+			this.oftenField = searchInput;
+		}
 		this.conditionColumns.add(searchInput);
 	}
 	
@@ -501,5 +516,15 @@ public class EntityInfo {
 	public void setOrderFields(List<String> orderFields) {
 		this.orderFields = orderFields;
 	}
+
+	public AbstractInput getOftenField() {
+		return oftenField;
+	}
+
+	public void setOftenField(AbstractInput oftenField) {
+		this.oftenField = oftenField;
+	}
+
+	
     
 }

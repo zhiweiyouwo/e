@@ -19,6 +19,7 @@ public abstract class AbstractInput {
 	private String labelName;
 	private Op op;
 	private int count = 1;
+	private boolean often = false;
 	private EntityInfo entityInfo;
 	private String returnClazz = "String";
 	
@@ -56,6 +57,12 @@ public abstract class AbstractInput {
 		return this.entityInfo.getEntityName();
 	}
 	
+	public boolean isOften() {
+		return often;
+	}
+	public void setOften(boolean often) {
+		this.often = often;
+	}
 	public String getSearchQueryId(){
 		String fieldName = this.getCombineFieldName();
 		fieldName.replace("\\.", "_");

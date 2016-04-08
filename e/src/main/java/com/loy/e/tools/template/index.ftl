@@ -1,10 +1,20 @@
 	<div  id="${entityName?replace("Entity","")?uncap_first}_container">
 	<div class="row">
 		<div class="col-xs-12">
-			<div class="widget-box  ui-sortable-handle">
-				<div class="widget-header"><a href="#" ><span  onclick="$('#${entityName?replace("Entity","")?uncap_first}SearchBtn').click()" class="ace-icon fa fa-search icon-on-right bigger-110"></span></a>
+			<div id="search_box" class="widget-box  ui-sortable-handle <#if oftenField??>collapsed</#if>">
+				<div class="widget-header">
+				    <#if oftenField??>
+				    <div class="nav-search"  style="padding-top: 5px;  right: 50px">
+						<span class="input-icon">
+							<input type="text"  i18n="${oftenField.i18nKey}" placeholder ="${oftenField.labelName}"   id="${oftenField.searchQueryId}" class="nav-search-input"  >
+							<i class="ace-icon fa fa-search nav-search-icon" onclick="$('#${entityName?replace("Entity","")?uncap_first}SearchBtn',$('#${entityName?replace("Entity","")?uncap_first}_container')).click()" ></i>
+						</span>
+					</div>
+				    <#else>
+				     <a href="#" ><span  onclick="$('#${entityName?replace("Entity","")?uncap_first}SearchBtn',$('#${entityName?replace("Entity","")?uncap_first}_container')).click()" class="ace-icon fa fa-search icon-on-right bigger-110"></span></a>
 					<h5 class="widget-title" i18n="search_condition"></h5>
-
+				    </#if>
+				    
 					<div class="widget-toolbar">
 						<a href="#" data-action="collapse">
 							<i class="1 ace-icon fa bigger-125 fa-chevron-up"></i>
@@ -13,11 +23,11 @@
 
 				</div>
 
-				<div class="widget-body" style="display: block;">
+				<div class="widget-body" style="display: <#if oftenField??>none</#if>;">
 					<div class="widget-main">
 						<div class="row">
 						      <#list conditionColumns as col> 
-							   ${col.conditionHtml}
+							   <#if !col.often>${col.conditionHtml}</#if>
 							   </#list>
 					           <div class="col-xs-12 col-sm-2 " style="float:right">
 							    <div id="${entityName?replace("Entity","")?uncap_first}SearchDiv" class="input-group" style="padding-bottom: 2px">
@@ -206,7 +216,19 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		});
 	 });
 	</#if>	
-	
+	<#if oftenField??>
+	$('#${oftenField.searchQueryId}').bind('keypress',function(event){
+        if(event.keyCode == "13"){
+           $('#${entityName?replace("Entity","")?uncap_first}SearchBtn',$container).click();
+        }
+    });
+	$('#search_box',$container).on('shown.ace.widget', function(e) {
+		$('.chosen-container',$('#search_box')).each(function() {
+			 var $this = $(this);
+			 $this.css({'width': $this.parent().width()});
+		});
+	});
+	</#if>
     <#list conditionColumns as col> 
 	<#if col.type=='select'>
 	 $.loy.buildSelectOptions('${col.searchQueryId}',$('#${col.searchQueryId}',$container).attr("group"),$.i18n.prop("all"));

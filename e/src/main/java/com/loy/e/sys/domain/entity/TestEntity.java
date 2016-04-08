@@ -32,7 +32,7 @@ public class TestEntity extends BaseEntity{
 	    		lists={@LoyField(description="姓名",fieldName="name"),
 	    			  @LoyField(description="邮箱",fieldName="email")})
 	 
-	@ConditionParam(list={@LoyField(fieldName="name",description="姓名")})
+	//@ConditionParam(list={@LoyField(fieldName="name",description="姓名")})
     @ManyToOne
     private UserEntity user;
 	 
@@ -41,7 +41,7 @@ public class TestEntity extends BaseEntity{
 	 @ManyToOne
 	 private DictionaryEntity status;
 	 
-	//@ConditionParam(op=Op.eq, name = "name")
+	@ConditionParam(op=Op.eq,often=true)
     @LoyColumn(description="测试名",sortable=true)
 	private String name;
     
