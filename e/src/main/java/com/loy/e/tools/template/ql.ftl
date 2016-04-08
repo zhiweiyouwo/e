@@ -26,6 +26,7 @@
         ${left}/@notEmpty>
         </#if>
 		</#list> 
+		<#if sortable>${left}@notEmpty name="orderProperty"> order by x.${orderProperty} ${direction} ${left}/@notEmpty></#if>
     ]]>   
     </hql-query>  
 </dynamic-ql-statement> 

@@ -1,7 +1,7 @@
 package com.loy.e.sys.domain;
 
 import com.loy.e.core.annotation.ConditionParam;
-import com.loy.e.core.annotation.Op;
+import com.loy.e.core.query.Op;
 import com.loy.e.core.query.SortQueryParam;
 /**
  * 

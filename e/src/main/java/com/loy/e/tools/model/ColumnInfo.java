@@ -15,6 +15,7 @@ public class ColumnInfo {
 	private String description;
 	private String fieldName;
 	private String formatter = "";
+	private boolean sortable  = false;
 	private EntityInfo entityInfo;
 	
 	public ColumnInfo(EntityInfo entityInfo){
@@ -41,6 +42,14 @@ public class ColumnInfo {
 	
 	
 	
+	public boolean isSortable() {
+		return sortable;
+	}
+
+	public void setSortable(boolean sortable) {
+		this.sortable = sortable;
+	}
+
 	/**
 	 * 
 	 * @return
@@ -70,4 +79,5 @@ public class ColumnInfo {
 	public void setFormatter(String formatter) {
 		this.formatter = formatter;
 	}
+	
 }

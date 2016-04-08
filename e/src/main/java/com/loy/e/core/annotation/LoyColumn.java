@@ -25,6 +25,7 @@ public @interface LoyColumn {
 	boolean detail() default true;
 	String description();
 	String column() default "";
+	boolean sortable() default false;
 	InputClazz inputType() default InputClazz.NONE;
 	
 	LoyField[] lists() default {};

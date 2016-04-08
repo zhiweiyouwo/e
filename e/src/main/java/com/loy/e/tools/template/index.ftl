@@ -308,7 +308,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 				formatoptions:getFormatoptions('${entityName?replace("Entity","")?uncap_first}/')
 			 },
 	   		 <#list listColumns as col> 
-	   		{ name: '${col.fieldName}', index: '${col.fieldName}',sortable:false, <#if col.formatter !=''>formatter:'${col.formatter}' ,</#if> width: 100, align: "left", editable: false<#if col.fieldName?contains(".")?string == 'true'>, formatter:function(cellvalue, options, rowObject){
+	   		{ name: '${col.fieldName}', index: '${col.fieldName}',sortable:<#if col.sortable>true<#else>false</#if>, <#if col.formatter !=''>formatter:'${col.formatter}' ,</#if> width: 100, align: "left", editable: false<#if col.fieldName?contains(".")?string == 'true'>, formatter:function(cellvalue, options, rowObject){
 	   			if(rowObject.${col.fieldName?substring(0,col.fieldName?index_of("."))}){
 	   				return rowObject.${col.fieldName};
 	   			}

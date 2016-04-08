@@ -2,7 +2,7 @@ package com.loy.e.tools.component;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.loy.e.core.annotation.Op;
+import com.loy.e.core.query.Op;
 import com.loy.e.tools.model.EntityInfo;
 import com.loy.e.tools.util.ToolStringUtils;
 

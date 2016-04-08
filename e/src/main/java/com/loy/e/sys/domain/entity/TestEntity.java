@@ -12,8 +12,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.loy.e.core.annotation.ConditionParam;
 import com.loy.e.core.annotation.LoyColumn;
 import com.loy.e.core.annotation.LoyEntity;
-import com.loy.e.core.annotation.Op;
 import com.loy.e.core.entity.BaseEntity;
+import com.loy.e.core.query.Op;
 import com.loy.e.core.annotation.LoyField;
 /**
  * 
@@ -42,7 +42,7 @@ public class TestEntity extends BaseEntity{
 	 private DictionaryEntity status;
 	 
 	//@ConditionParam(op=Op.eq, name = "name")
-    @LoyColumn(description="测试名")
+    @LoyColumn(description="测试名",sortable=true)
 	private String name;
     
 	@DateTimeFormat(pattern="yyyy-MM-dd")

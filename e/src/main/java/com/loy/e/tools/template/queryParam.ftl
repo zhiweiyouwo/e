@@ -1,7 +1,8 @@
 package ${domainPackageName};
 
 import com.loy.e.core.annotation.ConditionParam;
-import com.loy.e.core.annotation.Op;
+import com.loy.e.core.query.Op;
+<#if sortable>import com.loy.e.core.query.SortQueryParam;</#if>
 <#list importParamClassNames as c> 
 ${c};
 </#list>
@@ -13,7 +14,7 @@ ${c};
  * @version 1.0.0
  * 
  */
-public class ${entityName?replace("Entity","")}QueryParam {
+public class ${entityName?replace("Entity","")}QueryParam <#if sortable> extends SortQueryParam </#if>{
 
 <#list conditionColumns as condition>  
  <#if condition.count ==1>

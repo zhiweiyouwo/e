@@ -1,4 +1,4 @@
-package com.loy.e.core.annotation;
+package com.loy.e.core.query;
 
 
 /**

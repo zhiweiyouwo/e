@@ -20,6 +20,10 @@ import ${domainPackageName}.entity.${entityName};
 ${importClassName};
 </#list>
 import ${repositoryPackageName}.${entityName?replace("Entity","")}Repository;
+<#if sortable>
+import com.loy.e.core.query.Direction;
+import org.apache.commons.lang.ArrayUtils;
+</#if>
 /**
  * 
  * @author Loy Fu qq群 540553957
@@ -53,6 +57,9 @@ public class ${entityName?replace("Entity","")}ServiceImpl {
        <#list conditionColumns as condition>
        <#if condition.count==2 && condition.type =='date'>
 		if(${entityName?replace("Entity","")?uncap_first}QueryParam != null){
+		    <#if sortable>
+	        processSort(${entityName?replace("Entity","")?uncap_first}QueryParam);
+	        </#if>
 			Date ${condition.combineFieldName}End = ${entityName?replace("Entity","")?uncap_first}QueryParam.get${condition.combineFieldName?cap_first}End();
 			if(${condition.combineFieldName}End != null){
 				${condition.combineFieldName}End = DateUtil.addOneDay(dateEnd);
@@ -153,4 +160,24 @@ public class ${entityName?replace("Entity","")}ServiceImpl {
 		out.flush();
 		out.close();
 	}
+	
+	
+	<#if sortable>
+	private void processSort(${entityName?replace("Entity","")}QueryParam ${entityName?replace("Entity","")?uncap_first}QueryParam){
+		    String orderProperity = ${entityName?replace("Entity","")?uncap_first}QueryParam.getOrderProperty();
+			if(StringUtils.isNotEmpty(orderProperity)){
+				String[] orderProperties = {<#list orderFields as orderField>"${orderField}"<#if orderField_has_next> ,</#if></#list>};
+				if(ArrayUtils.contains(orderProperties, orderProperity)){
+					String direction = ${entityName?replace("Entity","")?uncap_first}QueryParam.getDirection();
+					if(!Direction.ASC.getInfo().equalsIgnoreCase(direction) && 
+							!Direction.DESC.getInfo().equalsIgnoreCase(direction)){
+						${entityName?replace("Entity","")?uncap_first}QueryParam.setDirection(Direction.DESC.getInfo());
+					}
+				}
+			}else{
+				${entityName?replace("Entity","")?uncap_first}QueryParam.setOrderProperty("");
+				${entityName?replace("Entity","")?uncap_first}QueryParam.setDirection("");
+			}
+	}
+	</#if>	
 }

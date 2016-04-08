@@ -6,6 +6,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import com.loy.e.core.query.Op;
+
 /**
  * 
  * @author Loy Fu qq群 540553957
@@ -24,4 +26,5 @@ public @interface LoyField {
 	public String description();
 	public Op op() default Op.eq;
 	public int count() default 1;
+	boolean sortable() default false;
 }

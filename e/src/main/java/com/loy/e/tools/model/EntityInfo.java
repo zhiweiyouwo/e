@@ -19,8 +19,8 @@ import com.loy.e.core.annotation.ConditionParam;
 import com.loy.e.core.annotation.LoyColumn;
 import com.loy.e.core.annotation.LoyEntity;
 import com.loy.e.core.annotation.LoyField;
-import com.loy.e.core.annotation.Op;
 import com.loy.e.core.entity.Entity;
+import com.loy.e.core.query.Op;
 import com.loy.e.core.util.DateUtil;
 import com.loy.e.sys.domain.entity.DictionaryEntity;
 import com.loy.e.sys.repository.DictionaryRepository;
@@ -56,7 +56,10 @@ public class EntityInfo {
 	public String entityName;
 	public String modelName;
 	public String left="<";
-	
+	public String orderProperty="${orderProperty}";
+	public String direction = "${direction}";
+	private boolean sortable = false;
+	private List<String> orderFields = new ArrayList<String>();
 	public EntityInfo(Class clazz){
 		build(clazz);
 	}
@@ -216,6 +219,11 @@ public class EntityInfo {
 			if(lists.length>0){
 				for(LoyField c : lists){
 					ColumnInfo columnInfo = new ColumnInfo(this);
+					if(c.sortable()){
+						this.sortable = true;
+						columnInfo.setSortable(true);
+						orderFields.add(field.getName()+"."+c.fieldName());
+					}
 					String fName = field.getName();
 					fName = fName+"."+c.fieldName();
 					columnInfo.setFieldName(fName);
@@ -226,6 +234,11 @@ public class EntityInfo {
 			}
 		}else{
 			ColumnInfo columnInfo = new ColumnInfo(this);
+			if(loyColumn.sortable()){
+				this.sortable = true;
+				columnInfo.setSortable(true);
+				orderFields.add(field.getName());
+			}
 			columnInfo.setFieldName(field.getName());
 			columnInfo.setDescription(loyColumn.description());
 			if(type == Date.class){
@@ -453,6 +466,40 @@ public class EntityInfo {
 
 	public void setImportParamClassNames(Set<String> importParamClassNames) {
 		this.importParamClassNames = importParamClassNames;
+	}
+
+	public boolean isSortable() {
+		return sortable;
+	}
+
+	public void setSortable(boolean sortable) {
+		this.sortable = sortable;
+	}
+
+	
+
+	public String getOrderProperty() {
+		return orderProperty;
+	}
+
+	public void setOrderProperty(String orderProperty) {
+		this.orderProperty = orderProperty;
+	}
+
+	public String getDirection() {
+		return direction;
+	}
+
+	public void setDirection(String direction) {
+		this.direction = direction;
+	}
+
+	public List<String> getOrderFields() {
+		return orderFields;
+	}
+
+	public void setOrderFields(List<String> orderFields) {
+		this.orderFields = orderFields;
 	}
     
 }

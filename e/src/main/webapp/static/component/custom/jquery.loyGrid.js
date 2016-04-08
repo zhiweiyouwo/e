@@ -392,7 +392,7 @@ function getFitGridWidth(w){
 			prmNames : {
 				page:"page", // 表示请求页码的参数名称
 				rows:"size", // 表示请求行数的参数名称
-				sort: "orderProperity", // 表示用于排序的列名的参数名称
+				sort: "orderProperty", // 表示用于排序的列名的参数名称
 				order: "direction", // 表示采用的排序方式的参数名称
 				//search:"_search", // 表示是否是搜索请求的参数名称
 				//nd:"nd", // 表示已经发送请求的次数的参数名称

@@ -45,10 +45,8 @@ public class NotEmpty implements TemplateDirectiveModel{
 				  }
 			  }
 		 }
- 
-    	 if (body != null && empty) {
-    		 out = new StringWriter();
-         } 
-    	 body.render(out);
+    	 if (body != null && !empty) {
+    		 body.render(out);
+         }
     }   
 }
