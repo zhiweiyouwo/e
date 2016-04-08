@@ -104,7 +104,7 @@ function getFitGridWidth(w){
 		};
 	   return formatoptions;
    }
-   function setGridDefaultHeight(){
+   function getGridDefaultHeight(){
 	   if($.homeGlobal.gridDefaultHeight){
 		   return $.homeGlobal.gridDefaultHeight;
 	   }
@@ -366,7 +366,7 @@ function getFitGridWidth(w){
 			cellEdit:false,
 			datatype: "json",
 	   		scrollOffset:20,
-	   		height: setGridDefaultHeight()+'',
+	   		height: getGridDefaultHeight()+'',
 			shrinkToFit:window.screen.width>=$.homeGlobal.BIG_SCREEN?true:false,
 			//toppager: true, 
 			pagerpos:'center',

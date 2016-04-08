@@ -227,6 +227,12 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 			 var $this = $(this);
 			 $this.css({'width': $this.parent().width()});
 		});
+		var searchConditionHeight = $('.widget-body',$('#search_box')).height();
+		${entityName?replace("Entity","")?uncap_first}Grid.setGridHeight(getGridDefaultHeight()-searchConditionHeight);
+	});
+	$('#search_box',$container).on('hide.ace.widget', function(e) {
+		var searchConditionHeight = $('.widget-body',$('#search_box')).height();
+		${entityName?replace("Entity","")?uncap_first}Grid.setGridHeight(getGridDefaultHeight());
 	});
 	</#if>
     <#list conditionColumns as col> 
@@ -340,7 +346,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	   		],
 			pager: pager_selector,
 			//width:$(".page-content").width(),
-			height: '310',
+			//height: '310',
 			loadComplete:function(data){
 				loadComplete(data);
 				var list = data.data?data.data.content:null;
