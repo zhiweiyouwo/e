@@ -2,24 +2,23 @@
 	<div class="row">
 		<div class="col-xs-12">
 		
-			<div class="widget-box  ui-sortable-handle">
-				<div class="widget-header"><a href="#" ><span  onclick="$('#logSearchBtn',$('#log_container')).click()" class="ace-icon fa fa-search icon-on-right bigger-110"></span></a>
-					<h5 class="widget-title"  i18n="search_condition"></h5>
-
-					<div class="widget-toolbar">
-						<a href="#" data-action="collapse">
-							<i class="1 ace-icon fa bigger-125 fa-chevron-up"></i>
-						</a>
+				<div id="search_box" class="widget-box  ui-sortable-handle collapsed">
+				<div class="widget-header">
+				
+				  <div class="nav-search"  style="padding-top: 5px;  right: 50px">
+						<span class="input-icon">
+							<input type="text"  id="logQueryParam_name" i18n="sys.log.name" placeholder ="操作者"  class="nav-search-input"  >
+							<i class="ace-icon fa fa-search nav-search-icon" onclick="$('#logSearchBtn',$('#log_container')).click()" ></i>
+						</span>
 					</div>
-
+					
 				</div>
 
-				<div class="widget-body" style="display: block;">
+				<div class="widget-body" style="display: none;height:0px">
 					<div class="widget-main">
 						<div class="row">
 					           <div class="col-xs-12 col-sm-6 ">
-							    <div id="userSearchDiv" class="input-group col-xs-12  col-sm-6  " style="padding-bottom: 2px">
-									<input type="text" id="logQueryParam_name" i18n="sys.log.name" placeholder ="操作者" class="form-control search-query" >
+							    <div id="userSearchDiv" class="input-group col-xs-12  col-sm-6  " style="padding-bottom: 2px;display: none">
 									<span class="input-group-btn">
 										<button id="logSearchBtn" type="button" class="btn btn-purple btn-sm">
 											<span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
@@ -90,7 +89,12 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		logGrid.jqGrid('setFrozenColumns');
 		resizeToFitPage(logGrid);
 	}
-	$("#logSearchBtn").click(function(){
+	$('#logQueryParam_name',$container).bind('keypress',function(event){
+        if(event.keyCode == "13"){
+           $('#logSearchBtn',$container).click();
+        }
+    });
+	$("#logSearchBtn",$container).click(function(){
 		var name = $("#logQueryParam_name").val();
 		var postData ={"name":name,page:0};
 		logGrid.loyGrid("setGridParam",{"postData":postData}).trigger("reloadGrid"); 

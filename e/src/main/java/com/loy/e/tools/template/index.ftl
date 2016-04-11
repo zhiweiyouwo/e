@@ -217,7 +217,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	 });
 	</#if>	
 	<#if oftenField??>
-	$('#${oftenField.searchQueryId}').bind('keypress',function(event){
+	$('#${oftenField.searchQueryId}',$container).bind('keypress',function(event){
         if(event.keyCode == "13"){
            $('#${entityName?replace("Entity","")?uncap_first}SearchBtn',$container).click();
         }

@@ -1,10 +1,14 @@
 <div  id="employee_container">
 	<div class="row">
 		<div class="col-xs-12">
-		
-			<div class="widget-box  ui-sortable-handle">
-				<div class="widget-header"><a href="#" ><span  onclick="$('#employeeSearchBtn',$('#employee_container')).click()" class="ace-icon fa fa-search icon-on-right bigger-110"></span></a>
-					<h5 class="widget-title" i18n="search_condition"></h5>
+		<div id="search_box" class="widget-box  ui-sortable-handle collapsed">
+				<div class="widget-header">
+				 <div class="nav-search"  style="padding-top: 5px;  right: 50px">
+						<span class="input-icon">
+							<input type="text"  id="employeeQueryParam_name"  i18n="personnel.emp.name"  placeholder ="姓名" class="nav-search-input"  >
+							<i class="ace-icon fa fa-search nav-search-icon" onclick="$('#employeeSearchBtn',$('#employee_container')).click()" ></i>
+						</span>
+					</div>
 
 					<div class="widget-toolbar">
 						<a href="#" data-action="collapse">
@@ -14,7 +18,7 @@
 
 				</div>
 
-				<div class="widget-body" style="display: block;">
+				<div class="widget-body" style="display: none;">
 					<div class="widget-main">
 					
 						<div class="row">
@@ -23,7 +27,6 @@
 					           </div>
 					           <div class="col-xs-12 col-sm-6 ">
 							    <div id="employeeSearchDiv" class="input-group col-xs-12  col-sm-6  " style="padding-bottom: 2px">
-									<input type="text" id="employeeQueryParam_name"  i18n="personnel.emp.name"  placeholder ="姓名" class="form-control search-query" >
 									<span class="input-group-btn">
 										<button id="employeeSearchBtn" type="button" class="btn btn-purple btn-sm">
 											<span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
@@ -365,8 +368,14 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		employeeGrid.jqGrid('setFrozenColumns');
 		resizeToFitPage(employeeGrid);
 	}
+	$('#employeeQueryParam_name',$container).bind('keypress',function(event){
+        if(event.keyCode == "13"){
+           $('#employeeSearchBtn',$container).click();
+        }
+    });
 	
-	$("#employeeSearchBtn").click(function(){
+	
+	$("#employeeSearchBtn",$container).click(function(){
 		var employeeNo = $("#employeeQueryParam_employeeNo",$container).val();
 		var name = $("#employeeQueryParam_name",$container).val();
 		var postData ={"employeeNo":employeeNo,"name":name,page:0};
