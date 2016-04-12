@@ -223,15 +223,15 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
         }
     });
 	$('#search_box',$container).on('shown.ace.widget', function(e) {
-		$('.chosen-container',$('#search_box')).each(function() {
+		$('.chosen-container',$('#search_box',$container)).each(function() {
 			 var $this = $(this);
 			 $this.css({'width': $this.parent().width()});
 		});
-		var searchConditionHeight = $('.widget-body',$('#search_box')).height();
+		var searchConditionHeight = $('.widget-body',$('#search_box',$container)).height();
 		${entityName?replace("Entity","")?uncap_first}Grid.setGridHeight(getGridDefaultHeight()-searchConditionHeight);
 	});
 	$('#search_box',$container).on('hide.ace.widget', function(e) {
-		var searchConditionHeight = $('.widget-body',$('#search_box')).height();
+		var searchConditionHeight = $('.widget-body',$('#search_box',$container)).height();
 		${entityName?replace("Entity","")?uncap_first}Grid.setGridHeight(getGridDefaultHeight());
 	});
 	</#if>
