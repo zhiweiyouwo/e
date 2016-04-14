@@ -238,6 +238,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 			 }
 			 $.loy.ajax({
 					url:'profile/update',
+					showSuccess:true,
 					data:{
 						"name":$('#name',$container).val(),
 						"email":$('#email',$container).val(),
@@ -256,6 +257,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 			 }
 			 $.loy.ajax({
 					url:'profile/password',
+					showSuccess:true,
 					data:{
 						"oldPassword":$('#oldPassword',$container).val(),
 						"newPassword":$('#newPassword',$container).val()

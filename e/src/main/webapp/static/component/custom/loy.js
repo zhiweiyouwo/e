@@ -152,7 +152,7 @@
 		url:'',
 		shade:true,
 		showErrorMsg:true,
-		showSuccess:true
+		showSuccess:false
 	};
 	
 	$.loy = $.extend({}, $.loy);

@@ -468,6 +468,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 					contentType: false,  
 			        processData: false,  
 					data:formData,
+					showSuccess:true,
 					success:function(data){
 						if(data.success){
 							$('#noticeModalDiv',$container).modal("hide");

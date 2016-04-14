@@ -558,11 +558,11 @@
                  </div>
                  <div class="row">
                         <div class="col-xs-12" style="padding-left:5px;">
-                            <ul class="nav nav-tabs" role="tablist">
-                                <li class="active"><a href="#Index" role="tab" data-toggle="tab"><span i18n="home_page"></span></a></li>
+                            <ul id="homeMainNav" class="nav nav-tabs" role="tablist">
+                                <li class="active mtab"><a href="#Index" role="tab" data-toggle="tab"><span i18n="home_page"></span></a></li>
                             </ul>
-                            <div class="tab-content" style="border:0px;padding-top: 2px;padding-left:0px">
-                                <div role="tabpanel" class="tab-pane active" id="Index">
+                            <div id="homeMainTab" class="tab-content" style="border:0px;padding-top: 2px;padding-left:0px">
+                                <div role="tabpanel" class="tab-pane active mtab" id="Index">
                                 </div>
                             </div>
                         </div>
@@ -843,7 +843,7 @@
             //var url = window.location.protocol + '//' + window.location.host;
             //options.url = url + options.url;
             id = "tab_" + options.id;
-            $(".active").removeClass("active");
+            $(".active").filter(".mtab").removeClass("active");
             //如果TAB不存在，创建一个新的TAB
             if (!$("#" + id)[0]) {
                 //固定TAB中IFRAME高度
@@ -859,10 +859,10 @@
                 if(options.iframe){
                 	 content = '<div role="tabpanel" class="tab-pane" id="' + id + '"><iframe src="' + options.url + '" width="100%" height="' + mainHeight +
                      '" frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="yes" allowtransparency="yes"></iframe></div>';
-                	 $(".tab-content").append(content);
+                	 $("#homeMainTab").append(content);
                 }else{
                 	 var $content = $('<div role="tabpanel" class="tab-pane" id="' + id + '">' + '</div>');
-                	 $(".tab-content").append($content);
+                	 $("#homeMainTab").append($content);
                 	 $.ajax({
          				'url': options.url
          			}).done(function(result) {
@@ -872,12 +872,12 @@
                 	
                 }
                 //加入TABS
-                $(".nav-tabs").append(title);
+                $("#homeMainNav").append(title);
                
             }
             //激活TAB
-            $("#tab_" + id).addClass('active');
-            $("#" + id).addClass("active");
+            $("#tab_" + id).addClass('active mtab');
+            $("#" + id).addClass("active mtab");
         };
         var closeTab = function (id) {
             //如果关闭的是当前激活的TAB，激活他的前一个TAB
@@ -896,7 +896,7 @@
                 addTabs({ id: $(this).attr("id"), title: $(this).attr('title'), close: true });
             });
 
-            $(".nav-tabs").on("click", "[tabclose]", function (e) {
+            $("#homeMainNav").on("click", "[tabclose]", function (e) {
                 id = $(this).attr("tabclose");
                 closeTab(id);
             });

@@ -391,6 +391,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		 var url = $(this).attr("url");
 		 $.loy.ajax({
 				url:url,
+				showSuccess:true,
 				data:$("#employeeForm",$container).serialize(),
 				success:function(data){
 					if(data.success){

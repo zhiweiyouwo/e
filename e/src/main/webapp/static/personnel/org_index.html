@@ -118,6 +118,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		}
 		$.loy.ajax({
 			url:url,
+			showSuccess:true,
 			data:{
 				"id":id,
 				"name":$('#name',$container).val(),
@@ -149,6 +150,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 			var id = $('#id',$container).val();
 			 $.loy.ajax({
 					url:'org/del',
+					showSuccess:true,
 					data:{
 						"id":id
 					},
