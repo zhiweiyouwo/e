@@ -1,3 +1,20 @@
+function   combineFieldName(fieldName){
+	var strs=fieldName.split("\.");
+	var temp = "";
+    for (i=0;i<strs.length ;i++ )   {   
+       if(i==0){
+    	   temp = strs[0];
+       }else{
+    	   temp = temp+strs[i].substring(0,1).toUpperCase( ) +  strs[i].substring(1);  
+       }   
+    }   
+    return temp;
+}
+function buildId(fieldName){
+	var id = fieldName.replace("\.","_");
+    return id;
+}
+
 
 (function($){
 	 $.homeGlobal = {"homeBaseDataFinish":false,
@@ -13,6 +30,120 @@
         	 }
 	 };
 	$.loy = $.extend({}, $.loy);
+	
+	
+	$.loy.buildColNames = function (loyModel){
+		var colNames =[' '];
+		for(var i=0;i<loyModel.cols.length;i++){
+			var col = loyModel.cols[i];
+			if(col.list){
+				colNames.push($.i18n.prop(loyModel.preI18n+"."+combineFieldName(col.fieldName)));
+			}
+	    }
+		return colNames;
+	}
+	$.loy.buildGridColModels = function (loyModel){
+		var colModels= [
+					 {name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false ,
+						formatter:'actions', 
+						formatoptions:getFormatoptions(loyModel.entityName+'/')
+					 }];
+		for(var i=0;i<loyModel.cols.length;i++){
+			var col = loyModel.cols[i];
+			if(col.list){
+				var colModel = { name: col.fieldName, index: col.fieldName,sortable:col.sortable,  width: 100, align: "left", editable: false} 
+				var strs=colModel.name.split("\.");
+				if(strs.length>1){
+					colModel.formatter=function(cellvalue, options, rowObject){
+						var strs=options.colModel.name.split("\.");
+						var v = rowObject;
+						for(var j=0;j<strs.length;j++){
+							var key = strs[j];
+							if(v){
+								v = v[key];
+							}
+						}
+						if(v){
+							return v;
+						}
+						return "";
+					}
+				}else{
+					if(col.formatter && col.formatter !=""){
+						colModel.formatter = col.formatter;
+					}
+				}
+				colModels.push(colModel);	
+			}
+	    }	
+		return colModels;
+	}
+
+
+	$.loy.clearForm =function (loyModel){
+		var $container =loyModel.container;
+		for(var i=0;i<loyModel.cols.length;i++){
+			var col = loyModel.cols[i];
+			if(col.edit){
+				var id = buildId(col.fieldName);
+				$('#'+id,$container).val('');
+				if(col.properties.input_type=="search_text" ||
+						col.properties.input_type=="select"){
+					$('#'+id,$container).trigger("chosen:updated");
+				}
+			}
+	    }
+	}
+	$.loy.editForm = function (result,loyModel){
+		var $container =loyModel.container;
+		for(var i=0;i<loyModel.cols.length;i++){
+			var col = loyModel.cols[i];
+			if(col.edit){
+				    var id = buildId(col.fieldName);
+					var strs=col.fieldName.split("\.");
+					var v = result;
+					for(var j=0;j<strs.length;j++){
+						var key = strs[j];
+						if(v){
+							v = v[key];
+						}
+					}
+					if(col.properties.input_type=="date"){
+						v = v?v.substring(0,10):"";
+					}
+					$('#'+id,$container).val(v?v:"");
+					if(col.properties.input_type=="select" || col.properties.input_type=="search_text"){
+						if(col.properties.input_type=="search_text"){
+							if(v !=''){
+								 var name = result.user.name?result[strs[0]].name:'';
+								 $('#'+id,$container).html('<option value=""></option> <option selected value="'+v+'">'+name+'</option>');
+							}
+						}
+						$('#'+id,$container).trigger("chosen:updated");
+					}
+			}
+	    }
+	}
+	$.loy.detail =function (loyModel,result){
+		var $container =loyModel.container;
+		for(var i=0;i<loyModel.cols.length;i++){
+			var col = loyModel.cols[i];
+			var v = result;
+			if(col.detail){
+			    var id = buildId(col.fieldName);
+				var strs=col.fieldName.split("\.");
+				for(var j=0;j<strs.length;j++){
+					var key = strs[j];
+					if(v){
+						v = v[key];
+					}
+				}
+				$('#view_'+id,$container).html(v?v:'');
+			}
+	    }
+	}
+	
+	
 	$.loy.getUrlParam= function(paramName){
         var reg = new RegExp("(^|&)" + paramName + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
         var url = window.location.href;

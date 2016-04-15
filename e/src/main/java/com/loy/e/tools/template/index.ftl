@@ -310,9 +310,9 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 				var result = data.data;
 				<#list detailColumns as col> 
 				<#if col.formatter =='date'>
-				  $('#view_${col.combineFieldName}',$container).html(result.${col.fieldName}?result.${col.fieldName}.substring(0,10):'');
+				  $('#view_${col.inputId}',$container).html(result.${col.fieldName}?result.${col.fieldName}.substring(0,10):'');
 				<#else>
-				  $('#view_${col.combineFieldName}',$container).html(result.${col.fieldName}?result.${col.fieldName}:'');
+				  $('#view_${col.inputId}',$container).html(result.${col.fieldName}?result.${col.fieldName}:'');
 				</#if>
 				</#list>
 			}

@@ -19,7 +19,7 @@ public class TextAreaInput extends AbstractInput{
 	public String getHtml() {
 		StringBuilder buffer = new StringBuilder();
 		buffer.append("<textarea type=\"text\"  i18n=\""+this.getI18nKey()+"\" placeholder =\""+this.getLabelName()+"\" class=\"form-control search-query\" ");
-		buffer.append("id=\"").append(this.getSearchQueryId()).append("\"");
+		buffer.append("id=\"").append(this.getInputId()).append("\"");
 		buffer.append(" name=\"").append(this.getFieldName()).append("\"");
 		buffer.append(" ></textarea>");
 		return buffer.toString();

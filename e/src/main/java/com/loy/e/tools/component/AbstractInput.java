@@ -112,6 +112,9 @@ public abstract class AbstractInput {
 	public void setReturnClazz(String returnClazz) {
 		this.returnClazz = returnClazz;
 	}
+	public EntityInfo getEntityInfo() {
+		return entityInfo;
+	}
 	
 	
 }

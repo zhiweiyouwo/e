@@ -12,11 +12,11 @@ import com.loy.e.tools.util.ToolStringUtils;
  */
 public class ColumnInfo {
 	
-	private String description;
-	private String fieldName;
-	private String formatter = "";
-	private boolean sortable  = false;
-	private EntityInfo entityInfo;
+	protected String description;
+	protected String fieldName;
+	protected String formatter = "";
+	protected boolean sortable  = false;
+	protected EntityInfo entityInfo;
 	
 	public ColumnInfo(EntityInfo entityInfo){
 		this.entityInfo = entityInfo;
@@ -79,5 +79,7 @@ public class ColumnInfo {
 	public void setFormatter(String formatter) {
 		this.formatter = formatter;
 	}
-	
+	public String getInputId(){
+		return fieldName.replace(".", "_");
+	}
 }

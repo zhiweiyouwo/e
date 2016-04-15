@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -525,6 +526,50 @@ public class EntityInfo {
 		this.oftenField = oftenField;
 	}
 
-	
+	public Collection<ModelColumn> getModelColumns(){
+		Map<String,ModelColumn>modelColumns = new HashMap<String,ModelColumn>();
+
+		for(ColumnInfo columnInfo :this.listColumns){
+			ModelColumn modelColumn = new ModelColumn(columnInfo);
+			modelColumns.put(modelColumn.getFieldName(), modelColumn);
+		}
+		
+		for(AbstractInput columnInfo :this.editColumns){
+			String fieldName = columnInfo.getFieldName();
+			ModelColumn modelColumn = modelColumns.get(fieldName);
+			if(modelColumn == null){
+				modelColumn = new ModelColumn(columnInfo.getEntityInfo());
+				modelColumn.list = false;
+				Map<String,String> properties = modelColumn.properties;
+				String inputType = columnInfo.getType();
+				properties.put("input_type", inputType);
+				modelColumn.setFieldName(columnInfo.getInputName());
+				if("select".equals(inputType)){
+					SelectInput selectInput = (SelectInput)columnInfo;
+					properties.put("group", selectInput.getGroup());
+				}else if("search_text".equals(inputType)){
+					SearchInput searchInput = (SearchInput)columnInfo;
+					properties.put("label", searchInput.getLabel());
+					properties.put("tableName", searchInput.getTableName());
+				}
+			}
+			modelColumn.edit = true;
+			modelColumns.put(modelColumn.getFieldName(), modelColumn);
+		}
+		for(ColumnInfo columnInfo :this.detailColumns){
+			String fieldName = columnInfo.getFieldName();
+			ModelColumn modelColumn = modelColumns.get(fieldName);
+			if(modelColumn == null){
+				modelColumn = new ModelColumn(columnInfo);
+				modelColumn.list = false;
+				modelColumn.edit = false;
+				modelColumn.setFieldName(columnInfo.getFieldName());
+			}
+			modelColumn.detail = true;
+			modelColumns.put(modelColumn.getFieldName(), modelColumn);
+		}
+		
+		return modelColumns.values();
+	}
     
 }
