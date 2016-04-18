@@ -66,4 +66,5 @@ public class SearchInput extends AbstractInput{
 	public String getInputName(){
 		return super.getInputName()+".id";
 	}
+	
 }

@@ -1,3 +1,4 @@
+
 function   combineFieldName(fieldName){
 	var strs=fieldName.split("\.");
 	var temp = "";
@@ -10,29 +11,33 @@ function   combineFieldName(fieldName){
     }   
     return temp;
 }
+
 function buildId(fieldName){
 	var id = fieldName.replace("\.","_");
     return id;
 }
+function chosenFitLen($container){
+	 $(window)
+		.off('resize.chosen')
+		.on('resize.chosen', function() {
+			$('.chosen-select').each(function() {
+				 var $this = $(this);
+				 $this.next().css({'width': $this.parent().width()});
+			})
+		}).trigger('resize.chosen');
+		$('#editModalDiv',$container).on('shown.bs.modal', function () {
+		$('.chosen-select',$('#editModalDiv',$container)).each(function() {
+			 var $this = $(this);
+			 $this.next().css({'width': $this.parent().width()});
+		});
+	 });
+}
 
-
-(function($){
-	 $.homeGlobal = {"homeBaseDataFinish":false,
-			 "i18n":false,
-			 "LANG" :"zh_CN",
-			 "messageFinish":false,
-			 "USER_ID":null,
-			 "accessCodes":null,
-			 "BIG_SCREEN":1024,
-			 hs:null,
-			 callbackAceAjax : function(hash){
-        		 this.hs = hash;
-        	 }
-	 };
-	$.loy = $.extend({}, $.loy);
+loyControl = function(loyModel){
+	var loyModel = loyModel;
+	var $container = loyModel.$container;
 	
-	
-	$.loy.buildColNames = function (loyModel){
+	this.buildColNames  = function (){
 		var colNames =[' '];
 		for(var i=0;i<loyModel.cols.length;i++){
 			var col = loyModel.cols[i];
@@ -41,12 +46,13 @@ function buildId(fieldName){
 			}
 	    }
 		return colNames;
-	}
-	$.loy.buildGridColModels = function (loyModel){
+	};
+	
+	this.buildGridColModels = function (){
 		var colModels= [
 					 {name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false ,
 						formatter:'actions', 
-						formatoptions:getFormatoptions(loyModel.entityName+'/')
+						formatoptions:getFormatoptions(loyModel.modelName+'/')
 					 }];
 		for(var i=0;i<loyModel.cols.length;i++){
 			var col = loyModel.cols[i];
@@ -77,11 +83,10 @@ function buildId(fieldName){
 			}
 	    }	
 		return colModels;
-	}
-
-
-	$.loy.clearForm =function (loyModel){
-		var $container =loyModel.container;
+	};
+	
+	
+	this.clearForm =function (){
 		for(var i=0;i<loyModel.cols.length;i++){
 			var col = loyModel.cols[i];
 			if(col.edit){
@@ -93,9 +98,9 @@ function buildId(fieldName){
 				}
 			}
 	    }
-	}
-	$.loy.editForm = function (result,loyModel){
-		var $container =loyModel.container;
+	};
+	
+	this.fillForm = function (result){
 		for(var i=0;i<loyModel.cols.length;i++){
 			var col = loyModel.cols[i];
 			if(col.edit){
@@ -111,7 +116,7 @@ function buildId(fieldName){
 					if(col.properties.input_type=="date"){
 						v = v?v.substring(0,10):"";
 					}
-					$('#'+id,$container).val(v?v:"");
+					$('#'+id,this.$container).val(v?v:"");
 					if(col.properties.input_type=="select" || col.properties.input_type=="search_text"){
 						if(col.properties.input_type=="search_text"){
 							if(v !=''){
@@ -123,9 +128,133 @@ function buildId(fieldName){
 					}
 			}
 	    }
-	}
-	$.loy.detail =function (loyModel,result){
-		var $container =loyModel.container;
+	};
+	
+	this.edit = function (id){
+		var fillForm = this.fillForm;
+		this.clearForm();
+		$('#submitBtn',$container).attr("url",loyModel.modelName+"/update");
+		$('#editModalDiv',$container).modal("show");
+		$.loy.ajax({
+			url:loyModel.modelName+'/get',
+			data:{id:id},
+			success:function(data){
+				 var result = data.data;
+				 $('#id',$container).val(result.id?result.id:'');
+				 fillForm(result);
+			}
+	   });
+	};
+	
+	this.buildDetailWin =function (){
+		var temp = [];
+		temp.push('<div id="viewModalDiv" class="modal fade" tabindex="-1" data-backdrop="static">');
+		temp.push('<div class="modal-dialog" >');
+				temp.push('<div class="modal-content">');
+						temp.push('<div class="modal-header no-padding">');
+								temp.push('<div class="table-header">');
+										temp.push('<button type="button" class="close" data-dismiss="modal" aria-hidden="true">');
+										temp.push('<span class="white">&times;</span>');
+										temp.push('</button>');
+										var detailTitle = $.i18n.prop(loyModel.preI18n+'.detail'+loyModel.modelName.substring(0,1).toUpperCase( ) +  loyModel.modelName.substring(1)); 
+										temp.push('<span >'+detailTitle+'</span>');
+								temp.push('</div>');
+						temp.push('</div>');
+						temp.push('<div class="modal-body" style="max-height: 450px;overflow-y: scroll;">');
+								temp.push('<div id="modal-tip" class="red clearfix"></div>');
+								temp.push('<div>');
+								
+		for(var i=0;i<loyModel.cols.length;i++){
+			var col = loyModel.cols[i];
+			if(col.detail){
+			    var id = buildId(col.fieldName);
+			    temp.push('<div class="row" style="padding-bottom: 2px">');
+			    temp.push('<div class="form-group">');
+			    var i18nValue = $.i18n.prop(col.i18nKey);
+			    temp.push('<label class="col-sm-3 control-label"  i18n="'+col.i18nKey+'">'+i18nValue+'</label>');
+			    temp.push('<div class="col-sm-6"  id="view_'+id+'">'); 
+			    temp.push('</div>');
+			    temp.push('</div>');
+			    temp.push('</div>');
+			}				
+	    }
+		temp.push('</form>');
+		temp.push('</div>');
+		temp.push('</div>');
+		temp.push('</div>');
+		temp.push('<div class="modal-footer no-margin-top">');
+				temp.push('<div class="text-center">');
+						temp.push('<button class="btn btn-sm"  data-dismiss="modal">');
+						temp.push('<i class="ace-icon fa fa-share "></i>');
+						temp.push('<span i18n="cancel">'+$.i18n.prop("cancel")+'</span>');
+						temp.push('</button>');
+temp.push('</div>');
+temp.push('</div>');
+temp.push('</div>');
+temp.push('</div>');
+temp.push('</div>');
+		return temp.join(" ");
+	};
+	
+	
+	
+	this.buildEditWin = function(){
+		
+		var temp = [];
+		temp.push('<div id="editModalDiv" class="modal fade" tabindex="-1" data-backdrop="static">');
+		  temp.push('<div class="modal-dialog" >');
+			temp.push('<div class="modal-content">');
+			  temp.push('<div class="modal-header no-padding">');
+				temp.push('<div class="table-header">');
+					temp.push('<button type="button" class="close" data-dismiss="modal" aria-hidden="true">');
+					temp.push('<span class="white">&times;</span>');
+					temp.push('</button>');
+					var editTitle = $.i18n.prop(loyModel.preI18n+'.edit'+loyModel.modelName.substring(0,1).toUpperCase( ) +  loyModel.modelName.substring(1)); 
+					temp.push('<span >'+editTitle+'</span>');
+				temp.push('</div>');
+			  temp.push('</div>');
+			  temp.push('<div class="modal-body" style="max-height: 450px;overflow-y: scroll;">');
+				temp.push('<div id="modal-tip" class="red clearfix"></div>');
+				  temp.push('<div>');
+				  temp.push('<div class="widget-body">');
+					temp.push('<form id="editForm" name="editForm" class="form-horizontal  col-xs-12">');
+					  temp.push('<input type="hidden"  name="id" id="id"/>');
+					  
+					  for(var i=0;i<loyModel.cols.length;i++){
+						var col = loyModel.cols[i];
+						if(col.edit){
+						    var id = buildId(col.fieldName);
+						    var name = col.fieldName;
+						    var inputHtml = buildInputHtml(col.properties.input_type,id,name,col.i18nKey,col.properties)
+						    temp.push(inputHtml);
+						}
+					  }
+					  
+					temp.push('</form>');
+	               temp.push('</div>');
+				 temp.push('</div>');
+			   temp.push('</div>');
+			   temp.push('<div class="modal-footer no-margin-top">');
+				 temp.push('<div class="text-center">');
+				   temp.push('<button id="submitBtn"  class="btn btn-sm btn-primary">');
+				   temp.push('<i class="ace-icon fa fa-floppy-o"></i>');
+				   temp.push('<span i18n="save">'+$.i18n.prop("save")+'</span>');
+				   temp.push('</button>');
+				   temp.push('<button class="btn btn-sm"  data-dismiss="modal"');
+				   temp.push('<i class="ace-icon fa fa-share"></i>');
+				   temp.push('<span i18n="cancel">'+$.i18n.prop("cancel")+'</span>');
+				   temp.push('</button>');
+				 temp.push('</div>');
+			   temp.push('</div>');
+			 temp.push('</div>');
+           temp.push('</div>');
+		temp.push('</div>');																								temp.push('<div class="widget-body">');
+																																temp.push('<form id="editForm" name="testForm" class="form-horizontal  col-xs-12">');
+		return temp.join('');																																temp.push('<input type="hidden"  name="id" id="id"/>');
+	};
+	
+	
+	this.detail =function (result){
 		for(var i=0;i<loyModel.cols.length;i++){
 			var col = loyModel.cols[i];
 			var v = result;
@@ -141,7 +270,145 @@ function buildId(fieldName){
 				$('#view_'+id,$container).html(v?v:'');
 			}
 	    }
-	}
+	};
+	this.createGrid = function(){
+		
+	};
+	
+   this.view = function (id){
+		$('#viewModalDiv',$container).modal("show");
+		var detail = this.detail;
+		$.loy.ajax({
+			url:loyModel.modelName+'/get',
+			data:{id:id},
+			success:function(data){
+				var result = data.data;
+				detail(result);
+			}
+	});
+	
+  };
+  this.add = function add(){
+		this.clearForm();
+		$('#submitBtn',$container).attr("url",loyModel.modelName+"/save");
+		$('#editModalDiv',$container).modal("show");
+  }
+  this.submit = function(grid){
+	  var url = $(this).attr("url");
+      $.loy.ajax({
+				url:url,
+				data:$("#editForm",$container).serialize(),
+				success:function(data){
+					if(data.success){
+						$('#editModalDiv',$container).modal("hide");
+						grid.trigger("reloadGrid");
+					}
+				}
+		});
+ };
+ }
+
+function buildInputHtml(inputType,id,name,i18n,properties){
+	var i18nValue =  $.i18n.prop(i18n);
+	var inputTypes = {
+		text:function(id,name,i18n,properties){
+			var buffer = [];
+			buffer.push('<div class="form-group">');
+			  buffer.push('<label class="col-sm-3 control-label" i18n="'+i18n+'">'+i18nValue+'</label>');
+			  buffer.push('<div class="col-sm-6">');
+				buffer.push('<input type="text"  class="form-control" id="'+id+'" name="'+name+'" />');
+              buffer.push('</div>');
+			buffer.push('</div>');
+			return buffer.join('')
+		},
+		text_area:function(id,name,i18nValue,properties){
+			var buffer = [];
+			buffer.push('<div class="form-group">');
+			  buffer.push('<label class="col-sm-3 control-label"  i18n="'+i18n+'">'+i18nValue+'</label>');
+			  buffer.push('<div class="col-sm-6">');
+				buffer.push(' <textarea type="text"   class="form-control" id="'+id+'" name="'+name+'" ></textarea>');
+              buffer.push('</div>');
+			buffer.push('</div>');
+			return buffer.join('');
+		},
+		date:function(id,name,i18nValue,properties){
+			var buffer = [];
+			buffer.push('<div class="form-group">');
+			  buffer.push('<label class="col-sm-3 control-label"  i18n="'+i18n+'">'+i18nValue+'</label>');
+			  buffer.push('<div class="col-sm-6">');
+			  buffer.push('<div class="input-group"><input type="text"  class="form-control  date-picker" id="'+id+'" name="'+name+'" /><span class="input-group-addon"><i class="fa fa-calendar bigger-110"></i></span></div>');
+              buffer.push('</div>');
+			buffer.push('</div>');
+			return buffer.join('');
+			 
+		},
+		select:function(id,name,i18nValue,properties){
+			var buffer = [];
+			buffer.push('<div class="form-group">');
+			  buffer.push('<label class="col-sm-3 control-label"  i18n="'+i18n+'">'+i18nValue+'</label>');
+			  buffer.push('<div class="col-sm-6">');
+			  buffer.push('  <select class="form-control chosen-select" group="'+properties.group+'" id="'+id+'" name="'+name+'"> <option value=""></option> </select>');
+              buffer.push('</div>');
+			buffer.push('</div>');
+			return buffer.join('');
+			 
+		},
+		search_text:function(id,name,i18nValue,properties){
+			var buffer = [];
+			buffer.push('<div class="form-group">');
+			  buffer.push('<label class="col-sm-3 control-label"  i18n="'+i18n+'">'+i18nValue+'</label>');
+			  buffer.push('<div class="col-sm-6">');
+			  buffer.push(' <select class="form-control chosen-select" id="'+id+'" name="'+name+'" label="'+properties.name+'" tableName="'+properties.tableName+'"> <option value=""></option> </select>');
+              buffer.push('</div>');
+			buffer.push('</div>');
+			return buffer.join('');
+			 
+		},
+		integer:function(id,name,i18nValue,properties){
+			var buffer = [];
+			buffer.push('<div class="form-group">');
+			  buffer.push('<label class="col-sm-3 control-label"  i18n="'+i18n+'">'+i18nValue+'</label>');
+			  buffer.push('<div class="col-sm-6">');
+			  buffer.push(' <input type="text"  class="form-control spinner" id="'+id+'" name="'+name+'" />');
+              buffer.push('</div>');
+			buffer.push('</div>');
+			return buffer.join('');
+			 
+		},
+		float:function(id,name,i18nValue,properties){
+			var buffer = [];
+			buffer.push('<div class="form-group">');
+			  buffer.push('<label class="col-sm-3 control-label"  i18n="'+i18n+'">'+i18nValue+'</label>');
+			  buffer.push('<div class="col-sm-6">');
+			  buffer.push(' <input type="text"  class="form-control spinner" id="'+id+'" name="'+name+'" />');
+              buffer.push('</div>');
+			buffer.push('</div>');
+			return buffer.join('');
+			 
+		}
+	};
+	return inputTypes[inputType](id,name,i18nValue,properties);
+	
+}
+
+(function($){
+	 $.homeGlobal = {"homeBaseDataFinish":false,
+			 "i18n":false,
+			 "LANG" :"zh_CN",
+			 "messageFinish":false,
+			 "USER_ID":null,
+			 "accessCodes":null,
+			 "BIG_SCREEN":1024,
+			 hs:null,
+			 callbackAceAjax : function(hash){
+        		 this.hs = hash;
+        	 }
+	 };
+	$.loy = $.extend({}, $.loy);
+	
+	
+
+
 	
 	
 	$.loy.getUrlParam= function(paramName){
@@ -364,3 +631,4 @@ function buildId(fieldName){
 		}	
 	}
 })(jQuery);
+

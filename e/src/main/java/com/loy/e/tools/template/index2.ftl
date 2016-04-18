@@ -7,11 +7,11 @@
 				    <div class="nav-search"  style="padding-top: 5px;  right: 50px">
 						<span class="input-icon">
 							<input type="text"  i18n="${oftenField.i18nKey}" placeholder ="${oftenField.labelName}"   id="${oftenField.searchQueryId}" class="nav-search-input"  >
-							<i class="ace-icon fa fa-search nav-search-icon" onclick="$('#${entityName?replace("Entity","")?uncap_first}SearchBtn',$('#${entityName?replace("Entity","")?uncap_first}_container')).click()" ></i>
+							<i class="ace-icon fa fa-search nav-search-icon" onclick="$('#searchBtn',$('#${entityName?replace("Entity","")?uncap_first}_container')).click()" ></i>
 						</span>
 					</div>
 				    <#else>
-				     <a href="#" ><span  onclick="$('#${entityName?replace("Entity","")?uncap_first}SearchBtn',$('#${entityName?replace("Entity","")?uncap_first}_container')).click()" class="ace-icon fa fa-search icon-on-right bigger-110"></span></a>
+				     <a href="#" ><span  onclick="$('#searchBtn',$('#${entityName?replace("Entity","")?uncap_first}_container')).click()" class="ace-icon fa fa-search icon-on-right bigger-110"></span></a>
 					<h5 class="widget-title" i18n="search_condition"></h5>
 				    </#if>
 				    
@@ -32,7 +32,7 @@
 					           <div class="col-xs-12 col-sm-2 " style="float:right">
 							    <div id="${entityName?replace("Entity","")?uncap_first}SearchDiv" class="input-group" style="padding-bottom: 2px">
 									<span class="input-group-btn" >
-										<button id="${entityName?replace("Entity","")?uncap_first}SearchBtn" type="button" class="btn btn-purple btn-sm">
+										<button id="searchBtn" type="button" class="btn btn-purple btn-sm">
 											<span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
 											<span i18n="find"></span>
 										</button>
@@ -56,103 +56,6 @@
 	<!-- /.row -->
 	
 	
-	<div id="${entityName?replace("Entity","")?uncap_first}ModalDiv" class="modal fade" tabindex="-1" data-backdrop="static">
-		<div class="modal-dialog" >
-				<div class="modal-content">
-					<div class="modal-header no-padding">
-						<div class="table-header">
-							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-								<span class="white">&times;</span>
-							</button>
-							<span i18n="${editI18nKey}"></span>
-						</div>
-					</div>
-					<div class="modal-body" style="max-height: 450px;overflow-y: scroll;">
-						<div id="modal-tip" class="red clearfix"></div>
-						<div>
-							<div class="widget-body">
-								<form id="${entityName?replace("Entity","")?uncap_first}Form" name="${entityName?replace("Entity","")?uncap_first}Form" class="form-horizontal  col-xs-12">
-								     <input type="hidden"  name="id" id="id"/>
-								    <#list editColumns as col> 
-                                    <div class="row" style="padding-bottom: 2px">
-								         <div class="form-group">
-					                          <label class="col-sm-3 control-label"  i18n="${col.i18nKey}"></label>
-					                          <div class="col-sm-6">
-					                             ${col.html}
-					                          </div>
-					                     </div>
-                                    </div>
-							       </#list>
-								</form>
-									
-							</div>
-						</div>
-					</div>
-					<div class="modal-footer no-margin-top">
-						<div class="text-center">
-							
-							<button id="submit${entityName?replace("Entity","")}Btn"  class="btn btn-sm btn-primary">
-							  <i class="ace-icon fa fa-floppy-o"></i>
-							  <span i18n="save"></span>
-							</button>
-							
-							<button class="btn btn-sm"  data-dismiss="modal">
-							  <i class="ace-icon fa fa-share "></i>
-							 <span i18n="cancel"></span>
-							</button>
-						</div>
-					</div>
-				</div><!-- /.modal-content -->
-			
-		</div><!-- /.modal-dialog -->
-	</div>
-	
-	
-	
-	
-     <div id="${entityName?replace("Entity","")?uncap_first}ViewModalDiv" class="modal fade" tabindex="-1" data-backdrop="static">
-		<div class="modal-dialog" >
-				<div class="modal-content">
-					<div class="modal-header no-padding">
-						<div class="table-header">
-							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-								<span class="white">&times;</span>
-							</button>
-							<span i18n="${detailI18nKey}"></span>
-						</div>
-					</div>
-					<div class="modal-body" style="max-height: 450px;overflow-y: scroll;">
-						<div id="modal-tip" class="red clearfix"></div>
-						<div>
-							<div class="widget-body">
-								<form class="form-horizontal  col-xs-12">
-								    
-								    <#list detailColumns as col> 
-                                    <div class="row" style="padding-bottom: 2px">
-								         <div class="form-group">
-					                          <label class="col-sm-3 control-label"  i18n="${col.i18nKey}"></label>
-					                          <div class="col-sm-6"  id="view_${col.inputId}"> 
-					                          </div>
-					                     </div>
-                                    </div>
-							       </#list>
-								</form>
-									
-							</div>
-						</div>
-					</div>
-					<div class="modal-footer no-margin-top">
-						<div class="text-center">
-							<button class="btn btn-sm"  data-dismiss="modal">
-							  <i class="ace-icon fa fa-share "></i>
-							 <span i18n="cancel"></span>
-							</button>
-						</div>
-					</div>
-				</div><!-- /.modal-content -->
-			
-		</div><!-- /.modal-dialog -->
-	</div>
 	
 </div>
 
@@ -163,10 +66,10 @@ var scripts = [ null,null ];
 $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
     var loyModel = {
     preI18n:"${preI18n}",
-    entityName:"${entityName?replace("Entity","")?uncap_first}",
+    modelName:"${entityName?replace("Entity","")?uncap_first}",
     cols:[
 	    <#list modelColumns as col> 
-	    {list:${col.list?string('true','false')},edit:${col.edit?string('true','false')},detail:${col.detail?string('true','false')},fieldName:"${col.fieldName}",formatter:"${col.formatter}",sortable:${col.sortable?string('true','false')}<#if col.edit?string('true','false')=='true'>,
+	    {i18nKey:"${col.i18nKey}",list:${col.list?string('true','false')},edit:${col.edit?string('true','false')},detail:${col.detail?string('true','false')},fieldName:"${col.fieldName}",formatter:"${col.formatter}",sortable:${col.sortable?string('true','false')}<#if col.edit?string('true','false')=='true'>,
 	     properties:{
 		     <#list col.properties?keys as key>
 		     ${key}:"${col.properties[key]}"<#if key_has_next> ,</#if>
@@ -178,29 +81,65 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	var grid_selector  = "#${entityName?replace("Entity","")?uncap_first}_grid-table";
 	var pager_selector = "#${entityName?replace("Entity","")?uncap_first}_grid-pager";
 	loyModel.container = $container;
-	$('.date-picker',$container).datepicker({
-		autoclose: true,
-		format : 'yyyy-mm-dd',
-		language: $.homeGlobal.LANG,
-		todayHighlight: true
-	}).next().on(ace.click_event, function(){
-		$(this).prev().focus();
-	});
+	var control = new loyControl(loyModel);
 	
-	$('.spinner',$container).ace_spinner({value:0,min:0,max:500,step:1, on_sides: true,
-		icon_up:'ace-icon fa fa-plus smaller-75', 
-		icon_down:'ace-icon fa fa-minus smaller-75',
-		btn_up_class:'btn-success' , 
-		btn_down_class:'btn-danger'});
 		
 	
 	var colNames;
 	var colModels;
 	var  ${entityName?replace("Entity","")?uncap_first}Grid = null;
 	$.loy.i18n(['${modelName}/${entityName?replace("Entity","")?uncap_first}'],$.homeGlobal.LANG,$container,{custCallback:function(){
-		$('input, textarea',$container).placeholder();
-		colNames = $.loy.buildColNames(loyModel);
-        colModels = $.loy.buildGridColModels(loyModel);
+		
+		colNames = control.buildColNames(loyModel);
+        colModels = control.buildGridColModels(loyModel);
+        
+        var buildEditWinStr = control.buildEditWin(loyModel);
+        $container.append(buildEditWinStr);
+        
+        var buildDetailWinStr = control.buildDetailWin(loyModel);
+        $container.append(buildDetailWinStr);
+        
+	    $('.date-picker',$container).datepicker({
+			autoclose: true,
+			format : 'yyyy-mm-dd',
+			language: $.homeGlobal.LANG,
+			todayHighlight: true
+		}).next().on(ace.click_event, function(){
+			$(this).prev().focus();
+		});
+		
+		$('.spinner',$container).ace_spinner({value:0,min:0,max:500,step:1, on_sides: true,
+			icon_up:'ace-icon fa fa-plus smaller-75', 
+			icon_down:'ace-icon fa fa-minus smaller-75',
+			btn_up_class:'btn-success' , 
+			btn_down_class:'btn-danger'});
+		
+		
+	    var $validate${entityName?replace("Entity","")}Form = $('#editForm',$container).validate({
+	    	onsubmit:false,
+	    	rules : {
+				/**name : {
+					required : true,
+				}*/
+			}
+	    });
+        $('#submitBtn').click(function(){
+		     if(!$validate${entityName?replace("Entity","")}Form.checkForm()){
+				$validate${entityName?replace("Entity","")}Form.defaultShowErrors();
+				return;
+			 }
+			 var url = $(this).attr("url");
+	         $.loy.ajax({
+					url:url,
+					data:$("#editForm",$container).serialize(),
+					success:function(data){
+						if(data.success){
+							$('#editModalDiv',$container).modal("hide");
+							${entityName?replace("Entity","")?uncap_first}Grid.trigger("reloadGrid");
+						}
+					}
+			});
+      });
     <#assign cchosen = false>
 	<#list editColumns as col> 
 	 <#if col.type=='search_text'>
@@ -211,39 +150,14 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	</#if>
 	</#list>
 	<#if cchosen>
-	 $(window)
-		.off('resize.chosen')
-		.on('resize.chosen', function() {
-			$('.chosen-select').each(function() {
-				 var $this = $(this);
-				 $this.next().css({'width': $this.parent().width()});
-			})
-		}).trigger('resize.chosen');
-		$('#${entityName?replace("Entity","")?uncap_first}ModalDiv',$container).on('shown.bs.modal', function () {
-		$('.chosen-select',$('#${entityName?replace("Entity","")?uncap_first}ModalDiv',$container)).each(function() {
-			 var $this = $(this);
-			 $this.next().css({'width': $this.parent().width()});
-		});
-	 });
+	chosenFitLen($container);
 	</#if>	
 	<#if oftenField??>
 	$('#${oftenField.searchQueryId}',$container).bind('keypress',function(event){
         if(event.keyCode == "13"){
-           $('#${entityName?replace("Entity","")?uncap_first}SearchBtn',$container).click();
+           $('#searchBtn',$container).click();
         }
     });
-	$('#search_box',$container).on('shown.ace.widget', function(e) {
-		$('.chosen-container',$('#search_box',$container)).each(function() {
-			 var $this = $(this);
-			 $this.css({'width': $this.parent().width()});
-		});
-		var searchConditionHeight = $('.widget-body',$('#search_box',$container)).height();
-		${entityName?replace("Entity","")?uncap_first}Grid.setGridHeight(getGridDefaultHeight()-searchConditionHeight);
-	});
-	$('#search_box',$container).on('hide.ace.widget', function(e) {
-		var searchConditionHeight = $('.widget-body',$('#search_box',$container)).height();
-		${entityName?replace("Entity","")?uncap_first}Grid.setGridHeight(getGridDefaultHeight());
-	});
 	</#if>
     <#list conditionColumns as col> 
 	<#if col.type=='select'>
@@ -256,50 +170,12 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	 $.loy.buildSelectOptions('${col.inputId}',$('#${col.inputId}',$container).attr("group"),$.i18n.prop("pleaseChoose"));
 	</#if>
 	</#list>
+	$('input, textarea',$container).placeholder();
 	    create${entityName?replace("Entity","")}Grid();
 	}});
 	
-	var $validate${entityName?replace("Entity","")}Form = $('#${entityName?replace("Entity","")?uncap_first}Form',$container).validate({
-    	onsubmit:false,
-    	rules : {
-			/**name : {
-				required : true,
-			}*/
-		}
-    });
-	function clear${entityName?replace("Entity","")}Form(){
-		$.loy.clearForm(loyModel);
-	}
-	function edit (id){
-		clear${entityName?replace("Entity","")}Form();
-		$('#submit${entityName?replace("Entity","")}Btn',$container).attr("url","${entityName?replace("Entity","")?uncap_first}/update");
-		$('#${entityName?replace("Entity","")?uncap_first}ModalDiv',$container).modal("show");
-		$.loy.ajax({
-			url:'${entityName?replace("Entity","")?uncap_first}/get',
-			data:{id:id},
-			success:function(data){
-				 var result = data.data;
-				 $('#id',$container).val(result.id?result.id:'');
-				 $.loy.editForm(result,loyModel);
-			}
-	   });
-	}
-	function view (id){
-		$('#${entityName?replace("Entity","")?uncap_first}ViewModalDiv').modal("show");
-		$.loy.ajax({
-			url:'${entityName?replace("Entity","")?uncap_first}/get',
-			data:{id:id},
-			success:function(data){
-				var result = data.data;
-				$.loy.detail(loyModel,result);
-			}
-	});
-  }
-  function add(){
-		clear${entityName?replace("Entity","")}Form();
-		$('#submit${entityName?replace("Entity","")}Btn',$container).attr("url","${entityName?replace("Entity","")?uncap_first}/save");
-		$('#${entityName?replace("Entity","")?uncap_first}ModalDiv',$container).modal("show");
-  }
+	
+
   
   function  create${entityName?replace("Entity","")}Grid(){
 		${entityName?replace("Entity","")?uncap_first}Grid =jQuery(grid_selector).loyGrid({
@@ -309,8 +185,6 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 			colNames:colNames,
 			colModel:colModels,
 			pager: pager_selector,
-			//width:$(".page-content").width(),
-			//height: '310',
 			loadComplete:function(data){
 				loadComplete(data);
 				var list = data.data?data.data.content:null;
@@ -318,28 +192,31 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 					for(var i=0;i<list.length;i++){
 						var editDivId = "jEditButton_"+list[i].id;
 						$('#'+editDivId,${entityName?replace("Entity","")?uncap_first}Grid).attr('onclick','').on('click',function(){
-							edit($(this).closest('tr').attr('id'));
+							control.edit($(this).closest('tr').attr('id'));
 						});
 					}
 				}	
 			}
 		}).loyGrid('navGrid','#${entityName?replace("Entity","")?uncap_first}_grid-pager',{"baseUrl":"${entityName?replace("Entity","")?uncap_first}/",
 			"addfunc":function(){
-				add();
+				control.add();
 			},
 			"editfunc":function(rowId){
-				edit(rowId);
+				control.edit(rowId);
 			},
 			"viewfunc":function(rowId){
-				view(rowId);
+				control.view(rowId);
 			},
 			view: true
 		});
 		${entityName?replace("Entity","")?uncap_first}Grid.jqGrid('setFrozenColumns');
+		<#if oftenField??>
+		searchBoxHideShown($container,${entityName?replace("Entity","")?uncap_first}Grid);
+		</#if>
 		resizeToFitPage(${entityName?replace("Entity","")?uncap_first}Grid);
 	}
 	
-	$("#${entityName?replace("Entity","")?uncap_first}SearchBtn",$container).click(function(){
+	$("#searchBtn",$container).click(function(){
 	    var postData ={page:0};
 	    <#list conditionColumns as col>
 	    <#if col.count ==1>
@@ -356,24 +233,6 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		${entityName?replace("Entity","")?uncap_first}Grid.loyGrid("setGridParam",{"postData":postData}).trigger("reloadGrid"); 
 		
 	});
-	
-	$('#submit${entityName?replace("Entity","")}Btn').click(function(){
-	     if(!$validate${entityName?replace("Entity","")}Form.checkForm()){
-			$validate${entityName?replace("Entity","")}Form.defaultShowErrors();
-			return;
-		 }
-		 var url = $(this).attr("url");
-         $.loy.ajax({
-				url:url,
-				data:$("#${entityName?replace("Entity","")?uncap_first}Form",$container).serialize(),
-				success:function(data){
-					if(data.success){
-						$('#${entityName?replace("Entity","")?uncap_first}ModalDiv',$container).modal("hide");
-						${entityName?replace("Entity","")?uncap_first}Grid.trigger("reloadGrid");
-					}
-				}
-		});
-    });
 	
 });
 

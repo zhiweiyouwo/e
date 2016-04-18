@@ -20,7 +20,7 @@ public abstract class AbstractInput {
 	private Op op;
 	private int count = 1;
 	private boolean often = false;
-	private EntityInfo entityInfo;
+	EntityInfo entityInfo;
 	private String returnClazz = "String";
 	
 	public AbstractInput(EntityInfo entityInfo){
@@ -66,10 +66,7 @@ public abstract class AbstractInput {
 	public String getSearchQueryId(){
 		String fieldName = this.getCombineFieldName();
 		fieldName.replace("\\.", "_");
-		String eName = this.getEntityName();
-		eName = ToolStringUtils.firstCharLower(eName);
-		eName = ToolStringUtils.deleteEntity(eName);
-		String searchQueryId = eName+"QueryParam_"+fieldName;
+		String searchQueryId = "queryParam_"+fieldName;
 		return searchQueryId;
 	}
 	

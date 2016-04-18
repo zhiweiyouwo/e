@@ -7,15 +7,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import javax.persistence.Column;
 
 import org.springframework.core.annotation.AnnotationUtils;
 
+import com.google.gson.internal.LinkedTreeMap;
 import com.loy.e.core.annotation.ConditionParam;
 import com.loy.e.core.annotation.LoyColumn;
 import com.loy.e.core.annotation.LoyEntity;
@@ -70,9 +72,9 @@ public class EntityInfo {
 	List<AbstractInput> editColumns = new ArrayList<AbstractInput>();
 	List<ColumnInfo> detailColumns = new ArrayList<ColumnInfo>();
 	List<AbstractInput> conditionColumns = new ArrayList<AbstractInput>();
-	Set<String> importClassNames = new HashSet<String>();
-	Set<String> importParamClassNames = new HashSet<String>();
-	Map<String,String> i18ns = new HashMap<String,String>();
+	Set<String> importClassNames = new TreeSet<String>();
+	Set<String> importParamClassNames = new TreeSet<String>();
+	Map<String,String> i18ns = new LinkedTreeMap<String,String>();
 	
 	public void build(Class clazz){
 		String packageName = clazz.getPackage().getName();
@@ -123,6 +125,7 @@ public class EntityInfo {
 				input.setGroup(field.getName());
 				abstractInput = input;
 				this.importClassNames.add("import "+DictionaryRepository.class.getName());
+				
 			}else{
 				String tableName = "loy_"+sName.toLowerCase();
 				SearchInput input = new SearchInput(this);
@@ -134,7 +137,7 @@ public class EntityInfo {
 				}
 				input.setLabel(column);
 			}
-			
+			i18ns.put(getPreI18n()+"."+field.getName()+"Id", loyColumn.description());
             this.importClassNames.add("import "+type.getName());
 			
 		}else{
@@ -527,35 +530,32 @@ public class EntityInfo {
 	}
 
 	public Collection<ModelColumn> getModelColumns(){
-		Map<String,ModelColumn>modelColumns = new HashMap<String,ModelColumn>();
+		Map<String,ModelColumn>modelColumns = new LinkedTreeMap<String,ModelColumn>();
 
-		for(ColumnInfo columnInfo :this.listColumns){
-			ModelColumn modelColumn = new ModelColumn(columnInfo);
+		
+		
+		for(AbstractInput columnInfo :this.editColumns){
+		
+			ModelColumn modelColumn = new ModelColumn(columnInfo.getEntityInfo());
+			Map<String,String> properties = modelColumn.properties;
+			String inputType = columnInfo.getType();
+			properties.put("input_type", inputType);
+			modelColumn.setFieldName(columnInfo.getInputName());
+			if("select".equals(inputType)){
+				SelectInput selectInput = (SelectInput)columnInfo;
+				properties.put("group", selectInput.getGroup());
+			}else if("search_text".equals(inputType)){
+				SearchInput searchInput = (SearchInput)columnInfo;
+				properties.put("label", searchInput.getLabel());
+				properties.put("tableName", searchInput.getTableName());
+				
+			}
+			modelColumn.edit = true;
+			modelColumn.list = false;
+			modelColumn.detail = false;	
 			modelColumns.put(modelColumn.getFieldName(), modelColumn);
 		}
 		
-		for(AbstractInput columnInfo :this.editColumns){
-			String fieldName = columnInfo.getFieldName();
-			ModelColumn modelColumn = modelColumns.get(fieldName);
-			if(modelColumn == null){
-				modelColumn = new ModelColumn(columnInfo.getEntityInfo());
-				modelColumn.list = false;
-				Map<String,String> properties = modelColumn.properties;
-				String inputType = columnInfo.getType();
-				properties.put("input_type", inputType);
-				modelColumn.setFieldName(columnInfo.getInputName());
-				if("select".equals(inputType)){
-					SelectInput selectInput = (SelectInput)columnInfo;
-					properties.put("group", selectInput.getGroup());
-				}else if("search_text".equals(inputType)){
-					SearchInput searchInput = (SearchInput)columnInfo;
-					properties.put("label", searchInput.getLabel());
-					properties.put("tableName", searchInput.getTableName());
-				}
-			}
-			modelColumn.edit = true;
-			modelColumns.put(modelColumn.getFieldName(), modelColumn);
-		}
 		for(ColumnInfo columnInfo :this.detailColumns){
 			String fieldName = columnInfo.getFieldName();
 			ModelColumn modelColumn = modelColumns.get(fieldName);
@@ -566,6 +566,24 @@ public class EntityInfo {
 				modelColumn.setFieldName(columnInfo.getFieldName());
 			}
 			modelColumn.detail = true;
+			modelColumns.put(modelColumn.getFieldName(), modelColumn);
+		}
+		
+		for(ColumnInfo columnInfo :this.listColumns){
+			String fieldName = columnInfo.getFieldName();
+			ModelColumn modelColumn = modelColumns.get(fieldName);
+			if(modelColumn == null){
+				modelColumn = new ModelColumn(columnInfo);
+				modelColumn.edit = false;
+				modelColumn.detail = false;
+				modelColumn.setFieldName(columnInfo.getFieldName());
+			}else{
+				modelColumn.description = columnInfo.description;
+				modelColumn.fieldName = columnInfo.fieldName;
+				modelColumn.formatter = columnInfo.formatter;
+				modelColumn.sortable  = columnInfo.sortable;
+			}
+			modelColumn.list = true;
 			modelColumns.put(modelColumn.getFieldName(), modelColumn);
 		}
 		

@@ -51,7 +51,22 @@ function  getTableHtml(tableId,removeCols){
 	html = "<table>"+headerHtml.join("")+"</table>";
 	return html;
 }
-
+function   searchBoxHideShown($container,grid){
+	$('#search_box',$container).on('shown.ace.widget', function(e) {
+		$('.chosen-container',$('#search_box',$container)).each(function() {
+			 var $this = $(this);
+			 $this.css({'width': $this.parent().width()});
+		});
+		var searchConditionHeight = $('.widget-body',$('#search_box',$container)).height();
+		grid.setGridHeight(getGridDefaultHeight()-searchConditionHeight);
+	});
+	
+	
+	$('#search_box',$container).on('hide.ace.widget', function(e) {
+		var searchConditionHeight = $('.widget-body',$('#search_box',$container)).height();
+		grid.setGridHeight(getGridDefaultHeight());
+	});
+}
 function exportExcel(url,tableId,removeCols){
    var html = getTableHtml(tableId,removeCols);
   
