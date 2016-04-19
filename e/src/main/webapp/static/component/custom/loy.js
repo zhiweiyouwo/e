@@ -36,20 +36,145 @@ function chosenFitLen($container){
 loyControl = function(loyModel){
 	var loyModel = loyModel;
 	var $container = loyModel.$container;
+	var grid_selector = loyModel.grid_selector;
+	var pager_selector = loyModel.pager_selector;
+	var colNames = null;
+	var colModels = null;
+	var grid = null;
+	var $validateForm = null;
 	
+	this.init = function(){
+		this.buildColNames();
+		this.buildGridColModels();
+		this.buildEditWin();
+		this.buildDetailWin();
+		this.initDate();
+		this.initInput();
+		$('input, textarea',$container).placeholder();
+		this.bindSearchBtn();
+		this.buildValidateForm();
+		this.bindSubmit();
+		this.createGrid();
+	};
+	
+	this.bindSubmit = function(){
+		var self = this;
+		$('#submitBtn').click(function(){
+		     if(!$validateForm.checkForm()){
+		    	 $validateForm.defaultShowErrors();
+				return;
+			 }
+			 var url = $(this).attr("url");
+	         $.loy.ajax({
+					url:url,
+					data:$("#editForm",$container).serialize(),
+					success:function(data){
+						if(data.success){
+							$('#editModalDiv',$container).modal("hide");
+							grid.trigger("reloadGrid");
+						}
+					}
+			});
+     });
+	};
+	this.bindSearchBtn = function(){
+		$("#searchBtn",$container).click(function(){
+		    var postData = $("#queryForm",$container).serialize();
+		    postData.page=0;
+			grid.loyGrid("setGridParam",{"postData":postData}).trigger("reloadGrid"); 
+			
+		});
+	};
+	this.initDate = function(){
+		for(var i=0;i<loyModel.cols.length;i++){
+			var col = loyModel.cols[i];
+			if(col.edit){
+				if(col.properties.input_type=='date'){
+					 $('.date-picker',$container).datepicker({
+							autoclose: true,
+							format : 'yyyy-mm-dd',
+							language: $.homeGlobal.LANG,
+							todayHighlight: true
+						}).next().on(ace.click_event, function(){
+							$(this).prev().focus();
+						});
+					 break;
+				}
+			}
+	    }
+	};
+	this.initInput = function(){
+		var hasChosen = false;
+		for(var i=0;i<loyModel.cols.length;i++){
+			var col = loyModel.cols[i];
+			if(col.edit){
+				var id = buildId(col.fieldName);
+				if(col.properties.input_type=='integer' || col.properties.input_type=='float'){
+					var min=col.properties.min;
+					var max = col.properties.max;
+					var step = col.step;
+					$('#'+id,$container).ace_spinner({value:0,min:min?min:0,max:max?max:99999999,step:step?step:1, on_sides: true,
+						icon_up:'ace-icon fa fa-plus smaller-75', 
+						icon_down:'ace-icon fa fa-minus smaller-75',
+						btn_up_class:'btn-success' , 
+						btn_down_class:'btn-danger'});
+				}else if(col.properties.input_type=='select'){
+					 $.loy.buildSelectOptions('id',$('#'+id,$container).attr("group"),$.i18n.prop("pleaseChoose"));
+					 hasChosen = true;
+				}else if(col.properties.input_type=='search_text'){
+					 $('#'+id).cchosen({allow_single_deselect:true,placeholder_text_single:$.i18n.prop("pleaseChoose")});
+					 hasChosen = true;
+				}
+			}
+	    }
+		if(hasChosen){
+			chosenFitLen($container);
+		}
+	};
+	this.initDate = function(){
+		for(var i=0;i<loyModel.cols.length;i++){
+			var col = loyModel.cols[i];
+			if(col.edit){
+				if(col.properties.input_type=='date'){
+					 $('.date-picker',$container).datepicker({
+							autoclose: true,
+							format : 'yyyy-mm-dd',
+							language: $.homeGlobal.LANG,
+							todayHighlight: true
+						}).next().on(ace.click_event, function(){
+							$(this).prev().focus();
+						});
+					 break;
+				}
+			}
+	    }
+	};
+	
+	this.buildValidateForm = function(){
+		$validateForm = $('#editForm',$container).validate({
+	    	onsubmit:false,
+	    	rules : {
+				/**name : {
+					required : true,
+				}*/
+			}
+	    });
+		return $validateForm;
+	};
 	this.buildColNames  = function (){
-		var colNames =[' '];
+		colNames =[' '];
 		for(var i=0;i<loyModel.cols.length;i++){
 			var col = loyModel.cols[i];
 			if(col.list){
-				colNames.push($.i18n.prop(loyModel.preI18n+"."+combineFieldName(col.fieldName)));
+				colNames.push($.i18n.prop(col.i18nKey));
 			}
 	    }
+		
 		return colNames;
 	};
 	
 	this.buildGridColModels = function (){
-		var colModels= [
+		colModels= [
 					 {name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false ,
 						formatter:'actions', 
 						formatoptions:getFormatoptions(loyModel.modelName+'/')
@@ -57,7 +182,7 @@ loyControl = function(loyModel){
 		for(var i=0;i<loyModel.cols.length;i++){
 			var col = loyModel.cols[i];
 			if(col.list){
-				var colModel = { name: col.fieldName, index: col.fieldName,sortable:col.sortable,  width: 100, align: "left", editable: false} 
+				var colModel = { name: col.fieldName, index: col.fieldName,sortable:col.sortable?col.sortable:false,  width: 100, align: "left", editable: false} 
 				var strs=colModel.name.split("\.");
 				if(strs.length>1){
 					colModel.formatter=function(cellvalue, options, rowObject){
@@ -84,7 +209,44 @@ loyControl = function(loyModel){
 	    }	
 		return colModels;
 	};
-	
+	this.createGrid = function(){
+		var self = this;
+		grid =jQuery(grid_selector).loyGrid({
+			url: 'test/page',
+			datatype: "json",
+			mtype: 'GET',
+			colNames:colNames,
+			colModel:colModels,
+			pager: pager_selector,
+			loadComplete:function(data){
+				loadComplete(data);
+				var list = data.data?data.data.content:null;
+				if(list){
+					for(var i=0;i<list.length;i++){
+						var editDivId = "jEditButton_"+list[i].id;
+						$('#'+editDivId,grid).attr('onclick','').on('click',function(){
+							self.edit($(this).closest('tr').attr('id'));
+						});
+					}
+				}	
+			}
+		}).loyGrid('navGrid','#test_grid-pager',{"baseUrl":"test/",
+			"addfunc":function(){
+				self.add();
+			},
+			"editfunc":function(rowId){
+				self.edit(rowId);
+			},
+			"viewfunc":function(rowId){
+				self.view(rowId);
+			},
+			view: true
+		});
+		grid.jqGrid('setFrozenColumns');
+		searchBoxHideShown($container,grid);
+		resizeToFitPage(grid);
+		return grid;
+	};
 	
 	this.clearForm =function (){
 		for(var i=0;i<loyModel.cols.length;i++){
@@ -164,36 +326,38 @@ loyControl = function(loyModel){
 								temp.push('<div id="modal-tip" class="red clearfix"></div>');
 								temp.push('<div>');
 								
-		for(var i=0;i<loyModel.cols.length;i++){
-			var col = loyModel.cols[i];
-			if(col.detail){
-			    var id = buildId(col.fieldName);
-			    temp.push('<div class="row" style="padding-bottom: 2px">');
-			    temp.push('<div class="form-group">');
-			    var i18nValue = $.i18n.prop(col.i18nKey);
-			    temp.push('<label class="col-sm-3 control-label"  i18n="'+col.i18nKey+'">'+i18nValue+'</label>');
-			    temp.push('<div class="col-sm-6"  id="view_'+id+'">'); 
-			    temp.push('</div>');
-			    temp.push('</div>');
-			    temp.push('</div>');
-			}				
-	    }
-		temp.push('</form>');
-		temp.push('</div>');
-		temp.push('</div>');
-		temp.push('</div>');
-		temp.push('<div class="modal-footer no-margin-top">');
-				temp.push('<div class="text-center">');
+						for(var i=0;i<loyModel.cols.length;i++){
+							var col = loyModel.cols[i];
+							if(col.detail){
+							    var id = buildId(col.fieldName);
+							    temp.push('<div class="row" style="padding-bottom: 2px">');
+							    temp.push('<div class="form-group">');
+							    var i18nValue = $.i18n.prop(col.i18nKey);
+							    temp.push('<label class="col-sm-3 control-label"  i18n="'+col.i18nKey+'">'+i18nValue+'</label>');
+							    temp.push('<div class="col-sm-6"  id="view_'+id+'">'); 
+							    temp.push('</div>');
+							    temp.push('</div>');
+							    temp.push('</div>');
+							}				
+					    }
+						temp.push('</form>');
+					  temp.push('</div>');
+					temp.push('</div>');
+				  temp.push('</div>');
+				  temp.push('<div class="modal-footer no-margin-top">');
+				    temp.push('<div class="text-center">');
 						temp.push('<button class="btn btn-sm"  data-dismiss="modal">');
 						temp.push('<i class="ace-icon fa fa-share "></i>');
 						temp.push('<span i18n="cancel">'+$.i18n.prop("cancel")+'</span>');
 						temp.push('</button>');
-temp.push('</div>');
-temp.push('</div>');
-temp.push('</div>');
-temp.push('</div>');
-temp.push('</div>');
-		return temp.join(" ");
+                   temp.push('</div>');
+                 temp.push('</div>');
+               temp.push('</div>');
+             temp.push('</div>');
+           temp.push('</div>');
+           var str = temp.join(" ");
+           $container.append(str);
+		return str;
 	};
 	
 	
@@ -249,8 +413,9 @@ temp.push('</div>');
 			 temp.push('</div>');
            temp.push('</div>');
 		temp.push('</div>');																								temp.push('<div class="widget-body">');
-																																temp.push('<form id="editForm" name="testForm" class="form-horizontal  col-xs-12">');
-		return temp.join('');																																temp.push('<input type="hidden"  name="id" id="id"/>');
+		var str = temp.join(" ");
+        $container.append(str);																									temp.push('<form id="editForm" name="testForm" class="form-horizontal  col-xs-12">');
+		return str;																																temp.push('<input type="hidden"  name="id" id="id"/>');
 	};
 	
 	
@@ -271,9 +436,7 @@ temp.push('</div>');
 			}
 	    }
 	};
-	this.createGrid = function(){
-		
-	};
+	
 	
    this.view = function (id){
 		$('#viewModalDiv',$container).modal("show");
@@ -292,7 +455,7 @@ temp.push('</div>');
 		this.clearForm();
 		$('#submitBtn',$container).attr("url",loyModel.modelName+"/save");
 		$('#editModalDiv',$container).modal("show");
-  }
+  };
   this.submit = function(grid){
 	  var url = $(this).attr("url");
       $.loy.ajax({

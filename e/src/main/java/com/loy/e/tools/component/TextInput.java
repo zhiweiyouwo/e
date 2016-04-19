@@ -34,7 +34,7 @@ public class TextInput extends AbstractInput{
 		buffer.append("<div class=\"col-xs-12 col-sm-2 \">");
 		buffer.append("<input type=\"text\"  i18n=\""+this.getI18nKey()+"\" placeholder =\""+this.getLabelName()+"\" class=\"form-control  search-query\" ");
 		buffer.append("id=\"").append(this.getSearchQueryId()).append("\"");
-		buffer.append(" name=\"").append(this.getFieldName()).append("\"");
+		buffer.append(" name=\"").append(this.getCombineFieldName()).append("\"");
 		buffer.append(" />");
 		buffer.append("</div>");
 		return buffer.toString();

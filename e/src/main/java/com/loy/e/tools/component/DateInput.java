@@ -42,7 +42,7 @@ public class DateInput extends AbstractInput{
 			String fieldName = this.getFieldName();
 			fieldName.replace("\\.", "_");
 			buffer.append("id=\"").append(this.getSearchQueryId()+"_start").append("\"");
-			buffer.append(" name=\"").append(this.getFieldName()).append("\"");
+			buffer.append(" name=\"").append(this.getFieldName()+"Start").append("\"");
 			buffer.append(" />");
 			buffer.append("<span class=\"input-group-addon\"><i class=\"fa fa-calendar bigger-110\"></i></span>");
 			buffer.append("</div>");
@@ -53,7 +53,7 @@ public class DateInput extends AbstractInput{
 			fieldName = this.getFieldName();
 			fieldName.replace("\\.", "_");
 			buffer.append("id=\"").append(this.getSearchQueryId()+"_end").append("\"");
-			buffer.append(" name=\"").append(this.getFieldName()).append("\"");
+			buffer.append(" name=\"").append(this.getFieldName()+"End").append("\"");
 			buffer.append(" />");
 			buffer.append("<span class=\"input-group-addon\"><i class=\"fa fa-calendar bigger-110\"></i></span>");
 			buffer.append("</div>");
