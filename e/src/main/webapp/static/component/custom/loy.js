@@ -42,8 +42,20 @@ loyControl = function(loyModel){
 	var colModels = null;
 	var grid = null;
 	var $validateForm = null;
-	
 	this.init = function(){
+		this.buildColNames();
+		this.buildGridColModels();
+		//this.buildEditWin();
+		//this.buildDetailWin();
+		this.initDate();
+		this.initInput();
+		$('input, textarea',$container).placeholder();
+		this.bindSearchBtn();
+		this.buildValidateForm();
+		this.bindSubmit();
+		this.createGrid();
+	};
+	this.initAll = function(){
 		this.buildColNames();
 		this.buildGridColModels();
 		this.buildEditWin();
@@ -119,10 +131,10 @@ loyControl = function(loyModel){
 						btn_up_class:'btn-success' , 
 						btn_down_class:'btn-danger'});
 				}else if(col.properties.input_type=='select'){
-					 $.loy.buildSelectOptions('id',$('#'+id,$container).attr("group"),$.i18n.prop("pleaseChoose"));
+					 $.loy.buildSelectOptions(id,$('#'+id,$container).attr("group"),$.i18n.prop("pleaseChoose"));
 					 hasChosen = true;
 				}else if(col.properties.input_type=='search_text'){
-					 $('#'+id).cchosen({allow_single_deselect:true,placeholder_text_single:$.i18n.prop("pleaseChoose")});
+					 $('#'+id,$container).cchosen({allow_single_deselect:true,placeholder_text_single:$.i18n.prop("pleaseChoose")});
 					 hasChosen = true;
 				}
 			}
@@ -583,14 +595,14 @@ function buildInputHtml(inputType,id,name,i18n,properties){
         if (r != null) return unescape(r[2]); return null; //返回参数值
 	       
 	}
-	$.loy.buildSelectOptions= function(selectId,group,placeholder_text){
+	$.loy.buildSelectOptions= function(selectId,group,placeholder_text,$container){
 		$.ajax({ url: "dict",data:{"group":group}, 
         	success: function(data){
             if(data.success){
             	var list = data.data;
             	var temp = [];
             	if(list){
-            		$('#'+selectId).html('');
+            		$('#'+selectId,$container).html('');
             		temp.push('<option value=""></option>');
             		for(var i=0;i<list.length;i++){
             			var k = list[i].id;
@@ -598,8 +610,9 @@ function buildInputHtml(inputType,id,name,i18n,properties){
             			temp.push('<option value="'+k+'">'+l+'</option>');
             		}
             	}
-            	$('#'+selectId).html(temp.join(' '));
-            	$('#'+selectId).chosen({allow_single_deselect:true,placeholder_text_single:placeholder_text});
+            	$('#'+selectId,$container).html(temp.join(' '));
+            	$('#'+selectId,$container).chosen({allow_single_deselect:true,
+            		placeholder_text_single:placeholder_text});
             }
         }
         

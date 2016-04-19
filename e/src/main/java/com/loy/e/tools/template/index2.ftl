@@ -95,7 +95,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	var control = new loyControl(loyModel);
 	
 	$.loy.i18n(['${modelName}/${entityName?replace("Entity","")?uncap_first}'],$.homeGlobal.LANG,$container,{custCallback:function(){
-		control.init();	
+		control.initAll();	
 		<#if oftenField??>
 		$('#${oftenField.searchQueryId}',$container).bind('keypress',function(event){
 	        if(event.keyCode == "13"){
