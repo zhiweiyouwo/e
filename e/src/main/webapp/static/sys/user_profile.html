@@ -230,7 +230,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 				$('#phone',$container).val(result.phone?result.phone:'');
 			}
 	});
-	$('#submitBtn').click(function(){ 
+	$('#submitBtn',$container).click(function(){ 
 		 if(!$("#name",$container).is(":hidden")){
 			 if(!$validateProfileForm.checkForm()){
 				 $validateProfileForm.defaultShowErrors();
