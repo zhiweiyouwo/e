@@ -854,7 +854,7 @@
                 //固定TAB中IFRAME高度
                 mainHeight = $(document.body).height() - 90;
                 //创建新TAB的title
-                title = '<li role="presentation" id="tab_' + id + '"><a href="#' + id + '" aria-controls="' + id + '" role="tab" data-toggle="tab">' + options.title;
+                title = '<li role="presentation" id="tab_' + id + '"><a  onclick="$(document).trigger(\'mainTabClick\'); " href="#' + id + '" aria-controls="' + id + '" role="tab" data-toggle="tab">' + options.title;
                 //是否允许关闭
                 if (options.close) {
                     title += ' <i class="glyphicon glyphicon-remove" tabclose="' + id + '"></i>';
@@ -882,6 +882,7 @@
             }
             //激活TAB
             $("#tab_" + id).addClass('active mtab');
+  
             $("#" + id).addClass("active mtab");
         };
         var closeTab = function (id) {

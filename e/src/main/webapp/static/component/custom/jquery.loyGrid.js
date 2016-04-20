@@ -131,16 +131,24 @@ function getFitGridWidth(w){
 		$(window).on('resize.jqGrid', function() {
 			 $jqGrid.loyGrid('setGridWidth', getFitGridWidth());
 			 removeHorizontalScrollBar($jqGrid);
-		})
+		});
 		// resize on sidebar collapse/expand
 		var parent_column = $jqGrid.closest('[class*="col-"]');
 		$(document).on('settings.ace.jqGrid', function(ev, event_name, collapsed) {
 			if (event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed') {
+					setTimeout(function() {
+						 $jqGrid.loyGrid('setGridWidth', parent_column.width());
+						 removeHorizontalScrollBar($jqGrid);
+					}, 0);
+					
+			}
+		});
+		$(document).on('mainTabClick', function(ev) {
 				setTimeout(function() {
-					 $jqGrid.loyGrid('setGridWidth', parent_column.width());
+					 $jqGrid.loyGrid('setGridWidth', getFitGridWidth());
 					 removeHorizontalScrollBar($jqGrid);
 				}, 0);
-			}
+				
 		});
    }
    function afterSubmit (response, postdata) {

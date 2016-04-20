@@ -36,10 +36,10 @@ public class TestEntity extends BaseEntity{
     @ManyToOne
     private UserEntity user;
 	 
-	 @LoyColumn(description="状态",lists={@LoyField(description="状态",fieldName="name")})
-	 @ConditionParam()
-	 @ManyToOne
-	 private DictionaryEntity status;
+	@LoyColumn(description="状态",lists={@LoyField(description="状态",fieldName="name")})
+	@ConditionParam()
+	@ManyToOne
+	private DictionaryEntity status;
 	 
 	@ConditionParam(op=Op.eq,often=true)
     @LoyColumn(description="测试名",sortable=true)
