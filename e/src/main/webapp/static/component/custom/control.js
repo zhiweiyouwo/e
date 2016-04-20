@@ -393,7 +393,7 @@ loyControl = function(loyModel){
 		});
 		self.grid.jqGrid('setFrozenColumns');
 		searchBoxHideShown($container,self.grid);
-		resizeToFitPage(grid);
+		resizeToFitPage(self.grid);
 		return self.grid;
 	};
 	
