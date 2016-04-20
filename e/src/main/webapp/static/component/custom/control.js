@@ -195,10 +195,11 @@ loyControl = function(loyModel){
 		this.buildGridColModels();
 		this.buildEditWin();
 		this.buildDetailWin();
+		this.buildQueryForm();
 		this.initDate();
 		this.initInput();
 		$('input, textarea',$container).placeholder();
-		this.buildQueryForm();
+		
 		this.bindSearchBtn();
 		this.buildValidateForm();
 		this.bindSubmit();
@@ -281,22 +282,14 @@ loyControl = function(loyModel){
 		}
 	};
 	this.initDate = function(){
-		for(var i=0;i<loyModel.cols.length;i++){
-			var col = loyModel.cols[i];
-			if(col.edit){
-				if(col.properties.input_type=='date'){
-					 $('.date-picker',$container).datepicker({
-							autoclose: true,
-							format : 'yyyy-mm-dd',
-							language: $.homeGlobal.LANG,
-							todayHighlight: true
-						}).next().on(ace.click_event, function(){
-							$(this).prev().focus();
-						});
-					 break;
-				}
-			}
-	    }
+		 $('.date-picker',$container).datepicker({
+				autoclose: true,
+				format : 'yyyy-mm-dd',
+				language: $.homeGlobal.LANG,
+				todayHighlight: true
+		 }).next().on(ace.click_event, function(){
+				$(this).prev().focus();
+		 });
 	};
 	
 	this.buildValidateForm = function(){
