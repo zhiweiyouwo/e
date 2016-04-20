@@ -80,14 +80,14 @@ loyControl = function(loyModel){
 				var i18nEndKey = i18n+"End";
 				buffer.push('<div class="input-group col-xs-12 col-sm-2"  style="float:left;padding-left: 15px;padding-right: 15px">');
 				buffer.push('<input type="text"  i18n="'+i18nStartKey+'" placeholder ="'+$.i18n.prop(i18nStartKey)+'" class="form-control  date-picker" ');
-				buffer.push('id='+id+'"_start" name="'+name+'Start"/>');
+				buffer.push('id="'+id+'_start" name="'+name+'Start"/>');
 				buffer.push('<span class="input-group-addon"><i class="fa fa-calendar bigger-110"></i></span>');
 				buffer.push('</div>');
 				
 				
 				buffer.push('<div class="input-group col-xs-12 col-sm-2"  style="float:left;padding-left: 15px;padding-right: 15px">');
 				buffer.push('<input type="text"  i18n="'+i18nEndKey+'" placeholder ="'+$.i18n.prop(i18nEndKey)+'" class="form-control  date-picker" ');
-				buffer.push('id='+id+'"_end" name="'+name+'End"/>');
+				buffer.push('id="'+id+'_end" name="'+name+'End"/>');
 				buffer.push('<span class="input-group-addon"><i class="fa fa-calendar bigger-110"></i></span>');
 				buffer.push('</div>');
 				return buffer.join('');
