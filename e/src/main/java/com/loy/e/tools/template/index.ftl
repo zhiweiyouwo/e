@@ -201,7 +201,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		</#if>
 	    <#list conditionColumns as col> 
 		<#if col.type=='select'>
-		$.loy.buildSelectOptions('${col.searchQueryId}',$('#${col.searchQueryId}',$container).attr("group"),$.i18n.prop("all"));
+		$.loy.buildSelectOptions('${col.searchQueryId}',$('#${col.searchQueryId}',$container).attr("group"),$.i18n.prop("all"),$container);
 		</#if>
 		</#list>
 	
