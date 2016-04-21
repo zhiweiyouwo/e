@@ -306,6 +306,7 @@ loyControl = function(loyModel){
 	    }
 		this.$validateForm = $('#'+editFormId,$container).validate({
 	    	onsubmit:false,
+	    	ignore: ".hidden",
 	    	rules : rules
 	    });
 		return this.$validateForm;
