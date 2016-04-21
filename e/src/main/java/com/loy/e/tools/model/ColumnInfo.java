@@ -16,6 +16,7 @@ public class ColumnInfo {
 	protected String fieldName;
 	protected String formatter = "";
 	protected boolean sortable  = false;
+	String validate = "";
 	protected EntityInfo entityInfo;
 	
 	public ColumnInfo(EntityInfo entityInfo){
@@ -82,4 +83,13 @@ public class ColumnInfo {
 	public String getInputId(){
 		return fieldName.replace(".", "_");
 	}
+
+	public String getValidate() {
+		return validate;
+	}
+
+	public void setValidate(String validate) {
+		this.validate = validate;
+	}
+	
 }

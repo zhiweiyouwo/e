@@ -28,6 +28,7 @@ public class ModelColumn extends ColumnInfo{
 		super.fieldName = columnInfo.fieldName;
 		super.formatter = columnInfo.formatter;
 		super.sortable  = columnInfo.sortable;
+		super.validate = columnInfo.validate;
 		
 	}
 

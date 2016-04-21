@@ -52,7 +52,8 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 				     <#list col.properties?keys as key>
 				     ${key}:"${col.properties[key]}"<#if key_has_next> ,</#if>
 				     </#list>
-				}</#if>
+				}</#if><#if col.validate !=''>,
+				rule: {${col.fieldName}:${col.validate}}</#if>
 			}<#if col_has_next> ,</#if>
 			 
 			</#list>

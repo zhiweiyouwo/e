@@ -22,6 +22,7 @@ public abstract class AbstractInput {
 	private boolean often = false;
 	EntityInfo entityInfo;
 	private String returnClazz = "String";
+	private String validate;
 	
 	public AbstractInput(EntityInfo entityInfo){
 		this.entityInfo = entityInfo;
@@ -111,6 +112,12 @@ public abstract class AbstractInput {
 	}
 	public EntityInfo getEntityInfo() {
 		return entityInfo;
+	}
+	public String getValidate() {
+		return validate;
+	}
+	public void setValidate(String validate) {
+		this.validate = validate;
 	}
 	
 	

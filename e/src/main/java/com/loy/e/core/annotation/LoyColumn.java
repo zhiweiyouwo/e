@@ -27,7 +27,7 @@ public @interface LoyColumn {
 	String column() default "";
 	boolean sortable() default false;
 	InputClazz inputType() default InputClazz.NONE;
-	
+	String validate() default  "";//这里的值必需是一个json串;{required:true, minlength: 5}
 	LoyField[] lists() default {};
 	LoyField[] details() default {};
 }

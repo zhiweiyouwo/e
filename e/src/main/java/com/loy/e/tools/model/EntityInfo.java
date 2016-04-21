@@ -124,6 +124,7 @@ public class EntityInfo {
 				SelectInput input = new SelectInput(this);
 				input.setGroup(field.getName());
 				abstractInput = input;
+				input.setValidate(loyColumn.validate());
 				this.importClassNames.add("import "+DictionaryRepository.class.getName());
 				
 			}else{
@@ -136,6 +137,7 @@ public class EntityInfo {
 					column = "name";
 				}
 				input.setLabel(column);
+				input.setValidate(loyColumn.validate());
 			}
 			i18ns.put(getPreI18n()+"."+field.getName()+"Id", loyColumn.description());
             this.importClassNames.add("import "+type.getName());
@@ -168,6 +170,7 @@ public class EntityInfo {
 			}
 			
 		}
+		abstractInput.setValidate(loyColumn.validate());
 		abstractInput.setFieldName(field.getName());
 		abstractInput.setLabelName(loyColumn.description());
 		i18ns.put(getPreI18n()+"."+field.getName(), loyColumn.description());
@@ -537,6 +540,7 @@ public class EntityInfo {
 		for(AbstractInput columnInfo :this.editColumns){
 		
 			ModelColumn modelColumn = new ModelColumn(columnInfo.getEntityInfo());
+			modelColumn.setValidate(columnInfo.getValidate());
 			Map<String,String> properties = modelColumn.properties;
 			String inputType = columnInfo.getType();
 			properties.put("input_type", inputType);

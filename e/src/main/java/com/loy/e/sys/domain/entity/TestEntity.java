@@ -42,7 +42,7 @@ public class TestEntity extends BaseEntity{
 	private DictionaryEntity status;
 	 
 	@ConditionParam(op=Op.eq,often=true)
-    @LoyColumn(description="测试名",sortable=true)
+    @LoyColumn(description="测试名",sortable=true,validate="{required: true,maxlength:20}")
 	private String name;
     
 	@DateTimeFormat(pattern="yyyy-MM-dd")

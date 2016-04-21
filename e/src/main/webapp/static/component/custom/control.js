@@ -293,13 +293,20 @@ loyControl = function(loyModel){
 	};
 	
 	this.buildValidateForm = function(){
+		var rules = {};
+		for(var i=0;i<loyModel.cols.length;i++){
+			var col = loyModel.cols[i];
+			if(col.edit){
+				if(col.rule){
+					for(var name in col.rule){       
+						rules[name] = col.rule[name]; 
+					 }  
+				}
+			}
+	    }
 		this.$validateForm = $('#'+editFormId,$container).validate({
 	    	onsubmit:false,
-	    	rules : {
-				/**name : {
-					required : true,
-				}*/
-			}
+	    	rules : rules
 	    });
 		return this.$validateForm;
 	};
@@ -391,6 +398,9 @@ loyControl = function(loyModel){
 	};
 	
 	this.clearForm =function (){
+		if(this.$validateForm){
+			this.$validateForm.resetForm();
+		}
 		for(var i=0;i<loyModel.cols.length;i++){
 			var col = loyModel.cols[i];
 			if(col.edit){
@@ -423,8 +433,8 @@ loyControl = function(loyModel){
 					$('#'+id,this.$container).val(v?v:"");
 					if(col.properties.input_type=="select" || col.properties.input_type=="search_text"){
 						if(col.properties.input_type=="search_text"){
-							if(v !=''){
-								 var name = result.user.name?result[strs[0]].name:'';
+							if(v && v !=''){
+								 var name = result[strs[0]].name?result[strs[0]].name:'';
 								 $('#'+id,$container).html('<option value=""></option> <option selected value="'+v+'">'+name+'</option>');
 							}
 						}
