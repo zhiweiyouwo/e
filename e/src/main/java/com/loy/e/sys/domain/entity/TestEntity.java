@@ -28,7 +28,7 @@ import com.loy.e.core.annotation.LoyField;
 @Table(name="loy_test")
 public class TestEntity extends BaseEntity{
 	
-	 @LoyColumn(description="用户",column="name",
+	 @LoyColumn(description="用户",column="name",validate="{required: true}",
 	    		lists={@LoyField(description="姓名",fieldName="name"),
 	    			  @LoyField(description="邮箱",fieldName="email")})
 	 
