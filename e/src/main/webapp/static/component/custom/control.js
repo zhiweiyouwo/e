@@ -673,6 +673,7 @@ loyControl = function(loyModel){
   };
   this.add = function add(){
 		this.clearForm();
+		$('#id',$('#'+editModalDivId,$container)).val("");
 		$('#'+submitBtnId,$container).attr("url",loyModel.modelName+"/save");
 		$('#'+editModalDivId,$container).modal("show");
   };
