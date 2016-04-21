@@ -307,7 +307,16 @@ loyControl = function(loyModel){
 		this.$validateForm = $('#'+editFormId,$container).validate({
 	    	onsubmit:false,
 	    	ignore: ".hidden",
-	    	rules : rules
+	    	rules : rules,
+	    	errorPlacement: function(error, element) { 
+	    		if((element.is("select") &&  element.is('.chosen-select'))){
+	    			 error.appendTo ( element.parent() ); 
+	    		}else if (element.is('.date-picker')){
+	    			 error.appendTo ( element.parent().parent() ); 
+	    		}else{
+	    			 error.insertAfter(element); 
+	    		}
+	    	} 
 	    });
 		return this.$validateForm;
 	};

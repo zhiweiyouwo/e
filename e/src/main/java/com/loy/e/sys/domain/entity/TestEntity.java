@@ -46,7 +46,7 @@ public class TestEntity extends BaseEntity{
 	private String name;
     
 	@DateTimeFormat(pattern="yyyy-MM-dd")
-    @LoyColumn(description="日期",sortable=true)
+    @LoyColumn(description="日期",sortable=true,validate="{required: true}")
 	@ConditionParam(op=Op.eq, name = "date",count=2)
 	private Date date;
     
