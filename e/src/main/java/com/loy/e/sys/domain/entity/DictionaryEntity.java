@@ -23,7 +23,7 @@ public class DictionaryEntity extends AbstractEntity <String>{
 	private String code;
 	@Column(length = 255)
 	private String name;
-	@Column(length = 100)
+	@Column(length = 100,name="group_")
 	private String group;
 	
 	

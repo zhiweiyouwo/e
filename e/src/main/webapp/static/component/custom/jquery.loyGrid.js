@@ -127,6 +127,10 @@ function getFitGridWidth(w){
    }
    function resizeToFitPage($jqGrid){
 	   removeHorizontalScrollBar($jqGrid);
+	   setTimeout(function() {
+			 $jqGrid.loyGrid('setGridWidth', getFitGridWidth());
+			 removeHorizontalScrollBar($jqGrid);
+		}, 50);
 	// resize to fit page size
 		$(window).on('resize.jqGrid', function() {
 			 $jqGrid.loyGrid('setGridWidth', getFitGridWidth());
