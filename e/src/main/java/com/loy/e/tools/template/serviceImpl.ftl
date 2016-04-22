@@ -68,7 +68,7 @@ public class ${entityName?replace("Entity","")}ServiceImpl {
 		}
 		</#if>
 		</#list>
-		Page${left}${entityName}> page = ${entityName?replace("Entity","")?uncap_first}Repository.findPage("${modelName}.${entityName?replace("Entity","")?cap_first}.findPage${entityName?replace("Entity","")}", new MapQueryParam(${entityName?replace("Entity","")?uncap_first}QueryParam), pageable);
+		Page${left}${entityName}> page = ${entityName?replace("Entity","")?uncap_first}Repository.findPage("${modelName}.${entityName?replace("Entity","")?uncap_first}.findPage${entityName?replace("Entity","")}", new MapQueryParam(${entityName?replace("Entity","")?uncap_first}QueryParam), pageable);
 		return page;
 	}
 	
