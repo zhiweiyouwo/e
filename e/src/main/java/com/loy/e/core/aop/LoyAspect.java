@@ -12,6 +12,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -45,6 +46,10 @@ public class LoyAspect {
 	 @Before(value  = "@annotation(org.springframework.web.bind.annotation.RequestMapping)")
      public void beforAdvice( JoinPoint joinPoint) throws Throwable{
     	 Object[] args = joinPoint.getArgs();
+    	 Object target = joinPoint.getTarget();
+    	 if(target instanceof ErrorController){
+    		 return;
+    	 }
     	 SimpleUser simpleUser = UserUtils.getSimipleUser();
     	 if(simpleUser!= null){
     		 String operatorId = simpleUser.getId();

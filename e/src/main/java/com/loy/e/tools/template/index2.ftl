@@ -1,23 +1,4 @@
-	<div  id="${entityName?replace("Entity","")?uncap_first}_container">
-	<div class="row">
-		<div class="col-xs-12">
-			<div id="search_box" class="widget-box  ui-sortable-handle <#if oftenField??>collapsed</#if>">
-			<form id ="queryForm" >
-				
-				</form>
-			</div>
-							    
-			
-			<table id="${entityName?replace("Entity","")?uncap_first}_grid-table"></table>
-
-			<div id="${entityName?replace("Entity","")?uncap_first}_grid-pager"></div>
-
-		</div>
-		<!-- /.col -->
-	</div>
-	<!-- /.row -->
-	
-	
+<div  id="${entityName?replace("Entity","")?uncap_first}_container">
 	
 </div>
 
@@ -59,16 +40,10 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 			</#list>
        ]
     };
-	var $container = $('#${entityName?replace("Entity","")?uncap_first}_container');
-	var grid_selector  = "#${entityName?replace("Entity","")?uncap_first}_grid-table";
-	var pager_selector = "#${entityName?replace("Entity","")?uncap_first}_grid-pager";
 	
-	loyModel.$container = $container;
-	loyModel.grid_selector = grid_selector;
-	loyModel.pager_selector = pager_selector;
 	var control = new loyControl(loyModel);
 	
-	$.loy.i18n(['${modelName}/${entityName?replace("Entity","")?uncap_first}'],$.homeGlobal.LANG,$container,{custCallback:function(){
+	$.loy.i18n(['${modelName}/${entityName?replace("Entity","")?uncap_first}'],$.homeGlobal.LANG,control.$container,{custCallback:function(){
 		control.initAll();	
     }});
 	

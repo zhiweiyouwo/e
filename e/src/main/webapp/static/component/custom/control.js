@@ -35,9 +35,10 @@ function chosenFitLen($container){
 
 loyControl = function(loyModel){
 	var loyModel = loyModel;
-	var $container = loyModel.$container;
-	var grid_selector = loyModel.grid_selector;
-	var pager_selector = loyModel.pager_selector;
+	var $container = loyModel.$container?loyModel.$container:$('#'+loyModel.modelName+'_container');
+	this.$container = $container;
+	var grid_selector = loyModel.grid_selector?loyModel.grid_selector: loyModel.modelName+'_'+'grid-table';
+	var pager_selector = loyModel.pager_selector?loyModel.pager_selector:loyModel.modelName+'_'+'grid-pager';
 	
 	var editFormId = loyModel.editForm?loyModel.editForm:"editForm";
 	var queryFormId = loyModel.queryForm?loyModel.queryForm:"queryForm";
@@ -177,6 +178,19 @@ loyControl = function(loyModel){
 		return inputTypes[inputType](id,name,i18nValue,properties);
 		
 	};
+	this.loadCompleteCallback = function(data){
+		var self = this;
+		loadComplete(data);
+		var list = data.data?data.data.content:null;
+		if(list){
+			for(var i=0;i<list.length;i++){
+				var editDivId = "jEditButton_"+list[i].id;
+				$('#'+editDivId,self.grid).attr('onclick','').on('click',function(){
+					self.edit($(this).closest('tr').attr('id'));
+				});
+			}
+		}	
+	};
 	this.init = function(){
 		this.buildColNames();
 		this.buildGridColModels();
@@ -193,9 +207,9 @@ loyControl = function(loyModel){
 	this.initAll = function(){
 		this.buildColNames();
 		this.buildGridColModels();
+		this.buildQueryForm();
 		this.buildEditWin();
 		this.buildDetailWin();
-		this.buildQueryForm();
 		this.initDate();
 		this.initInput();
 		$('input, textarea',$container).placeholder();
@@ -370,7 +384,7 @@ loyControl = function(loyModel){
 	};
 	this.createGrid = function(){
 		var self = this;
-		this.grid =jQuery(grid_selector).loyGrid({
+		this.grid =jQuery('#'+grid_selector).loyGrid({
 			url: loyModel.modelName+'/page',
 			datatype: "json",
 			mtype: 'GET',
@@ -378,18 +392,9 @@ loyControl = function(loyModel){
 			colModel:colModels,
 			pager: pager_selector,
 			loadComplete:function(data){
-				loadComplete(data);
-				var list = data.data?data.data.content:null;
-				if(list){
-					for(var i=0;i<list.length;i++){
-						var editDivId = "jEditButton_"+list[i].id;
-						$('#'+editDivId,self.grid).attr('onclick','').on('click',function(){
-							self.edit($(this).closest('tr').attr('id'));
-						});
-					}
-				}	
+				self.loadCompleteCallback(data);
 			}
-		}).loyGrid('navGrid',pager_selector,{"baseUrl":loyModel.modelName+"/",
+		}).loyGrid('navGrid','#'+pager_selector,{"baseUrl":loyModel.modelName+"/",
 			"addfunc":function(){
 				self.add();
 			},
@@ -581,66 +586,77 @@ loyControl = function(loyModel){
 		return str;	
 	};
     this.buildQueryForm = function(){
+    	var self = this;
 		var temp = [];
 		var often = false;
 		var oftenQueryCol = null;
-		temp.push('<div class="widget-header">');
-			 if(loyModel.ccols){
-				 for(var i=0;i<loyModel.ccols.length;i++){
-					 var ccol = loyModel.ccols[i];
-					 if(ccol.often){
-						 often = true;
-						 oftenQueryCol = ccol;
-						 temp.push('<div class="nav-search"  style="padding-top: 5px;  right: 50px">');
-						    temp.push('<span class="input-icon">');
-						    temp.push('<input type="text"  i18n="'+ccol.i18nKey+'" placeholder ="'+$.i18n.prop(ccol.i18nKey)+'" name="'+ccol.name+'"  id="'+ccol.id+'" class="nav-search-input"  >');
-						    temp.push('<i class="ace-icon fa fa-search nav-search-icon" onclick="$(\'#'+searchBtnId+'\',$(\'#'+loyModel.modelName+'_container\')).click()"></i>');
-						    temp.push('</span>');
-						  temp.push('</div>');
-						  break;
-					 } 
-			     }
-			 }
-			 if(!often){
-				 temp.push('<a href="#" ><span  onclick="$(\'#'+searchBtnId+'\',$(\'#'+loyModel.modelName+'_container\')).click()" class="ace-icon fa fa-search icon-on-right bigger-110"></span></a>');
-				 temp.push('<h5 class="widget-title" i18n="search_condition">'+$.i18n.prop("search_condition")+'</h5>');
-			 }
-	        temp.push('<div class="widget-toolbar">');
-			  temp.push('<a href="#" data-action="collapse">');
-			  temp.push('<i class="1 ace-icon fa bigger-125 fa-chevron-up"></i>');
-			  temp.push('</a>');
-			temp.push('</div>');
-        temp.push('</div>');
-        var display = often?"none":"";
-        temp.push('<div class="widget-body" style="display: '+display+';">');
-          temp.push('<div class="widget-main">');
-        	temp.push('<div class="row">');
-        	 
-        	if(loyModel.ccols){
-				 for(var i=0;i<loyModel.ccols.length;i++){
-					 var ccol = loyModel.ccols[i];
-					 if(!ccol.often){
-						 var queryInputStr = buildQueryInputHtml(ccol.inputType,ccol.id,ccol.name,ccol.i18nKey,ccol.properties);
-						 temp.push(queryInputStr);
-					 } 
-			     }
-			 }
-				  
-			  temp.push('<div class="col-xs-12 col-sm-2 " style="float:right">');
-				temp.push('<div id="'+loyModel.modelName+'SearchDiv" class="input-group" style="padding-bottom: 2px">');
-				  temp.push('<span class="input-group-btn" >');
-				  temp.push('<button id="'+searchBtnId+'" type="button" class="btn btn-purple btn-sm">');
-				  temp.push('<span class="ace-icon fa fa-search icon-on-right bigger-110"></span>');
-				  temp.push('<span i18n="find">'+$.i18n.prop("find")+'</span>');
-				  temp.push('</button>');
-				  temp.push('</span>');
+		temp.push('<div class="row">');
+		  temp.push('<div class="col-xs-12">');
+			temp.push('<div id="search_box" class="widget-box  ui-sortable-handle collapsed">');
+			  temp.push('<form id ="'+queryFormId+'" >');
+				temp.push('<div class="widget-header">');
+					 if(loyModel.ccols){
+						 for(var i=0;i<loyModel.ccols.length;i++){
+							 var ccol = loyModel.ccols[i];
+							 if(ccol.often){
+								 often = true;
+								 oftenQueryCol = ccol;
+								 temp.push('<div class="nav-search"  style="padding-top: 5px;  right: 50px">');
+								    temp.push('<span class="input-icon">');
+								    temp.push('<input type="text"  i18n="'+ccol.i18nKey+'" placeholder ="'+$.i18n.prop(ccol.i18nKey)+'" name="'+ccol.name+'"  id="'+ccol.id+'" class="nav-search-input"  >');
+								    temp.push('<i class="ace-icon fa fa-search nav-search-icon" onclick="$(\'#'+searchBtnId+'\',$(\'#'+loyModel.modelName+'_container\')).click()"></i>');
+								    temp.push('</span>');
+								  temp.push('</div>');
+								  break;
+							 } 
+					     }
+					 }
+					 if(!often){
+						 temp.push('<a href="#" ><span  onclick="$(\'#'+searchBtnId+'\',$(\'#'+loyModel.modelName+'_container\')).click()" class="ace-icon fa fa-search icon-on-right bigger-110"></span></a>');
+						 temp.push('<h5 class="widget-title" i18n="search_condition">'+$.i18n.prop("search_condition")+'</h5>');
+					 }
+			        temp.push('<div class="widget-toolbar">');
+					  temp.push('<a href="#" data-action="collapse">');
+					  temp.push('<i class="1 ace-icon fa bigger-125 fa-chevron-up"></i>');
+					  temp.push('</a>');
+					temp.push('</div>');
+		        temp.push('</div>');
+		        var display = often?"none":"";
+		        temp.push('<div class="widget-body" style="display: '+display+';">');
+		          temp.push('<div class="widget-main">');
+		        	temp.push('<div class="row">');
+		        	 
+		        	if(loyModel.ccols){
+						 for(var i=0;i<loyModel.ccols.length;i++){
+							 var ccol = loyModel.ccols[i];
+							 if(!ccol.often){
+								 var queryInputStr = buildQueryInputHtml(ccol.inputType,ccol.id,ccol.name,ccol.i18nKey,ccol.properties);
+								 temp.push(queryInputStr);
+							 } 
+					     }
+					 }
+						  
+					  temp.push('<div class="col-xs-12 col-sm-2 " style="float:right">');
+						temp.push('<div id="'+loyModel.modelName+'SearchDiv" class="input-group" style="padding-bottom: 2px">');
+						  temp.push('<span class="input-group-btn" >');
+						  temp.push('<button id="'+searchBtnId+'" type="button" class="btn btn-purple btn-sm">');
+						  temp.push('<span class="ace-icon fa fa-search icon-on-right bigger-110"></span>');
+						  temp.push('<span i18n="find">'+$.i18n.prop("find")+'</span>');
+						  temp.push('</button>');
+						  temp.push('</span>');
+						temp.push('</div>');
+					  temp.push('</div>');
+					temp.push('</div> ');     
+				  temp.push('</div>');
 				temp.push('</div>');
-			  temp.push('</div>');
-			temp.push('</div> ');     
-		  temp.push('</div>');
-		temp.push('</div>');
+			  temp.push('</form');
+			temp.push('</div> ');   
+	  temp.push('</div>');
+	  temp.push('<table id="'+grid_selector+'"></table>');
+	  temp.push('<div id="'+pager_selector+'"></div>');
+	temp.push('</div>');
 		
-		$('#queryForm',$container).html(temp.join(''));
+		$container.html(temp.join(''));
 		
 		$('#'+oftenQueryCol.id,$container).bind('keypress',function(event){
 	        if(event.keyCode == "13"){
@@ -697,7 +713,7 @@ loyControl = function(loyModel){
 		$('#'+submitBtnId,$container).attr("url",loyModel.modelName+"/save");
 		$('#'+editModalDivId,$container).modal("show");
   };
-  this.submit = function(grid){
+  this.submit = function(){
 	  var self = this;
 	  var url = $(this).attr("url");
       $.loy.ajax({
