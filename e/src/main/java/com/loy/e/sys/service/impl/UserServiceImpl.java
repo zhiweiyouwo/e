@@ -164,7 +164,7 @@ public class UserServiceImpl{
 	
 	@RequestMapping(value="/update",method={RequestMethod.POST})
 	@ControllerLogExeTime(description="修改用户")
-	public SuccessResponse  update(UserEntity userEntity){
+	public void  update(UserEntity userEntity){
 		
 		UserEntity u = userRepository.findByUsername(userEntity.getUsername());
 		
@@ -195,12 +195,12 @@ public class UserServiceImpl{
 		}
 		userRepository.save(oldUserEntity);
 		//Assert.throwException("user_password_error");
-		return SuccessResponse.newInstance();
+	
 	}
 	
 	@RequestMapping(value="/del",method={RequestMethod.POST})
 	@ControllerLogExeTime(description="删除用户")
-	public SuccessResponse  del(String id){
+	public void  del(String id){
 		if(StringUtils.isNotEmpty(id)){
 			String[] idsArr = id.split(",");
 			List<String> list = new ArrayList<String>();
@@ -212,7 +212,6 @@ public class UserServiceImpl{
 				userRepository.delete(list);
 			}
 		}
-		return SuccessResponse.newInstance();
 	}
 	
 	@RequestMapping(value="/excel",method={RequestMethod.POST})

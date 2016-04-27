@@ -254,8 +254,8 @@ public  class GenericRepositoryImpl<T extends Entity<ID>, ID extends Serializabl
 		}else{
 			countQl = countHql;
 		}
-		logger.debug("ql count : " +countHql);
-		logger.debug("hql :" +hql);
+		logger.debug("ql count : " +deleteCRLFOnce(countQl));
+		logger.debug("hql :" +deleteCRLFOnce(hql));
 		if(param != null){
 			logger.debug("参数值");
 			logger.debug("values :" + param);
@@ -311,7 +311,7 @@ public  class GenericRepositoryImpl<T extends Entity<ID>, ID extends Serializabl
         } 
         String qlStr = stringWriter.toString();
         logger.debug("模板中的QL");
-        logger.debug(qlStr);
+        logger.debug(deleteCRLFOnce(qlStr));
         return qlStr;  
     }
 	protected String prepareCountHql(String hql) {
@@ -392,4 +392,12 @@ public  class GenericRepositoryImpl<T extends Entity<ID>, ID extends Serializabl
 		logger.debug(result);
 		return result;
 	}
+	
+	 private  String deleteCRLFOnce(String input) {  
+	        if (StringUtils.isNotEmpty(input)) {  
+	            return input.replaceAll("((\r\n)|\n)[\\s\t ]*(\\1)+", "$1").replaceAll("^((\r\n)|\n)", "");  
+	        } else {  
+	            return "";  
+	        }  
+	    }  
 }

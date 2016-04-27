@@ -68,7 +68,7 @@ public class EmployeeServiceImpl{
 	}
 	@RequestMapping(value="/save",method={RequestMethod.POST})
 	@ControllerLogExeTime(description="新增员工")
-	public SuccessResponse  save(EmployeeEntity employeeEntity){
+	public void  save(EmployeeEntity employeeEntity){
 		String employeeNo = sequenceService.getEmployeeNo();
 		employeeEntity.setEmployeeNo(employeeNo);
 		employeeEntity.setUsername(employeeNo);
@@ -91,12 +91,12 @@ public class EmployeeServiceImpl{
 		employeeEntity.setPosition(pos);
 		
 		employeeRepository.save(employeeEntity);
-		return SuccessResponse.newInstance();
+
 	}
 	
 	@RequestMapping(value="/update",method={RequestMethod.POST})
 	@ControllerLogExeTime(description="修改员工信息")
-	public SuccessResponse  update(EmployeeEntity employeeEntity){
+	public void  update(EmployeeEntity employeeEntity){
 		EmployeeEntity oldEmployeeEntity = employeeRepository.get(employeeEntity.getId());
 		String name = employeeEntity.getName();
 		String email = employeeEntity.getEmail();
@@ -124,11 +124,10 @@ public class EmployeeServiceImpl{
 		oldEmployeeEntity.setOrganization(org);
 		oldEmployeeEntity.setPosition(pos);
 		employeeRepository.save(oldEmployeeEntity);
-		return SuccessResponse.newInstance();
 	}
 	@RequestMapping(value="/del",method={RequestMethod.POST})
 	@ControllerLogExeTime(description="删除员工")
-	public SuccessResponse  del(String id){
+	public void  del(String id){
 		if(StringUtils.isNotEmpty(id)){
 			String[] idsArr = id.split(",");
 			List<String> list = new ArrayList<String>();
@@ -140,7 +139,6 @@ public class EmployeeServiceImpl{
 				employeeRepository.delete(list);
 			}
 		}
-		return SuccessResponse.newInstance();
 	}
 	
 	@RequestMapping(value="/excel",method={RequestMethod.POST})

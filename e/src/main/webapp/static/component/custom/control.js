@@ -351,7 +351,7 @@ loyControl = function(loyModel){
 					 {name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false ,
 						formatter:'actions', 
 						formatoptions:getFormatoptions(loyModel.modelName+'/')
-					 }];
+		}];
 		for(var i=0;i<loyModel.cols.length;i++){
 			var col = loyModel.cols[i];
 			if(col.list){
@@ -560,8 +560,7 @@ loyControl = function(loyModel){
 						    var inputHtml = buildInputHtml(col.properties.input_type,id,name,col.i18nKey,col.properties)
 						    temp.push(inputHtml);
 						}
-					  }
-					  
+					  }  
 					temp.push('</form>');
 	               temp.push('</div>');
 				 temp.push('</div>');
@@ -651,10 +650,10 @@ loyControl = function(loyModel){
 				temp.push('</div>');
 			  temp.push('</form');
 			temp.push('</div> ');   
-	  temp.push('</div>');
-	  temp.push('<table id="'+grid_selector+'"></table>');
-	  temp.push('<div id="'+pager_selector+'"></div>');
-	temp.push('</div>');
+	      temp.push('</div>');
+	      temp.push('<table id="'+grid_selector+'"></table>');
+	      temp.push('<div id="'+pager_selector+'"></div>');
+	    temp.push('</div>');
 		
 		$container.html(temp.join(''));
 		
@@ -704,28 +703,27 @@ loyControl = function(loyModel){
 				var result = data.data;
 				detail(result);
 			}
-	});
-	
+	    });
   };
   this.add = function add(){
-		this.clearForm();
-		$('#id',$('#'+editModalDivId,$container)).val("");
-		$('#'+submitBtnId,$container).attr("url",loyModel.modelName+"/save");
-		$('#'+editModalDivId,$container).modal("show");
+	this.clearForm();
+	$('#id',$('#'+editModalDivId,$container)).val("");
+	$('#'+submitBtnId,$container).attr("url",loyModel.modelName+"/save");
+	$('#'+editModalDivId,$container).modal("show");
   };
   this.submit = function(){
 	  var self = this;
 	  var url = $(this).attr("url");
       $.loy.ajax({
-				url:url,
-				data:$("#"+editFormId,$container).serialize(),
-				success:function(data){
-					if(data.success){
-						$('#'+editModalDivId,$container).modal("hide");
-						self.grid.trigger("reloadGrid");
-					}
+			url:url,
+			data:$("#"+editFormId,$container).serialize(),
+			success:function(data){
+				if(data.success){
+					$('#'+editModalDivId,$container).modal("hide");
+					self.grid.trigger("reloadGrid");
 				}
-		});
- };
- }
+			}
+	  });
+  };
+}
 

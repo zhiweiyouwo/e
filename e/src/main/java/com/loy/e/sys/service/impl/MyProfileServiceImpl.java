@@ -40,12 +40,12 @@ public class MyProfileServiceImpl {
 	
 	@ControllerLogExeTime(description="上传个人图片")
 	@RequestMapping(value="/upload",method={RequestMethod.POST})
-    public SuccessResponse  upload(@RequestParam MultipartFile avatar) throws IOException{
+    public void  upload(@RequestParam MultipartFile avatar) throws IOException{
 		byte[] photoData = avatar.getBytes(); 
 		EmployeeEntity employeeEntity = employeeRepository.get(UserUtils.getUserId());
 		employeeEntity.setPhotoData(photoData);
 		employeeRepository.save(employeeEntity);
-	    return SuccessResponse.newInstance();
+	   
 	}
 	
 	@ControllerLogExeTime(description="获取个人图片",log=false)

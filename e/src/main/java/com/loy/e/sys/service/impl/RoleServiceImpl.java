@@ -121,7 +121,7 @@ public class RoleServiceImpl {
 	
 	@ControllerLogExeTime(description="修改角色")
 	@RequestMapping(value="/update",method={RequestMethod.POST})
-	public SuccessResponse  update(RoleEntity roleEntity){
+	public void  update(RoleEntity roleEntity){
 		String id = roleEntity.getId();
 		RoleEntity role = roleRepository.get(id);
 		
@@ -129,12 +129,12 @@ public class RoleServiceImpl {
 		role.setDescription(roleEntity.getDescription());
 		
 		roleRepository.save(role);
-		return SuccessResponse.newInstance();
+		
 	}
 	
 	@ControllerLogExeTime(description="删除角色")
 	@RequestMapping(value="/del",method={RequestMethod.POST})
-	public SuccessResponse  del(String id){
+	public void  del(String id){
 		
 		if(StringUtils.isNotEmpty(id)){
 			String[] idsArr = id.split(",");
@@ -147,12 +147,11 @@ public class RoleServiceImpl {
 				roleRepository.delete(list);
 			}
 		}
-		return SuccessResponse.newInstance();
 	}
 	
 	@ControllerLogExeTime(description="角色授权")
 	@RequestMapping(value="/authority",method={RequestMethod.POST})
-	public SuccessResponse  authority(String roleId,String resourceIds){
+	public void  authority(String roleId,String resourceIds){
 		RoleEntity roleEntity = roleRepository.get(roleId);
 		Set<ResourceEntity> resources = new HashSet<ResourceEntity>();
 		
@@ -167,7 +166,6 @@ public class RoleServiceImpl {
 		}
 		roleEntity.setResources(resources);
 		roleRepository.save(roleEntity);
-		return SuccessResponse.newInstance();
 	}
 	
 	@RequestMapping(value="/excel",method={RequestMethod.POST})
