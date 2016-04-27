@@ -87,7 +87,7 @@ public class QueryParamHelper {
 				String orderStr =  QueryParamHelper.rootAlias+QueryParamHelper.delimiter+o.name() + " " +o.direction().getInfo();
 				tempList.add(orderStr);
 			}
-			Object orderProperityObj = values.get("orderProperity");
+			Object orderProperityObj = values.get("orderProperty");
 			if(orderProperityObj != null){
 				String orderProperity = (String)orderProperityObj;
 				if(StringUtils.isNotEmpty(orderProperity)){
@@ -101,7 +101,7 @@ public class QueryParamHelper {
 			}
 			ql.append(StringUtils.join(tempList, ","));
 		}else{
-			Object orderProperityObj = values.get("orderProperity");
+			Object orderProperityObj = values.get("orderProperty");
 			if(orderProperityObj != null){
 				String orderProperity = (String)orderProperityObj;
 				if(StringUtils.isNotEmpty(orderProperity)){
