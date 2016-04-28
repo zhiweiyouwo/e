@@ -1,3 +1,10 @@
+function hasPermission(accessCode){
+		var value = $.homeGlobal.accessCodes[accessCode];
+		if(value == null || value == undefined){
+			return true;
+		}
+		return value;
+}
 function checkbox(cellValue){
 	return cellValue?'<input checked type="checkbox" disabled="true"/>':'<input type="checkbox"  disabled="true"/>';
 }
