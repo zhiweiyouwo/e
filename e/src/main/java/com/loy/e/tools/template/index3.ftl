@@ -131,7 +131,7 @@
                                     <div class="row" style="padding-bottom: 2px">
 								         <div class="form-group">
 					                          <label class="col-sm-3 control-label"  i18n="${col.i18nKey}"></label>
-					                          <div class="col-sm-6"  id="view_${col.combineFieldName}"> 
+					                          <div class="col-sm-6"  id="view_${col.inputId}"> 
 					                          </div>
 					                     </div>
                                     </div>

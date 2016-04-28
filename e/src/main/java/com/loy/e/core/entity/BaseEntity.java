@@ -10,11 +10,13 @@ import javax.persistence.MappedSuperclass;
  * @author Loy Fu qq群 540553957
  * @since 1.7
  * @version 1.0.0
+ * @param <I>
  * 
  */
 
+
 @MappedSuperclass
-public abstract class BaseEntity extends AbstractEntity <String> implements Operator{
+public abstract class BaseEntity extends AbstractEntity<String> implements Operator{
 	
 	@Column(updatable=false,name="created_time")
     private Date createdTime = new Date();

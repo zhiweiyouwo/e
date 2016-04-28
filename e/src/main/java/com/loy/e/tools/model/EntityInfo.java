@@ -1,6 +1,8 @@
 package com.loy.e.tools.model;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -598,5 +600,14 @@ public class EntityInfo {
 		
 		return modelColumns.values();
 	}
-    
+
+	protected Class idClass(Class entityClass) {
+		Type type = entityClass.getGenericSuperclass();
+		if(type instanceof ParameterizedType){
+			ParameterizedType parameterizedType = (ParameterizedType)type;
+			Type cc = parameterizedType.getActualTypeArguments()[0];
+			return cc.getClass();
+		}
+		return String.class;
+	}
 }

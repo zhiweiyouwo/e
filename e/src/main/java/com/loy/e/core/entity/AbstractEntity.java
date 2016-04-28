@@ -1,6 +1,8 @@
 package com.loy.e.core.entity;
 
 import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -21,7 +23,6 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @MappedSuperclass
 public class AbstractEntity<ID extends Serializable>  implements Entity<ID> {
-
 	
 	@Id
 	@GeneratedValue(generator = "system-uuid")
@@ -44,6 +45,9 @@ public class AbstractEntity<ID extends Serializable>  implements Entity<ID> {
 			this.setId(null);
 			return true;
 		}
+		
 		return false;
 	}
+	
+	
 }

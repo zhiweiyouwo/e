@@ -133,7 +133,7 @@ public class CodeTool {
         t.process(entityInfo, new OutputStreamWriter(System.out)); 
         
         
-        t = cfg.getTemplate("index.ftl");
+        t = cfg.getTemplate("index2.ftl");
         if(!options.debug){ 
 			packageName = "webapp/static/"+entityInfo.getModelName();
 			packageName = packageName.replaceAll("\\.", "/");
