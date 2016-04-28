@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 import javax.persistence.Column;
@@ -28,6 +27,7 @@ import com.loy.e.core.util.DateUtil;
 import com.loy.e.sys.domain.entity.DictionaryEntity;
 import com.loy.e.sys.repository.DictionaryRepository;
 import com.loy.e.tools.component.AbstractInput;
+import com.loy.e.tools.component.CheckboxInput;
 import com.loy.e.tools.component.DateInput;
 import com.loy.e.tools.component.FloatInput;
 import com.loy.e.tools.component.IntegerInput;
@@ -167,6 +167,9 @@ public class EntityInfo {
 			}else if(type == Float.class || type == Double.class || type==BigDecimal.class){
 				FloatInput input = new FloatInput(this);
 				abstractInput = input;
+			}else if(type == Boolean.class){
+				CheckboxInput input = new CheckboxInput(this);
+				abstractInput = input;
 			}
 			
 		}
@@ -251,6 +254,8 @@ public class EntityInfo {
 			columnInfo.setDescription(loyColumn.description());
 			if(type == Date.class){
 				columnInfo.setFormatter("date");
+			}else if(type == Boolean.class){
+				columnInfo.setFormatter("checkbox");
 			}
 			i18ns.put(getPreI18n()+"."+field.getName(), loyColumn.description());
 			this.listColumns.add(columnInfo);

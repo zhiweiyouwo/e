@@ -1,4 +1,6 @@
-
+function checkbox(cellValue){
+	return cellValue?'<input checked type="checkbox" disabled="true"/>':'<input type="checkbox"  disabled="true"/>';
+}
 function   combineFieldName(fieldName){
 	var strs=fieldName.split("\.");
 	var temp = "";
@@ -99,6 +101,19 @@ loyControl = function(loyModel){
 	function buildInputHtml(inputType,id,name,i18n,properties){
 		var i18nValue =  $.i18n.prop(i18n);
 		var inputTypes = {
+			checkbox:function(id,name,i18n,properties){
+				var buffer = [];
+				buffer.push('<div class="form-group">');
+				  buffer.push('<label class="col-sm-3 control-label" i18n="'+i18n+'">'+i18nValue+'</label>');
+				  buffer.push('<div class="col-sm-6">');
+				    buffer.push('<label class="inline">');
+					buffer.push('<input type="checkbox" value="true" class="form-control ace ace-switch ace-switch-5" id="'+id+'" name="'+name+'" />');
+					buffer.push('<span class="lbl"></span>');
+					buffer.push('</label>');
+	              buffer.push('</div>');
+				buffer.push('</div>');
+				return buffer.join('')
+			},
 			text:function(id,name,i18n,properties){
 				var buffer = [];
 				buffer.push('<div class="form-group">');
@@ -420,10 +435,14 @@ loyControl = function(loyModel){
 			var col = loyModel.cols[i];
 			if(col.edit){
 				var id = buildId(col.fieldName);
-				$('#'+id,$container).val('');
-				if(col.properties.input_type=="search_text" ||
-						col.properties.input_type=="select"){
-					$('#'+id,$container).trigger("chosen:updated");
+				if(col.properties.input_type=="checkbox"){
+					$('#'+id,$container).prop("checked", false);
+				}else{
+					$('#'+id,$container).val('');
+					if(col.properties.input_type=="search_text" ||
+							col.properties.input_type=="select"){
+						$('#'+id,$container).trigger("chosen:updated");
+					}
 				}
 			}
 	    }
@@ -445,7 +464,15 @@ loyControl = function(loyModel){
 					if(col.properties.input_type=="date"){
 						v = v?v.substring(0,10):"";
 					}
-					$('#'+id,this.$container).val(v?v:"");
+					if(col.properties.input_type=="checkbox"){
+						if(v){
+							$('#'+id,$container).prop("checked", true);
+						}else{
+							$('#'+id,$container).prop("checked", false);
+						}
+					}else{
+						$('#'+id,this.$container).val(v?v:"");
+					}
 					if(col.properties.input_type=="select" || col.properties.input_type=="search_text"){
 						if(col.properties.input_type=="search_text"){
 							if(v && v !=''){

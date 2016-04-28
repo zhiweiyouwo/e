@@ -61,6 +61,8 @@ public class TestEntity extends BaseEntity{
 	@Column(length=500)
 	private String longString;
 	
+	@LoyColumn(description="选中")
+	private Boolean  checkbox = false;
     
 	public String getName() {
 		return name;
@@ -118,6 +120,14 @@ public class TestEntity extends BaseEntity{
 
 	public void setStatus(DictionaryEntity status) {
 		this.status = status;
+	}
+
+	public Boolean getCheckbox() {
+		return checkbox;
+	}
+
+	public void setCheckbox(Boolean checkbox) {
+		this.checkbox = checkbox;
 	}
 	
 	
