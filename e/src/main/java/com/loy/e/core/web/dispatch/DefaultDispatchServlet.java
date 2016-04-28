@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.i18n.LocaleContext;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -70,7 +71,7 @@ public class DefaultDispatchServlet extends DispatcherServlet{
 	
 	protected ModelAndView processHandlerException(HttpServletRequest request, HttpServletResponse response,
 			Object handler, Exception ex) throws Exception {
-		if(isJson(request)){
+		if(isJson(request) && ex instanceof HttpRequestMethodNotSupportedException){
 			ErrorResponseData error = new ErrorResponseData();
 			error.setMsg(ex.getMessage());
 			String errorJson = JsonUtil.json(error);
