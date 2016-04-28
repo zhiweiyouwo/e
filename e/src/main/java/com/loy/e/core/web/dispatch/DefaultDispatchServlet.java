@@ -3,12 +3,16 @@ package com.loy.e.core.web.dispatch;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.i18n.LocaleContext;
 import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.loy.e.core.data.ErrorResponseData;
+import com.loy.e.core.util.JsonUtil;
 import com.loy.e.core.web.SimpleUser;
 /**
  * 
@@ -62,5 +66,32 @@ public class DefaultDispatchServlet extends DispatcherServlet{
 				locale = new Locale(temp[0], temp[1]);
 				return  locale;
 			}};
+	}
+	
+	protected ModelAndView processHandlerException(HttpServletRequest request, HttpServletResponse response,
+			Object handler, Exception ex) throws Exception {
+		if(isJson(request)){
+			ErrorResponseData error = new ErrorResponseData();
+			error.setMsg(ex.getMessage());
+			String errorJson = JsonUtil.json(error);
+			response.getWriter().print(errorJson);
+			return null;
+		}else{
+			return super.processHandlerException(request, response, handler, ex);
+		}	
+	}
+	
+	private boolean isJson(HttpServletRequest request){
+		String accept = request.getHeader("accept");
+		String[] arr = accept.split(",");
+		if(arr == null){
+			return false;
+		}
+		for(String a : arr){
+			if("application/json".equalsIgnoreCase(a)){
+				return true;
+			}
+		}
+		return false;
 	}
 }
