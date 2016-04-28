@@ -31,8 +31,8 @@ public class CodeTool {
 	
 	public static void main(String[] args) throws IOException, TemplateException {
 		Options options = new Options();
-		//generateCode(TestEntity.class,options);
-		deleteGenerateCode(TestEntity.class);
+		generateCode(TestEntity.class,options);
+		//deleteGenerateCode(TestEntity.class);
 	}
 	
 	public static void generateCode(Class entityClass,Options options) throws IOException, TemplateException{
@@ -133,7 +133,7 @@ public class CodeTool {
         t.process(entityInfo, new OutputStreamWriter(System.out)); 
         
         
-        t = cfg.getTemplate("index2.ftl");
+        t = cfg.getTemplate("index.ftl");
         if(!options.debug){ 
 			packageName = "webapp/static/"+entityInfo.getModelName();
 			packageName = packageName.replaceAll("\\.", "/");

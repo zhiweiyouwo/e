@@ -721,7 +721,12 @@ loyControl = function(loyModel){
 						v = v[key];
 					}
 				}
-				$('#view_'+id,$container).html(v?v:'');
+				if(typeof v == 'boolean'){
+					v = v?'<input checked type="checkbox" disabled="true"/>':'<input type="checkbox"  disabled="true"/>';
+					$('#view_'+id,$container).html(v);
+				}else{
+					$('#view_'+id,$container).html(v?v:'');
+				}
 			}
 	    }
 	};
