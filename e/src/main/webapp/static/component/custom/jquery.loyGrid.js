@@ -295,6 +295,7 @@ function getFitGridWidth(w){
 		}
 		return value;
 	}
+	
 (function ($) {
 	
 	var mEdit = {

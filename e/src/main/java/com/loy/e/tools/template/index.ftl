@@ -181,15 +181,9 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 			</#list>
        ]
     };
-	var $container = $('#${entityName?replace("Entity","")?uncap_first}_container');
-	var grid_selector  = "#${entityName?replace("Entity","")?uncap_first}_grid-table";
-	var pager_selector = "#${entityName?replace("Entity","")?uncap_first}_grid-pager";
 	
-	loyModel.$container = $container;
-	loyModel.grid_selector = grid_selector;
-	loyModel.pager_selector = pager_selector;
 	var control = new loyControl(loyModel);
-	
+	var $container = control.$container;
 	$.loy.i18n(['${modelName}/${entityName?replace("Entity","")?uncap_first}'],$.homeGlobal.LANG,$container,{custCallback:function(){
 		control.init();	
 		<#if oftenField??>

@@ -79,6 +79,13 @@ public class ${entityName?replace("Entity","")}ServiceImpl {
 		return ${entityName?uncap_first};
 	}
 	
+	@ControllerLogExeTime(description="查看${name}",log = false)
+	@RequestMapping(value="/detail")
+	public ${entityName}  detail(String id){
+		${entityName} ${entityName?uncap_first} = ${entityName?replace("Entity","")?uncap_first}Repository.get(id);
+		return ${entityName?uncap_first};
+	}
+	
 	@ControllerLogExeTime(description="删除${name}")
 	@RequestMapping(value="/del")
 	public void  del(String id){

@@ -731,7 +731,7 @@ loyControl = function(loyModel){
 		$('#'+viewModalDivId,$container).modal("show");
 		var detail = this.detail;
 		$.loy.ajax({
-			url:loyModel.modelName+'/get',
+			url:loyModel.modelName+'/detail',
 			data:{id:id},
 			success:function(data){
 				var result = data.data;

@@ -138,7 +138,9 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 							$authority.on('click',function(){
 								showAuthority($(this).attr('id'));
 							});
-							$('#'+delDivId,roleGrid).parent().append($authority);
+							if(hasPermission('role:authority')){
+								$('#'+delDivId,roleGrid).parent().append($authority);
+							}
 						}
 					}
 					//role_grid-table
