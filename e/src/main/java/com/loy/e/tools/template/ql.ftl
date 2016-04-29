@@ -16,7 +16,6 @@
           and x.${condition.fieldName} = :${condition.combineFieldName} 
          ${left}/@notEmpty>
         </#if>
-       
         <#else>
         ${left}@notEmpty name="${condition.combineFieldName}Start">
           and x.${condition.fieldName} >= :${condition.combineFieldName}Start 
