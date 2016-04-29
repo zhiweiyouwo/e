@@ -62,144 +62,7 @@ loyControl = function(loyModel){
 	this.grid = null;
 	this.$validateForm = null;
 	
-	function buildQueryInputHtml(inputType,id,name,i18n,properties){
-		var i18nValue =  $.i18n.prop(i18n);
-		var inputTypes = {
-			text:function(id,name,i18n,properties){
-				var buffer = [];
-				buffer.push('<div class="col-xs-12 col-sm-2 ">');
-				buffer.push('<input type="text"  i18n="'+i18n+'" placeholder ="'+i18nValue+'" class="form-control  search-query" ');
-				buffer.push('id="'+id+'"   name="'+name+'" />');
-				buffer.push("</div>");
-				return buffer.join('');
-			},
-			select:function(id,name,i18n,properties){
-				var buffer = [];
-				buffer.push('<div class="col-xs-12 col-sm-2 ">');
-				buffer.push('<select group="'+properties.group+'"   i18n="'+i18n+'" placeholder ="'+i18nValue+'" class="form-control search-query"');
-				buffer.push('id="'+id+'"   name="'+name+'Id'+'"  >');
-				buffer.push(' <option value="">ALL</option> ');
-				buffer.push('</select>');
-				buffer.push('</div>');
-				return buffer.join('');
-			},
-			
-			date:function(id,name,i18n,properties){
-				var buffer = [];
-				var i18nStartKey = i18n+"Start";
-				var i18nEndKey = i18n+"End";
-				buffer.push('<div class="input-group col-xs-12 col-sm-2"  style="float:left;padding-left: 15px;padding-right: 15px">');
-				buffer.push('<input type="text"  i18n="'+i18nStartKey+'" placeholder ="'+$.i18n.prop(i18nStartKey)+'" class="form-control  date-picker" ');
-				buffer.push('id="'+id+'_start" name="'+name+'Start"/>');
-				buffer.push('<span class="input-group-addon"><i class="fa fa-calendar bigger-110"></i></span>');
-				buffer.push('</div>');
-				
-				
-				buffer.push('<div class="input-group col-xs-12 col-sm-2"  style="float:left;padding-left: 15px;padding-right: 15px">');
-				buffer.push('<input type="text"  i18n="'+i18nEndKey+'" placeholder ="'+$.i18n.prop(i18nEndKey)+'" class="form-control  date-picker" ');
-				buffer.push('id="'+id+'_end" name="'+name+'End"/>');
-				buffer.push('<span class="input-group-addon"><i class="fa fa-calendar bigger-110"></i></span>');
-				buffer.push('</div>');
-				return buffer.join('');
-			},
-		};
-		return inputTypes[inputType](id,name,i18n,properties);
-	};
-	function buildInputHtml(inputType,id,name,i18n,properties){
-		var i18nValue =  $.i18n.prop(i18n);
-		var inputTypes = {
-			checkbox:function(id,name,i18n,properties){
-				var buffer = [];
-				buffer.push('<div class="form-group">');
-				  buffer.push('<label class="col-sm-3 control-label" i18n="'+i18n+'">'+i18nValue+'</label>');
-				  buffer.push('<div class="col-sm-6">');
-				    buffer.push('<label class="inline">');
-					buffer.push('<input type="checkbox" value="true" class="form-control ace ace-switch ace-switch-5" id="'+id+'" name="'+name+'" />');
-					buffer.push('<span class="lbl"></span>');
-					buffer.push('</label>');
-	              buffer.push('</div>');
-				buffer.push('</div>');
-				return buffer.join('')
-			},
-			text:function(id,name,i18n,properties){
-				var buffer = [];
-				buffer.push('<div class="form-group">');
-				  buffer.push('<label class="col-sm-3 control-label" i18n="'+i18n+'">'+i18nValue+'</label>');
-				  buffer.push('<div class="col-sm-6">');
-					buffer.push('<input type="text"  class="form-control" id="'+id+'" name="'+name+'" />');
-	              buffer.push('</div>');
-				buffer.push('</div>');
-				return buffer.join('')
-			},
-			text_area:function(id,name,i18nValue,properties){
-				var buffer = [];
-				buffer.push('<div class="form-group">');
-				  buffer.push('<label class="col-sm-3 control-label"  i18n="'+i18n+'">'+i18nValue+'</label>');
-				  buffer.push('<div class="col-sm-6">');
-					buffer.push(' <textarea type="text"   class="form-control" id="'+id+'" name="'+name+'" ></textarea>');
-	              buffer.push('</div>');
-				buffer.push('</div>');
-				return buffer.join('');
-			},
-			date:function(id,name,i18nValue,properties){
-				var buffer = [];
-				buffer.push('<div class="form-group">');
-				  buffer.push('<label class="col-sm-3 control-label"  i18n="'+i18n+'">'+i18nValue+'</label>');
-				  buffer.push('<div class="col-sm-6">');
-				  buffer.push('<div class="input-group"><input type="text"  class="form-control  date-picker" id="'+id+'" name="'+name+'" /><span class="input-group-addon"><i class="fa fa-calendar bigger-110"></i></span></div>');
-	              buffer.push('</div>');
-				buffer.push('</div>');
-				return buffer.join('');
-				 
-			},
-			select:function(id,name,i18nValue,properties){
-				var buffer = [];
-				buffer.push('<div class="form-group">');
-				  buffer.push('<label class="col-sm-3 control-label"  i18n="'+i18n+'">'+i18nValue+'</label>');
-				  buffer.push('<div class="col-sm-6">');
-				  buffer.push('  <select class="form-control chosen-select" group="'+properties.group+'" id="'+id+'" name="'+name+'"> <option value=""></option> </select>');
-	              buffer.push('</div>');
-				buffer.push('</div>');
-				return buffer.join('');
-				 
-			},
-			search_text:function(id,name,i18nValue,properties){
-				var buffer = [];
-				buffer.push('<div class="form-group">');
-				  buffer.push('<label class="col-sm-3 control-label"  i18n="'+i18n+'">'+i18nValue+'</label>');
-				  buffer.push('<div class="col-sm-6">');
-				  buffer.push(' <select class="form-control chosen-select" id="'+id+'" name="'+name+'" label="'+properties.name+'" tableName="'+properties.tableName+'"> <option value=""></option> </select>');
-	              buffer.push('</div>');
-				buffer.push('</div>');
-				return buffer.join('');
-				 
-			},
-			integer:function(id,name,i18nValue,properties){
-				var buffer = [];
-				buffer.push('<div class="form-group">');
-				  buffer.push('<label class="col-sm-3 control-label"  i18n="'+i18n+'">'+i18nValue+'</label>');
-				  buffer.push('<div class="col-sm-6">');
-				  buffer.push(' <input type="text"  class="form-control spinner" id="'+id+'" name="'+name+'" />');
-	              buffer.push('</div>');
-				buffer.push('</div>');
-				return buffer.join('');
-				 
-			},
-			float:function(id,name,i18nValue,properties){
-				var buffer = [];
-				buffer.push('<div class="form-group">');
-				  buffer.push('<label class="col-sm-3 control-label"  i18n="'+i18n+'">'+i18nValue+'</label>');
-				  buffer.push('<div class="col-sm-6">');
-				  buffer.push(' <input type="text"  class="form-control spinner" id="'+id+'" name="'+name+'" />');
-	              buffer.push('</div>');
-				buffer.push('</div>');
-				return buffer.join('');
-				 
-			}
-		};
-		return inputTypes[inputType](id,name,i18nValue,properties);
-		
-	};
+	
 	this.loadCompleteCallback = function(data){
 		var self = this;
 		loadComplete(data);
@@ -509,6 +372,204 @@ loyControl = function(loyModel){
 	   });
 	};
 	
+	
+	
+	this.detail =function (result){
+		for(var i=0;i<loyModel.cols.length;i++){
+			var col = loyModel.cols[i];
+			var v = result;
+			if(col.detail){
+			    var id = buildId(col.fieldName);
+				var strs=col.fieldName.split("\.");
+				for(var j=0;j<strs.length;j++){
+					var key = strs[j];
+					if(v){
+						v = v[key];
+					}
+				}
+				if(typeof v == 'boolean'){
+					v = v?'<input checked type="checkbox" disabled="true"/>':'<input type="checkbox"  disabled="true"/>';
+					$('#view_'+id,$container).html(v);
+				}else{
+					$('#view_'+id,$container).html(v?v:'');
+				}
+			}
+	    }
+	};
+	
+	
+   this.view = function (id){
+		$('#'+viewModalDivId,$container).modal("show");
+		var detail = this.detail;
+		$.loy.ajax({
+			url:loyModel.modelName+'/detail',
+			data:{id:id},
+			success:function(data){
+				var result = data.data;
+				detail(result);
+			}
+	    });
+  };
+  this.add = function add(){
+	this.clearForm();
+	$('#id',$('#'+editModalDivId,$container)).val("");
+	$('#'+submitBtnId,$container).attr("url",loyModel.modelName+"/save");
+	$('#'+editModalDivId,$container).modal("show");
+  };
+  this.submit = function(){
+	  var self = this;
+	  var url = $(this).attr("url");
+      $.loy.ajax({
+			url:url,
+			data:$("#"+editFormId,$container).serialize(),
+			success:function(data){
+				if(data.success){
+					$('#'+editModalDivId,$container).modal("hide");
+					self.grid.trigger("reloadGrid");
+				}
+			}
+	  });
+  };
+  
+  function buildQueryInputHtml(inputType,id,name,i18n,properties){
+		var i18nValue =  $.i18n.prop(i18n);
+		var inputTypes = {
+			text:function(id,name,i18n,properties){
+				var buffer = [];
+				buffer.push('<div class="col-xs-12 col-sm-2 ">');
+				buffer.push('<input type="text"  i18n="'+i18n+'" placeholder ="'+i18nValue+'" class="form-control  search-query" ');
+				buffer.push('id="'+id+'"   name="'+name+'" />');
+				buffer.push("</div>");
+				return buffer.join('');
+			},
+			select:function(id,name,i18n,properties){
+				var buffer = [];
+				buffer.push('<div class="col-xs-12 col-sm-2 ">');
+				buffer.push('<select group="'+properties.group+'"   i18n="'+i18n+'" placeholder ="'+i18nValue+'" class="form-control search-query"');
+				buffer.push('id="'+id+'"   name="'+name+'Id'+'"  >');
+				buffer.push(' <option value="">ALL</option> ');
+				buffer.push('</select>');
+				buffer.push('</div>');
+				return buffer.join('');
+			},
+			
+			date:function(id,name,i18n,properties){
+				var buffer = [];
+				var i18nStartKey = i18n+"Start";
+				var i18nEndKey = i18n+"End";
+				buffer.push('<div class="input-group col-xs-12 col-sm-2"  style="float:left;padding-left: 15px;padding-right: 15px">');
+				buffer.push('<input type="text"  i18n="'+i18nStartKey+'" placeholder ="'+$.i18n.prop(i18nStartKey)+'" class="form-control  date-picker" ');
+				buffer.push('id="'+id+'_start" name="'+name+'Start"/>');
+				buffer.push('<span class="input-group-addon"><i class="fa fa-calendar bigger-110"></i></span>');
+				buffer.push('</div>');
+				
+				
+				buffer.push('<div class="input-group col-xs-12 col-sm-2"  style="float:left;padding-left: 15px;padding-right: 15px">');
+				buffer.push('<input type="text"  i18n="'+i18nEndKey+'" placeholder ="'+$.i18n.prop(i18nEndKey)+'" class="form-control  date-picker" ');
+				buffer.push('id="'+id+'_end" name="'+name+'End"/>');
+				buffer.push('<span class="input-group-addon"><i class="fa fa-calendar bigger-110"></i></span>');
+				buffer.push('</div>');
+				return buffer.join('');
+			},
+		};
+		return inputTypes[inputType](id,name,i18n,properties);
+	};
+	function buildInputHtml(inputType,id,name,i18n,properties){
+		var i18nValue =  $.i18n.prop(i18n);
+		var inputTypes = {
+			checkbox:function(id,name,i18n,properties){
+				var buffer = [];
+				buffer.push('<div class="form-group">');
+				  buffer.push('<label class="col-sm-3 control-label" i18n="'+i18n+'">'+i18nValue+'</label>');
+				  buffer.push('<div class="col-sm-6">');
+				    buffer.push('<label class="inline">');
+					buffer.push('<input type="checkbox" value="true" class="form-control ace ace-switch ace-switch-5" id="'+id+'" name="'+name+'" />');
+					buffer.push('<span class="lbl"></span>');
+					buffer.push('</label>');
+	              buffer.push('</div>');
+				buffer.push('</div>');
+				return buffer.join('')
+			},
+			text:function(id,name,i18n,properties){
+				var buffer = [];
+				buffer.push('<div class="form-group">');
+				  buffer.push('<label class="col-sm-3 control-label" i18n="'+i18n+'">'+i18nValue+'</label>');
+				  buffer.push('<div class="col-sm-6">');
+					buffer.push('<input type="text"  class="form-control" id="'+id+'" name="'+name+'" />');
+	              buffer.push('</div>');
+				buffer.push('</div>');
+				return buffer.join('')
+			},
+			text_area:function(id,name,i18nValue,properties){
+				var buffer = [];
+				buffer.push('<div class="form-group">');
+				  buffer.push('<label class="col-sm-3 control-label"  i18n="'+i18n+'">'+i18nValue+'</label>');
+				  buffer.push('<div class="col-sm-6">');
+					buffer.push(' <textarea type="text"   class="form-control" id="'+id+'" name="'+name+'" ></textarea>');
+	              buffer.push('</div>');
+				buffer.push('</div>');
+				return buffer.join('');
+			},
+			date:function(id,name,i18nValue,properties){
+				var buffer = [];
+				buffer.push('<div class="form-group">');
+				  buffer.push('<label class="col-sm-3 control-label"  i18n="'+i18n+'">'+i18nValue+'</label>');
+				  buffer.push('<div class="col-sm-6">');
+				  buffer.push('<div class="input-group"><input type="text"  class="form-control  date-picker" id="'+id+'" name="'+name+'" /><span class="input-group-addon"><i class="fa fa-calendar bigger-110"></i></span></div>');
+	              buffer.push('</div>');
+				buffer.push('</div>');
+				return buffer.join('');
+				 
+			},
+			select:function(id,name,i18nValue,properties){
+				var buffer = [];
+				buffer.push('<div class="form-group">');
+				  buffer.push('<label class="col-sm-3 control-label"  i18n="'+i18n+'">'+i18nValue+'</label>');
+				  buffer.push('<div class="col-sm-6">');
+				  buffer.push('  <select class="form-control chosen-select" group="'+properties.group+'" id="'+id+'" name="'+name+'"> <option value=""></option> </select>');
+	              buffer.push('</div>');
+				buffer.push('</div>');
+				return buffer.join('');
+				 
+			},
+			search_text:function(id,name,i18nValue,properties){
+				var buffer = [];
+				buffer.push('<div class="form-group">');
+				  buffer.push('<label class="col-sm-3 control-label"  i18n="'+i18n+'">'+i18nValue+'</label>');
+				  buffer.push('<div class="col-sm-6">');
+				  buffer.push(' <select class="form-control chosen-select" id="'+id+'" name="'+name+'" label="'+properties.name+'" tableName="'+properties.tableName+'"> <option value=""></option> </select>');
+	              buffer.push('</div>');
+				buffer.push('</div>');
+				return buffer.join('');
+				 
+			},
+			integer:function(id,name,i18nValue,properties){
+				var buffer = [];
+				buffer.push('<div class="form-group">');
+				  buffer.push('<label class="col-sm-3 control-label"  i18n="'+i18n+'">'+i18nValue+'</label>');
+				  buffer.push('<div class="col-sm-6">');
+				  buffer.push(' <input type="text"  class="form-control spinner" id="'+id+'" name="'+name+'" />');
+	              buffer.push('</div>');
+				buffer.push('</div>');
+				return buffer.join('');
+				 
+			},
+			float:function(id,name,i18nValue,properties){
+				var buffer = [];
+				buffer.push('<div class="form-group">');
+				  buffer.push('<label class="col-sm-3 control-label"  i18n="'+i18n+'">'+i18nValue+'</label>');
+				  buffer.push('<div class="col-sm-6">');
+				  buffer.push(' <input type="text"  class="form-control spinner" id="'+id+'" name="'+name+'" />');
+	              buffer.push('</div>');
+				buffer.push('</div>');
+				return buffer.join('');
+				 
+			}
+		};
+		return inputTypes[inputType](id,name,i18nValue,properties);
+		
+	};
+	
 	this.buildDetailWin =function (){
 		var temp = [];
 		temp.push('<div id="'+viewModalDivId+'" class="modal fade" tabindex="-1" data-backdrop="static">');
@@ -707,62 +768,5 @@ loyControl = function(loyModel){
 			 }
 		}
     };
-	
-	this.detail =function (result){
-		for(var i=0;i<loyModel.cols.length;i++){
-			var col = loyModel.cols[i];
-			var v = result;
-			if(col.detail){
-			    var id = buildId(col.fieldName);
-				var strs=col.fieldName.split("\.");
-				for(var j=0;j<strs.length;j++){
-					var key = strs[j];
-					if(v){
-						v = v[key];
-					}
-				}
-				if(typeof v == 'boolean'){
-					v = v?'<input checked type="checkbox" disabled="true"/>':'<input type="checkbox"  disabled="true"/>';
-					$('#view_'+id,$container).html(v);
-				}else{
-					$('#view_'+id,$container).html(v?v:'');
-				}
-			}
-	    }
-	};
-	
-	
-   this.view = function (id){
-		$('#'+viewModalDivId,$container).modal("show");
-		var detail = this.detail;
-		$.loy.ajax({
-			url:loyModel.modelName+'/detail',
-			data:{id:id},
-			success:function(data){
-				var result = data.data;
-				detail(result);
-			}
-	    });
-  };
-  this.add = function add(){
-	this.clearForm();
-	$('#id',$('#'+editModalDivId,$container)).val("");
-	$('#'+submitBtnId,$container).attr("url",loyModel.modelName+"/save");
-	$('#'+editModalDivId,$container).modal("show");
-  };
-  this.submit = function(){
-	  var self = this;
-	  var url = $(this).attr("url");
-      $.loy.ajax({
-			url:url,
-			data:$("#"+editFormId,$container).serialize(),
-			success:function(data){
-				if(data.success){
-					$('#'+editModalDivId,$container).modal("hide");
-					self.grid.trigger("reloadGrid");
-				}
-			}
-	  });
-  };
 }
 

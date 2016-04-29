@@ -2,18 +2,19 @@ package com.loy.e.core.web.dispatch;
 
 import java.util.Locale;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.i18n.LocaleContext;
-import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.loy.e.core.data.ErrorResponseData;
 import com.loy.e.core.util.JsonUtil;
+import com.loy.e.core.util.RequestUtil;
 import com.loy.e.core.web.SimpleUser;
 /**
  * 
@@ -71,7 +72,7 @@ public class DefaultDispatchServlet extends DispatcherServlet{
 	
 	protected ModelAndView processHandlerException(HttpServletRequest request, HttpServletResponse response,
 			Object handler, Exception ex) throws Exception {
-		if(isJson(request) && ex instanceof HttpRequestMethodNotSupportedException){
+		if(RequestUtil.isJson(request) && ex instanceof ServletException){
 			ErrorResponseData error = new ErrorResponseData();
 			error.setMsg(ex.getMessage());
 			String errorJson = JsonUtil.json(error);
@@ -82,17 +83,5 @@ public class DefaultDispatchServlet extends DispatcherServlet{
 		}	
 	}
 	
-	private boolean isJson(HttpServletRequest request){
-		String accept = request.getHeader("accept");
-		String[] arr = accept.split(",");
-		if(arr == null){
-			return false;
-		}
-		for(String a : arr){
-			if("application/json".equalsIgnoreCase(a)){
-				return true;
-			}
-		}
-		return false;
-	}
+	
 }
