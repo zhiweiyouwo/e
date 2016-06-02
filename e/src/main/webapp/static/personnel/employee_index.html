@@ -453,7 +453,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	$('#showOrgTree',$container).on('click',function(){
 		var orgObj = $("#org",$container);
 		var orgOffset = orgObj.offset();
-		$('.modal-body').offset().left;
+		//$('.modal-body').offset().left;
 		$("#orgContent",$container).css({left:orgOffset.left -$('.modal-dialog').offset().left +40 + "px",
 			top:orgOffset.top -$('.modal-dialog').offset().top+ orgObj.outerHeight()-58 + "px"}).slideDown("fast");
 		$("body").bind("mousedown", onBodyDown);
@@ -510,7 +510,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	$('#showPosTree',$container).on('click',function(){
 		var posObj = $("#pos");
 		var posOffset = posObj.offset();
-		$('.modal-body').offset().left;
+		//$('.modal-body').offset().left;
 		$("#posContent",$container).css({left:posOffset.left -$('.modal-dialog',$container).offset().left +40 + "px",
 			top:posOffset.top -$('.modal-dialog',$container).offset().top+ posObj.outerHeight()-58 + "px"}).slideDown("fast");
 		$("body").bind("mousedown", onPosBodyDown);
