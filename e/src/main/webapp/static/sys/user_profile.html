@@ -289,7 +289,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
     		}
 
     		var last_gritter
-    		$('#avatar').editable({
+    		$('#avatar', $container).editable({
     			type: 'image',
     			name: 'avatar',
     			value: null,
