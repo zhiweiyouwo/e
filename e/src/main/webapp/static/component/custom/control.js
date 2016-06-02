@@ -42,7 +42,7 @@ function chosenFitLen($container){
 	 });
 }
 
-loyControl = function(loyModel){
+LoyControl = function(loyModel){
 	var loyModel = loyModel;
 	var $container = loyModel.$container?loyModel.$container:$('#'+loyModel.modelName+'_container');
 	this.$container = $container;
