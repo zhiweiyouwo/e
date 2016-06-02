@@ -51,6 +51,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	   		{ name: 'maxUseTime', index: 'maxUseTime', width: 100, align: "left",editable: false },
 	   		{ name: 'minUseTime', index: 'minUseTime', width: 100, align: "left",editable: false }
 	   		],
+	   		height: getGridDefaultHeight()+60+'',
 			pager: pager_selector
 			
 		}).loyGrid('navGrid','#monitor_grid-pager',{"baseUrl":"monitor/",
