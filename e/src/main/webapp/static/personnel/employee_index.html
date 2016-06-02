@@ -297,6 +297,9 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	});
 	}
 	function clearEmployeeForm(){
+		if($validateEmployeeForm){
+			$validateEmployeeForm.resetForm();
+		}
 		$('#id',$container).val('');
 		$('#name',$container).val('');
 		$('#email',$container).val('');
