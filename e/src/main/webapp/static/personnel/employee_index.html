@@ -281,6 +281,12 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 				$('#email',$container).val(result.email?result.email:'');
 				$('#phone',$container).val(result.phone?result.phone:'');
 				$('#sex',$container).val(result.sex?result.sex:'');
+				if(result.photo){
+					$('#avatar',$container).attr('src', "profile/photo?id="+result.id+"&m="+Math.random());
+				}else{
+					$('#avatar',$container).attr('src', "static/component/assets/avatars/profile-pic.jpg");
+				}
+				
 				var dob = result.dob?result.dob:''
 				$('#dob',$container).val(dob.substring(0,10));
 				if(result.organization){
@@ -314,6 +320,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	}
 	function add(){
 		clearEmployeeForm();
+		$('#avatar',$container).attr('src', "static/component/assets/avatars/profile-pic.jpg");
 		$('#submitEmployeeBtn',$container).attr("url","employee/save");
 		$('#employeeModalDiv',$container).modal("show");
 	}
