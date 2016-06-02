@@ -41,7 +41,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
        ]
     };
 	
-	var control = new loyControl(loyModel);
+	var control = new LoyControl(loyModel);
 	
 	$.loy.i18n(['${modelName}/${entityName?replace("Entity","")?uncap_first}'],$.homeGlobal.LANG,control.$container,{custCallback:function(){
 		control.initAll();	

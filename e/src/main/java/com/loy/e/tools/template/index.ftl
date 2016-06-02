@@ -182,7 +182,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
        ]
     };
 	
-	var control = new loyControl(loyModel);
+	var control = new LoyControl(loyModel);
 	var $container = control.$container;
 	$.loy.i18n(['${modelName}/${entityName?replace("Entity","")?uncap_first}'],$.homeGlobal.LANG,$container,{custCallback:function(){
 		control.init();	
