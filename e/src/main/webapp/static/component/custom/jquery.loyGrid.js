@@ -9,10 +9,10 @@ cellLayout:0
  $(grid_selector).closest(".ui-jqgrid-bdiv").css({ 'overflow-x': 'hidden' });
  http://www.ithao123.cn/content-727731.html
 */
-function removeHorizontalScrollBar($jqGrid) {
-    $("div.ui-state-default.ui-jqgrid-hdiv.ui-corner-top").css("width", parseInt($("div.ui-state-default.ui-jqgrid-hdiv.ui-corner-top").css("width")) + 1 + "px");
-    $jqGrid.closest(".ui-jqgrid-bdiv").css("width", parseInt($jqGrid.closest(".ui-jqgrid-bdiv").css("width")) + 1 + "px");
-}
+//function removeHorizontalScrollBar($jqGrid) {
+//    $("div.ui-state-default.ui-jqgrid-hdiv.ui-corner-top",$jqGrid).css("width", parseInt($jqGrid.closest(".ui-jqgrid-bdiv").css("width")) + 1 + "px");
+//    $jqGrid.closest(".ui-jqgrid-bdiv").css("width", parseInt($jqGrid.closest(".ui-jqgrid-bdiv").css("width")) + 1 + "px");
+//}
 function pickDate(cellvalue, options, cell) {
 	setTimeout(function() {
 		$(cell).find('input[type=text]').datepicker({
@@ -126,31 +126,23 @@ function getFitGridWidth(w){
 	   return 310;
    }
    function resizeToFitPage($jqGrid){
-	   removeHorizontalScrollBar($jqGrid);
-	   setTimeout(function() {
-			 $jqGrid.loyGrid('setGridWidth', getFitGridWidth());
-			 removeHorizontalScrollBar($jqGrid);
-		}, 50);
 	// resize to fit page size
 		$(window).on('resize.jqGrid', function() {
 			 $jqGrid.loyGrid('setGridWidth', getFitGridWidth());
-			 removeHorizontalScrollBar($jqGrid);
 		});
 		// resize on sidebar collapse/expand
 		var parent_column = $jqGrid.closest('[class*="col-"]');
 		$(document).on('settings.ace.jqGrid', function(ev, event_name, collapsed) {
 			if (event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed') {
 					setTimeout(function() {
-						 $jqGrid.loyGrid('setGridWidth', parent_column.width());
-						 removeHorizontalScrollBar($jqGrid);
-					}, 0);
+						$jqGrid.jqGrid('setGridWidth', getFitGridWidth());
+					}, 10);
 					
 			}
 		});
 		$(document).on('mainTabClick', function(ev) {
 				setTimeout(function() {
-					 $jqGrid.loyGrid('setGridWidth', getFitGridWidth());
-					 removeHorizontalScrollBar($jqGrid);
+					 $jqGrid.jqGrid('setGridWidth', getFitGridWidth());
 				}, 0);
 				
 		});
@@ -409,7 +401,7 @@ function getFitGridWidth(w){
 	        multiboxonly: true,
 	        autowidth: true,
 	        sortable:false,
-	        width:getFitGridWidth(),
+	        //width:getFitGridWidth(),
 	        jsonReader: {
 				root: "data.content", 
 				total: "data.totalPages",//总页数
@@ -436,6 +428,12 @@ function getFitGridWidth(w){
 			},
 			loadComplete : function(data) {
 				loadComplete(data);
+			},
+			gridComplete:function($jqGrid){
+				 $jqGrid.jqGrid('setGridWidth', getFitGridWidth());
+			},
+			onInitGrid:function($jqGrid){
+				 resizeToFitPage($jqGrid);
 			}
 	}
 	

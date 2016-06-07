@@ -1975,7 +1975,7 @@ $.fn.jqGrid = function( pin ) {
 			}
 			if(dnd && ts.p.jqgdnd) { $(ts).jqGrid('gridDnD','updateDnD');}
 			$(ts).triggerHandler("jqGridGridComplete");
-			if($.isFunction(ts.p.gridComplete)) {ts.p.gridComplete.call(ts);}
+			if($.isFunction(ts.p.gridComplete)) {ts.p.gridComplete.call(ts,$(ts));}
 			$(ts).triggerHandler("jqGridAfterGridComplete");
 		},
 		beginReq = function() {
@@ -3006,7 +3006,7 @@ $.fn.jqGrid = function( pin ) {
 		ts.addJSONData = function(d) {addJSONData(d,ts.grid.bDiv);};
 		this.grid.cols = this.rows[0].cells;
 		$(ts).triggerHandler("jqGridInitGrid");
-		if ($.isFunction( ts.p.onInitGrid )) { ts.p.onInitGrid.call(ts); }
+		if ($.isFunction( ts.p.onInitGrid )) { ts.p.onInitGrid.call(ts,$(ts)); }
 
 		populate();ts.p.hiddengrid=false;
 	});
@@ -3596,8 +3596,8 @@ $.jgrid.extend({
 			$t.grid.width = $t.p.width = nwidth;
 			$("#gbox_"+$.jgrid.jqID($t.p.id)).css("width",nwidth+"px");
 			$("#gview_"+$.jgrid.jqID($t.p.id)).css("width",nwidth+"px");
-			$($t.grid.bDiv).css("width",nwidth+"px");
-			$($t.grid.hDiv).css("width",nwidth+"px");
+			$($t.grid.bDiv).css("width",nwidth+1+"px");//fuhoujun update
+			$($t.grid.hDiv).css("width",nwidth+1+"px");//fuhoujun update
 			if($t.p.pager ) {$($t.p.pager).css("width",nwidth+"px");}
 			if($t.p.toppager ) {$($t.p.toppager).css("width",nwidth+"px");}
 			if($t.p.toolbar[0] === true){

@@ -25,9 +25,7 @@ import freemarker.template.TemplateException;
  *
  */
 public class CodeTool {
-	public static class Options{
-		boolean debug = false;
-	}
+	
 	
 	public static void main(String[] args) throws IOException, TemplateException {
 		Options options = new Options();
@@ -36,9 +34,15 @@ public class CodeTool {
 	}
 	
 	public static void generateCode(Class entityClass,Options options) throws IOException, TemplateException{
-		String path = CodeTool.class.getResource("").getPath();
-        String projectPath = path.replaceAll("classes(.)+", "");
-        projectPath = path.replaceAll("target(.)+", "");
+		String projectPath   = null;
+		if(options.projectPath != null){
+			projectPath = options.projectPath;
+		}else{
+			String path=CodeTool.class.getResource("").getPath();
+	        projectPath = path.replaceAll("classes(.)+", "");
+	        projectPath = path.replaceAll("target(.)+", "");
+		}
+		
         
         String javaSrcPath = projectPath+"src/main/java/";
         String resourcePath = projectPath+"src/main/resources/";

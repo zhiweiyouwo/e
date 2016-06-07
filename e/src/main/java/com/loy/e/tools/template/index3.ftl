@@ -372,7 +372,6 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 			view: true
 		});
 		${entityName?replace("Entity","")?uncap_first}Grid.jqGrid('setFrozenColumns');
-		resizeToFitPage(${entityName?replace("Entity","")?uncap_first}Grid);
 	}
 	
 	$("#${entityName?replace("Entity","")?uncap_first}SearchBtn",$container).click(function(){

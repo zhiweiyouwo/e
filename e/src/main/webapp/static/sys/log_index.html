@@ -87,7 +87,6 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 			view: false
 		});
 		logGrid.jqGrid('setFrozenColumns');
-		resizeToFitPage(logGrid);
 	}
 	$('#logQueryParam_name',$container).bind('keypress',function(event){
         if(event.keyCode == "13"){

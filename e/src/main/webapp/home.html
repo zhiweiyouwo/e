@@ -89,9 +89,11 @@
                     <!-- #section:basics/navbar.layout.brand -->
                     <a href="#" class="navbar-brand">
                         <small>
-                            <img src="static/component/assets/images/jee2.png"/> <span i18n="app_name"></span>
+                             <span>17JEE</span> <span i18n="app_name"></span>
                         </small>
                     </a>
+                    
+                    
                     <!-- /section:basics/navbar.layout.brand -->
                     <!-- #section:basics/navbar.toggle -->
                     <!-- /section:basics/navbar.toggle -->
@@ -884,6 +886,8 @@
             $("#tab_" + id).addClass('active mtab');
   
             $("#" + id).addClass("active mtab");
+            
+            $(document).trigger('mainTabClick');
         };
         var closeTab = function (id) {
             //如果关闭的是当前激活的TAB，激活他的前一个TAB
