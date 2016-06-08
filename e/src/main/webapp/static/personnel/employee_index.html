@@ -208,10 +208,10 @@
 		</div><!-- /.modal-dialog -->
 	</div>
 	<div id="orgContent" class="orgContent widget-box widget-color-blue2 dropdown-menu" style="display:none;z-index:10160; ">
-	      <ul id="orgTree" class="ztree" style="margin-top:0; width:160px;"></ul>
+	      <ul id="employee_orgTree" class="ztree" style="margin-top:0; width:160px;"></ul>
     </div>
 	<div id="posContent" class="posContent widget-box widget-color-blue2 dropdown-menu" style="display:none;z-index:10160">
-	      <ul id="posTree" class="ztree" style="margin-top:0; width:160px;"></ul>
+	      <ul id="employee_posTree" class="ztree" style="margin-top:0; width:160px;"></ul>
     </div>
 </div>
 
@@ -415,7 +415,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	var orgSetting = {
 			callback: {
 				onClick: function(e, treeId, treeNode) {
-					var zTree = $.fn.zTree.getZTreeObj("orgTree");
+					var zTree = $.fn.zTree.getZTreeObj("employee_orgTree");
 					var nodes = zTree.getSelectedNodes();
 					var l = nodes[0].data;
 					var orgObj = $("#org",$container);
@@ -442,8 +442,8 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
         url: "org/all",
         success : function (data) { 
       	   var items = data.data;
-      	   var $orgTree = $.fn.zTree.init($("#orgTree",$container), orgSetting, items);
-      	   $orgTree.expandAll(true)
+      	   var $orgTree = $.fn.zTree.init($("#employee_orgTree",$container), orgSetting, items);
+      	   $orgTree.expandAll(true);
         },  
         error: function (response) {
              //console.log(response);  
@@ -478,7 +478,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	var posSetting = {
 			callback: {
 				onClick: function(e, treeId, treeNode) {
-					var zTree = $.fn.zTree.getZTreeObj("posTree");
+					var zTree = $.fn.zTree.getZTreeObj("employee_posTree");
 					var nodes = zTree.getSelectedNodes();
 					var l = nodes[0].data;
 					var posObj = $("#pos",$container);
@@ -502,8 +502,8 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
         url: "position/all",
         success : function (data) { 
       	   var items = data.data;
-      	   var $posTree = $.fn.zTree.init($("#posTree",$container), posSetting, items);
-      	   $posTree.expandAll(true)
+      	   var $posTree = $.fn.zTree.init($("#employee_posTree",$container), posSetting, items);
+      	   $posTree.expandAll(true);
         }
     }) ; 
 	function hidePosMenu() {
