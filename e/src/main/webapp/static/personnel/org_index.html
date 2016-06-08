@@ -133,7 +133,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 						node.data = $('#name',$container).val();
 						$orgTree.updateNode(node);
 					}else{
-						var  id = data.data.id;
+						id = data.data.id;
 						var pnode = $orgTree.getNodeByParam("id", $('#parentId',$container).val(), null);
 						var newNodes = [{id:id,data:$('#name',$container).val()}];
 						$orgTree.addNodes(pnode, newNodes);

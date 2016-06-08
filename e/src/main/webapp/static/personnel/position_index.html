@@ -144,7 +144,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 						node.data = $('#name',$container).val();
 						$positionTree.updateNode(node);
 					}else{
-						var  id = data.data.id;
+						id = data.data.id;
 						var pnode = $positionTree.getNodeByParam("id", $('#parentId').val(), null);
 						var newNodes = [{id:id,data:$('#name',$container).val()}];
 						$positionTree.addNodes(pnode, newNodes);
