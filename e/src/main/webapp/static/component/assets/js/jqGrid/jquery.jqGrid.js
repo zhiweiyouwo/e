@@ -1975,7 +1975,7 @@ $.fn.jqGrid = function( pin ) {
 			}
 			if(dnd && ts.p.jqgdnd) { $(ts).jqGrid('gridDnD','updateDnD');}
 			$(ts).triggerHandler("jqGridGridComplete");
-			if($.isFunction(ts.p.gridComplete)) {ts.p.gridComplete.call(ts,$(ts));}
+			if($.isFunction(ts.p.gridComplete)) {ts.p.gridComplete.call(ts);}
 			$(ts).triggerHandler("jqGridAfterGridComplete");
 		},
 		beginReq = function() {
@@ -3006,7 +3006,7 @@ $.fn.jqGrid = function( pin ) {
 		ts.addJSONData = function(d) {addJSONData(d,ts.grid.bDiv);};
 		this.grid.cols = this.rows[0].cells;
 		$(ts).triggerHandler("jqGridInitGrid");
-		if ($.isFunction( ts.p.onInitGrid )) { ts.p.onInitGrid.call(ts,$(ts)); }
+		if ($.isFunction( ts.p.onInitGrid )) { ts.p.onInitGrid.call(ts); }
 
 		populate();ts.p.hiddengrid=false;
 	});

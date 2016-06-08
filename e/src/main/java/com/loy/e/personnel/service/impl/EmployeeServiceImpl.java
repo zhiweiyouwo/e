@@ -134,7 +134,9 @@ public class EmployeeServiceImpl{
 		
 			if(idsArr != null){
 				for(String idd : idsArr){
-					list.add(idd);
+					if(!idd.equals("ADMIN")){
+						list.add(idd);
+					}
 				}
 				employeeRepository.delete(list);
 			}
