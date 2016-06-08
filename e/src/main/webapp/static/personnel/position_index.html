@@ -145,7 +145,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 						$positionTree.updateNode(node);
 					}else{
 						id = data.data.id;
-						var pnode = $positionTree.getNodeByParam("id", $('#parentId').val(), null);
+						var pnode = $positionTree.getNodeByParam("id", $('#parentId',$container).val(), null);
 						var newNodes = [{id:id,data:$('#name',$container).val()}];
 						$positionTree.addNodes(pnode, newNodes);
 						$positionTree.selectNode(newNodes[0]);
@@ -223,7 +223,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
         success : function (data) { 
       	   var items = data.data;
       	   $positionTree = $.fn.zTree.init($("#positionTree",$container), setting, items);
-      	 $positionTree.expandAll(true);
+      	   $positionTree.expandAll(true);
       	   var nodes = $positionTree.getNodes();
 	       if (nodes.length>0) {
 	    	    $positionTree.selectNode(nodes[0]);
