@@ -300,6 +300,14 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		$('.notice-form .ace-file-input:not(:first-child)',$container).remove();
 		$('.notice-form input[type=file]',$container).ace_file_input('reset_input_ui');
 		$('a[data-action=delete]',$('#notice-form-attachments',$container)).click();
+		$('#notice-form-attachments',$container).html("");
+		var file = $('<input type="file" name="uploadAttachments" />').appendTo('#notice-form-attachments',$container);
+		file.ace_file_input()
+		.closest('.ace-file-input',$container)
+		.addClass('width-90 inline')
+		.wrap('<div class="form-group file-input-container"><div class="col-sm-7"></div></div>');
+	
+		
 	}
 	function edit (id){
 		clearNoticeForm();
