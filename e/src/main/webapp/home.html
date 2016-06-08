@@ -665,7 +665,7 @@
        <script>
         
         jQuery(function($) {
-        	 $.homeGlobal.gridDefaultHeight = 350;
+        	 $.homeGlobal.gridDefaultHeight = document.documentElement.clientHeight-330;
         	 if($('#myprofileDropdownDiv').is(':visible')){
         		$('#myprofileDropdown').click();
         	 }
