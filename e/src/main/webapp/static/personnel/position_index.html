@@ -122,7 +122,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 			$validatePositionForm.defaultShowErrors();
 			return;
 		}
-		var id = $('#id').val();
+		var id = $('#id',$container).val();
 		var  url ='position/save';
 		if(id && id.length>0){
 			 url ='position/update';
