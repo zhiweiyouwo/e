@@ -563,12 +563,10 @@
                  <div class="row">
                         <div class="col-xs-12" style="padding-left:5px;">
                             <ul id="homeMainNav" class="nav nav-tabs" role="tablist">
-                                <li class="active mtab"><a href="#Index" role="tab" data-toggle="tab"><span i18n="home_page"></span></a></li>
+                              
                             </ul>
                             <div id="homeMainTab" class="tab-content" style="border:0px;padding-top: 2px;padding-left:0px">
-                                <div role="tabpanel" class="tab-pane active mtab" id="Index">
-                                
-                                </div>
+                               
                             </div>
                         </div>
                     </div>
@@ -620,7 +618,6 @@
         <script src="static/component/custom/loy.js"></script>
         <script src="static/component/assets/js/ace/ace.js"></script>
         <script src="static/component/assets/js/ace/ace.ajax-content.js"></script>
-        
         <script src="static/component/assets/js/date-time/bootstrap-datepicker.js"></script>
       
         <script src="static/component/assets/js/jquery.gritter.js"></script>
@@ -666,6 +663,8 @@
         
         jQuery(function($) {
         	 $.homeGlobal.gridDefaultHeight = document.documentElement.clientHeight-330;
+        	
+        	
         	 if($('#myprofileDropdownDiv').is(':visible')){
         		$('#myprofileDropdown').click();
         	 }
@@ -710,6 +709,7 @@
         	 
         	 initData();
         	 function buildMenu(data){
+        		    addMenuTab("Index","readme.html",$.i18n.prop("home_page"),false);
         		    var menuData = data.menuData;
 					var menuBuffer = [];
 					if(menuData){
@@ -840,8 +840,11 @@
                  });
         	 }
         });
-        addMenuTab = function(id,url,title){
-        	var options ={"id":id,"title":title,"url":url,"close": true,iframe:false};
+        addMenuTab = function(id,url,title,close){
+        	if(close == undefined){
+        		close = true;
+        	}
+        	var options ={"id":id,"title":title,"url":url,"close": close,iframe:false};
         	addTabs(options);
         }
         var addTabs = function (options) {
@@ -922,7 +925,7 @@
         	
         }
         
-       
+        
         </script>
         
     </body>
