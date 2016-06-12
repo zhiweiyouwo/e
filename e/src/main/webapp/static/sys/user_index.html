@@ -131,7 +131,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 
 function createRoleInput (value, options) {//alert(JSON.stringify(options));
     var rowId = '#'+options.rowId;
-    var value = $(rowId).find('.roleId').attr('v');
+    var value = $(rowId,$('#user_container')).find('.roleId').attr('v');
 	var v = value?value:'';
 	var selectRoleIdArr = v.split(',');
 	var setting = {
