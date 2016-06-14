@@ -18,6 +18,7 @@ import com.loy.e.core.web.SimpleUser;
  */
 public class IndexData {
 
+	private String version;
 	private SimpleUser simpleUser;
 	
 	List<TreeNode> menuData;
@@ -72,6 +73,14 @@ public class IndexData {
 
 	public void setSupportLocales(List<LocaleVO> supportLocales) {
 		this.supportLocales = supportLocales;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
 	}
 
 	

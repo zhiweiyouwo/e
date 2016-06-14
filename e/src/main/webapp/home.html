@@ -744,6 +744,13 @@
 								 } 
 	                        	 var cls = item.data.cls;
 	                        	 var url = item.data.url?item.data.url:'';
+	                        	 if(url != ''){
+	                        		 if(url.indexOf('?')>0){
+	                        			 url = url+'&version'+$.homeGlobal.VERSION;
+	                        		 }else{
+	                        			 url = url+'?version='+$.homeGlobal.VERSION;
+	                        		 }	
+	                        	 }
 	                        	 menuBuffer.push(' <li class="">');
 	                        	 var menuParams = [];
 	                        	 var id = item.id?item.id:'';
@@ -775,6 +782,7 @@
  						var data = result.data;
  						$.homeGlobal.accessCodes = data.accessCodes;
  						var simpleUser = data.simpleUser;
+ 						$.homeGlobal.VERSION = data.version?data.version:new Date().getTime();
  						$.homeGlobal.USER_ID = data.simpleUser.id;
  						$.homeGlobal.LANG = data.simpleUser.lang;
  						bootbox.setDefaults("locale",$.homeGlobal.LANG); 
