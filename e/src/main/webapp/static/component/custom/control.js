@@ -107,7 +107,7 @@ LoyControl = function(loyModel){
 	
 	this.bindSubmit = function(){
 		var self = this;
-		$('#'+submitBtnId).click(function(){
+		$('#'+submitBtnId,$container).click(function(){
 		     if(!self.$validateForm.checkForm()){
 		    	 self.$validateForm.defaultShowErrors();
 				return;
