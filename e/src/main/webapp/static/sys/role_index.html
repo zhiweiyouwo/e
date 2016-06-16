@@ -64,22 +64,22 @@
 							</div>
 						</div>
 					</div>
-					<div class="modal-footer no-margin-top">
-						<div class="text-center">
-							
-							<button id="submitAuthorityBtn"  class="btn btn-sm btn-primary">
-							  <i class="ace-icon fa fa-floppy-o"></i>
-							  <span i18n="save"></span>
-							</button>
-							
-							<button class="btn btn-sm"  data-dismiss="modal">
-							  <i class="ace-icon fa fa-share "></i>
-							  <span i18n="cancel"></span>
-							</button>
-						</div>
-					</div>
+					
 				</div><!-- /.modal-content -->
 			</form>
+			<div class="modal-footer no-margin-top">
+				<div class="text-center">
+					<button id="submitAuthorityBtn"   class="btn btn-sm btn-primary">
+					  <i class="ace-icon fa fa-floppy-o"></i>
+					  <span i18n="save"></span>
+					</button>
+					
+					<button class="btn btn-sm"  data-dismiss="modal">
+					  <i class="ace-icon fa fa-share "></i>
+					  <span i18n="cancel"></span>
+					</button>
+				</div>
+			</div>
 		</div><!-- /.modal-dialog -->
 	</div>
 	
@@ -210,6 +210,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
            }
     	}
 		var resourceIds = resourceIdsArr.join(",");
+		$authorityModal.modal("hide");
 		$.loy.ajax({
 	          url: "role/authority",
 	          data:{"roleId":$('#roleIdInput',$container).val(),"resourceIds":resourceIds},
