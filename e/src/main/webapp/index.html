@@ -47,7 +47,7 @@
 							<div class="center">
 								<h1>
 									<small>
-			                             <img  width="50"  height="36" src="static/component/assets/images/jee3.png"/> <span i18n="app_name"></span>
+			                             <img  width="50"  height="36" src="static/component/assets/images/jee3.png"/> 
 			                        </small>
 									<span class="red">|</span>
 									<span class="white" id="id-text2">一起JEE</span>
@@ -88,10 +88,9 @@
 
 													<div class="clearfix">
 														
-
 														<button type="button" class="width-35 pull-right btn btn-sm btn-primary"  id="loginBtn">
 															<i class="ace-icon fa fa-key"></i>
-															<span class="bigger-110">LOGIN</span>
+															<span i18n="login"  class="bigger-110">LOGIN</span>
 														</button>
 													</div>
 
@@ -160,11 +159,7 @@
 					 lang = wn.browserLanguage.replace('-','_');
 				 } 
 			 }
-			 
-			 $.loy.i18n(['message'],lang,$(document),{
-	        		 callback: function() {
-			       }
-		     });
+			 $.loy.i18n(['message'],lang,$(document));
 			 $(document).on('click', '.toolbar a[data-target]', function(e) {
 				e.preventDefault();
 				var target = $(this).data('target');
