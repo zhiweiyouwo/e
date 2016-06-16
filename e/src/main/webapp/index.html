@@ -151,7 +151,20 @@
 		<!-- inline scripts related to this page -->
 		<script type="text/javascript">
 			jQuery(function($) {
-			
+			 var wn=window.navigator;
+			 var lang = 'zh_CN';
+			 if(wn){
+				 if(wn.language){
+					 lang = wn.language.replace('-','_');
+				 }else if(wn.browserLanguage){
+					 lang = wn.browserLanguage.replace('-','_');
+				 } 
+			 }
+			 
+			 $.loy.i18n(['message'],lang,$(document),{
+	        		 callback: function() {
+			       }
+		     });
 			 $(document).on('click', '.toolbar a[data-target]', function(e) {
 				e.preventDefault();
 				var target = $(this).data('target');
