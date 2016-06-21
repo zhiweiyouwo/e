@@ -538,7 +538,7 @@ function getFitGridWidth(w){
 						elemids = $t.p.id+"_top";
 					}
 					if($t.p.direction === "rtl") {$(navtbl).attr("dir","rtl").css("float","right");}
-					if (o.add) {
+					if (o.add && hasPermission(o.baseUrl,"save")) {
 						pAdd = pAdd || {};
 						pAdd = $.extend(pAdd,mAdd);
 						if(!pAdd.url && o.baseUrl){
