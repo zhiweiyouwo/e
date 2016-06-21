@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.loy.e.core.annotation.ControllerLogExeTime;
 import com.loy.e.core.conf.Settings;
-import com.loy.e.core.data.SuccessResponse;
 import com.loy.e.core.data.TreeNode;
 import com.loy.e.core.query.MapQueryParam;
 import com.loy.e.core.util.Assert;
@@ -204,10 +203,11 @@ public class UserServiceImpl{
 		if(StringUtils.isNotEmpty(id)){
 			String[] idsArr = id.split(",");
 			List<String> list = new ArrayList<String>();
-		
 			if(idsArr != null){
 				for(String idd : idsArr){
-					list.add(idd);
+					if(!idd.equals("ADMIN")){
+						list.add(idd);
+					}
 				}
 				userRepository.delete(list);
 			}

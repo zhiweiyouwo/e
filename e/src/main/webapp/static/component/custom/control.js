@@ -1,4 +1,4 @@
-function hasPermission(accessCode){
+function hasPermissionByCode(accessCode){
 	var value = $.homeGlobal.accessCodes[accessCode];
 	if(value == null || value == undefined){
 		return true;
