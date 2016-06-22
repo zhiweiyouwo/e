@@ -59,6 +59,5 @@
 input.error{border: 1px dotted red;}
 label.error{
   background-repeat:no-repeat;
-  padding-left:18px;
   color: red;
 }

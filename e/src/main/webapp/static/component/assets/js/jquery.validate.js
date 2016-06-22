@@ -245,7 +245,7 @@ $.extend( $.validator, {
 		messages: {},
 		groups: {},
 		rules: {},
-		errorClass: "error fa fa-lg fa-times-circle",
+		errorClass: "error fa fa-hand-o-right",
 		validClass: "valid",
 		errorElement: "label",
 		focusCleanup: false,
