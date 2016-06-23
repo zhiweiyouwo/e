@@ -159,6 +159,9 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	$('#deleteBtn',$container).click(function(){ 
 		$.loy.confirm($.i18n.prop("personnel.pos.confirm_delete"),function(){
 			 var id = $('#id',$container).val();
+			 if(id =='root'){
+					return;
+			 }
 			 $.loy.ajax({
 					url:'position/del',
 					showSuccess:true,

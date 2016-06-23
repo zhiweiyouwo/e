@@ -148,6 +148,9 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	$('#deleteBtn',$container).click(function(){ 
 		$.loy.confirm($.i18n.prop("personnel.org.confirm_delete"),function(){
 			var id = $('#id',$container).val();
+			if(id =='root'){
+				return;
+			}
 			 $.loy.ajax({
 					url:'org/del',
 					showSuccess:true,

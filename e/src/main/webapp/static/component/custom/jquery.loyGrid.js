@@ -410,11 +410,18 @@ function getFitGridWidth(w){
 			},
 			gridComplete:function(){
 				 var $jqGrid = $(this);
-				 $jqGrid.jqGrid('setGridWidth', getFitGridWidth());
+				 var width = getFitGridWidth();
+				 if(width == 0){
+					 setTimeout(function() {
+						 $jqGrid.jqGrid('setGridWidth', getFitGridWidth());
+					}, 20);
+				 }else{
+					 $jqGrid.jqGrid('setGridWidth', getFitGridWidth());
+				 }	
 			},
 			onInitGrid:function(){
-				 var $jqGrid = $(this);
-				 $(window).on('resize.jqGrid', function() {
+				var $jqGrid = $(this);
+				$(window).on('resize.jqGrid', function() {
 					 $jqGrid.loyGrid('setGridWidth', getFitGridWidth());
 				});
 				var parent_column = $jqGrid.closest('[class*="col-"]');
