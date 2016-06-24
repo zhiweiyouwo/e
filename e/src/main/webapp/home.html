@@ -583,6 +583,7 @@
                             <span class="blue bolder"  i18n="copyright">
                                  
                             </span>
+                            
                             &copy; 
                             2015-2017
                         </span>
@@ -696,7 +697,7 @@
       	                        	 menuParams.push("'"+url+"'");
       	                        	 menuParams.push(',');
       	                        	 menuParams.push("'"+name+"'");
-      	                        	 var addMenuStr = '<a  href="home.html#'+url+'" onclick=\"addMenuTab('+menuParams.join('')+')\">';
+      	                        	 var addMenuStr = '<a  style="cursor: pointer;" href="home.html#'+url+'" onclick=\"addMenuTab('+menuParams.join('')+')\">';
       	                        	 
         							 list.push('<li>'+addMenuStr+'<i class="btn btn-xs btn-primary fa fa-user"></i>'+notices[i].subject+'</a></li>');
         						   }
@@ -759,7 +760,7 @@
 	                        	 menuParams.push("'"+url+"'");
 	                        	 menuParams.push(',');
 	                        	 menuParams.push("'"+name+"'");
-	                        	 menuBuffer.push('<a  href="#" onclick=\"addMenuTab('+menuParams.join('')+')\">');
+	                        	 menuBuffer.push('<a style="cursor: pointer;" href="#" onclick=\"addMenuTab('+menuParams.join('')+')\">');
 	                        	 menuBuffer.push('<i class="'+cls+'"></i>');
 	                        	 menuBuffer.push(name);
 	                        	 menuBuffer.push('</a>');
@@ -933,7 +934,7 @@
         	
         }
         
-        
+
         </script>
         
     </body>

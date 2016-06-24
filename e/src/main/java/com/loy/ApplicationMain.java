@@ -34,6 +34,7 @@ import com.loy.e.core.repository.impl.DefaultRepositoryFactoryBean;
 @ComponentScan
 @EnableConfigurationProperties(Settings.class)
 @EnableJpaRepositories(repositoryFactoryBeanClass=DefaultRepositoryFactoryBean.class)
+
 public class ApplicationMain extends SpringBootServletInitializer implements EmbeddedServletContainerCustomizer, CommandLineRunner {
 
 	static final Log logger = LogFactory.getLog(ApplicationMain.class);

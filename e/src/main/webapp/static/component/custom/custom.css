@@ -57,6 +57,7 @@
 }
 
 input.error{border: 1px dotted red;}
+select.error{border: 1px dotted red;}
 label.error{
   background-repeat:no-repeat;
   color: red;

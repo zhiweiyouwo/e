@@ -25,8 +25,6 @@ begin;
 (id,created_time,creator_id,modified_time,modifier_id,available,name,parent_id,permission,resource_type,url,cls,lable_key,sort_num,access_code) 
  VALUES ('010203',NULL,NULL,NULL,NULL,1,'授权','0102',NULL,'BUTTON','role/authority',NULL,'menu.authority',NULL,'role:authority');
  
- 
- 
  INSERT INTO loy_resource 
 (id,created_time,creator_id,modified_time,modifier_id,available,name,parent_id,permission,resource_type,url,cls,lable_key,sort_num,access_code) 
  VALUES ('0103',NULL,NULL,NULL,NULL,1,'监控管理','01',NULL,'MENU','static/sys/monitor_index.html','menu-icon fa fa-caret-right','menu.monitor_manage',30,NULL);

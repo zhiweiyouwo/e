@@ -255,6 +255,15 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	
 	var $validateEmployeeForm = $('#employeeForm',$container).validate({
     	onsubmit:false,
+    	/**
+    	errorPlacement: function (error, element) {
+            var newError = $(error).text();
+            if(newError != ''){
+                $(element).tooltip({placement:'bottom',title:newError,trigger:''}).tooltip('show');
+            }
+        },**/
+        
+        
     	rules : {
 			name : {
 				required : true,
