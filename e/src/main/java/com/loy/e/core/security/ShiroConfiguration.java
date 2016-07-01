@@ -82,7 +82,8 @@ public class ShiroConfiguration implements ApplicationContextAware {
     public DefaultWebSecurityManager securityManager() {  
         DefaultWebSecurityManager dwsm = new DefaultWebSecurityManager();  
         dwsm.setRealm(shiroRealm());  
-        dwsm.setCacheManager(shiroEhcacheManager());  
+        dwsm.setCacheManager(shiroEhcacheManager()); 
+        dwsm.setRememberMeManager(null);
         return dwsm;  
     }  
     

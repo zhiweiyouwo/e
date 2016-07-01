@@ -77,6 +77,9 @@ function exportExcel(url,tableId,removeCols){
 	   form = form + "</form>";
 	   $exportForm = $(form);
        $('body').append($exportForm);
+   }else{
+	   exportForm.action = url;
+	   $('input[name="html"]',$exportForm).val(html);
    }
    exportForm.submit();
 }
