@@ -1,14 +1,4 @@
-/**解决：是因为jqGrid会在IE下出现border与padding造成宽度过大引起的，增加此属性可解决：
 
-cellLayout:0
-　　此时当页面缩放摆100%时，已经不显示滚动条，但是缩放比例不为100%时，依然会显示水平滚动条，终极解决方案为更改ui.jqgrid.css样式：
-
-.ui-jqgrid .ui-jqgrid-bdiv{ overflow-x: hidden; }
-　　如果还是不行，还有一个方法：
-
- $(grid_selector).closest(".ui-jqgrid-bdiv").css({ 'overflow-x': 'hidden' });
- http://www.ithao123.cn/content-727731.html
-*/
 //function removeHorizontalScrollBar($jqGrid) {
 //    $("div.ui-state-default.ui-jqgrid-hdiv.ui-corner-top",$jqGrid).css("width", parseInt($jqGrid.closest(".ui-jqgrid-bdiv").css("width")) + 1 + "px");
 //    $jqGrid.closest(".ui-jqgrid-bdiv").css("width", parseInt($jqGrid.closest(".ui-jqgrid-bdiv").css("width")) + 1 + "px");
