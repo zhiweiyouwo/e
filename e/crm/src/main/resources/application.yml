@@ -1,0 +1,93 @@
+e:
+ conf:
+    attachmentBaseDirectory : ./upload
+    defaultLocale: zh_CN
+    debugPageResult: false
+    recordOperateLog: true
+    supportLocales: 
+                 - en_US
+                 - zh_CN
+    defaultPage: restapi.html
+    staticMappings:
+         /crm/component/**: 
+                - classpath:/static/component/
+                - classpath:/public/component/
+         /crm/**: 
+            - classpath:/static/
+ cas:
+     casServerUrlPrefix: http://localhost:18080/cas
+     shiroServerUrlPrefix: http://localhost
+     successUrl: /home.html#
+     trustAllHttps: true
+     anons:
+       /index.html: anon
+       /component/**: anon
+       /i18n/**: anon
+       /**.js: anon
+       /**.map: anon
+       /**.woff: anon
+       /login : anon
+       /logout: anon
+       /static: anon
+       /metrics: anon
+ form:
+     successUrl: home.html#
+     loginUrl: /index.html
+     anons:
+       /index.html: anon
+       /component/**: anon
+       /i18n/**: anon
+       /**.js: anon
+       /**.map: anon
+       /**.woff: anon
+       /login : anon
+       /logout: anon
+       /static: anon
+       /metrics: anon
+ apiInfo:
+       title: E-框架 REST API
+       description: 
+       version: 2.0.0
+       termsOfServiceUrl: 
+       contact: 
+            name: Loy Fu
+            url: http://www.17jee.com
+            email: 21549322@qq.com
+       license: 
+       licenseUrl: 
+       pathsRegex: ^.*(?<!error)$    
+        
+spring:
+   datasource:
+             platform: mysql
+             url: jdbc:mysql://localhost/crm?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&autoReconnect=true&failOverReadOnly=false
+             username: root
+             password: 123456
+             driverClassName: com.mysql.jdbc.Driver
+             max-active: 50
+             max-idle: 40
+             min-idle: 20
+             initial-size: 6
+             validation-query: select 1
+             test-on-borrow: false
+             test-on-return: false
+             test-while-idle: true      
+   jpa:
+       showSql: false
+       hibernate:
+         ddlAuto: update
+   jackson:
+          date-format: yyyy-MM-dd HH:mm:ss
+server:
+    port: 29090
+    session: 
+        timeout: 30
+    context-path: /crm
+    tomcat:
+      uri-encoding: UTF-8
+      
+logging:
+    path: ./logs
+    file: ./logs/crm.log
+
+

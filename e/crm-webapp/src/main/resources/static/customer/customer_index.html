@@ -1,0 +1,59 @@
+<div  id="customer_container">
+	<div class="row">
+		<div class="col-xs-12">
+		
+			<div id="search_box" class="widget-box  ui-sortable-handle collapsed">
+				<div class="widget-header">
+				    <div class="nav-search"  style="padding-top: 5px;  right: 50px">
+						<span class="input-icon">			
+							<input type="text"  id="userQueryParam_name" i18n="sys.user.name" placeholder ="姓名" class="nav-search-input"  >
+							<i class="ace-icon fa fa-search nav-search-icon" onclick="$('#userSearchBtn',$('#user_container')).click()" ></i>
+						</span>
+					</div>
+
+					<div class="widget-toolbar">
+						<a href="#" data-action="collapse">
+							<i class="1 ace-icon fa bigger-125 fa-chevron-up"></i>
+						</a>
+					</div>
+
+				</div>
+
+				<div class="widget-body" style="display: none;">
+					<div class="widget-main">
+					
+						<div class="row">
+						      
+					           <div class="col-xs-12 col-sm-6 ">
+							    <div id="userSearchDiv" class="input-group col-xs-12  col-sm-6  " style="padding-bottom: 2px">
+									 <input type="text" id="userQueryParam_username"  i18n="sys.user.username"  placeholder ="用户名" class="form-control search-query" >
+									<span class="input-group-btn">
+										<button id="userSearchBtn" type="button" class="btn btn-purple btn-sm">
+											<span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
+											<span i18n="find"></span>
+										</button>
+									</span>
+				              </div>
+				              </div>
+				         </div>     
+			              
+					</div>
+				</div>
+			</div>
+							    
+			
+		
+
+		</div>
+		<!-- /.col -->
+	</div>
+	<!-- /.row -->
+</div>
+
+ <script>
+var scripts = [ null,null ];
+
+$('.page-content-area').ace_ajax('loadScripts', scripts, function() {
+});
+
+</script>
