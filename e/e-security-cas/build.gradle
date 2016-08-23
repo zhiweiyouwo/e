@@ -1,0 +1,19 @@
+
+jar {
+	baseName = "e-security-cas"
+}
+
+dependencies {
+
+	compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+	compile("org.apache.shiro:shiro-core:${shiroVersion}")
+	compile("org.apache.shiro:shiro-web:${shiroVersion}")
+	compile("org.apache.shiro:shiro-spring:${shiroVersion}")
+	compile("org.apache.shiro:shiro-ehcache:${shiroVersion}")
+	compile("org.apache.shiro:shiro-cas:${shiroVersion}")
+	compile("org.apache.httpcomponents:httpclient:${httpclient}")
+	
+	compile project(":e-core")
+	compile project(":e-security-pwd")	
+}
+

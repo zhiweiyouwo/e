@@ -1,0 +1,511 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn" >
+       <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta charset="utf-8" />
+        <meta http-equiv="Cache-Control" content="no-cache" />
+        <meta http-equiv="Expires" content="-1" />
+        <title i18n="app_name"></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+        <!-- bootstrap & fontawesome -->
+       
+        <link rel="stylesheet" href="component/assets/css/bootstrap.css" />
+		<link rel="stylesheet" href="component/assets/css/font-awesome.css" />
+
+		<!-- page specific plugin styles -->
+		<link rel="stylesheet" href="component/assets/css/jquery-ui.css" />
+		<link rel="stylesheet" href="component/assets/css/datepicker.css" />
+		<link rel="stylesheet" href="component/assets/css/ui.jqgrid.css" />
+        <link rel="stylesheet" href="component/assets/css/jquery.gritter.css" />
+		<!-- text fonts -->
+		<link rel="stylesheet" href="component/assets/css/ace-fonts.css" />
+		<link rel="stylesheet" href="component/assets/css/bootstrap-editable.css" />
+        <link rel="stylesheet" href="component/assets/css/zTreeStyle/metro.css" />
+        <link rel="stylesheet" href="component/assets/css/chosen.css" />
+
+		<!-- ace styles -->
+		<link rel="stylesheet" href="component/assets/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
+
+		<!--[if lte IE 9]>
+			<link rel="stylesheet" href="component/assets/css/ace-part2.css" class="ace-main-stylesheet" />
+		<![endif]-->
+
+		<!--[if lte IE 9]>
+		  <link rel="stylesheet" href="component/assets/css/ace-ie.css" />
+		<![endif]-->
+
+
+        <link rel="stylesheet" href="component/custom/custom.css" />
+
+        <!-- ace settings handler -->
+        <script src="component/assets/js/ace-extra.js"></script>
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lte IE 8]>
+		<script src="component/assets/js/html5shiv.js"></script>
+		<script src="component/assets/js/respond.js"></script>
+		
+		<![endif]-->
+		
+	
+    <style>
+    
+	.footer {
+	  padding-top: 40px;
+	  height: 0;
+	  width: 0;
+	}
+	.bottomForever{
+	    z-index:999999;
+	    right:0;
+	}
+    </style>
+    </head>
+    <body class="no-skin">
+        <!-- #section:basics/navbar.layout -->
+        <div id="navbar" class="navbar navbar-default">
+            <script type="text/javascript">
+				try {
+					ace.settings.check('navbar', 'fixed')
+				} catch (e) {
+				}
+			</script>
+            <div class="navbar-container" id="navbar-container">
+                <!-- #section:basics/sidebar.mobile.toggle -->
+                <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+                    <span class="sr-only">
+                        Toggle sidebar
+                    </span>
+                    <span class="icon-bar">
+                    </span>
+                    <span class="icon-bar">
+                    </span>
+                    <span class="icon-bar">
+                    </span>
+                </button>
+                <!-- /section:basics/sidebar.mobile.toggle -->
+                <div class="navbar-header pull-left">
+                    <!-- #section:basics/navbar.layout.brand -->
+                    <a href="#" class="navbar-brand">
+                        <small>
+                            <img width="45"  height="26" src="component/assets/images/jee3.png"/> <span i18n="app_name"></span>
+                        </small>
+                    </a>
+                    <!-- /section:basics/navbar.layout.brand -->
+                    <!-- #section:basics/navbar.toggle -->
+                    <!-- /section:basics/navbar.toggle -->
+                </div>
+                <!-- #section:basics/navbar.dropdown -->
+                <div class="navbar-buttons navbar-header pull-right" role="navigation">
+                    <ul class="nav ace-nav">
+                        <li  class="purple dropdown">
+	                        <select  id="languageSelect" style="height: 42px">
+	                        
+	                        </select>
+                        </li>
+						<li  id="noticeDropdown" class="purple dropdown">
+							<a  data-toggle="dropdown" class="dropdown-toggle" href="#">
+								<i class="ace-icon fa fa-bell icon-animated-bell"></i>
+								<span  id="myNoticeSpan" class="badge badge-important"></span>
+							</a>
+
+							<ul class="dropdown-menu-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
+								<li class="dropdown-header">
+									<i class="ace-icon fa fa-exclamation-triangle"></i>
+									<span i18n="notification"></span>
+								</li>
+
+								<li class="dropdown-content">
+									<ul  id="noticeList" class="dropdown-menu dropdown-navbar navbar-pink">
+										
+									</ul>
+								</li>
+
+								<li class="dropdown-footer">
+									 <a data-url="personnel/notice_my.html" href="home.html#personnel/notice_my.html">
+										<span i18n="more_notification"></span>
+										<i class="ace-icon fa fa-arrow-right"></i>
+									</a>
+								</li>
+							</ul>
+						</li>
+
+						
+                        <!-- #section:basics/navbar.user_menu -->
+                        <li class="light-blue">
+                            <a id="myprofileDropdown"  data-toggle="dropdown" href="home.html#" class="dropdown-toggle">
+                                <img id="mySmallPhoto"  class="nav-user-photo" width="50px" height="50px" src="component/assets/avatars/profile-pic.jpg"  />
+                                <span class="user-info">
+                                    <small i18n="welcome_you">
+										
+                                    </small>
+									<span id="loginUserName"></span>
+                                </span>
+                                <i class="ace-icon fa fa-caret-down"></i>
+                            </a>
+                            <ul  id="myprofileDropdownDiv" class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                                <!-- 
+                                <li>
+                                    <a href="#">
+                                        <i class="ace-icon fa fa-cog"></i>
+										设置
+                                    </a>
+                                </li>
+                                -->
+                                <li>
+                                    <a data-url="sys/user_profile.html" href="home.html#sys/user_profile.html">
+                                        <i class="ace-icon fa fa-user"></i>
+										<span i18n="personal_profile"></span>
+                                    </a>
+                                </li>
+                                <li class="divider">
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)"  onclick="logout()">
+                                        <i class="ace-icon fa fa-power-off"></i>
+										<span i18n="logout"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- /section:basics/navbar.user_menu -->
+                    </ul>
+                </div>
+                <!-- /section:basics/navbar.dropdown -->
+            </div>
+            <!-- /.navbar-container -->
+        </div>
+        <!-- /section:basics/navbar.layout -->
+        <div class="main-container" id="main-container">
+            <script type="text/javascript">
+				try {
+					ace.settings.check('main-container', 'fixed')
+				} catch (e) {
+				}
+			</script>
+            <!-- #section:basics/sidebar -->
+            <div id="sidebar" class="sidebar responsive">
+                <script type="text/javascript">
+					try {
+						ace.settings.check('sidebar', 'fixed')
+					} catch (e) {
+					}
+				</script>
+				
+                <!-- /.sidebar-shortcuts -->
+                <ul class="nav nav-list"  id="menuDiv">
+                	
+                </ul>
+                <!-- /.nav-list -->
+                <!-- #section:basics/sidebar.layout.minimize -->
+                <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+                    <i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+                </div>
+                <!-- /section:basics/sidebar.layout.minimize -->
+                <script type="text/javascript">
+					try {
+						ace.settings.check('sidebar', 'collapsed')
+					} catch (e) {
+					}
+				</script>
+            </div>
+            <!-- /section:basics/sidebar -->
+            <div class="main-content">
+                <!-- #section:basics/content.breadcrumbs -->
+                <div class="breadcrumbs" id="breadcrumbs">
+                    <script type="text/javascript">
+						try {
+							ace.settings.check('breadcrumbs', 'fixed')
+						} catch (e) {
+						}
+					</script>
+                    <ul class="breadcrumb">
+                        <li>
+                            <i class="ace-icon fa fa-home home-icon"></i>
+                            <a  id="homeDefaultPage" href=""  i18n="home_page">
+								 
+                            </a>
+                        </li>
+                       
+                    </ul>
+                   
+                    
+                  <div id="systemMsgDiv"  style="padding:0px;display: none" class="bottomForever pull-right alert alert-success no-margin">
+						<i class="ace-icon fa fa-hand-o-right  bigger-120 blue"></i>
+						<span id="systemMsgSpan"> 
+						</span>
+				 </div>
+                </div>
+                <!-- /section:basics/content.breadcrumbs -->
+                <div class="page-content">
+                    <!-- #section:settings.box -->
+                    <div class="ace-settings-container" id="ace-settings-container">
+                        <div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn">
+                            <i class="ace-icon fa fa-cog bigger-130"></i>
+                        </div>
+                        <div class="ace-settings-box clearfix" id="ace-settings-box">
+                            <div class="pull-left width-50">
+                                <!-- #section:settings.skins -->
+                                <div class="ace-settings-item">
+                                    <div class="pull-left">
+                                        <select id="skin-colorpicker" class="hide">
+                                            <option data-skin="no-skin" value="#438EB9">
+                                                #438EB9
+                                            </option>
+                                            <option data-skin="skin-1" value="#222A2D">
+                                                #222A2D
+                                            </option>
+                                            <option data-skin="skin-2" value="#C6487E">
+                                                #C6487E
+                                            </option>
+                                            <option data-skin="skin-3" value="#D0D0D0">
+                                                #D0D0D0
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <span i18n="choose_skin">
+                                       
+                                    </span>
+                                </div>
+                                <!-- /section:settings.skins -->
+                                <!-- #section:settings.navbar -->
+                                <div class="ace-settings-item">
+                                    <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-navbar" />
+                                    <label class="lbl" for="ace-settings-navbar" i18n="fixed_navbar">
+                                       	 
+                                    </label>
+                                </div>
+                                <!-- /section:settings.navbar -->
+                                <!-- #section:settings.sidebar -->
+                                <div class="ace-settings-item">
+                                    <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-sidebar" />
+                                    <label class="lbl" for="ace-settings-sidebar" i18n="fixed_sidebar">
+                                                                                                                         固定侧边栏
+                                    </label>
+                                </div>
+                                <!-- /section:settings.sidebar -->
+                                <!-- #section:settings.breadcrumbs -->
+                                <div class="ace-settings-item">
+                                    <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-breadcrumbs" />
+                                    <label class="lbl" for="ace-settings-breadcrumbs"  i18n="fixed_breadcrumbs">
+                                    	
+                                    </label>
+                                </div>
+                                <!-- /section:settings.breadcrumbs -->
+                                <!-- #section:settings.rtl -->
+                                <div class="ace-settings-item">
+                                    <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-rtl" />
+                                    <label class="lbl" for="ace-settings-rtl" i18n="right_to_left">
+                                    	
+                                    </label>
+                                </div>
+                                <!-- /section:settings.rtl -->
+                                <!-- #section:settings.container -->
+                                <div class="ace-settings-item">
+                                    <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-add-container" />
+                                    <label class="lbl" for="ace-settings-add-container" i18n="inside_container">
+                                    	
+                                    </label>
+                                </div>
+                                <!-- /section:settings.container -->
+                            </div>
+                            <!-- /.pull-left -->
+                            <div class="pull-left width-50">
+                                <!-- #section:basics/sidebar.options -->
+                                <div class="ace-settings-item">
+                                    <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-hover" />
+                                    <label class="lbl" for="ace-settings-hover"  i18n="submenu_on_hover">
+                                    	
+                                    </label>
+                                </div>
+                                <div class="ace-settings-item">
+                                    <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-compact" />
+                                    <label class="lbl" for="ace-settings-compact" i18n="compact_sidebar">
+                                    	
+                                    </label>
+                                </div>
+                                <div class="ace-settings-item">
+                                    <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-highlight" />
+                                    <label class="lbl" for="ace-settings-highlight" i18n="alt_active_item">
+                                    	
+                                    </label>
+                                </div>
+                                <!-- /section:basics/sidebar.options -->
+                            </div>
+                            <!-- /.pull-left -->
+                        </div>
+                        <!-- /.ace-settings-box -->
+                    </div>
+                    <!-- /.ace-settings-container -->
+                    <!-- /section:settings.box -->
+                    <div class="page-content-area" data-ajax-content="true">
+                        <!-- ajax content goes here -->
+                       
+                    </div>
+                    <!-- /.page-content-area -->
+                </div>
+                <!-- /.page-content -->
+            </div>
+            <!-- /.main-content -->
+            <div class="footer">
+                <div class="footer-inner">
+                    <!-- #section:basics/footer -->
+                    <div class="footer-content">
+                        <span class="bigger-120">
+                            <span class="blue bolder"  i18n="copyright">
+                                 
+                            </span>
+                            &copy; 
+                            2015-2017
+                        </span>
+                    </div>
+                    <!-- /section:basics/footer -->
+                </div>
+            </div>
+            <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+                <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+            </a>
+        </div>
+        <!-- /.main-container -->
+        <!-- basic scripts -->
+        <!--[if !IE]> -->
+			<script type="text/javascript">
+				window.jQuery || document.write("<script src='component/assets/js/jquery.js'>" + "<"+"/script>");
+			</script>
+		<!-- <![endif]-->
+        <!--[if IE]>
+			<script type="text/javascript">
+			 	window.jQuery || document.write("<script src='component/assets/js/jquery1x.js'>"+"<"+"/script>");
+			</script>
+		<![endif]-->
+        <script type="text/javascript">
+			if ('ontouchstart' in document.documentElement)
+				document.write("<script src='component/assets/js/jquery.mobile.custom.js'>" + "<"+"/script>");
+		</script>
+		<script src="component/assets/js/fastclick.js"></script>
+        <script src="component/assets/js/bootstrap.js"></script>
+        <script src="component/assets/js/bootbox.js"></script>
+        <!-- ace scripts -->
+        <script src="component/assets/js/jquery.placeholder.js"></script>
+       
+        <script src="component/custom/loy.js"></script>
+        <script src="component/assets/js/ace/ace.js"></script>
+        <script src="component/assets/js/ace/ace.ajax-content.js"></script>
+        
+        <script src="component/assets/js/date-time/bootstrap-datepicker.js"></script>
+      
+        <script src="component/assets/js/jquery.gritter.js"></script>
+       
+        <script src="component/assets/js/jqGrid/jquery.jqGrid.js"></script>
+        <script src="component/custom/cust_chosen.jquery.js"></script>
+         <script src="component/assets/js/chosen.jquery.js"></script>
+        <script src="component/assets/js/ace/elements.fileinput.js"></script>
+        <script src="component/assets/js/x-editable/bootstrap-editable.js"></script>
+        <script src="component/assets/js/x-editable/ace-editable.js"></script>
+ 
+        <script src="component/assets/js/ace/elements.scroller.js"></script>
+        <script src="component/assets/js/ace/elements.colorpicker.js"></script>
+        <script src="component/assets/js/ace/elements.typeahead.js"></script>
+        
+        <script src="component/assets/js/ace/elements.spinner.js"></script>
+        <script src="component/assets/js/ace/elements.treeview.js"></script>
+        <script src="component/assets/js/ace/elements.wizard.js"></script>
+        <script src="component/assets/js/ace/elements.aside.js"></script>
+       
+        <script src="component/assets/js/ace/ace.touch-drag.js"></script>
+        <script src="component/assets/js/ace/ace.sidebar.js"></script>
+        <script src="component/assets/js/ace/ace.sidebar-scroll-1.js"></script>
+        <script src="component/assets/js/ace/ace.submenu-hover.js"></script>
+        <script src="component/assets/js/ace/ace.widget-box.js"></script>
+        <script src="component/assets/js/ace/ace.settings.js"></script>
+        <script src="component/assets/js/ace/ace.settings-rtl.js"></script>
+        <script src="component/assets/js/ace/ace.settings-skin.js"></script>
+        <script src="component/assets/js/ace/ace.widget-on-reload.js"></script>
+        <script src="component/assets/js/ace/ace.searchbox-autocomplete.js"></script>
+        <script src="component/assets/js/fuelux/fuelux.tree.js"></script>
+        <script src="component/assets/js/fuelux/fuelux.spinner.js"></script>
+        <script src="component/assets/js/jquery.validate.js"></script>
+        <script src="component/custom/validator_zh_CN.js"></script>
+        <script src="component/assets/js/jquery.i18n.properties.js"></script>
+        <script src="component/assets/js/jquery.ztree.core-3.5.js"></script>
+        <script src="component/assets/js/jquery.ztree.excheck-3.5.js"></script>
+        <script src="component/assets/js/json2.js"></script>
+        <script src="component/assets/js/angular.js"></script>
+        
+        <script src="component/custom/control.js"></script>
+        <script src="component/custom/home.js"></script>
+       <script>
+        
+        jQuery(function($) {
+        	 var home = new Home();
+        	 home.initDefaultPage = function(data){
+        		 $('#homeDefaultPage').attr("href","home.html#"+data.defaultPage);
+        		 document.getElementById('homeDefaultPage').click();
+        	 };
+        	 home.getSelfPage = function(){
+        		 return "home.html";
+        	 };
+        	 home.buildMenu = function(data){
+        		    var menuData = data.menuData;
+					var menuBuffer = [];
+					if(menuData){
+						for(var i=0;i<menuData.length;i++) {
+							var item = menuData[i];
+							var name = item.data.name;
+							
+							var cls = item.data.cls;
+							menuBuffer.push(' <li class="">');
+							menuBuffer.push('<a href="javascript:void(0)" class="dropdown-toggle">');
+							menuBuffer.push('<i class="'+cls+'"></i>');
+							menuBuffer.push('<span class="menu-text">'+name+'</span>');
+							menuBuffer.push('<b class="arrow fa fa-angle-down"></b>');
+							menuBuffer.push('</a>');
+							menuBuffer.push('<b class="arrow"></b>');
+							menuBuffer.push('<ul class="submenu">');
+	                         var children = menuData[i].children;
+	                         if(children){
+	                        	 for(var j=0;j<children.length;j++) {
+		                        	 var item = children[j];
+		                        	 var name = item.data.name;
+		                        	 var cls = item.data.cls;
+		                        	 var url = item.data.url?item.data.url:'';
+		                        	 var v =$.homeGlobal&&$.homeGlobal.VERSION?$.homeGlobal.VERSION:Math.random();
+	                        		 if(url.indexOf('?')>0){
+	                        			 url = url+'&version='+v;
+	                        		 }else{
+	                        			 url = url+'?version='+v;
+	                        		 }	
+		                        	 menuBuffer.push(' <li class="">');
+		                        	 menuBuffer.push('<a  data-url="'+url+'" href="home.html#'+url+'">');
+		                        	 menuBuffer.push('<i class="'+cls+'"></i>');
+		                        	 menuBuffer.push(name);
+		                        	 menuBuffer.push('</a>');
+		                        	 menuBuffer.push('<b class="arrow"></b>');
+		                        	 menuBuffer.push('</li>');
+		                         }
+	                         } 
+	                    menuBuffer.push('</ul>');	
+	                    menuBuffer.push('</li>');	
+						}
+					}
+					
+					var menuStr = menuBuffer.join(' ');
+					$('#menuDiv').html(menuStr);
+        	 }
+        	 home.init();
+        });
+        function logout(){
+        	location.href='logout';
+        }
+        </script>
+        
+    </body>
+</html>
+
+ <!--[if lte IE 8]>
+		<script>
+		$('.footer').css('padding-top','50px');
+		</script>
+		
+<![endif]-->  

@@ -1,0 +1,594 @@
+	<div  id="notice_container" ng-app="noticeApp">
+	<div class="row">
+		<div class="col-xs-12">
+			<div id="search_box" class="widget-box  ui-sortable-handle collapsed">
+				<div class="widget-header">
+				    <div class="nav-search"  style="padding-top: 5px;  right: 50px">
+						<span class="input-icon">
+						 <input type="text"  id="noticeQueryParam_subject"  i18n="personnel.notice.subject"  placeholder ="主题"  class="nav-search-input"  >
+							<i class="ace-icon fa fa-search nav-search-icon" onclick="$('#noticeSearchBtn',$('#notice_container')).click()" ></i>
+						</span>
+					</div>
+
+					<div class="widget-toolbar">
+						<a href="#" data-action="collapse">
+							<i class="1 ace-icon fa bigger-125 fa-chevron-up"></i>
+						</a>
+					</div>
+
+				</div>
+
+				<div class="widget-body" style="display: none;">
+					<div class="widget-main">
+					
+						<div class="row">
+						       <div class="col-xs-12 col-sm-2 " style="padding-bottom: 2px">
+							       <select id="noticeQueryParam_noticeStatus" class="form-control search-query">
+							       <option value="" i18n="all"></option>
+							       <option value="DRAFT">草稿</option>
+							       <option value="SENT">发送</option>
+							       </select>
+					           </div>
+					           <div class="col-xs-12 col-sm-6 ">
+							    <div id="noticeSearchDiv" class="input-group col-xs-12  col-sm-6  " style="padding-bottom: 2px">
+									<span class="input-group-btn">
+										<button id="noticeSearchBtn" type="button" class="btn btn-purple btn-sm">
+											<span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
+											<span i18n="find"></span>
+										</button>
+									</span>
+				              </div>
+				              </div>
+				         </div>     
+			              
+					</div>
+				</div>
+			</div>
+							    
+			
+			<table id="notice_grid-table"></table>
+
+			<div id="notice_grid-pager"></div>
+
+		</div>
+		<!-- /.col -->
+	</div>
+	<!-- /.row -->
+	
+	
+	<div id="noticeModalDiv" class="modal fade" tabindex="-1" data-backdrop="static">
+		<div class="modal-dialog modal-lg" >
+				<div class="modal-content">
+					<div class="modal-header no-padding">
+						<div class="table-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+								<span class="white">&times;</span>
+							</button>
+							<span i18n="personnel.notice.editNotice">编辑通知</span>
+						</div>
+					</div>
+					<div class="modal-body" style="max-height: 450px;overflow-y: scroll;">
+						<div id="modal-tip" class="red clearfix"></div>
+						<div>
+							<div class="widget-body">
+								
+								<form id="noticeForm" name="noticeForm" class="form-horizontal notice-form col-xs-12">
+								     <input type="hidden"  name="id" id="id"/>
+								     <input id = "content" type="hidden"  name="content" />
+									<!-- #section:pages/inbox.compose -->
+									<div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" i18n="personnel.notice.subject" for="form-field-subject">主题:</label>
+											<div class="col-sm-8">
+												<div class="input-icon block col-xs-12 no-padding">
+													<input maxlength="100" type="text" class="col-xs-12" name="subject" id="subject" />
+													<i class="ace-icon fa fa-comment-o"></i>
+												</div>
+											</div>
+										</div>
+
+										<div class="hr hr-18 dotted"></div>
+
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right">
+												<span class="inline space-24 hidden-480"></span>
+												<span i18n="personnel.notice.content"></span>
+											</label>
+
+											<!-- #section:plugins/editor.wysiwyg -->
+											<div class="col-sm-9">
+												<div id="contentDiv"  style="height: 150px;border:1px solid  #BBC0CA;" class="wysiwyg-editor"></div>
+											</div>
+
+											<!-- /section:plugins/editor.wysiwyg -->
+										</div>
+
+										<div class="hr hr-18 dotted"></div>
+
+
+                                         <div class="form-group no-margin-bottom">
+											<label class="col-sm-3 control-label  i18n="personnel.notice.attachment"  no-padding-right">附件:</label>
+
+											<div class="col-sm-9">
+												<div id="view-attachments">
+												
+												
+												 
+												</div>
+											</div>
+										</div>
+										
+										
+										<div class="form-group no-margin-bottom">
+											<label class="col-sm-3 control-label no-padding-right"></label>
+
+											<div class="col-sm-9">
+												<div id="notice-form-attachments">
+													<!-- #section:custom/file-input -->
+													<input type="file" name="uploadAttachments" />
+
+													<!-- /section:custom/file-input -->
+												</div>
+											</div>
+										</div>
+
+										<div class="align-right">
+											<button id="id-add-attachment" type="button" class="btn btn-sm btn-danger">
+												<i class="ace-icon fa fa-paperclip bigger-140"></i>
+												<span i18n="personnel.notice.addAttachment"></span>
+											</button>
+										</div>
+
+										<div class="space"></div>
+									</div>
+
+									<!-- /section:pages/inbox.compose -->
+								</form>
+									
+								
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer no-margin-top">
+						<div class="text-center">
+							
+							<button id="submitNoticeBtn"  class="btn btn-sm btn-primary">
+							  <i class="ace-icon fa fa-floppy-o"></i>
+							  <span i18n="save"></span>
+							</button>
+							<button id="sendNoticeBtn"  class="btn btn-sm btn-primary">
+							  <i class="ace-icon fa fa-floppy-o"></i>
+							  <span i18n="personnel.notice.send"></span>
+							</button>
+							<button class="btn btn-sm"  data-dismiss="modal">
+							  <i class="ace-icon fa fa-share "></i>
+							 <span i18n="cancel"></span>
+							</button>
+						</div>
+					</div>
+				</div><!-- /.modal-content -->
+			
+		</div><!-- /.modal-dialog -->
+	</div>
+	
+	
+	
+	
+		
+	<div id="noticeViewModalDiv" class="modal fade" tabindex="-1" data-backdrop="static" ng-controller="noticeViewCtrl">
+		<div class="modal-dialog modal-lg" >
+				<div class="modal-content">
+					<div class="modal-header no-padding">
+						<div class="table-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+								<span class="white">&times;</span>
+							</button>
+							<span i18n="personnel.notice"></span>
+						</div>
+					</div>
+					<div class="modal-body" style="max-height: 450px;overflow-y: scroll;">
+						<div id="modal-tip" class="red clearfix"></div>
+						<div>
+								<div class="widget-body">
+								
+								<form id="noticeForm" name="noticeForm" class="form-horizontal notice-form col-xs-12">
+								     <input type="hidden"  name="id" id="id"/>
+								     <input id = "content" type="hidden"  name="content" />
+									<!-- #section:pages/inbox.compose -->
+									<div>
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right" i18n="personnel.notice.subject" for="form-field-subject">主题:</label>
+											<div class="col-sm-8">
+												<div class="input-icon block col-xs-12 no-padding">
+													<div id="view_subject"></div>
+												</div>
+											</div>
+										</div>
+
+										<div class="hr hr-18 dotted"></div>
+
+										<div class="form-group">
+											<label class="col-sm-3 control-label no-padding-right">
+												<span class="inline space-24 hidden-480"></span>
+												<span i18n="personnel.notice.content"></span>
+											</label>
+
+											<!-- #section:plugins/editor.wysiwyg -->
+											<div class="col-sm-9">
+												<div id="view_content" ></div>
+											</div>
+
+											<!-- /section:plugins/editor.wysiwyg -->
+										</div>
+
+										<div class="hr hr-18 dotted"></div>
+
+										<div class="form-group no-margin-bottom">
+											<label class="col-sm-3 control-label no-padding-right" i18n="personnel.notice.attachment"></label>
+
+											<div class="col-sm-9">
+												<div id="detail-iew-attachments">
+												
+												
+												 
+												</div>
+											</div>
+										</div>
+
+
+										<div class="space"></div>
+									</div>
+
+									<!-- /section:pages/inbox.compose -->
+								</form>
+									
+								
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer no-margin-top">
+						<div class="text-center">
+							<button class="btn btn-sm"  data-dismiss="modal">
+							  <i class="ace-icon fa fa-share "></i>
+							  <span i18n="cancel"></span>
+							</button>
+						</div>
+					</div>
+				</div><!-- /.modal-content -->
+			
+		</div><!-- /.modal-dialog -->
+	</div>
+	
+</div>
+
+
+
+<script type="text/javascript">
+var scripts = [ null,"upm/component/assets/js/jquery.hotkeys.js",
+                "upm/component/assets/js/bootstrap-wysiwyg.js",
+                "upm/component/assets/js/ace/elements.wysiwyg.js",null ];
+$('.page-content-area').ace_ajax('loadScripts', scripts, function() {
+	var $container = $('#notice_container');
+	var grid_selector  = "#notice_grid-table";
+	var pager_selector = "#notice_grid-pager";
+	var colNames;
+	var  noticeGrid = null;
+	$.loy.i18n(['upm/i18n/personnel/notice'],$.homeGlobal.LANG,$container,{custCallback:function(){
+		$('input, textarea',$container).placeholder();
+		colNames =[' ',
+	               $.i18n.prop("personnel.notice.subject"),
+	               $.i18n.prop("personnel.notice.status"),
+	               $.i18n.prop("personnel.notice.createdTime")
+	               ];
+	    createNoticeGrid();
+	}});
+	
+	var $validateNoticeForm = $('#noticeForm',$container).validate({
+    	onsubmit:false,
+    	rules : {
+			subject : {
+				required : true,
+			}
+		}
+    });
+	function clearNoticeForm(){
+		$('#id',$container).val('');
+		$('#subject',$container).val('');
+		$('#content',$container).val('');
+		$('#contentDiv',$container).html('');
+		$('#view-attachments',$container).html('');
+		$('.notice-form .ace-file-input:not(:first-child)',$container).remove();
+		$('.notice-form input[type=file]',$container).ace_file_input('reset_input_ui');
+		$('a[data-action=delete]',$('#notice-form-attachments',$container)).click();
+		$('#notice-form-attachments',$container).html("");
+		var file = $('<input type="file" name="uploadAttachments" />').appendTo('#notice-form-attachments',$container);
+		file.ace_file_input()
+		.closest('.ace-file-input',$container)
+		.addClass('width-90 inline')
+		.wrap('<div class="form-group file-input-container"><div class="col-sm-7"></div></div>');
+	
+		
+	}
+	function edit (id){
+		clearNoticeForm();
+		$('#submitNoticeBtn',$container).attr("url","upm/notice/update");
+		$.loy.ajax({
+			url:'upm/notice/get',
+			data:{id:id},
+			success:function(data){
+				var result = data.data;
+				$('#id',$container).val(result.id?result.id:'');
+				$('#subject',$container).val(result.subject?result.subject:'');
+				$('#content',$container).val(result.content?result.content:'');
+				$('#contentDiv',$container).html((result.content?result.content:''));
+				if(result.noticeStatus == 'DRAFT'){
+					$('#noticeModalDiv',$container).modal("show");
+					$('#sendNoticeBtn',$container).show();
+					$('#submitNoticeBtn',$container).show();
+				}else{
+					$('#noticeModalDiv',$container).modal("hide");
+					return;
+				}
+				var attachments = result.attachments;
+				var $viewAttachments = $('#view-attachments',$container);
+				$viewAttachments.html("");
+				if(attachments){
+					for(var i=0;i<attachments.length;i++){
+						var id = attachments[i].id;
+						var $delButton =$('<i attachmentId="'+id+'" class="ace-icon fa fa-trash-o red bigger-130 middle"></i>');
+						var $attachment = $('<span  style="padding-left:10px" class="btn-link"><span>'+attachments[i].fileShowName+'</span></span>');
+						$delButton.bind("click",function(){
+							var id = $(this).attr('attachmentId');
+							var $p = $(this).parent();
+							var url = "upm/attachment/del";
+							$.loy.ajax({
+								url:url,
+								data:{id:id},
+								success:function(data){
+									$p.remove();
+								}
+							});
+						});
+						$attachment.append($delButton);
+						$viewAttachments.append($attachment);
+					}
+				}
+			}
+	   });
+	}
+	function view (id){
+		$('#noticeViewModalDiv',$container).modal("show");
+		$.loy.ajax({
+			url:'upm/notice/get',
+			data:{id:id},
+			success:function(data){
+				var result = data.data;
+				$('#view_subject',$container).html(result.subject?result.subject:'');
+				$('#view_content',$container).html(result.content?result.content:'');
+				
+				var attachments = result.attachments;
+				var $viewAttachments = $('#detail-iew-attachments');
+				$viewAttachments.html("");
+				if(attachments){
+					for(var i=0;i<attachments.length;i++){
+						var id = attachments[i].id;
+						var $attachment = $('<span attachmentId="'+id+'"  style="padding-left:10px" class="btn-link"><i class="ace-icon fa fa-paperclip bigger-130 middle"></i><span>'+attachments[i].fileShowName+'</span></span>');
+						$attachment.bind("click",function(){
+							var id = $(this).attr('attachmentId');
+							var url = "attachment/download?id="+id;
+							var downloadFrame = $('#downloadFrame');
+						    if(downloadFrame.length == 0){
+						        downloadFrame = $('<iframe id="downloadFrame" src="" style="display:none"></iframe>');
+						        $('body').append(downloadFrame);
+						    }
+						    downloadFrame.attr('src',url);
+						});
+						$viewAttachments.append($attachment);
+					}
+				}
+			}
+	});
+  }
+  function add(){
+		clearNoticeForm();
+		$('#submitNoticeBtn',$container).attr("url","upm/notice/save");
+		$('#noticeModalDiv',$container).modal("show");
+		$('#sendNoticeBtn',$container).show();
+		$('#submitNoticeBtn',$container).show();
+  }
+  
+  function  createNoticeGrid(){
+		noticeGrid =jQuery(grid_selector).loyGrid({
+			url: 'upm/notice/page',
+			datatype: "json",
+			mtype: 'GET',
+			colNames:colNames,
+			colModel: [
+			 {name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false ,
+				formatter:'actions', 
+				formatoptions:getFormatoptions('upm/notice/')
+			 },
+	   		
+	   		{ name: 'subject', index: 'subject', width: 100, align: "left",editable: true }, 
+	   		{ name: 'noticeStatus', index: 'noticeStatus', width: 60, align: "left",editable: true,
+	   			formatter: "select", editoptions:{value:'DRAFT:草稿;SENT:发送'} 
+	   		},
+	   		{ name: 'createdTime', index: 'createdTime', width: 100, align: "left",editable: true,formatter:'time', editoptions:{ctype:'date'}}
+	   		],
+			pager: pager_selector,
+			//width:$(".page-content").width(),
+			loadComplete:function(data){
+				loadComplete(data);
+				var list = data.data?data.data.content:null;
+				if(list){
+					for(var i=0;i<list.length;i++){
+						var editDivId = "jEditButton_"+list[i].id;
+						var deleteDivId ="jDeleteButton_"+list[i].id;
+						if(list[i].noticeStatus == 'SENT'){
+							$('#'+deleteDivId,noticeGrid).remove();
+							$('#'+editDivId,noticeGrid).hide();
+						}else{
+							$('#'+editDivId,noticeGrid).attr('onclick','').on('click',function(){
+								edit($(this).closest('tr').attr('id'));
+							});
+						}
+					}
+				}	
+			}
+		}).loyGrid('navGrid','#notice_grid-pager',{"baseUrl":"upm/notice/",
+			"addfunc":function(){
+				add();
+			},
+			"editfunc":function(rowId){
+				edit(rowId);
+			},
+			"viewfunc":function(rowId){
+				view(rowId);
+			},
+			view: true
+		});
+		noticeGrid.jqGrid('setFrozenColumns');
+	}
+	
+	$("#noticeSearchBtn",$container).click(function(){
+		var subject = $("#noticeQueryParam_subject",$container).val();
+		var noticeStatus = $("#noticeQueryParam_noticeStatus",$container).val();
+		var postData ={"subject":subject,"noticeStatus":noticeStatus,page:0};
+		noticeGrid.loyGrid("setGridParam",{"postData":postData}).trigger("reloadGrid"); 
+		
+	});
+	$('#noticeQueryParam_subject',$container).bind('keypress',function(event){
+        if(event.keyCode == "13"){
+           $('#noticeSearchBtn',$container).click();
+        }
+    });
+	
+	
+	$('#submitNoticeBtn',$container).click(function(){
+		 var url = $(this).attr("url");
+		 $('#content',$container).val($('#contentDiv',$container).html());
+		 var form = $("#noticeForm",$container)[0];
+		 if( "FormData" in window) {
+			 var formData = new FormData(form);
+			 $.loy.ajax({
+					url:url,
+					contentType: false,  
+			        processData: false,  
+					data:formData,
+					showSuccess:true,
+					success:function(data){
+						if(data.success){
+							$('#noticeModalDiv',$container).modal("hide");
+							noticeGrid.trigger("reloadGrid");
+						}
+					}
+			});
+		 }else{
+			 var $uploadFrame = $('#uploadFrame');
+			 if($uploadFrame.length == 0){
+				 $uploadFrame = $('<iframe id="uploadFrame" name="uploadFrame"  style="display:none"></iframe>');
+			     $('body').append($uploadFrame);
+			     $uploadFrame.bind("load",function(){
+					 var result = $(window.frames["uploadFrame"].document).contents().text();
+					 var jsonResult = $.parseJSON(result)
+					 if(jsonResult.success){
+						 $('#noticeModalDiv',$container).modal("hide");
+						 noticeGrid.trigger("reloadGrid");
+					 }else{
+						 if(jsonResult.msg && jsonResult.msg.length>0){
+							 $.loy.alert(jsonResult.msg.msg,'error');	
+						 }else{
+							 $.loy.alert('error','error');
+						 }
+					 }
+				 });
+			 }
+			 $("#noticeForm",$container).attr({
+				  action: url,
+				  method: 'POST',
+				  enctype: 'multipart/form-data',
+				  target: "uploadFrame"
+		    });
+			form.submit();
+			
+		 } 
+    });
+	
+	$('#sendNoticeBtn',$container).click(function(){
+		 if(!$validateNoticeForm.checkForm()){
+			$validateNoticeForm.defaultShowErrors();
+			return;
+		 }
+		 $('#content',$container).val($('#contentDiv',$container).html());
+		 var $form = $("#noticeForm",$container)[0];
+		 var formData = new FormData($form);
+		 
+		 $.loy.ajax({
+				url:"upm/notice/send",
+				contentType: false,  
+		        processData: false,  
+				data:formData,
+				success:function(data){
+					if(data.success){
+						$('#noticeModalDiv',$container).modal("hide");
+						noticeGrid.trigger("reloadGrid");
+					}
+				}
+		});
+   });
+	
+	
+	$('#contentDiv').ace_wysiwyg({
+		toolbar:
+		[
+			'bold',
+			'italic',
+			'strikethrough',
+			'underline',
+			null,
+			'justifyleft',
+			'justifycenter',
+			'justifyright',
+			null,
+			null,
+			null,
+			null,
+			'undo',
+			'redo'
+		]
+	}).prev().addClass('wysiwyg-style1');
+	
+	$('.notice-form input[type=file]',$container).ace_file_input()
+	.closest('.ace-file-input',$container)
+	.addClass('width-90 inline')
+	.wrap('<div class="form-group file-input-container"><div class="col-sm-7"></div></div>');
+	
+	$('#id-add-attachment',$container)
+	.on('click', function(){
+		var file = $('<input type="file" name="uploadAttachments" />').appendTo('#notice-form-attachments',$container);
+		file.ace_file_input();
+		
+		file.closest('.ace-file-input',$container)
+		.addClass('width-90 inline')
+		.wrap('<div class="form-group file-input-container"><div class="col-sm-7"></div></div>')
+		.parent().append('<div class="action-buttons pull-right col-xs-1">\
+			<a href="#" data-action="delete" class="middle">\
+				<i class="ace-icon fa fa-trash-o red bigger-130 middle"></i>\
+			</a>\
+		</div>')
+		.find('a[data-action=delete]',$container).on('click', function(e){
+			//the button that removes the newly inserted file input
+			e.preventDefault();
+			$(this).closest('.file-input-container').hide(300, function(){ $(this).remove() });
+		});
+	});
+/**
+	var app = angular.module('noticeApp', []);
+	app.controller('noticeViewCtrl', function($scope) {
+	   
+	});
+	*/
+	
+});
+
+</script>

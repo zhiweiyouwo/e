@@ -1,0 +1,13 @@
+e:
+ apiInfo:
+       title: E-框架 REST API
+       description: 
+       version: 2.0.0
+       termsOfServiceUrl: 
+       contact: 
+            name: Loy Fu
+            url: http://www.17jee.com
+            email: 21549322@qq.com
+       license: 
+       licenseUrl: 
+       pathsRegex: ^.*(?<!error)$

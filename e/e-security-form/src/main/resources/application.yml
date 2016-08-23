@@ -1,0 +1,15 @@
+e:
+  form:
+     successUrl: home.html#
+     loginUrl: /index.html
+     anons:
+       - /index.html: anon
+       - /i18n/**: anon
+       - /**.css: anon
+       - /**.js: anon
+       - /**.map: anon
+       - /**.woff: anon
+       - /login : anon
+       - /logout: anon
+       - /static: anon
+       - /metrics: anon

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<!DOCTYPE dynamic-ql-statement PUBLIC "-//Loy/HOP Ql Dynamic Statement DTD 1.0//EN"  
+"http://www.loy.com/dtd/dynamic-ql-statement-1.0.dtd">  
+<dynamic-ql-statement>  
+    <hql-query name="personnel.notice.findPageNotice">  
+    <![CDATA[ 
+        from NoticeEntity x where  x.creatorId = :creatorId
+        <@notEmpty name="noticeStatus">
+		  and x.noticeStatus = :noticeStatus 
+		</@notEmpty>
+		<@notEmpty name="subject">
+		  and x.subject like '%${subject!}%'
+		</@notEmpty>
+		order by  x.createdTime desc
+    ]]>   
+    </hql-query>  
+    
+     <hql-query name="personnel.notice.queryReceivePage">  
+    <![CDATA[ 
+        from NoticeReaderEntity x where  x.readerId = :readerId
+         <@notEmpty name="seen">
+		  and x.seen = :seen 
+		</@notEmpty>
+		
+		<@notEmpty name="subject">
+		  and x.notice.subject like '%${subject!}%'
+		</@notEmpty>
+		order by  x.notice.sendTime desc
+    ]]>   
+    </hql-query>  
+</dynamic-ql-statement>  

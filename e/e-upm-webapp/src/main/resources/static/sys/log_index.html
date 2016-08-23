@@ -1,0 +1,104 @@
+<div  id="log_container">
+	<div class="row">
+		<div class="col-xs-12">
+		
+				<div id="search_box" class="widget-box  ui-sortable-handle collapsed">
+				<div class="widget-header">
+				
+				  <div class="nav-search"  style="padding-top: 5px;  right: 50px">
+						<span class="input-icon">
+							<input type="text"  id="logQueryParam_name" i18n="sys.log.name" placeholder ="操作者"  class="nav-search-input"  >
+							<i class="ace-icon fa fa-search nav-search-icon" onclick="$('#logSearchBtn',$('#log_container')).click()" ></i>
+						</span>
+					</div>
+					
+				</div>
+
+				<div class="widget-body" style="display: none;height:0px">
+					<div class="widget-main">
+						<div class="row">
+					           <div class="col-xs-12 col-sm-6 ">
+							    <div id="userSearchDiv" class="input-group col-xs-12  col-sm-6  " style="padding-bottom: 2px;display: none">
+									<span class="input-group-btn">
+										<button id="logSearchBtn" type="button" class="btn btn-purple btn-sm">
+											<span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
+											<span i18n="find"></span>
+										</button>
+									</span>
+				              </div>
+				              </div>
+				         </div>     
+			              
+					</div>
+				</div>
+			</div>
+			<table id="log_grid-table"></table>
+
+			<div id="log_grid-pager"></div>
+
+		</div>
+		<!-- /.col -->
+	</div>
+	<!-- /.row -->
+</div>
+
+
+
+
+<script type="text/javascript">
+var scripts = [ null,null ];
+$('.page-content-area').ace_ajax('loadScripts', scripts, function() {
+	var $container= $('#log_container');
+	var grid_selector  = "#log_grid-table";
+	var pager_selector = "#log_grid-pager";
+	
+	var  logGrid = null;
+	var colNames;
+	$.loy.i18n(['upm/i18n/sys/log'],$.homeGlobal.LANG,$container,{custCallback:function(){
+		$('input, textarea',$container).placeholder();
+		colNames =[
+                   $.i18n.prop("sys.log.opName"),
+                   $.i18n.prop("sys.log.name"),
+                   $.i18n.prop("sys.log.operateTime"),
+                   $.i18n.prop("sys.log.data")
+	               ]
+		createLogGrid();
+	}});
+	
+	function  createLogGrid(){
+		logGrid =jQuery(grid_selector).loyGrid({
+			rowNum:30,
+			url: 'upm/log/page',
+			datatype: "json",
+			mtype: 'GET',
+			colNames:colNames,
+			colModel: [
+            { name: 'opName', index: 'opName', width: 50, align: "left",editable: false,sortable: false }, 
+	   		{ name: 'operator', index: 'operator', width: 50, align: "left",editable: false ,sortable: false},
+	   		{ name: 'opTime', index: 'opTime', width: 50, align: "left",editable: false },
+	   		{ name: 'data', index: 'data', width: 200, align: "left",editable: false ,sortable: false}
+	   		],
+			pager: pager_selector
+			
+		}).loyGrid('navGrid','#log_grid-pager',{"baseUrl":"log/",
+			del:false,
+			edit:false,
+			add:false,
+			view: false
+		});
+		logGrid.jqGrid('setFrozenColumns');
+	}
+	$('#logQueryParam_name',$container).bind('keypress',function(event){
+        if(event.keyCode == "13"){
+           $('#logSearchBtn',$container).click();
+        }
+    });
+	$("#logSearchBtn",$container).click(function(){
+		var name = $("#logQueryParam_name").val();
+		var postData ={"name":name,page:0};
+		logGrid.loyGrid("setGridParam",{"postData":postData}).trigger("reloadGrid"); 
+		
+	});
+});
+
+</script>

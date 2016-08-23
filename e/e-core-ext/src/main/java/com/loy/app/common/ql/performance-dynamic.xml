@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<!DOCTYPE dynamic-ql-statement PUBLIC "-//Loy/HOP Ql Dynamic Statement DTD 1.0//EN"  
+"http://www.loy.com/dtd/dynamic-ql-statement-1.0.dtd">  
+<dynamic-ql-statement>  
+    <sql-query name="sys.monitor.queryPerformancePage">  
+    <![CDATA[ select x.method as method, avg(x.use_time) as useTime,x.op_name as opName,
+    max(use_time) as maxUseTime,min(use_time) as minUseTime,count(*) as count 
+    from loy_performance x group by x.method order by avg(x.use_time) desc
+    ]]>   
+    </sql-query> 
+    
+   <sql-query name="sys.monitor.queryPerformanceCount">  
+    <![CDATA[ 
+     select count(*) from (select x.method  from loy_performance x group by x.method) as tmp
+    ]]>   
+    </sql-query>   
+</dynamic-ql-statement>  

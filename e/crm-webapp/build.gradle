@@ -1,0 +1,17 @@
+apply plugin: "spring-boot" 
+apply plugin: "application"
+jar {
+	baseName = "crm-webapp"
+}
+
+dependencies {
+
+    compile project(":crm")
+	compile project(":e-security-cas")
+	runtime("mysql:mysql-connector-java")
+	
+}
+task erun(type:Exec, dependsOn: build) {
+    workingDir "${project.buildDir}/libs"
+     commandLine "java", "-Dfile.encoding=${fileEncoding}", "-jar","${project.name}-${version}.jar"
+}

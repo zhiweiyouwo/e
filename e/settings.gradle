@@ -1,0 +1,30 @@
+rootProject.name = 'e'
+include 'e-common'
+
+include 'e-security-pwd'
+include 'e-security-cas'
+include 'e-security-form'
+
+include 'e-core'
+include 'e-core-api'
+include 'e-core-security-api'
+include 'e-core-ext'
+include 'e-core-static'
+include 'e-upm'
+include 'e-upm-api'
+include 'e-upm-service'
+include 'e-upm-webapp'
+include 'e-session-redis'
+
+include 'e-portal'
+
+include 'crm'
+include 'crm-webapp'
+
+include 'e-spring-fox'
+
+//include 'server-zkp'
+//include 'server-cas'
+//include 'server-proxy'
+
+
