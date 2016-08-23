@@ -1,8 +1,0 @@
-
-jar {
-	baseName = 'e-core-api'
-}
-
-dependencies {
-	compile project(':e-common')
-}

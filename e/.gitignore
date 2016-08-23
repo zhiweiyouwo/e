@@ -1,16 +1,1 @@
-*/bin/
-*
-target/
-build/
-*.gradle/*
-# eclipse ignore
-.settings/
-.project
-.classpath
-
-# temp ignore
-*.log
-*.cache
-*.diff
-*.patch
-*.tmp
+/bin/
