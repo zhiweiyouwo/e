@@ -1,0 +1,22 @@
+
+jar {
+	baseName = 'e-upm-service'
+}
+
+dependencies {
+    compile ('com.alibaba:dubbo:2.5.3'){
+	    exclude group:'org.springframework'
+	}
+	compile ('org.springframework:spring-context:4.2.7.RELEASE')
+	
+	compile ('org.apache.zookeeper:zookeeper:3.4.8'){
+	    exclude group:'log4j'
+	    exclude group:'org.slf4j'
+	}
+	compile ('com.101tec:zkclient:0.1.0'){
+	    exclude group:'log4j'
+	    exclude group:'org.slf4j'
+	}
+	compile project(':e-upm-api')
+	compile project(':e-core-security-api')
+}

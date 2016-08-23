@@ -1,0 +1,11 @@
+
+jar {
+	baseName = "e-security-pwd"
+}
+
+
+
+dependencies {
+	compile("org.apache.shiro:shiro-core:${shiroVersion}")
+	compile("commons-lang:commons-lang:${commonsLangVersion}")
+}

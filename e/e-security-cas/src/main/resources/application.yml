@@ -1,0 +1,16 @@
+e:
+  cas:
+     casServerUrlPrefix: http://localhost/cas
+     shiroServerUrlPrefix: http://localhost/upm
+     successUrl: home.html#
+     trustAllHttps: true
+     anons:
+       - /i18n/**: anon
+       - /**.css: anon
+       - /**.js: anon
+       - /**.map: anon
+       - /**.woff: anon
+       - /login : anon
+       - /logout: anon
+       - /static: anon
+       - /metrics: anon
