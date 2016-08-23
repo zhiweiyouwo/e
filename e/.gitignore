@@ -1,9 +1,8 @@
-/bin/
-
+*/bin/
+*
 target/
 build/
 *.gradle/*
-
 # eclipse ignore
 .settings/
 .project
