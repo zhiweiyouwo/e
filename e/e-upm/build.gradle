@@ -11,15 +11,17 @@ jar {
 dependencies {
 	compile project(":e-core-ext")
 	
-	if(customSecurityRef.equals("")){
-		if(securityRef.equals(":e-security-cas")){
+	if(customSecurityRef.equals("e-security-cas")){
+		
 		  compile project(":e-upm-service")
 		  compile project(":e-security-cas")
-		}else{
-		  compile project(":e-security-form")
-		}
 	}else{
-	     compile project(":e-security-form")
+	     if(securityRef.equals(":e-security-cas")){
+		  compile project(":e-upm-service")
+		  compile project(":e-security-cas")
+	     }else{
+		  compile project(":e-security-form")
+	     }
 	}
 
 	compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")

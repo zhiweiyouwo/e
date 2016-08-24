@@ -1,1 +1,1 @@
-start   gradlew  -PcustomSecurityRef=upm    startUpm
+start   gradlew      startUpm

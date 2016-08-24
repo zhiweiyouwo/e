@@ -1,4 +1,4 @@
-start  gradlew startUpm
+start  gradlew -PcustomSecurityRef=e-security-cas startUpm
 
 echo  这里暂停等UPM 启动完毕后再继续执行
 
