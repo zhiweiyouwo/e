@@ -22,7 +22,7 @@ dependencies {
 	    exclude group:"log4j"
 	    exclude group:"org.slf4j"
 	}
-
+    compile project(":crm-webapp")
 	compile project(":e-core")
 	compile project(":e-security-cas")
 	runtime("mysql:mysql-connector-java")
