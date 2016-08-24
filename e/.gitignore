@@ -4,6 +4,7 @@ bin/
 
 target/
 build/
+logs/
 *.gradle/
 # eclipse ignore
 .settings/

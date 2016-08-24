@@ -11,3 +11,7 @@ E框架的目的是让开发不必从零开始开发，让开发者只关注自�
 * 支持单点登录，可以多系统进行菜单集成，形成一个portal。
 * 支持高并发和水平扩展，支持Session的统一存储。
 * 项目采用gradle构建，能够方便的将各项目进行按需组装。
+
+
+#多系统构架
+![](https://github.com/fuhoujun/jee_framework/tree/master/e/e-core-static/src/main/resources/public/readme/jiagou.jpg)
