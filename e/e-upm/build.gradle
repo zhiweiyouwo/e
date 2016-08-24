@@ -7,7 +7,18 @@ jar {
     }
 }
 
+springBoot  {
+    mainClass = "com.loy.UpmApplicationMain"
+}
 
+bootRepackage {
+    mainClass = "com.loy.UpmApplicationMain"
+}
+
+task erun(type:Exec, dependsOn: build) {
+    workingDir "${project.buildDir}/libs"
+    commandLine "java", "-Dfile.encoding=${fileEncoding}", "-jar","${project.name}-${version}.jar"
+}
 dependencies {
 	compile project(":e-core-ext")
 	
@@ -25,21 +36,7 @@ dependencies {
 	}
     compile project(":e-core-static")
     compile project(":e-upm-webapp")
-	compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
-	
-	runtime("mysql:mysql-connector-java")
-	
-	
-	springBoot  {
-    mainClass = "com.loy.UpmApplicationMain"
-}
+    compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+    runtime("mysql:mysql-connector-java")
 
-bootRepackage {
-    mainClass = "com.loy.UpmApplicationMain"
-}
-
-task erun(type:Exec, dependsOn: build) {
-    workingDir "${project.buildDir}/libs"
-    commandLine "java", "-Dfile.encoding=${fileEncoding}", "-jar","${project.name}-${version}.jar"
-}
 }
