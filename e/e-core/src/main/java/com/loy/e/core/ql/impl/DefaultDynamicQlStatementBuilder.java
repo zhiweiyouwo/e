@@ -144,7 +144,7 @@ public class DefaultDynamicQlStatementBuilder implements DynamicQlStatementBuild
 				}
 			}
 		} catch (Exception e) {
-			LOGGER.error("", e);
+			LOGGER.error("构建QL error", e);
 			throw new LoyException("system_error");
 		} finally {
 			if (inputSource != null && inputSource.getByteStream() != null) {

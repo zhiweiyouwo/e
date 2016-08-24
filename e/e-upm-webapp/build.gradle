@@ -1,7 +1,27 @@
 description = "User Permissions Management"
 
+apply plugin: "spring-boot" 
 apply plugin: "application"
 jar {
 	baseName = "e-upm-webapp"
 
+}
+
+springBoot  {
+    mainClass = "com.loy.UpmApplicationMain"
+}
+
+bootRepackage {
+    mainClass = "com.loy.UpmApplicationMain"
+}
+
+dependencies {
+
+	compile project(":e-core-static")
+	compile project(":e-upm")
+	compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+}
+task erun(type:Exec, dependsOn: build) {
+    workingDir "${project.buildDir}/libs"
+    commandLine "java", "-Dfile.encoding=${fileEncoding}", "-jar","${project.name}-${version}.jar"
 }

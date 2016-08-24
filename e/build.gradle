@@ -103,7 +103,7 @@
     task startCrm(dependsOn: 'crm:erun') << {
 
     }
-    task startUpm(dependsOn: 'e-upm:erun') << {
+    task startUpm(dependsOn: 'e-upm-webapp:erun') << {
 
     }
     task startCas(dependsOn: 'server-cas:erun') << {
