@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+
+	<server className="net.sf.j2ep.servers.BaseServer" 
+		domainName="localhost:19090" 
+		path="/upm"
+		isRewriting="true">
+		
+		<rule className="net.sf.j2ep.rules.DirectoryRule"
+	  		directory="/upm"
+	  	/>
+	</server>
+	
+	<server className="net.sf.j2ep.servers.BaseServer" 
+		domainName="localhost:18080" 
+		path="/cas"
+		isRewriting="true">
+		
+		<rule className="net.sf.j2ep.rules.DirectoryRule"
+	  		directory="/cas"
+	  	/>
+	</server>
+        <server className="net.sf.j2ep.servers.BaseServer" 
+		domainName="localhost:29090" 
+		path="/crm"
+		isRewriting="true">
+		
+		<rule className="net.sf.j2ep.rules.DirectoryRule"
+	  		directory="/crm"
+	  	/>
+	</server>
+	<server className="net.sf.j2ep.servers.BaseServer" 
+		domainName="localhost:39090" 
+		path="/portal"
+		isRewriting="true">
+		
+		<rule className="net.sf.j2ep.rules.DirectoryRule"
+	  		directory="/"
+	  	/>
+	</server>
+</config>

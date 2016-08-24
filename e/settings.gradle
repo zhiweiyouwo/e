@@ -23,8 +23,8 @@ include 'crm-webapp'
 
 include 'e-spring-fox'
 
-//include 'server-zkp'
-//include 'server-cas'
-//include 'server-proxy'
+include 'server-zkp'
+include 'server-cas'
+include 'server-proxy'
 
 

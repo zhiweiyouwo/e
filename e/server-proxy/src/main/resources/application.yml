@@ -1,0 +1,9 @@
+e:
+  proxy:
+        mappings:
+            -  srcUrl: /cas
+               targetUrl: http://localhost:8080/cas/
+            -  srcUrl: /example
+               targetUrl: http://localhost:29090/example/
+            -  srcUrl: /upm
+               targetUrl: http://localhost:19090/upm/

@@ -1,12 +1,16 @@
 bin/
+
 */bin/
+
 target/
 build/
-.gradle/
+*.gradle/
 # eclipse ignore
 .settings/
 .project
 .classpath
+*.lock
+*.bak
 
 # temp ignore
 *.log
