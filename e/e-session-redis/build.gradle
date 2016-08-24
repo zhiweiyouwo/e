@@ -1,6 +1,5 @@
 description = "Sessiion Redis"
 
-apply plugin: "application"
 jar {
 	baseName = "e-session-redis"
 
