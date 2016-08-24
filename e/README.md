@@ -14,4 +14,4 @@ E框架的目的是让开发不必从零开始开发，让开发者只关注自�
 
 
 #多系统构架
-![](https://github.com/fuhoujun/jee_framework/tree/master/e/e-core-static/src/main/resources/public/readme/jiagou.jpg)
+![](e-core-static/src/main/resources/public/readme/jiagou.jpg)
