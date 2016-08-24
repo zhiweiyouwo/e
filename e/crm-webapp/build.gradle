@@ -1,7 +1,5 @@
 
-apply plugin: "application"
 jar {
 	baseName = "crm-webapp"
 }
-
 

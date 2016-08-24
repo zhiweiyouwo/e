@@ -1,6 +1,5 @@
 description = "User Permissions Management"
 
-apply plugin: "application"
 jar {
 	baseName = "e-upm-webapp"
 
