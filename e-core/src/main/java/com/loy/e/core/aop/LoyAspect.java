@@ -86,8 +86,12 @@ public class LoyAspect {
                     String description = method.getAnnotation(ControllerLogExeTime.class)
                             .description();
                     if (user != null) {
-                        loyLogService.log(systemKeyService.getSystemCode(), user.getId(),
-                                user.getName(), description, args);
+                        loyLogService.log(
+                                systemKeyService.getSystemCode(),
+                                user.getId(),
+                                user.getName(),
+                                description,
+                                args);
                     } else {
                         String methodName = method.getName();
                         if ("login".equals(methodName)) {
@@ -95,8 +99,12 @@ public class LoyAspect {
                             Object[] temp = { args[0] };
                             User u = securityUserService.findByUsername(userName);
                             if (u != null) {
-                                loyLogService.log(systemKeyService.getSystemCode(), u.getId(),
-                                        u.getName(), description, temp);
+                                loyLogService.log(
+                                        systemKeyService.getSystemCode(),
+                                        u.getId(),
+                                        u.getName(),
+                                        description,
+                                        temp);
                             }
                         }
                     }
@@ -136,8 +144,12 @@ public class LoyAspect {
                 endTime = (endTime - startTime);
                 url = url + StringUtils.join(value);
                 logger.debug(method.toString() + "方法执行时间 ： " + endTime + "(ms)");
-                loyLogService.record(systemKeyService.getSystemCode(), url, method.toString(),
-                        endTime, controllerLogExeTime.description());
+                loyLogService.record(
+                        systemKeyService.getSystemCode(),
+                        url,
+                        method.toString(),
+                        endTime,
+                        controllerLogExeTime.description());
             }
         } catch (Throwable e) {
             logger.error("记录方法执行时间错误", e);
