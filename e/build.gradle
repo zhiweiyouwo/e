@@ -1,48 +1,48 @@
-	buildscript {
-	
-	    ext {
-	        springBootVersion = "${springBootVersion}"
-	    }
-	    repositories {
-			mavenCentral()
-	    }
-	    dependencies {
-		    classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") 
-	    }
-	    ext.customSecurityRef = ""
+buildscript {
+	ext {
+	    springBootVersion = "${springBootVersion}"
 	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+	    classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") 
+	}
+	ext.customSecurityRef = ""
+}
 
-   apply plugin: "java"
-   apply plugin: "eclipse"
-   apply plugin:'groovy'
-   repositories {
+apply plugin: "java"
+apply plugin: "eclipse"
+apply plugin:'groovy'
+
+repositories {
+	mavenCentral()
+	maven { url "https://repo.spring.io/snapshot" }
+	maven { url "https://repo.spring.io/milestone" }
+	maven { url "http://repo1.maven.org/maven2" }
+}
+  
+  
+allprojects {
+	apply plugin: "java"
+	apply plugin: "eclipse"
+	//apply plugin: "pmd"
+	// apply plugin: "findbugs"
+	//apply plugin: "checkstyle"
+	repositories {
 		mavenCentral()
 		maven { url "https://repo.spring.io/snapshot" }
 		maven { url "https://repo.spring.io/milestone" }
 		maven { url "http://repo1.maven.org/maven2" }
-   }
-  
-  
-   allprojects {
-	   apply plugin: "java"
-	   apply plugin: "eclipse"
-	   //apply plugin: "pmd"
-	   // apply plugin: "findbugs"
-	   //apply plugin: "checkstyle"
-	   repositories {
-			mavenCentral()
-			maven { url "https://repo.spring.io/snapshot" }
-			maven { url "https://repo.spring.io/milestone" }
-			maven { url "http://repo1.maven.org/maven2" }
-	   }	
+	}	
 	   
-       dependencies {
-	      compile "org.codehaus.groovy:groovy-all:${groovyVersion}"
-       }
-       tasks.withType(JavaCompile) {  
-		 options.encoding = "UTF-8"  
+	dependencies {
+		compile "org.codehaus.groovy:groovy-all:${groovyVersion}"
 	}
-    task eclean(dependsOn: ['clean','cleanEclipse']){ 
+	tasks.withType(JavaCompile) {  
+		options.encoding = "UTF-8"  
+	}
+	task eclean(dependsOn: ['clean','cleanEclipse']){ 
 		def o = new File(projectDir,".project");
 		o.deleteDir()
 		o = new File(projectDir,"bin");
@@ -53,66 +53,61 @@
 		o.deleteDir()
 		o = new File(projectDir,"logs");
 		o.deleteDir()
-    }
+	}
 
-    task deleteGradle(){ 
+	task deleteGradle(){ 
 		def o = new File(projectDir,".gradle");
 		o.deleteDir()
-    }
- }
-   subprojects {
-	   apply plugin: "java"
-	   apply plugin: "eclipse"
-	
-	   repositories {
-			mavenCentral()
-			maven { url "https://repo.spring.io/snapshot" }
-			maven { url "https://repo.spring.io/milestone" }
-			maven { url "http://repo1.maven.org/maven2" }
-			
-		   }
-		   jar {
-		        manifest {
-		            attributes("Implementation-Title": project.name,
-		                    "Implementation-Vendor": project.group,
-		                    "Created-By": project.group,
-		                    "Implementation-Version": project.version)
-		        }
-	       }
-	      
-           
-		   eclipse {
-				classpath {
-					 containers.remove("org.eclipse.jdt.launching.JRE_CONTAINER")
-					 defaultOutputDir = file('build')
-				}
-		   }
-		   
-		  
-		   
-		   tasks.withType(JavaCompile) {  
-		    options.encoding = "UTF-8"  
-		   }
-		   task wrapper(type: Wrapper) {
-			  gradleVersion = "${gradleVersion}"
-		   }   
 	}
+}
+subprojects {
+	apply plugin: "java"
+	apply plugin: "eclipse"
+
+	repositories {
+		mavenCentral()
+		maven { url "https://repo.spring.io/snapshot" }
+		maven { url "https://repo.spring.io/milestone" }
+		maven { url "http://repo1.maven.org/maven2" }
+		
+	}
+	jar {
+		manifest {
+			attributes("Implementation-Title": project.name,
+			        "Implementation-Vendor": project.group,
+			        "Created-By": project.group,
+			        "Implementation-Version": project.version)
+		}
+	}
+	eclipse {
+		classpath {
+			containers.remove("org.eclipse.jdt.launching.JRE_CONTAINER")
+			defaultOutputDir = file('build')
+		}
+	}
+	tasks.withType(JavaCompile) {  
+		options.encoding = "UTF-8"  
+	}
+	task wrapper(type: Wrapper) {
+		gradleVersion = "${gradleVersion}"
+	}   
+}
 	
    
 	
-    task startCrm(dependsOn: 'crm:erun') << {
+task startCrm(dependsOn: 'crm:erun') << {
 
-    }
-    task startUpm(dependsOn: 'e-upm:erun') << {
+}
+task startUpm(dependsOn: 'e-upm:erun') << {
 
-    }
-    task startCas(dependsOn: 'server-cas:erun') << {
+}
+task startCas(dependsOn: 'server-cas:erun') << {
 
-    }
-    task startPortal(dependsOn: 'e-portal:erun') << {
+}
+task startPortal(dependsOn: 'e-portal:erun') << {
 
-    }
-    task startProxy(dependsOn: 'server-proxy:erun') << {
+}
+task startProxy(dependsOn: 'server-proxy:erun') << {
 
-    }
+}
 
