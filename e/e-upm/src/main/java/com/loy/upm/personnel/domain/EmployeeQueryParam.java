@@ -14,26 +14,26 @@ import com.loy.e.core.query.Op;
  *
  */
 public class EmployeeQueryParam {
-	@ConditionParam(name="employeeNo")
-	@Order(direction=Direction.DESC,name="employeeNo")
-	private String employeeNo;
+    @ConditionParam(name = "employeeNo")
+    @Order(direction = Direction.DESC, name = "employeeNo")
+    private String employeeNo;
 
-	@ConditionParam(name="name",op=Op.like)
-	private String name;
-	
-	public String getEmployeeNo() {
-		return employeeNo;
-	}
+    @ConditionParam(name = "name", op = Op.like)
+    private String name;
 
-	public void setEmployeeNo(String employeeNo) {
-		this.employeeNo = employeeNo;
-	}
+    public String getEmployeeNo() {
+        return employeeNo;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setEmployeeNo(String employeeNo) {
+        this.employeeNo = employeeNo;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

@@ -16,11 +16,17 @@ import com.loy.e.security.vo.User;
 @SuppressWarnings("rawtypes")
 public interface SecurityUserService {
 
-	User  findByUsername(String username);
-	List<Permission> getAllPermissions();
-	List<Permission> getAllPermissions(String systemCode);
-	List<Permission> findPermissionsByUsername(String username,String systemCode);
-	List<Permission> findPermissionsByUsername(String username);
-	List<TreeNode>  getMenuByUsername(String userId,String systemCode,String lang);
-	List<TreeNode>  getMenuByUsername(String userId,String lang);
+    User findByUsername(String username);
+
+    List<Permission> getAllPermissions();
+
+    List<Permission> getAllPermissions(String systemCode);
+
+    List<Permission> findPermissionsByUsername(String username, String systemCode);
+
+    List<Permission> findPermissionsByUsername(String username);
+
+    List<TreeNode> getMenuByUsername(String userId, String systemCode, String lang);
+
+    List<TreeNode> getMenuByUsername(String userId, String lang);
 }

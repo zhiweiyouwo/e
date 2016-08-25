@@ -24,7 +24,7 @@ import org.apache.commons.httpclient.methods.GetMethod;
  * @author Anders Nyman
  */
 public class GetResponseHandler extends BasicResponseHandler {
-    
+
     /**
      * Default constructor, will only call the super-constructor
      * for BasicResponseHandler. 

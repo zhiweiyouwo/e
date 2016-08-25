@@ -10,54 +10,55 @@ import org.springframework.data.domain.Sort;
  * @version 1.0.0
  * 
  */
-public class LoyPageRequest implements Pageable{
-	Pageable pageable = null;
-	public LoyPageRequest(Pageable pageable){
-		this.pageable = pageable;
-	}
-	
-	@Override
-	public int getPageNumber() {
-		return pageable.getPageNumber();
-	}
+public class LoyPageRequest implements Pageable {
+    Pageable pageable = null;
 
-	@Override
-	public int getPageSize() {
-		return pageable.getPageSize();
-	}
+    public LoyPageRequest(Pageable pageable) {
+        this.pageable = pageable;
+    }
 
-	@Override
-	public int getOffset() {
-		int offset = pageable.getOffset()-pageable.getPageSize();
-		if(offset<0){
-			offset = 0;
-		}
-		return offset;
-	}
+    @Override
+    public int getPageNumber() {
+        return pageable.getPageNumber();
+    }
 
-	@Override
-	public Sort getSort() {
-		return pageable.getSort();
-	}
+    @Override
+    public int getPageSize() {
+        return pageable.getPageSize();
+    }
 
-	@Override
-	public Pageable next() {
-		return pageable.next();
-	}
+    @Override
+    public int getOffset() {
+        int offset = pageable.getOffset() - pageable.getPageSize();
+        if (offset < 0) {
+            offset = 0;
+        }
+        return offset;
+    }
 
-	@Override
-	public Pageable previousOrFirst() {
-		return pageable.previousOrFirst();
-	}
+    @Override
+    public Sort getSort() {
+        return pageable.getSort();
+    }
 
-	@Override
-	public Pageable first() {
-		return pageable.first();
-	}
+    @Override
+    public Pageable next() {
+        return pageable.next();
+    }
 
-	@Override
-	public boolean hasPrevious() {
-		return pageable.hasPrevious();
-	}
+    @Override
+    public Pageable previousOrFirst() {
+        return pageable.previousOrFirst();
+    }
+
+    @Override
+    public Pageable first() {
+        return pageable.first();
+    }
+
+    @Override
+    public boolean hasPrevious() {
+        return pageable.hasPrevious();
+    }
 
 }

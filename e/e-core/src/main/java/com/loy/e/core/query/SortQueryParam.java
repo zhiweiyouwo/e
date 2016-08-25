@@ -9,28 +9,25 @@ package com.loy.e.core.query;
  *
  */
 public class SortQueryParam {
-	
-	String orderProperty = "";
-	
-	String direction ="";
 
-	public String getOrderProperty() {
-		return orderProperty;
-	}
+    String orderProperty = "";
 
-	public void setOrderProperty(String orderProperty) {
-		this.orderProperty = orderProperty;
-	}
+    String direction = "";
 
-	public String getDirection() {
-		return direction;
-	}
+    public String getOrderProperty() {
+        return orderProperty;
+    }
 
-	public void setDirection(String direction) {
-		this.direction = direction;
-	}
-	
-	
-	
-	
+    public void setOrderProperty(String orderProperty) {
+        this.orderProperty = orderProperty;
+    }
+
+    public String getDirection() {
+        return direction;
+    }
+
+    public void setDirection(String direction) {
+        this.direction = direction;
+    }
+
 }

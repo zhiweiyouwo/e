@@ -39,32 +39,32 @@ import net.sf.j2ep.model.Server;
  */
 @SuppressWarnings("rawtypes")
 public abstract class ClusterContainer extends ServerContainerBase implements ServerStatusListener {
-    
+
     /** 
      * Logging element supplied by commons-logging.
      */
     private static Log log;
-    
+
     /** 
      * The servers in our cluster,
      */
     protected HashMap servers;
-    
+
     /** 
      * Class that will check if our servers are online or offline.
      */
     private ServerStatusChecker statusChecker;
-    
+
     /**
      * Basic constructor
      */
     public ClusterContainer() {
         servers = new HashMap();
-        statusChecker = new ServerStatusChecker(this, 5*60*1000);
+        statusChecker = new ServerStatusChecker(this, 5 * 60 * 1000);
         statusChecker.start();
         log = LogFactory.getLog(ClusterContainer.class);
     }
-    
+
     /**
      * Will create a new server based on the domainName and the directory.
      * @param domainName The domain
@@ -72,14 +72,14 @@ public abstract class ClusterContainer extends ServerContainerBase implements Se
      * @return The created server
      */
     protected abstract ClusteredServer createNewServer(String domainName, String directory);
-    
+
     /**
      * Returns the next server in out cluster.
      * Is used when we can't get a server from the requests session.
      * @return The next server
      */
     protected abstract ClusteredServer getNextServer();
-    
+
     /**
      * Checks the request for any session. If there is a session created we
      * make sure that the server returned is the one the issued the session.
@@ -96,11 +96,12 @@ public abstract class ClusterContainer extends ServerContainerBase implements Se
         } else {
             log.debug("Server found in session");
         }
-        
+
         if (server.online()) {
-            log.debug("Using id " + server.getServerId() + " for this request"); 
+            log.debug("Using id " + server.getServerId() + " for this request");
         } else {
-            log.error("All the servers in this cluster are offline. Using id " + server.getServerId() + ", will probably not work");
+            log.error("All the servers in this cluster are offline. Using id "
+                    + server.getServerId() + ", will probably not work");
         }
         return server;
     }
@@ -116,20 +117,20 @@ public abstract class ClusterContainer extends ServerContainerBase implements Se
     private String getServerIdFromCookie(Cookie[] cookies) {
         String serverId = null;
         if (cookies != null) {
-            for (int i=0; i < cookies.length; i++) {
+            for (int i = 0; i < cookies.length; i++) {
                 Cookie cookie = cookies[i];
-                if ( isSessionCookie(cookie.getName()) ) {
+                if (isSessionCookie(cookie.getName())) {
                     String value = cookie.getValue();
-                    String id = value.substring(value.indexOf(".")+1);
+                    String id = value.substring(value.indexOf(".") + 1);
                     if (id.startsWith("server")) {
                         serverId = id;
                     }
                 }
-            } 
+            }
         }
         return serverId;
     }
-    
+
     /**
      * Checks if the supplied name of a cookie is known to be a 
      * session.
@@ -143,7 +144,7 @@ public abstract class ClusterContainer extends ServerContainerBase implements Se
                 || name.equalsIgnoreCase("ASPSESSIONID")
                 || name.equalsIgnoreCase("ASP.NET_SessionId");
     }
-    
+
     /**
      * @see net.sf.j2ep.model.ServerContainer#getServerMapped(java.lang.String)
      */
@@ -160,7 +161,7 @@ public abstract class ClusterContainer extends ServerContainerBase implements Se
         }
         return match;
     }
-    
+
     /**
      * Sets the server to offline status.
      * Will only handle servers that are ClusteredServers
@@ -171,7 +172,7 @@ public abstract class ClusterContainer extends ServerContainerBase implements Se
             ((ClusteredServer) server).setOnline(false);
         }
     }
-    
+
     /**
      * Sets the server to online status.
      * Will only handle servers that are ClusteredServers
@@ -182,7 +183,7 @@ public abstract class ClusterContainer extends ServerContainerBase implements Se
             ((ClusteredServer) server).setOnline(true);
         }
     }
-    
+
     /**
      * Will create a new ClusteredServer and add it to the hash map.
      * 
@@ -190,20 +191,21 @@ public abstract class ClusterContainer extends ServerContainerBase implements Se
      * @param directory The director for the new server.
      */
     @SuppressWarnings("unchecked")
-	public synchronized void addServer(String domainName, String directory) {
+    public synchronized void addServer(String domainName, String directory) {
         if (domainName == null) {
             throw new IllegalArgumentException("The domainName cannot be null");
         }
         if (directory == null) {
             directory = "";
         }
-        
+
         ClusteredServer server = createNewServer(domainName, directory);
         servers.put(server.getServerId(), server);
         statusChecker.addServer(server);
-        log.debug("Added server " + domainName + directory + " to the cluster on id " + server.getServerId());
+        log.debug("Added server " + domainName + directory + " to the cluster on id "
+                + server.getServerId());
     }
-    
+
     /**
      * A server in the cluster. Will have access to the encapsulating Cluster
      * so that we can use its methods to get the rule and such.
@@ -211,27 +213,27 @@ public abstract class ClusterContainer extends ServerContainerBase implements Se
      * @author Anders Nyman
      */
     protected class ClusteredServer implements Server {
-        
+
         /** 
          * The domain name mapping
          */
         private String domainName;
-        
+
         /** 
          * The path mapping
          */
         private String path;
-        
+
         /** 
          * This servers id
          */
         private String serverId;
-        
+
         /** 
          * The status of this server
          */
         private boolean online;
-        
+
         /**
          * Basic constructor that sets the domain name and directory.
          * 
@@ -254,7 +256,7 @@ public abstract class ClusterContainer extends ServerContainerBase implements Se
         public HttpServletRequest preExecute(HttpServletRequest request) {
             return new ClusterRequestWrapper(request);
         }
-        
+
         /**
          * Will wrap the response so that sessions are rewritten to
          * remove the tailing .something that indicated which server
@@ -264,7 +266,7 @@ public abstract class ClusterContainer extends ServerContainerBase implements Se
         public HttpServletResponse postExecute(HttpServletResponse response) {
             return new ClusterResponseWrapper(response, serverId);
         }
-        
+
         /**
          * Notifies the server status checker that a server
          * might have gone offline.
@@ -287,7 +289,7 @@ public abstract class ClusterContainer extends ServerContainerBase implements Se
         public String getPath() {
             return path;
         }
-        
+
         /**
          * Returns the online status of this server
          * @return true if the server is online, otherwise false
@@ -295,7 +297,7 @@ public abstract class ClusterContainer extends ServerContainerBase implements Se
         public boolean online() {
             return online;
         }
-        
+
         /**
          * Marks if this server should be considered online or
          * offline.
@@ -311,7 +313,7 @@ public abstract class ClusterContainer extends ServerContainerBase implements Se
         public Rule getRule() {
             return ClusterContainer.this.getRule();
         }
-        
+
         /**
          * Returns this servers ID.
          * @return The server ID

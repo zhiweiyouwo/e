@@ -9,8 +9,8 @@ package com.loy.app.common.vo;
  *
  */
 public enum SexEnum {
-	MALE("男"), 
-	FEMALE("女");
+    MALE("男"),
+    FEMALE("女");
 
     private final String info;
 

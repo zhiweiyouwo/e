@@ -18,7 +18,6 @@ package net.sf.j2ep.model;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * A server container is a object can can hold a server. It 
  * is used to do initial processing of the data in a request

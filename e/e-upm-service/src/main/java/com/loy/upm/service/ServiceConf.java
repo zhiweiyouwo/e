@@ -12,7 +12,7 @@ import org.springframework.context.annotation.ImportResource;
  */
 
 @Configuration
-@ImportResource({"classpath:upmApplicationProvider.xml"})
+@ImportResource({ "classpath:upmApplicationProvider.xml" })
 public class ServiceConf {
 
 }

@@ -9,43 +9,44 @@ import java.io.Serializable;
  * @version 1.0.0
  * 
  */
-public class MenuData implements Serializable{
+public class MenuData implements Serializable {
 
-	private static final long serialVersionUID = -5453187149894898221L;
-	private String name;
-	private String cls;
-	private String url;
-	private String lableKey;
-	public String getName() {
-		return name;
-	}
+    private static final long serialVersionUID = -5453187149894898221L;
+    private String name;
+    private String cls;
+    private String url;
+    private String lableKey;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getCls() {
-		return cls;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setCls(String cls) {
-		this.cls = cls;
-	}
+    public String getCls() {
+        return cls;
+    }
 
-	public String getUrl() {
-		return url;
-	}
+    public void setCls(String cls) {
+        this.cls = cls;
+    }
 
-	public void setUrl(String url) {
-		this.url = url;
-	}
+    public String getUrl() {
+        return url;
+    }
 
-	public String getLableKey() {
-		return lableKey;
-	}
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
-	public void setLableKey(String lableKey) {
-		this.lableKey = lableKey;
-	}
-	
+    public String getLableKey() {
+        return lableKey;
+    }
+
+    public void setLableKey(String lableKey) {
+        this.lableKey = lableKey;
+    }
+
 }

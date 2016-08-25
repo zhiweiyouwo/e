@@ -12,13 +12,13 @@ import com.loy.app.common.vo.UserDetail;
  * 
  */
 public interface MyProfileService {
-	public void  upload(String username,byte[] avatar) throws IOException;
+    public void upload(String username, byte[] avatar) throws IOException;
 
-	public byte[] photo(String id) throws IOException;
+    public byte[] photo(String id) throws IOException;
 
-	public UserDetail get(String username);
+    public UserDetail get(String username);
 
-	public void update(UserDetail user);
+    public void update(UserDetail user);
 
-	public void updatePassword(String username,String oldPassword, String newPassword);
+    public void updatePassword(String username, String oldPassword, String newPassword);
 }

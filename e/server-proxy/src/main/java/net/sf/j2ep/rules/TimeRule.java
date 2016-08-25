@@ -28,12 +28,12 @@ import javax.servlet.http.HttpServletRequest;
  * @author Anders Nyman
  */
 public class TimeRule extends BaseRule {
-    
+
     /** 
      * The start hour
      */
     private int startTime;
-    
+
     /** 
      * The end hour
      */
@@ -51,13 +51,13 @@ public class TimeRule extends BaseRule {
             if (currentTime < startTime) {
                 currentTime += 24;
             }
-            return (currentTime >= startTime && currentTime <= endTime+24);  
+            return (currentTime >= startTime && currentTime <= endTime + 24);
         } else {
-            return (currentTime >= startTime && currentTime <= endTime);  
+            return (currentTime >= startTime && currentTime <= endTime);
         }
-              
+
     }
-    
+
     /**
      * Sets the start hour that requests will be allowed.
      * 
@@ -67,10 +67,10 @@ public class TimeRule extends BaseRule {
         if (time == null) {
             throw new IllegalArgumentException("The start time cannot be null");
         } else {
-            startTime = Integer.parseInt(time)%24;
+            startTime = Integer.parseInt(time) % 24;
         }
     }
-    
+
     /**
      * Sets the end hour that request will be allowed.
      * 
@@ -80,8 +80,8 @@ public class TimeRule extends BaseRule {
         if (time == null) {
             throw new IllegalArgumentException("The end time cannot be null");
         } else {
-            endTime = Integer.parseInt(time)%24;
+            endTime = Integer.parseInt(time) % 24;
         }
-    } 
+    }
 
 }

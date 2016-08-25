@@ -16,19 +16,20 @@ import com.loy.upm.sys.service.SequenceService;
  * @version 1.0.0
  *
  */
-@Service(value="sequenceService")
+@Service(value = "sequenceService")
 @Transactional
-public class SequenceServiceImpl implements SequenceService{
+public class SequenceServiceImpl implements SequenceService {
 
-	@Autowired
-	SequenceRepository sequenceRepository;
-	@Override
-	public String getEmployeeNo() {
-		SequenceEntity sequenceEntity = sequenceRepository.get(SequenceEntity.EMPLOYEE_KEY);
-		Integer v = sequenceEntity.getV()+1;
-		sequenceEntity.setV(v);
-		sequenceRepository.save(sequenceEntity);
-		String employeeNo = String.format("%06d", v);
-		return employeeNo;
-	}
+    @Autowired
+    SequenceRepository sequenceRepository;
+
+    @Override
+    public String getEmployeeNo() {
+        SequenceEntity sequenceEntity = sequenceRepository.get(SequenceEntity.EMPLOYEE_KEY);
+        Integer v = sequenceEntity.getV() + 1;
+        sequenceEntity.setV(v);
+        sequenceRepository.save(sequenceEntity);
+        String employeeNo = String.format("%06d", v);
+        return employeeNo;
+    }
 }

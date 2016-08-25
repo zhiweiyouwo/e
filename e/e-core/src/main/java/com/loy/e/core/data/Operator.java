@@ -9,6 +9,6 @@ package com.loy.e.core.data;
  */
 public interface Operator {
 
-	void setOperator(String operatorId);
-	
+    void setOperator(String operatorId);
+
 }

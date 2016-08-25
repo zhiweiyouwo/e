@@ -10,6 +10,6 @@ import com.loy.e.core.repository.GenericRepository;
  * @version 1.0.0
  * 
  */
-public interface PerformanceRepository extends GenericRepository<PerformanceEntity,String>{
+public interface PerformanceRepository extends GenericRepository<PerformanceEntity, String> {
 
 }

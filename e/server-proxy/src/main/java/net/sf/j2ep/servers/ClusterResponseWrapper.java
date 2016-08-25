@@ -32,21 +32,23 @@ import org.apache.commons.logging.LogFactory;
  * @author Anders Nyman
  */
 public class ClusterResponseWrapper extends HttpServletResponseWrapper {
-    
+
     /** 
      * The id of the server we are adding to the session.
      */
     private String serverId;
-    
+
     /** 
      * Logging element supplied by commons-logging.
      */
     private static Log log = LogFactory.getLog(ClusterResponseWrapper.class);
-    
+
     /** 
      * Regex to find sessions in cookies.
      */
-    private static Pattern sessionPattern = Pattern.compile("(JSESSIONID=|PHPSESSID=|ASPSESSIONID=|ASP.NET_SessionId=)([^;\\s\\.]+)", Pattern.CASE_INSENSITIVE | Pattern.CANON_EQ);
+    private static Pattern sessionPattern = Pattern.compile(
+            "(JSESSIONID=|PHPSESSID=|ASPSESSIONID=|ASP.NET_SessionId=)([^;\\s\\.]+)",
+            Pattern.CASE_INSENSITIVE | Pattern.CANON_EQ);
 
     /**
      * Basic constructor, will set the id that we should add to add
@@ -60,7 +62,7 @@ public class ClusterResponseWrapper extends HttpServletResponseWrapper {
         super(response);
         this.serverId = "." + serverId;
     }
-    
+
     /**
      * Checks for the set-cookie header. This header will have to be
      * rewritten (if it is marking a session)
@@ -76,7 +78,7 @@ public class ClusterResponseWrapper extends HttpServletResponseWrapper {
         }
         super.addHeader(name, value);
     }
-    
+
     /**
      * Checks for the set-cookie header. This header will have to be
      * rewritten (if it is marking a session)
@@ -92,7 +94,7 @@ public class ClusterResponseWrapper extends HttpServletResponseWrapper {
         }
         super.setHeader(name, value);
     }
-    
+
     /**
      * Rewrites the header Set-Cookie so that path and domain 
      * is correct.

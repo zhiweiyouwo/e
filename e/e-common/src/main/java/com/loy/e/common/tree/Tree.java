@@ -9,8 +9,10 @@ package com.loy.e.common.tree;
  */
 public interface Tree<T> {
 
-	public T getData();
-	public String getParentId();
-	public String getId();
-	
+    public T getData();
+
+    public String getParentId();
+
+    public String getId();
+
 }

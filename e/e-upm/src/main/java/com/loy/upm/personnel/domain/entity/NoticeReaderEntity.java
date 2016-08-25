@@ -8,6 +8,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.loy.e.core.entity.AbstractEntity;
+
 /**
  * 
  * 
@@ -17,61 +18,59 @@ import com.loy.e.core.entity.AbstractEntity;
  *
  */
 @Entity
-@Table(name="loy_notice_reader")
-public class NoticeReaderEntity extends AbstractEntity<String>{
+@Table(name = "loy_notice_reader")
+public class NoticeReaderEntity extends AbstractEntity<String> {
 
-	private static final long serialVersionUID = -9195291700574045066L;
-	@ManyToOne
-	private NoticeEntity notice;
-	@Column(length=36)
-	private String readerId;
-	@Column(length=100)
-	private String readerName;
-	
-	private Date readerTime;
+    private static final long serialVersionUID = -9195291700574045066L;
+    @ManyToOne
+    private NoticeEntity notice;
+    @Column(length = 36)
+    private String readerId;
+    @Column(length = 100)
+    private String readerName;
 
-	private Boolean seen = Boolean.FALSE;
-	
-	public NoticeEntity getNotice() {
-		return notice;
-	}
+    private Date readerTime;
 
-	public void setNotice(NoticeEntity notice) {
-		this.notice = notice;
-	}
+    private Boolean seen = Boolean.FALSE;
 
-	public String getReaderId() {
-		return readerId;
-	}
+    public NoticeEntity getNotice() {
+        return notice;
+    }
 
-	public void setReaderId(String readerId) {
-		this.readerId = readerId;
-	}
+    public void setNotice(NoticeEntity notice) {
+        this.notice = notice;
+    }
 
-	public String getReaderName() {
-		return readerName;
-	}
+    public String getReaderId() {
+        return readerId;
+    }
 
-	public void setReaderName(String readerName) {
-		this.readerName = readerName;
-	}
+    public void setReaderId(String readerId) {
+        this.readerId = readerId;
+    }
 
-	public Date getReaderTime() {
-		return readerTime;
-	}
+    public String getReaderName() {
+        return readerName;
+    }
 
-	public void setReaderTime(Date readerTime) {
-		this.readerTime = readerTime;
-	}
+    public void setReaderName(String readerName) {
+        this.readerName = readerName;
+    }
 
-	public Boolean getSeen() {
-		return seen;
-	}
+    public Date getReaderTime() {
+        return readerTime;
+    }
 
-	public void setSeen(Boolean seen) {
-		this.seen = seen;
-	}
-	
-	
-	
+    public void setReaderTime(Date readerTime) {
+        this.readerTime = readerTime;
+    }
+
+    public Boolean getSeen() {
+        return seen;
+    }
+
+    public void setSeen(Boolean seen) {
+        this.seen = seen;
+    }
+
 }

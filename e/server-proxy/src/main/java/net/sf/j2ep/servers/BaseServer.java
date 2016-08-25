@@ -35,23 +35,23 @@ import net.sf.j2ep.model.Server;
  * @author Anders Nyman
  */
 public class BaseServer extends ServerContainerBase implements Server {
- 
+
     /** 
      * Marks if this rule server will do any
      * rewriting of links.
      */
     private boolean isRewriting;
-    
+
     /**
      * The host and port for this server
      */
     private String domainName;
-    
+
     /**
      * The path for this server
      */
     private String path;
-    
+
     /**
      * Basic constructor that will initialize
      * the directory to "".
@@ -59,8 +59,8 @@ public class BaseServer extends ServerContainerBase implements Server {
     public BaseServer() {
         path = "";
         isRewriting = false;
-    }   
-    
+    }
+
     /**
      * @see net.sf.j2ep.model.ServerContainer#getServer(javax.servlet.http.HttpServletRequest)
      */
@@ -75,7 +75,7 @@ public class BaseServer extends ServerContainerBase implements Server {
     public HttpServletRequest preExecute(HttpServletRequest request) {
         return request;
     }
-    
+
     /**
      * Will no do any handling
      * @see net.sf.j2ep.model.Server#postExecute(javax.servlet.http.HttpServletResponse)
@@ -83,14 +83,14 @@ public class BaseServer extends ServerContainerBase implements Server {
     public HttpServletResponse postExecute(HttpServletResponse response) {
         return response;
     }
-    
+
     /**
      * @see net.sf.j2ep.model.Server#getDomainName()
      */
     public String getDomainName() {
         return domainName;
     }
-    
+
     /**
      * @see net.sf.j2ep.model.Server#getPath()
      */
@@ -102,9 +102,9 @@ public class BaseServer extends ServerContainerBase implements Server {
      * @see net.sf.j2ep.model.ServerContainer#getServerMapped(java.lang.String)
      */
     public Server getServerMapped(String location) {
-    	String fullPath = getDomainName() + getPath() + "/";
-        if(location.length() < fullPath.length()&&!location.endsWith("/")){
-        	location+='/';
+        String fullPath = getDomainName() + getPath() + "/";
+        if (location.length() < fullPath.length() && !location.endsWith("/")) {
+            location += '/';
         }
         if (location.startsWith(fullPath) && isRewriting) {
             return this;
@@ -112,7 +112,7 @@ public class BaseServer extends ServerContainerBase implements Server {
             return null;
         }
     }
-    
+
     /**
      * Set if this server wants absolute links mapped
      * for this server to be rewritten.
@@ -123,8 +123,8 @@ public class BaseServer extends ServerContainerBase implements Server {
         if (rewrite != null && rewrite.equals("true")) {
             isRewriting = true;
         }
-    }   
-    
+    }
+
     /**
      * Sets the host and port we are mapping to.
      * 
@@ -138,7 +138,7 @@ public class BaseServer extends ServerContainerBase implements Server {
             this.domainName = domainName;
         }
     }
-    
+
     /**
      * Sets the path we are mapping to.
      * @param path The path

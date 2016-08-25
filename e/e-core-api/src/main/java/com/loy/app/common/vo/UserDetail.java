@@ -11,184 +11,180 @@ import java.util.Date;
  * 
  */
 
+public class UserDetail implements Serializable {
 
-public class UserDetail implements Serializable{
-	
-	private static final long serialVersionUID = -2353342143410777624L;
+    private static final long serialVersionUID = -2353342143410777624L;
 
-	private String id;
-	
-	private String username;
-	
+    private String id;
+
+    private String username;
+
     private String name;
- 
-	private String email;
 
-	private String phone;
-	
-    private Boolean deleted = Boolean.FALSE; 
-   
+    private String email;
+
+    private String phone;
+
+    private Boolean deleted = Boolean.FALSE;
+
     private String salt;
-    
+
     //private byte[]  photoData;
-   
+
     private String roleNames;
-    
+
     private String employeeNo;
 
-	private SexEnum sex;
+    private SexEnum sex;
 
-	private Date dob;
-	
-	private String orgId ;
-	
-	private String orgName ;
+    private Date dob;
 
-	private String positionId;
-	
-	private String positionName;
-	
-	private UserStatus userStatus;
-	
-	private Boolean photo;
+    private String orgId;
 
-	public String getUsername() {
-		return username;
-	}
+    private String orgName;
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    private String positionId;
 
-	public String getName() {
-		return name;
-	}
+    private String positionName;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    private UserStatus userStatus;
 
-	public String getEmail() {
-		return email;
-	}
+    private Boolean photo;
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public String getPhone() {
-		return phone;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public Boolean getDeleted() {
-		return deleted;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setDeleted(Boolean deleted) {
-		this.deleted = deleted;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public String getSalt() {
-		return salt;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public void setSalt(String salt) {
-		this.salt = salt;
-	}
+    public String getPhone() {
+        return phone;
+    }
 
-	
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
-	public String getRoleNames() {
-		return roleNames;
-	}
+    public Boolean getDeleted() {
+        return deleted;
+    }
 
-	public void setRoleNames(String roleNames) {
-		this.roleNames = roleNames;
-	}
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
 
-	public String getEmployeeNo() {
-		return employeeNo;
-	}
+    public String getSalt() {
+        return salt;
+    }
 
-	public void setEmployeeNo(String employeeNo) {
-		this.employeeNo = employeeNo;
-	}
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
 
-	public SexEnum getSex() {
-		return sex;
-	}
+    public String getRoleNames() {
+        return roleNames;
+    }
 
-	public void setSex(SexEnum sex) {
-		this.sex = sex;
-	}
+    public void setRoleNames(String roleNames) {
+        this.roleNames = roleNames;
+    }
 
-	public Date getDob() {
-		return dob;
-	}
+    public String getEmployeeNo() {
+        return employeeNo;
+    }
 
-	public void setDob(Date dob) {
-		this.dob = dob;
-	}
+    public void setEmployeeNo(String employeeNo) {
+        this.employeeNo = employeeNo;
+    }
 
-	public String getOrgId() {
-		return orgId;
-	}
+    public SexEnum getSex() {
+        return sex;
+    }
 
-	public void setOrgId(String orgId) {
-		this.orgId = orgId;
-	}
+    public void setSex(SexEnum sex) {
+        this.sex = sex;
+    }
 
-	public String getOrgName() {
-		return orgName;
-	}
+    public Date getDob() {
+        return dob;
+    }
 
-	public void setOrgName(String orgName) {
-		this.orgName = orgName;
-	}
+    public void setDob(Date dob) {
+        this.dob = dob;
+    }
 
-	public String getPositionId() {
-		return positionId;
-	}
+    public String getOrgId() {
+        return orgId;
+    }
 
-	public void setPositionId(String positionId) {
-		this.positionId = positionId;
-	}
+    public void setOrgId(String orgId) {
+        this.orgId = orgId;
+    }
 
-	public String getPositionName() {
-		return positionName;
-	}
+    public String getOrgName() {
+        return orgName;
+    }
 
-	public void setPositionName(String positionName) {
-		this.positionName = positionName;
-	}
+    public void setOrgName(String orgName) {
+        this.orgName = orgName;
+    }
 
-	public UserStatus getUserStatus() {
-		return userStatus;
-	}
+    public String getPositionId() {
+        return positionId;
+    }
 
-	public void setUserStatus(UserStatus userStatus) {
-		this.userStatus = userStatus;
-	}
+    public void setPositionId(String positionId) {
+        this.positionId = positionId;
+    }
 
-	public Boolean getPhoto() {
-		return photo;
-	}
+    public String getPositionName() {
+        return positionName;
+    }
 
-	public void setPhoto(Boolean photo) {
-		this.photo = photo;
-	}
+    public void setPositionName(String positionName) {
+        this.positionName = positionName;
+    }
 
-	public String getId() {
-		return id;
-	}
+    public UserStatus getUserStatus() {
+        return userStatus;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
-	
-	
+    public void setUserStatus(UserStatus userStatus) {
+        this.userStatus = userStatus;
+    }
+
+    public Boolean getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(Boolean photo) {
+        this.photo = photo;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
 }

@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.loy.app.common.domain.entity.AttachmentEntity;
 import com.loy.e.core.entity.BaseEntity;
+
 /**
  * 
  * 
@@ -25,83 +26,82 @@ import com.loy.e.core.entity.BaseEntity;
  *
  */
 @Entity
-@Table(name="loy_notice")
-public class NoticeEntity extends BaseEntity{
-	
+@Table(name = "loy_notice")
+public class NoticeEntity extends BaseEntity {
 
-	private static final long serialVersionUID = 8569104235464904876L;
-	@Column(length=255)
-	private String subject;
-	@Lob
-	private String content;
-	
-	private Date sendTime;
-	@Column(length=100)
-	private String sender;
-	
-	@Enumerated(EnumType.STRING)
-	NoticeStatus noticeStatus = NoticeStatus.DRAFT;
+    private static final long serialVersionUID = 8569104235464904876L;
+    @Column(length = 255)
+    private String subject;
+    @Lob
+    private String content;
 
-	@Transient
-	List<AttachmentEntity> attachments;
-	@Transient
-	@JsonIgnore
-	List<MultipartFile> uploadAttachments;
-	public String getSubject() {
-		return subject;
-	}
+    private Date sendTime;
+    @Column(length = 100)
+    private String sender;
 
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
+    @Enumerated(EnumType.STRING)
+    NoticeStatus noticeStatus = NoticeStatus.DRAFT;
 
-	public String getContent() {
-		return content;
-	}
+    @Transient
+    List<AttachmentEntity> attachments;
+    @Transient
+    @JsonIgnore
+    List<MultipartFile> uploadAttachments;
 
-	public void setContent(String content) {
-		this.content = content;
-	}
+    public String getSubject() {
+        return subject;
+    }
 
-	public Date getSendTime() {
-		return sendTime;
-	}
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
 
-	public void setSendTime(Date sendTime) {
-		this.sendTime = sendTime;
-	}
+    public String getContent() {
+        return content;
+    }
 
-	public NoticeStatus getNoticeStatus() {
-		return noticeStatus;
-	}
+    public void setContent(String content) {
+        this.content = content;
+    }
 
-	public void setNoticeStatus(NoticeStatus noticeStatus) {
-		this.noticeStatus = noticeStatus;
-	}
+    public Date getSendTime() {
+        return sendTime;
+    }
 
-	public String getSender() {
-		return sender;
-	}
+    public void setSendTime(Date sendTime) {
+        this.sendTime = sendTime;
+    }
 
-	public void setSender(String sender) {
-		this.sender = sender;
-	}
+    public NoticeStatus getNoticeStatus() {
+        return noticeStatus;
+    }
 
-	public List<AttachmentEntity> getAttachments() {
-		return attachments;
-	}
+    public void setNoticeStatus(NoticeStatus noticeStatus) {
+        this.noticeStatus = noticeStatus;
+    }
 
-	public void setAttachments(List<AttachmentEntity> attachments) {
-		this.attachments = attachments;
-	}
+    public String getSender() {
+        return sender;
+    }
 
-	public List<MultipartFile> getUploadAttachments() {
-		return uploadAttachments;
-	}
+    public void setSender(String sender) {
+        this.sender = sender;
+    }
 
-	public void setUploadAttachments(List<MultipartFile> uploadAttachments) {
-		this.uploadAttachments = uploadAttachments;
-	}
+    public List<AttachmentEntity> getAttachments() {
+        return attachments;
+    }
 
-	
+    public void setAttachments(List<AttachmentEntity> attachments) {
+        this.attachments = attachments;
+    }
+
+    public List<MultipartFile> getUploadAttachments() {
+        return uploadAttachments;
+    }
+
+    public void setUploadAttachments(List<MultipartFile> uploadAttachments) {
+        this.uploadAttachments = uploadAttachments;
+    }
+
 }

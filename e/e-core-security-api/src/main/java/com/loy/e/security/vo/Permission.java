@@ -10,23 +10,25 @@ import java.io.Serializable;
  * 
  */
 public class Permission implements Serializable {
-	
 
-	private static final long serialVersionUID = -2293771119814383328L;
-	String accessCode;
-	String url;
-	public String getAccessCode() {
-		return accessCode;
-	}
-	public void setAccessCode(String accessCode) {
-		this.accessCode = accessCode;
-	}
-	public String getUrl() {
-		return url;
-	}
-	public void setUrl(String url) {
-		this.url = url;
-	}
-	
-	
+    private static final long serialVersionUID = -2293771119814383328L;
+    String accessCode;
+    String url;
+
+    public String getAccessCode() {
+        return accessCode;
+    }
+
+    public void setAccessCode(String accessCode) {
+        this.accessCode = accessCode;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
 }

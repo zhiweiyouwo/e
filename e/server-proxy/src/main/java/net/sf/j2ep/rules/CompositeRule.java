@@ -38,27 +38,27 @@ public class CompositeRule extends BaseRule {
      * The list of rules.
      */
     private LinkedList rules;
-    
+
     /**
      * Empty constructor, will only create the list of rules.
      */
     public CompositeRule() {
         rules = new LinkedList();
     }
-    
+
     /**
      * Used to add a rule to the list.
      * @param rule The rule to be added
      */
     @SuppressWarnings("unchecked")
-	public void addRule(Rule rule) {
+    public void addRule(Rule rule) {
         if (rule == null) {
             throw new IllegalArgumentException("Rule to add cannot be null.");
         } else {
             rules.add(rule);
         }
     }
-    
+
     /**
      * Iterates over all the rules in the list checking that they all match.
      * 
@@ -72,10 +72,10 @@ public class CompositeRule extends BaseRule {
             Rule rule = (Rule) itr.next();
             matches = rule.matches(request);
         }
-        
+
         return matches;
     }
-    
+
     /**
      * Process all the rules in the list, allowing them all to change
      * the URI.
@@ -89,10 +89,10 @@ public class CompositeRule extends BaseRule {
             Rule rule = (Rule) itr.next();
             returnString = rule.process(returnString);
         }
-        
+
         return returnString;
     }
-    
+
     /**
      * Will do the opposite of process, that is revert all URIs to there default
      * value. This method will call all rules in the rule list and call revert on them.
@@ -120,7 +120,7 @@ public class CompositeRule extends BaseRule {
 
         buffer.append("[");
         buffer.append("CompositeRule containing ");
-        
+
         Iterator itr = rules.iterator();
         while (itr.hasNext()) {
             Rule rule = (Rule) itr.next();
@@ -128,7 +128,7 @@ public class CompositeRule extends BaseRule {
             buffer.append(rule.getClass().getName());
             buffer.append(") ");
         }
-        
+
         buffer.append(": ");
         buffer.append("]");
         return buffer.toString();

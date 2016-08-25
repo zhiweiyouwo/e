@@ -20,29 +20,30 @@ import org.springframework.stereotype.Component;
  * @version 1.0.0
  *
  */
-@Component("loyFilter") 
-@Order(value=-100)
-public class LoyFilter implements Filter{
+@Component("loyFilter")
+@Order(value = -100)
+public class LoyFilter implements Filter {
 
-	@Override
-	public void init(FilterConfig filterConfig) throws ServletException {
-		
-	}
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
 
-	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException{
-		//HttpServletResponse resp = (HttpServletResponse)response;
-		//HttpServletRequest req =(HttpServletRequest)request;
-		//System.out.println(req.getRequestURL().toString());
-		//resp.addHeader("Access-Control-Allow-Origin","http://localhost:29090/example");
-		//resp.addHeader("Access-Control-Allow-Credentials", "true");
-		chain.doFilter(request, response);	
-		
-	}
+    }
 
-	@Override
-	public void destroy() {
-		
-	}
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
+        //HttpServletResponse resp = (HttpServletResponse)response;
+        //HttpServletRequest req =(HttpServletRequest)request;
+        //System.out.println(req.getRequestURL().toString());
+        //resp.addHeader("Access-Control-Allow-Origin","http://localhost:29090/example");
+        //resp.addHeader("Access-Control-Allow-Credentials", "true");
+        chain.doFilter(request, response);
+
+    }
+
+    @Override
+    public void destroy() {
+
+    }
 
 }

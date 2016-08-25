@@ -8,7 +8,6 @@ import java.lang.annotation.Target;
 
 import com.loy.e.core.query.Direction;
 
-
 /**
  * 
  * @author Loy Fu qq群 540553957
@@ -17,10 +16,12 @@ import com.loy.e.core.query.Direction;
  * 
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD})
+@Target({ ElementType.FIELD })
 @Documented
 public @interface Order {
-	public String name();
-	public Direction direction() default Direction.ASC;
-	public boolean rootAlias() default true;
+    public String name();
+
+    public Direction direction() default Direction.ASC;
+
+    public boolean rootAlias() default true;
 }

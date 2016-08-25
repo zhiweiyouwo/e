@@ -12,13 +12,14 @@ import java.util.Date;
  */
 public class DateUtil {
 
-	public static final long ONE_DAY = 24*60*60*1000;
-	public static Date addOneDay(Date date){
-		Calendar   calendar=Calendar.getInstance(); 
-		calendar.setTime(date);
-		calendar.set(Calendar.HOUR_OF_DAY, 23);
-		calendar.set(Calendar.MINUTE, 59);
-		calendar.set(Calendar.SECOND, 59);
-		return calendar.getTime();
-	}
+    public static final long ONE_DAY = 24 * 60 * 60 * 1000;
+
+    public static Date addOneDay(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        return calendar.getTime();
+    }
 }

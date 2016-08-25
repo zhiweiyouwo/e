@@ -16,16 +16,22 @@ import com.loy.e.core.query.Op;
  * 
  */
 
-@Retention(RetentionPolicy.RUNTIME) 
-@Target({ElementType.FIELD})
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ ElementType.FIELD })
 @Documented
 public @interface LoyField {
 
-	public String fieldName();
-	public boolean detail() default true;
-	public String description();
-	public Op op() default Op.eq;
-	public int count() default 1;
-	public boolean often() default false;
-	boolean sortable() default false;
+    public String fieldName();
+
+    public boolean detail() default true;
+
+    public String description();
+
+    public Op op() default Op.eq;
+
+    public int count() default 1;
+
+    public boolean often() default false;
+
+    boolean sortable() default false;
 }

@@ -15,15 +15,15 @@ import com.loy.upm.personnel.domain.entity.OrgEntity;
  * @version 1.0.0
  *
  */
-public interface OrgRepository extends GenericRepository<OrgEntity,String>{
-	
-	@Query("SELECT r FROM OrgEntity r "
-			+ "   order by r.sortNum")
-	List<OrgEntity> all();
-	
-	@Query("SELECT max(r.code)  FROM OrgEntity r  where r.parentId = ?1  ")
-	String maxCodeByParentId(String parentId);
+public interface OrgRepository extends GenericRepository<OrgEntity, String> {
 
-	@Query(" from  OrgEntity    where code like ?1%")
-	List<OrgEntity> findByLikeCode(String code);
+    @Query("SELECT r FROM OrgEntity r "
+            + "   order by r.sortNum")
+    List<OrgEntity> all();
+
+    @Query("SELECT max(r.code)  FROM OrgEntity r  where r.parentId = ?1  ")
+    String maxCodeByParentId(String parentId);
+
+    @Query(" from  OrgEntity    where code like ?1%")
+    List<OrgEntity> findByLikeCode(String code);
 }

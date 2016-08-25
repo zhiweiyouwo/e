@@ -15,7 +15,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.loy.e.core.entity.BaseEntity;
 import com.loy.e.core.entity.LogicDeleteable;
 
-
 /**
  * 
  * @author Loy Fu qq群 540553957
@@ -24,49 +23,50 @@ import com.loy.e.core.entity.LogicDeleteable;
  * 
  */
 @Entity
-@Table(name="loy_role") 
-public class RoleEntity  extends BaseEntity implements LogicDeleteable{
-	
-	private static final long serialVersionUID = 4826881461196601489L;
-	@Column(length = 100)
-	private String name;
-	@Column(length = 255)
-	private String description;
-	
-	@JsonIgnore
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "loy_role_resource", joinColumns = { @JoinColumn(name = "role_id") }, inverseJoinColumns = { @JoinColumn(name = "resource_id") })
-	//@Cache(region = "all", usage = CacheConcurrencyStrategy.READ_WRITE)
-	private Set<ResourceEntity> resources = new HashSet<ResourceEntity>();
-	
-	public String getName() {
-		return name;
-	}
+@Table(name = "loy_role")
+public class RoleEntity extends BaseEntity implements LogicDeleteable {
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    private static final long serialVersionUID = 4826881461196601489L;
+    @Column(length = 100)
+    private String name;
+    @Column(length = 255)
+    private String description;
 
-	public String getDescription() {
-		return description;
-	}
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "loy_role_resource", joinColumns = {
+            @JoinColumn(name = "role_id") }, inverseJoinColumns = {
+                    @JoinColumn(name = "resource_id") })
+    //@Cache(region = "all", usage = CacheConcurrencyStrategy.READ_WRITE)
+    private Set<ResourceEntity> resources = new HashSet<ResourceEntity>();
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public String getName() {
+        return name;
+    }
 
-	@Override
-	public void markDeleted() {
+    public void setName(String name) {
+        this.name = name;
+    }
 
-		
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public Set<ResourceEntity> getResources() {
-		return resources;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public void setResources(Set<ResourceEntity> resources) {
-		this.resources = resources;
-	}
+    @Override
+    public void markDeleted() {
+
+    }
+
+    public Set<ResourceEntity> getResources() {
+        return resources;
+    }
+
+    public void setResources(Set<ResourceEntity> resources) {
+        this.resources = resources;
+    }
 
 }

@@ -30,35 +30,37 @@ import com.loy.e.security.service.SystemKeyService;
 import com.loy.e.security.service.UserSessionService;
 import com.loy.e.security.vo.Permission;
 
-
 @Configuration
 @EnableConfigurationProperties(FormProperties.class)
 public class ShiroConfiguration {
 
     @Bean
-    public CacheManager getEhCacheManager() {  
-        EhCacheManager em = new EhCacheManager();  
-        em.setCacheManagerConfigFile("classpath:ehcache-shiro.xml");  
-        return em;  
-    }  
+    public CacheManager getEhCacheManager() {
+        EhCacheManager em = new EhCacheManager();
+        em.setCacheManagerConfigFile("classpath:ehcache-shiro.xml");
+        return em;
+    }
 
     @Bean(name = "myShiroRealm")
-    public MyShiroRealm myShiroRealm(CacheManager cacheManager) {  
-        MyShiroRealm realm = new MyShiroRealm(); 
+    public MyShiroRealm myShiroRealm(CacheManager cacheManager) {
+        MyShiroRealm realm = new MyShiroRealm();
         PasswordMatcher passwordMatcher = new PasswordMatcher();
-    	passwordMatcher.setPasswordService(passwordService());
-    	realm.setCredentialsMatcher(passwordMatcher);
+        passwordMatcher.setPasswordService(passwordService());
+        realm.setCredentialsMatcher(passwordMatcher);
         realm.setCacheManager(cacheManager);
         return realm;
-    } 
+    }
+
     @Bean
-    PasswordService passwordService(){
-    	return new LoyPasswordService();
+    PasswordService passwordService() {
+        return new LoyPasswordService();
     }
-    @Bean 
-    UserSessionService userSessionService(){
-    	return new UserSessionServiceImpl();
+
+    @Bean
+    UserSessionService userSessionService() {
+        return new UserSessionServiceImpl();
     }
+
     @Bean
     public FilterRegistrationBean filterRegistrationBean() {
         FilterRegistrationBean filterRegistration = new FilterRegistrationBean();
@@ -69,7 +71,7 @@ public class ShiroConfiguration {
         filterRegistration.addUrlPatterns("/*");
         return filterRegistration;
     }
-    
+
     @Bean(name = "lifecycleBeanPostProcessor")
     public LifecycleBeanPostProcessor getLifecycleBeanPostProcessor() {
         return new LifecycleBeanPostProcessor();
@@ -90,62 +92,67 @@ public class ShiroConfiguration {
         dwsm.setCacheManager(getEhCacheManager());
         return dwsm;
     }
-   
+
     @Bean
-    public AuthorizationAttributeSourceAdvisor getAuthorizationAttributeSourceAdvisor(DefaultWebSecurityManager securityManager) {
+    public AuthorizationAttributeSourceAdvisor getAuthorizationAttributeSourceAdvisor(
+            DefaultWebSecurityManager securityManager) {
         AuthorizationAttributeSourceAdvisor aasa = new AuthorizationAttributeSourceAdvisor();
         aasa.setSecurityManager(securityManager);
         return aasa;
     }
 
-
     private void loadShiroFilterChain(ShiroFilterFactoryBean shiroFilterFactoryBean,
-    		SecurityUserService securityUserService,SystemKeyService systemKeyService,
-    		FormProperties formProperties){
-       
+            SecurityUserService securityUserService,
+            SystemKeyService systemKeyService,
+            FormProperties formProperties) {
+
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
-       
+
         filterChainDefinitionMap.putAll(formProperties.anons);
-   
-        List<Permission> permissions = securityUserService.getAllPermissions(systemKeyService.getSystemCode());
-		if(permissions != null){
-			for(Permission r : permissions){
-				String accessCode = r.getAccessCode();
-				String url = r.getUrl();
-				if(StringUtils.isNotEmpty(accessCode) && StringUtils.isNotEmpty(url)){
-					filterChainDefinitionMap.put("/**/"+r.getUrl(), "perms["+accessCode+"]"); 
-				}
-			}
-		}
-		
+
+        List<Permission> permissions = securityUserService
+                .getAllPermissions(systemKeyService.getSystemCode());
+        if (permissions != null) {
+            for (Permission r : permissions) {
+                String accessCode = r.getAccessCode();
+                String url = r.getUrl();
+                if (StringUtils.isNotEmpty(accessCode) && StringUtils.isNotEmpty(url)) {
+                    filterChainDefinitionMap.put("/**/" + r.getUrl(), "perms[" + accessCode + "]");
+                }
+            }
+        }
+
         filterChainDefinitionMap.put("/**", "authc");
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
     }
-   
-    
+
     @Bean(name = "shiroFilter")
-    public ShiroFilterFactoryBean getShiroFilterFactoryBean(DefaultWebSecurityManager securityManager, 
-    		SecurityUserService securityUserService,SystemKeyService systemKeyService,
-    		FormProperties formProperties,LoyLogService loyLogService,MessageSource messageSource
-    		) {
+    public ShiroFilterFactoryBean getShiroFilterFactoryBean(
+            DefaultWebSecurityManager securityManager,
+            SecurityUserService securityUserService,
+            SystemKeyService systemKeyService,
+            FormProperties formProperties,
+            LoyLogService loyLogService,
+            MessageSource messageSource) {
 
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
-        Map<String,Filter> filters = shiroFilterFactoryBean.getFilters();
+        Map<String, Filter> filters = shiroFilterFactoryBean.getFilters();
 
         LoyFormAuthenticationFilter formFilter = new LoyFormAuthenticationFilter();
 
         LoyPermissionsAuthorizationFilter permFilter = new LoyPermissionsAuthorizationFilter(
-        		loyLogService,systemKeyService,messageSource);
-        	
+                loyLogService, systemKeyService, messageSource);
+
         filters.put("authc", formFilter);
-        filters.put("perms", permFilter );
+        filters.put("perms", permFilter);
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         shiroFilterFactoryBean.setLoginUrl(formProperties.loginUrl);
         shiroFilterFactoryBean.setSuccessUrl(formProperties.successUrl);
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");
 
-        loadShiroFilterChain(shiroFilterFactoryBean,  securityUserService,systemKeyService,formProperties);
+        loadShiroFilterChain(shiroFilterFactoryBean, securityUserService, systemKeyService,
+                formProperties);
         return shiroFilterFactoryBean;
     }
 

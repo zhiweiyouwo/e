@@ -11,52 +11,51 @@ import com.loy.upm.personnel.domain.entity.NoticeStatus;
  *
  */
 public class NoticeQueryParam {
-	
-	private NoticeStatus noticeStatus;
-	private String subject;
-	private String creatorId;
-	private String readerId;
+
+    private NoticeStatus noticeStatus;
+    private String subject;
+    private String creatorId;
+    private String readerId;
     private Boolean seen = null;
-    
-	public NoticeStatus getNoticeStatus() {
-		return noticeStatus;
-	}
 
-	public void setNoticeStatus(NoticeStatus noticeStatus) {
-		this.noticeStatus = noticeStatus;
-	}
+    public NoticeStatus getNoticeStatus() {
+        return noticeStatus;
+    }
 
-	public String getCreatorId() {
-		return creatorId;
-	}
+    public void setNoticeStatus(NoticeStatus noticeStatus) {
+        this.noticeStatus = noticeStatus;
+    }
 
-	public void setCreatorId(String creatorId) {
-		this.creatorId = creatorId;
-	}
+    public String getCreatorId() {
+        return creatorId;
+    }
 
-	public String getSubject() {
-		return subject;
-	}
+    public void setCreatorId(String creatorId) {
+        this.creatorId = creatorId;
+    }
 
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
+    public String getSubject() {
+        return subject;
+    }
 
-	public String getReaderId() {
-		return readerId;
-	}
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
 
-	public void setReaderId(String readerId) {
-		this.readerId = readerId;
-	}
+    public String getReaderId() {
+        return readerId;
+    }
 
-	public Boolean getSeen() {
-		return seen;
-	}
+    public void setReaderId(String readerId) {
+        this.readerId = readerId;
+    }
 
-	public void setSeen(Boolean seen) {
-		this.seen = seen;
-	}
-	
-	
+    public Boolean getSeen() {
+        return seen;
+    }
+
+    public void setSeen(Boolean seen) {
+        this.seen = seen;
+    }
+
 }

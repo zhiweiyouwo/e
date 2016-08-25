@@ -12,5 +12,6 @@ import java.io.IOException;
  */
 public interface DynamicQlStatementBuilder {
     public StatementTemplate get(String key);
-    public void init() throws IOException;  
+
+    public void init() throws IOException;
 }

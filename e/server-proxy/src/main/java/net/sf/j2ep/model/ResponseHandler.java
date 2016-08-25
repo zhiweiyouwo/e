@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Anders Nyman
  */
 public interface ResponseHandler {
-    
+
     /**
      * Will process the response to set headers and streams for
      * it. Each implementation of ResponseHandler can also add
@@ -37,14 +37,14 @@ public interface ResponseHandler {
      * @throws IOException An exception is thrown when there is a problem with writing the output
      */
     public void process(HttpServletResponse response) throws IOException;
-    
+
     /**
      * Returns the HTTP status code we received from the server
      * 
      * @return The status code
      */
     public int getStatusCode();
-    
+
     /**
      * Do any actions needed when we wont need the ResponseHandler any more.
      */

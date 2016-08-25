@@ -4,8 +4,8 @@ jar {
 }
 
 dependencies {
-       compile ("org.apache.zookeeper:zookeeper:${zookeeperVersion}")
-       compile ("org.springframework:spring-core:${springframeworkVersion}")
+    compile ("org.apache.zookeeper:zookeeper:${zookeeperVersion}")
+    compile ("org.springframework:spring-core:${springframeworkVersion}")
 }
 
 

@@ -18,7 +18,6 @@ package net.sf.j2ep.responsehandlers;
 
 import javax.servlet.http.HttpServletResponse;
 
-
 import org.apache.commons.httpclient.methods.HeadMethod;
 
 /**
@@ -27,7 +26,7 @@ import org.apache.commons.httpclient.methods.HeadMethod;
  * @author Anders Nyman
  */
 public class HeadResponseHandler extends ResponseHandlerBase {
-    
+
     /**
      * Default constructor, will only call the super-constructor
      * for BasicResponseHandler. 

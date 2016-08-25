@@ -29,50 +29,52 @@ import com.loy.e.security.vo.Permission;
  */
 public class LoyShiroCasRealm extends CasRealm {
 
-	@Autowired
-	SecurityUserService securityUserService;
-	@Autowired
+    @Autowired
+    SecurityUserService securityUserService;
+    @Autowired
     SystemKeyService systemKeyService;
     @Autowired
-	CasProperties casProperties;
-    
+    CasProperties casProperties;
+
     @PostConstruct
-    public void initProperty(){
+    public void initProperty() {
         setCasServerUrlPrefix(casProperties.casServerUrlPrefix);
         setCasService(casProperties.shiroServerUrlPrefix + casProperties.casFilterUrlPattern);
     }
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        String loginName = (String)super.getAvailablePrincipal(principalCollection); 
-		SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-		Set<String> permissions = new HashSet<String>();
-		List<Permission> ps = securityUserService.findPermissionsByUsername(loginName,systemKeyService.getSystemCode());
-		if(ps != null){
-			for(Permission r : ps){
-				String accessCode = r.getAccessCode();
-				if(StringUtils.isNotEmpty(accessCode)){
-					permissions.add(accessCode);
-				}
-			}
-		}
-		authorizationInfo.setStringPermissions(permissions);
-		return authorizationInfo;
+        String loginName = (String) super.getAvailablePrincipal(principalCollection);
+        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
+        Set<String> permissions = new HashSet<String>();
+        List<Permission> ps = securityUserService.findPermissionsByUsername(loginName,
+                systemKeyService.getSystemCode());
+        if (ps != null) {
+            for (Permission r : ps) {
+                String accessCode = r.getAccessCode();
+                if (StringUtils.isNotEmpty(accessCode)) {
+                    permissions.add(accessCode);
+                }
+            }
+        }
+        authorizationInfo.setStringPermissions(permissions);
+        return authorizationInfo;
     }
-    
+
     protected TicketValidator createTicketValidator() {
         String urlPrefix = getCasServerUrlPrefix();
         if ("saml".equalsIgnoreCase(getValidationProtocol())) {
             return new Saml11TicketValidator(urlPrefix);
         }
-        if(urlPrefix.startsWith("https")){
-        	if(this.casProperties.trustAllHttps){
-        		LoyCas20ServiceTicketValidator cas20ServiceTicketValidator = new LoyCas20ServiceTicketValidator(urlPrefix);
+        if (urlPrefix.startsWith("https")) {
+            if (this.casProperties.trustAllHttps) {
+                LoyCas20ServiceTicketValidator cas20ServiceTicketValidator = new LoyCas20ServiceTicketValidator(
+                        urlPrefix);
                 cas20ServiceTicketValidator.setHostnameVerifier(new LoyHostnameVerifier());
                 return cas20ServiceTicketValidator;
-        	}
+            }
         }
-    	return super.createTicketValidator();
-       
+        return super.createTicketValidator();
+
     }
 }

@@ -30,7 +30,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.loy.e.core.aop.LoyAspect;
 import com.loy.e.core.web.dispatch.DefaultDispatchServlet;
 
-
 /**
  * 
  * @author Loy Fu qq群 540553957
@@ -38,62 +37,65 @@ import com.loy.e.core.web.dispatch.DefaultDispatchServlet;
  * @version 1.0.0
  * 
  */
-@Configuration 
+@Configuration
 
-public class WebConfig extends WebMvcConfigurerAdapter{  //WebMvcConfigurationSupport
-	
-	protected final Log LOGGER = LogFactory.getLog(WebConfig.class); 
+public class WebConfig extends WebMvcConfigurerAdapter { //WebMvcConfigurationSupport
 
-	@Value("${spring.jackson.date-format}")
-	private String dateFormat; 
-	@Autowired
-	private Settings settings;
-	@Override
-	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-		for(HttpMessageConverter<?> c : converters){
-			if(c instanceof MappingJackson2HttpMessageConverter){
-				MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = (MappingJackson2HttpMessageConverter)c;
-				ObjectMapper objectMapper= mappingJackson2HttpMessageConverter.getObjectMapper();
-				objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS,false);
-				if(this.dateFormat != null){
-					DateFormat myDateFormat = new SimpleDateFormat(dateFormat);
-					objectMapper.setDateFormat(myDateFormat);
-				}
-			}
-		}
-	}
-	@Bean
+    protected final Log LOGGER = LogFactory.getLog(WebConfig.class);
+
+    @Value("${spring.jackson.date-format}")
+    private String dateFormat;
+    @Autowired
+    private Settings settings;
+
+    @Override
+    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+        for (HttpMessageConverter<?> c : converters) {
+            if (c instanceof MappingJackson2HttpMessageConverter) {
+                MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = (MappingJackson2HttpMessageConverter) c;
+                ObjectMapper objectMapper = mappingJackson2HttpMessageConverter.getObjectMapper();
+                objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+                if (this.dateFormat != null) {
+                    DateFormat myDateFormat = new SimpleDateFormat(dateFormat);
+                    objectMapper.setDateFormat(myDateFormat);
+                }
+            }
+        }
+    }
+
+    @Bean
     public SessionLocaleResolver localeResolver() {
-		SessionLocaleResolver  localeResolver = new SessionLocaleResolver();
+        SessionLocaleResolver localeResolver = new SessionLocaleResolver();
         return localeResolver;
     }
-	
-	@Bean
+
+    @Bean
     public MessageSource messageSource() {
-		
+
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         Set<String> basenamesList = new HashSet<String>();
-        String[] fileNames = {"classpath*:/i18n/*.properties","classpath*:/i18n/**/*.properties"}; 
+        String[] fileNames = { "classpath*:/i18n/*.properties",
+                "classpath*:/i18n/**/*.properties" };
         ResourcePatternResolver resourceLoader = new PathMatchingResourcePatternResolver();
-        
-        for (String file : fileNames) {  
+
+        for (String file : fileNames) {
             try {
-				Resource[] resources = resourceLoader.getResources(file);
-				if(resources != null){
-					for(Resource resource : resources){
-						String filename = resource.getURI().toString();
-						int begin = filename.indexOf("i18n");
-						filename = filename.substring(begin, filename.length());
-						filename = filename.replaceFirst(".properties", "");
-						filename = "classpath:"+filename.split("_")[0];
-						basenamesList.add(filename);
-					}
-				}
-				
-			} catch (IOException e) {
-				LOGGER.error("i18n resource error", e);
-			}  
-        }  
+                Resource[] resources = resourceLoader.getResources(file);
+                if (resources != null) {
+                    for (Resource resource : resources) {
+                        String filename = resource.getURI().toString();
+                        int begin = filename.indexOf("i18n");
+                        filename = filename.substring(begin, filename.length());
+                        filename = filename.replaceFirst(".properties", "");
+                        filename = "classpath:" + filename.split("_")[0];
+                        basenamesList.add(filename);
+                    }
+                }
+
+            } catch (IOException e) {
+                LOGGER.error("i18n resource error", e);
+            }
+        }
         String[] basenames = new String[basenamesList.size()];
         basenamesList.toArray(basenames);
         messageSource.setResourceLoader(resourceLoader);
@@ -102,30 +104,30 @@ public class WebConfig extends WebMvcConfigurerAdapter{  //WebMvcConfigurationSu
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
     }
-	
-	@Bean
+
+    @Bean
     public DefaultDispatchServlet dispatcherServlet() {
-		DefaultDispatchServlet dispatchServlet = new DefaultDispatchServlet();
+        DefaultDispatchServlet dispatchServlet = new DefaultDispatchServlet();
         return dispatchServlet;
     }
-	
-	@Bean
+
+    @Bean
     public LoyAspect logAspect() {
-         return new LoyAspect();
+        return new LoyAspect();
     }
-	
-	@Override
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		Map<String,List<String>> mappings = this.settings.getStaticMappings();
-		if(mappings != null){
-			for(Map.Entry<String, List<String>> e: mappings.entrySet()){
-				List<String> list = e.getValue();
-				if(list != null && !list.isEmpty()){
-					String[] temp = new String[list.size()];
-					list.toArray(temp);
-					registry.addResourceHandler(e.getKey()).addResourceLocations(temp);
-				}
-			}
-		}
-	}
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        Map<String, List<String>> mappings = this.settings.getStaticMappings();
+        if (mappings != null) {
+            for (Map.Entry<String, List<String>> e : mappings.entrySet()) {
+                List<String> list = e.getValue();
+                if (list != null && !list.isEmpty()) {
+                    String[] temp = new String[list.size()];
+                    list.toArray(temp);
+                    registry.addResourceHandler(e.getKey()).addResourceLocations(temp);
+                }
+            }
+        }
+    }
 }

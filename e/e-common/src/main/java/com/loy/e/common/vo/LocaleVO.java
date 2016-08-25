@@ -9,29 +9,35 @@ package com.loy.e.common.vo;
  *
  */
 public class LocaleVO {
-	private String language;
-	private String country;
-	private String displayName;
-	public String getLanguage() {
-		return language;
-	}
-	public void setLanguage(String language) {
-		this.language = language;
-	}
-	public String getCountry() {
-		return country;
-	}
-	public void setCountry(String country) {
-		this.country = country;
-	}
-	public String getDisplayName() {
-		return displayName;
-	}
-	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
-	}
-	
-	public String getValue(){
-		return this.language+"_"+this.country;
-	}
+    private String language;
+    private String country;
+    private String displayName;
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String getValue() {
+        return this.language + "_" + this.country;
+    }
 }

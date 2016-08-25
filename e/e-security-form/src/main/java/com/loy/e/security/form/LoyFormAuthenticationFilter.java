@@ -18,34 +18,34 @@ import com.loy.e.common.vo.NotLoginResponse;
  * 
  */
 
-
 public class LoyFormAuthenticationFilter extends FormAuthenticationFilter {
-	
-	protected void redirectToLogin(ServletRequest request, ServletResponse response) throws IOException {
-	
-		if(isJson((HttpServletRequest)request)){
-			NotLoginResponse notLoginResponse = new NotLoginResponse();
-			response.getWriter().write(notLoginResponse.toJson());
-			return;
-		}else{
-			super.redirectToLogin(request, response);
-		}
+
+    protected void redirectToLogin(ServletRequest request, ServletResponse response)
+            throws IOException {
+
+        if (isJson((HttpServletRequest) request)) {
+            NotLoginResponse notLoginResponse = new NotLoginResponse();
+            response.getWriter().write(notLoginResponse.toJson());
+            return;
+        } else {
+            super.redirectToLogin(request, response);
+        }
     }
-	
-	 boolean isJson(HttpServletRequest request){
-		String accept = request.getHeader("accept");
-		if(accept == null){
-			return false;
-		}
-		String[] arr = accept.split(",");
-		if(arr == null){
-			return false;
-		}
-		for(String a : arr){
-			if("application/json".equalsIgnoreCase(a)){
-				return true;
-			}
-		}
-		return false;
-	}
+
+    boolean isJson(HttpServletRequest request) {
+        String accept = request.getHeader("accept");
+        if (accept == null) {
+            return false;
+        }
+        String[] arr = accept.split(",");
+        if (arr == null) {
+            return false;
+        }
+        for (String a : arr) {
+            if ("application/json".equalsIgnoreCase(a)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

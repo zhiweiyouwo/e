@@ -9,6 +9,6 @@ package com.loy.e.security.service;
  */
 public interface SystemKeyService {
 
-	public String getSystemCode();
-	
+    public String getSystemCode();
+
 }

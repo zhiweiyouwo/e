@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.loy.app.common.domain.entity.AttachmentEntity;
 import com.loy.e.core.repository.GenericRepository;
+
 /**
  * 
  * 
@@ -12,8 +13,8 @@ import com.loy.e.core.repository.GenericRepository;
  * @version 1.0.0
  *
  */
-public interface AttachmentRepository extends GenericRepository<AttachmentEntity,String>{
+public interface AttachmentRepository extends GenericRepository<AttachmentEntity, String> {
 
-	public List<AttachmentEntity> findByTargetId(String targetId);
-	
+    public List<AttachmentEntity> findByTargetId(String targetId);
+
 }

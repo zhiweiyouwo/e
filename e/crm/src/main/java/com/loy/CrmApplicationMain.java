@@ -1,6 +1,5 @@
 package com.loy;
 
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import com.loy.e.core.conf.Settings;
 import com.loy.e.core.repository.impl.DefaultRepositoryFactoryBean;
 import com.loy.e.security.service.SecurityUserService;
 
-
 /**
  * 
  * @author Loy Fu qq群 540553957
@@ -27,18 +25,20 @@ import com.loy.e.security.service.SecurityUserService;
  */
 
 @Configuration
-@EnableAspectJAutoProxy(proxyTargetClass=true)
+@EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableAutoConfiguration()
-@ComponentScan(basePackages={"com.loy"})
+@ComponentScan(basePackages = { "com.loy" })
 @EnableConfigurationProperties(Settings.class)
-@EnableJpaRepositories(repositoryFactoryBeanClass=DefaultRepositoryFactoryBean.class)
+@EnableJpaRepositories(repositoryFactoryBeanClass = DefaultRepositoryFactoryBean.class)
 
-@ImportResource({"classpath:applicationConsumer.xml"})
+@ImportResource({ "classpath:applicationConsumer.xml" })
 public class CrmApplicationMain {
 
-	@Autowired SecurityUserService securityUserService;
-	static final Log logger = LogFactory.getLog(CrmApplicationMain.class);
-    public static void main(String[] args) throws Exception { 
+    @Autowired
+    SecurityUserService securityUserService;
+    static final Log logger = LogFactory.getLog(CrmApplicationMain.class);
+
+    public static void main(String[] args) throws Exception {
         SpringApplication.run(CrmApplicationMain.class, args);
     }
-} 
+}

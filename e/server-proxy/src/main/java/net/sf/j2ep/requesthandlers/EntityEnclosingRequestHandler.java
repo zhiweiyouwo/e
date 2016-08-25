@@ -20,7 +20,6 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.methods.EntityEnclosingMethod;
 import org.apache.commons.httpclient.methods.InputStreamRequestEntity;
@@ -42,25 +41,24 @@ public class EntityEnclosingRequestHandler extends RequestHandlerBase {
      * @see net.sf.j2ep.model.RequestHandler#process(javax.servlet.http.HttpServletRequest, java.lang.String)
      */
     public HttpMethod process(HttpServletRequest request, String url) throws IOException {
-        
+
         EntityEnclosingMethod method = null;
-        
+
         if (request.getMethod().equalsIgnoreCase("POST")) {
             method = new PostMethod(url);
         } else if (request.getMethod().equalsIgnoreCase("PUT")) {
             method = new PutMethod(url);
         }
-        
+
         setHeaders(method, request);
-        
+
         InputStreamRequestEntity stream;
         stream = new InputStreamRequestEntity(request.getInputStream());
         method.setRequestEntity(stream);
         method.setRequestHeader("Content-type", request.getContentType());
-        
+
         return method;
-        
+
     }
-        
 
 }

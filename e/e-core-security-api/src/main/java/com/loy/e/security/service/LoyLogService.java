@@ -9,9 +9,9 @@ package com.loy.e.security.service;
  */
 public interface LoyLogService {
 
-	public void log(String systemCode,String userId,String name,String opName,Object... args);
-	
-	public void record(String systemCode, String url,String method,long useTime,String opName);
-	
-	public void exception(String systemCode,String exceptionName, String stackTraceMsg);
+    public void log(String systemCode, String userId, String name, String opName, Object... args);
+
+    public void record(String systemCode, String url, String method, long useTime, String opName);
+
+    public void exception(String systemCode, String exceptionName, String stackTraceMsg);
 }

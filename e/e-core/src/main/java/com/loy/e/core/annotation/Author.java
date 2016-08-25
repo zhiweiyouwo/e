@@ -14,10 +14,11 @@ import java.lang.annotation.Target;
  * 
  */
 
-@Retention(RetentionPolicy.RUNTIME) 
-@Target({ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ ElementType.TYPE })
 @Documented
 public @interface Author {
-	public String author() ;
-	public String contact()  ;
+    public String author();
+
+    public String contact();
 }

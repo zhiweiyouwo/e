@@ -10,7 +10,8 @@ import com.loy.e.common.vo.SessionUser;
  * 
  */
 public interface UserSessionService {
-	
-	SessionUser getSessionUser();
-	void setSessionUser(SessionUser sessionUser);
+
+    SessionUser getSessionUser();
+
+    void setSessionUser(SessionUser sessionUser);
 }

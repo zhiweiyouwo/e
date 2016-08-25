@@ -12,10 +12,12 @@ import javax.persistence.criteria.Root;
  * @version 1.0.0
  * 
  */
-public interface Criterion {  
-    public enum Operator {  
-        EQ, NE, LIKE, GT, LT, GTE, LTE, AND, OR  
-    }  
-    public Predicate toPredicate(Root<?> root, CriteriaQuery<?> query,  
-            CriteriaBuilder builder);  
-}  
+public interface Criterion {
+    public enum Operator {
+        EQ, NE, LIKE, GT, LT, GTE, LTE, AND, OR
+    }
+
+    public Predicate toPredicate(Root<?> root,
+            CriteriaQuery<?> query,
+            CriteriaBuilder builder);
+}

@@ -13,28 +13,27 @@ import com.loy.e.core.query.Op;
  */
 public class UserQueryParam {
 
-	@ConditionParam(name="username")
-	@Order(name="username")
-	private String username;
+    @ConditionParam(name = "username")
+    @Order(name = "username")
+    private String username;
 
-	@ConditionParam(name="name",op=Op.like)
-	private String name;
-	
-	public String getUsername() {
-		return username;
-	}
+    @ConditionParam(name = "name", op = Op.like)
+    private String name;
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
-    
-	
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 }

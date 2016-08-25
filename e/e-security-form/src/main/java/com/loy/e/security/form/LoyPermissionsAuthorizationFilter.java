@@ -26,49 +26,55 @@ import com.loy.e.security.service.SystemKeyService;
  * @version 1.0.0
  * 
  */
-public class LoyPermissionsAuthorizationFilter extends PermissionsAuthorizationFilter{
-	
-	@Autowired(required=false)
-	private LoyLogService loyLogService;
-	@Autowired(required=false)
-	SystemKeyService systemKeyService;
-	
-	@Autowired(required=false)
-	public MessageSource messageSource;
-	public LoyPermissionsAuthorizationFilter(){
-		
-	}
-	public LoyPermissionsAuthorizationFilter(LoyLogService loyLogService,
-			SystemKeyService systemKeyService,
-			MessageSource messageSource){
-		this.loyLogService = loyLogService;
-		this.systemKeyService = systemKeyService;
-		this.messageSource = messageSource;
-	}
-	@SuppressWarnings("deprecation")
-	protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws IOException {
+public class LoyPermissionsAuthorizationFilter extends PermissionsAuthorizationFilter {
 
-	        Subject subject = getSubject(request, response);
-	        if (subject.getPrincipal() == null) {
-	            saveRequestAndRedirectToLogin(request, response);
-	        } else {
-	        	ObjectMapper objectMapper = new ObjectMapper();
-	            try {
-	            	JsonGenerator  jsonGenerator = objectMapper.getJsonFactory().createJsonGenerator(response.getOutputStream(), JsonEncoding.UTF8);
-	            	ErrorResponseData error = new ErrorResponseData();
-	            	error.setErrorCode("not_permission");
-	            	String msg = messageSource.getMessage("no_permission",null, LocaleContextHolder.getLocale());
-	            	error.setMsg(msg);
-	            	jsonGenerator.writeObject(error);  
-	            	
-	            } catch (IOException e) {
-	            	String stackTraceMsg = ExceptionUtil.exceptionStackTrace(e);
-	            	loyLogService.exception(systemKeyService.getSystemCode(),e.getClass().getName(), stackTraceMsg);
-	            	throw e;
-	            }
-	        }
-	        return false;
-	 }
-	
-	
+    @Autowired(required = false)
+    private LoyLogService loyLogService;
+    @Autowired(required = false)
+    SystemKeyService systemKeyService;
+
+    @Autowired(required = false)
+    public MessageSource messageSource;
+
+    public LoyPermissionsAuthorizationFilter() {
+
+    }
+
+    public LoyPermissionsAuthorizationFilter(LoyLogService loyLogService,
+            SystemKeyService systemKeyService,
+            MessageSource messageSource) {
+        this.loyLogService = loyLogService;
+        this.systemKeyService = systemKeyService;
+        this.messageSource = messageSource;
+    }
+
+    @SuppressWarnings("deprecation")
+    protected boolean onAccessDenied(ServletRequest request, ServletResponse response)
+            throws IOException {
+
+        Subject subject = getSubject(request, response);
+        if (subject.getPrincipal() == null) {
+            saveRequestAndRedirectToLogin(request, response);
+        } else {
+            ObjectMapper objectMapper = new ObjectMapper();
+            try {
+                JsonGenerator jsonGenerator = objectMapper.getJsonFactory()
+                        .createJsonGenerator(response.getOutputStream(), JsonEncoding.UTF8);
+                ErrorResponseData error = new ErrorResponseData();
+                error.setErrorCode("not_permission");
+                String msg = messageSource.getMessage("no_permission", null,
+                        LocaleContextHolder.getLocale());
+                error.setMsg(msg);
+                jsonGenerator.writeObject(error);
+
+            } catch (IOException e) {
+                String stackTraceMsg = ExceptionUtil.exceptionStackTrace(e);
+                loyLogService.exception(systemKeyService.getSystemCode(), e.getClass().getName(),
+                        stackTraceMsg);
+                throw e;
+            }
+        }
+        return false;
+    }
+
 }

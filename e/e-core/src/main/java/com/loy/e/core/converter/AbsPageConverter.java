@@ -1,6 +1,7 @@
 package com.loy.e.core.converter;
 
 import org.springframework.data.domain.PageImpl;
+
 /**
  * 
  * 
@@ -10,16 +11,17 @@ import org.springframework.data.domain.PageImpl;
  *
  */
 
-public abstract class AbsPageConverter<S,T> implements Converter, org.springframework.core.convert.converter.Converter<S, T>{
+public abstract class AbsPageConverter<S, T>
+        implements Converter, org.springframework.core.convert.converter.Converter<S, T> {
 
-	@Override
-	public Object converter(Object source) {
-		@SuppressWarnings("rawtypes")
-		PageImpl p = (PageImpl)source;
+    @Override
+    public Object converter(Object source) {
+        @SuppressWarnings("rawtypes")
+        PageImpl p = (PageImpl) source;
 
-		@SuppressWarnings("unchecked")
-		Object page = p.map(this);
-		return page;
-	}
+        @SuppressWarnings("unchecked")
+        Object page = p.map(this);
+        return page;
+    }
 
 }

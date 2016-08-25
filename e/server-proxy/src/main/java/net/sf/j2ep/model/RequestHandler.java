@@ -29,7 +29,7 @@ import org.apache.commons.httpclient.HttpMethod;
  * @author Anders Nyman
  */
 public interface RequestHandler {
-    
+
     /**
      * Creates a new HttpMethod for this request. Will then
      * set the headers and any other information needed for this

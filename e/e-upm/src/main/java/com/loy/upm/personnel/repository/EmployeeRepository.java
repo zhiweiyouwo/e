@@ -18,13 +18,14 @@ import com.loy.upm.personnel.domain.entity.EmployeeEntity;
  * @version 1.0.0
  *
  */
-public interface EmployeeRepository extends GenericRepository<EmployeeEntity,String>{
-	 
-	  public Page<EmployeeEntity> findPage(MapQueryParam param,Pageable pageable);
-	  //@Modifying
-	  @Query("from  EmployeeEntity  x  where x.organization.code like ?1%")
-	  public List<EmployeeEntity> findByOrgCode(String code);
-	  
-	  @Query("from  EmployeeEntity  x  where x.username = ?1")
-	  public EmployeeEntity findByUsername(String username);
+public interface EmployeeRepository extends GenericRepository<EmployeeEntity, String> {
+
+    public Page<EmployeeEntity> findPage(MapQueryParam param, Pageable pageable);
+
+    //@Modifying
+    @Query("from  EmployeeEntity  x  where x.organization.code like ?1%")
+    public List<EmployeeEntity> findByOrgCode(String code);
+
+    @Query("from  EmployeeEntity  x  where x.username = ?1")
+    public EmployeeEntity findByUsername(String username);
 }

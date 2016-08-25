@@ -33,42 +33,42 @@ import org.apache.commons.logging.LogFactory;
  * @author Anders Nyman
  */
 public class RewriteRule extends BaseRule {
-    
+
     /** 
      * Pattern we match the URI on,
      */
     private Pattern matchPattern;
-    
+
     /** 
      * The string we rewrite to.
      */
     private String rewriteTo;
-    
+
     /** 
      * Pattern to match when we rewrite links found in HTML.
      */
     private Pattern revertPattern;
-    
+
     /** 
      * The string we revert links to.
      */
     private String revertTo;
-    
+
     /** 
      * Marks if we should rewrite incoming links.
      */
     private boolean isRewriting;
-    
+
     /** 
      * Marks if we are rewriting outgoing links found in HTML.
      */
     private boolean isReverting;
-    
+
     /** 
      * Logging element supplied by commons-logging.
      */
     private static Log log;
-    
+
     /**
      * Basic constructor.
      */
@@ -83,11 +83,11 @@ public class RewriteRule extends BaseRule {
      * @see net.sf.j2ep.model.Rule#matches(javax.servlet.http.HttpServletRequest)
      */
     public boolean matches(HttpServletRequest request) {
-        String uri = getURI(request);      
+        String uri = getURI(request);
         Matcher matcher = matchPattern.matcher(uri);
         return matcher.matches();
     }
-    
+
     /**
      * Will use the pattern and the rewriteTo string to
      * rewrite the URI before using it to connection to
@@ -100,11 +100,11 @@ public class RewriteRule extends BaseRule {
         if (isRewriting) {
             Matcher matcher = matchPattern.matcher(uri);
             rewritten = matcher.replaceAll(rewriteTo);
-            log.debug("Rewriting URI: " + uri + " >> " + rewritten); 
+            log.debug("Rewriting URI: " + uri + " >> " + rewritten);
         }
         return rewritten;
     }
-    
+
     /**
      * @see net.sf.j2ep.model.Rule#revert(java.lang.String)
      */
@@ -113,12 +113,11 @@ public class RewriteRule extends BaseRule {
         if (isReverting) {
             Matcher matcher = revertPattern.matcher(uri);
             rewritten = matcher.replaceAll(revertTo);
-            log.debug("Reverting URI: " + uri + " >> " + rewritten); 
+            log.debug("Reverting URI: " + uri + " >> " + rewritten);
         }
         return rewritten;
     }
-    
-    
+
     /**
      * Sets the regex we will match incoming URIs on.
      * 
@@ -131,7 +130,7 @@ public class RewriteRule extends BaseRule {
             matchPattern = Pattern.compile(regex);
         }
     }
-    
+
     /**
      * Sets the string we will rewrite incoming URIs to.
      * 
@@ -145,7 +144,7 @@ public class RewriteRule extends BaseRule {
             isRewriting = true;
         }
     }
-    
+
     /**
      * Sets the regex we use to match outgoing links found.
      * 
@@ -158,7 +157,7 @@ public class RewriteRule extends BaseRule {
             revertPattern = Pattern.compile(regex);
         }
     }
-    
+
     /**
      * Sets the string we rewrite outgoing links to.
      * 
@@ -172,7 +171,7 @@ public class RewriteRule extends BaseRule {
             isReverting = true;
         }
     }
-    
+
     /**
      * Will build a URI but including the Query String. That means that it really
      * isn't a URI, but quite near.

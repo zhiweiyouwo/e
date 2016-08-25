@@ -1,6 +1,5 @@
 package com.loy.e.core.query;
 
-
 /**
  * 
  * @author Loy Fu qq群 540553957
@@ -10,15 +9,15 @@ package com.loy.e.core.query;
  */
 public enum Op {
 
-	eq("="), ne("<>"), like("like"), gt(">"), lt("<"), gte(">="), lte("<=");
+    eq("="), ne("<>"), like("like"), gt(">"), lt("<"), gte(">="), lte("<=");
 
-	private final String info;
-	
-	private Op(String info) {
-		this.info = info;
-	}
+    private final String info;
 
-	public String getInfo() {
-		return info;
-	}
+    private Op(String info) {
+        this.info = info;
+    }
+
+    public String getInfo() {
+        return info;
+    }
 }

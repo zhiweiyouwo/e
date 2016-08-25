@@ -1,4 +1,5 @@
 package com.loy.upm.personnel.domain.entity;
+
 /**
  * 
  * 
@@ -8,8 +9,8 @@ package com.loy.upm.personnel.domain.entity;
  *
  */
 public enum NoticeStatus {
-	DRAFT("草稿"), 
-	SENT("已发送");
+    DRAFT("草稿"),
+    SENT("已发送");
 
     private final String info;
 

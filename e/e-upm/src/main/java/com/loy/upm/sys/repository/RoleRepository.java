@@ -10,6 +10,6 @@ import com.loy.upm.sys.domain.entity.RoleEntity;
  * @version 1.0.0
  * 
  */
-public interface RoleRepository extends GenericRepository<RoleEntity,String>{
+public interface RoleRepository extends GenericRepository<RoleEntity, String> {
 
 }

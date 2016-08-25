@@ -14,9 +14,9 @@ import java.lang.annotation.Target;
  * @version 1.0.0
  *
  */
-@Retention(RetentionPolicy.RUNTIME) 
-@Target({ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ ElementType.TYPE })
 @Documented
 public @interface LoyEntity {
-	String name();
+    String name();
 }

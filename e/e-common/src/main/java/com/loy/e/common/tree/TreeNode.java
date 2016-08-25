@@ -12,76 +12,73 @@ import java.util.List;
  */
 public class TreeNode<T> implements Tree<T>, Serializable {
 
-	private static final long serialVersionUID = -1653478000503676779L;
-	private String id;
-	private String text;
-	private String parentId;
-	private T data;
-	private String type;
-	boolean selected = false;
-	
-	List<TreeNode<T>> children;
-	
-	public List<TreeNode<T>> getChildren(){
-		return this.children;
-	}
+    private static final long serialVersionUID = -1653478000503676779L;
+    private String id;
+    private String text;
+    private String parentId;
+    private T data;
+    private String type;
+    boolean selected = false;
 
-	@Override
-	public T getData() {
-		return data;
-	}
+    List<TreeNode<T>> children;
 
-	@Override
-	public String getParentId() {
-		return this.parentId;
-	}
+    public List<TreeNode<T>> getChildren() {
+        return this.children;
+    }
 
-	@Override
-	public String getId() {
-		return this.id;
-	}
+    @Override
+    public T getData() {
+        return data;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    @Override
+    public String getParentId() {
+        return this.parentId;
+    }
 
-	public void setParentId(String parentId) {
-		this.parentId = parentId;
-	}
+    @Override
+    public String getId() {
+        return this.id;
+    }
 
-	public void setData(T data) {
-		this.data = data;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setChildren(List<TreeNode<T>> children) {
-		this.children = children;
-	}
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
 
-	public String getText() {
-		return text;
-	}
+    public void setData(T data) {
+        this.data = data;
+    }
 
-	public void setText(String text) {
-		this.text = text;
-	}
+    public void setChildren(List<TreeNode<T>> children) {
+        this.children = children;
+    }
 
-	public String getType() {
-		return type;
-	}
+    public String getText() {
+        return text;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public void setText(String text) {
+        this.text = text;
+    }
 
-	public boolean isSelected() {
-		return selected;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public void setSelected(boolean selected) {
-		this.selected = selected;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	
-	
-	
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
 }

@@ -57,13 +57,13 @@ public class ConfigParser {
      * @param data
      *            The config file containing the XML data structure.
      */
- 
-	public ConfigParser(File data) {
+
+    public ConfigParser(File data) {
         log = LogFactory.getLog(ConfigParser.class);
         try {
             LinkedList serverContainer = createServerList(data);
             if (log.isDebugEnabled()) {
-                debugServers(serverContainer); 
+                debugServers(serverContainer);
             }
             serverChain = new ServerChain(serverContainer);
         } catch (Exception e) {
@@ -148,7 +148,7 @@ public class ConfigParser {
      */
     private void debugServers(LinkedList servers) {
         Iterator itr = servers.iterator();
-        
+
         while (itr.hasNext()) {
             ServerContainer container = (ServerContainer) itr.next();
             log.debug(container + " mapped to --> " + container.getRule());

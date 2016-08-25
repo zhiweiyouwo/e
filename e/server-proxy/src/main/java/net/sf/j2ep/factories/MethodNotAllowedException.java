@@ -27,12 +27,12 @@ public class MethodNotAllowedException extends Exception {
      * Our id
      */
     private static final long serialVersionUID = 4149736397823198286L;
-   
+
     /** 
      * List of methods that are being allowed by the factory.
      */
     private String allowedMethods;
-    
+
     /**
      * Basic constructor creating a exception.
      * @param message The exception message
@@ -42,7 +42,7 @@ public class MethodNotAllowedException extends Exception {
         super(message);
         this.allowedMethods = allowedMethods;
     }
-    
+
     /**
      * Returns which methods that are allowed by the instance throwing
      * this exception.

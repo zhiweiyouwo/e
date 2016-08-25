@@ -19,58 +19,69 @@ import com.loy.e.core.entity.AbstractEntity;
  */
 
 @Entity
-@Table(name="loy_operator_log")
-public class OperatorLogEntity  extends AbstractEntity<String>{
+@Table(name = "loy_operator_log")
+public class OperatorLogEntity extends AbstractEntity<String> {
 
-	private static final long serialVersionUID = -2163798546081265830L;
-	
-	@Column(length = 36)
-	String userId;
-	@Column(length = 100)
-	String operator;
-	@Column(length = 200)
-	String opName;
-	@Lob
-	String data;
-	@Column(length = 50)
-	String systemCode;
-	Date opTime = new Date();
-	
-	public String getUserId() {
-		return userId;
-	}
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-	public String getOperator() {
-		return operator;
-	}
-	public void setOperator(String operator) {
-		this.operator = operator;
-	}
-	public String getOpName() {
-		return opName;
-	}
-	public void setOpName(String opName) {
-		this.opName = opName;
-	}
-	public String getData() {
-		return data;
-	}
-	public void setData(String data) {
-		this.data = data;
-	}
-	public Date getOpTime() {
-		return opTime;
-	}
-	public void setOpTime(Date opTime) {
-		this.opTime = opTime;
-	}
-	public String getSystemCode() {
-		return systemCode;
-	}
-	public void setSystemCode(String systemCode) {
-		this.systemCode = systemCode;
-	}
-	
+    private static final long serialVersionUID = -2163798546081265830L;
+
+    @Column(length = 36)
+    String userId;
+    @Column(length = 100)
+    String operator;
+    @Column(length = 200)
+    String opName;
+    @Lob
+    String data;
+    @Column(length = 50)
+    String systemCode;
+    Date opTime = new Date();
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getOperator() {
+        return operator;
+    }
+
+    public void setOperator(String operator) {
+        this.operator = operator;
+    }
+
+    public String getOpName() {
+        return opName;
+    }
+
+    public void setOpName(String opName) {
+        this.opName = opName;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
+    public Date getOpTime() {
+        return opTime;
+    }
+
+    public void setOpTime(Date opTime) {
+        this.opTime = opTime;
+    }
+
+    public String getSystemCode() {
+        return systemCode;
+    }
+
+    public void setSystemCode(String systemCode) {
+        this.systemCode = systemCode;
+    }
+
 }

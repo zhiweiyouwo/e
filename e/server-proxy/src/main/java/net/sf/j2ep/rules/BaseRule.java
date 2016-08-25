@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package net.sf.j2ep.rules;
 
 import net.sf.j2ep.model.Rule;
@@ -29,14 +28,14 @@ import net.sf.j2ep.model.Rule;
  * @author Anders Nyman
  */
 public abstract class BaseRule implements Rule {
-    
+
     /**
      * @see net.sf.j2ep.model.Rule#process(java.lang.String)
      */
     public String process(String uri) {
         return uri;
     }
-    
+
     /**
      * @see net.sf.j2ep.model.Rule#revert(java.lang.String)
      */

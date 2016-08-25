@@ -9,8 +9,8 @@ package com.loy.e.common;
  */
 public interface Constants {
 
-	String SESSION_KEY = "E_SESSION_KEY";
-	String NOT_LOGIN_CODE = "not_login";
-	String CASTGC = "CASTGC";
-	
+    String SESSION_KEY = "E_SESSION_KEY";
+    String NOT_LOGIN_CODE = "not_login";
+    String CASTGC = "CASTGC";
+
 }

@@ -26,38 +26,35 @@ import com.loy.e.security.service.SystemKeyService;
  * 
  */
 @ControllerAdvice
-public class AccountExceptionHandlerAdvice  {
-	protected final Log logger = LogFactory.getLog(AccountExceptionHandlerAdvice.class);
-	@Autowired
-	private MessageSource messageSource;
-	@Autowired
-	SystemKeyService systemKeyService;
-	
-	
-	
-	@ResponseStatus(HttpStatus.OK)
-	@ExceptionHandler(IncorrectCredentialsException.class)
-	@ResponseBody 
-	ErrorResponseData handleBadRequest(HttpServletRequest req, IncorrectCredentialsException ex) {
-		ErrorResponseData data = new ErrorResponseData();
-		String errorCode = "user_password_error";
-		data.setErrorCode(errorCode);
-		String msg = messageSource.getMessage(errorCode,null, LocaleContextHolder.getLocale());
-		data.setMsg(msg);
-		return data;
-	 } 
-	
-	@ResponseStatus(HttpStatus.OK)
-	@ExceptionHandler(UnknownAccountException.class)
-	@ResponseBody 
-	ErrorResponseData handleBadRequest(HttpServletRequest req, UnknownAccountException ex) {
-		ErrorResponseData data = new ErrorResponseData();
-		String errorCode = "user_password_error";
-		data.setErrorCode(errorCode);
-		String msg = messageSource.getMessage(errorCode,null, LocaleContextHolder.getLocale());
-		data.setMsg(msg);
-		return data;
-	 } 
-	
-	
+public class AccountExceptionHandlerAdvice {
+    protected final Log logger = LogFactory.getLog(AccountExceptionHandlerAdvice.class);
+    @Autowired
+    private MessageSource messageSource;
+    @Autowired
+    SystemKeyService systemKeyService;
+
+    @ResponseStatus(HttpStatus.OK)
+    @ExceptionHandler(IncorrectCredentialsException.class)
+    @ResponseBody
+    ErrorResponseData handleBadRequest(HttpServletRequest req, IncorrectCredentialsException ex) {
+        ErrorResponseData data = new ErrorResponseData();
+        String errorCode = "user_password_error";
+        data.setErrorCode(errorCode);
+        String msg = messageSource.getMessage(errorCode, null, LocaleContextHolder.getLocale());
+        data.setMsg(msg);
+        return data;
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @ExceptionHandler(UnknownAccountException.class)
+    @ResponseBody
+    ErrorResponseData handleBadRequest(HttpServletRequest req, UnknownAccountException ex) {
+        ErrorResponseData data = new ErrorResponseData();
+        String errorCode = "user_password_error";
+        data.setErrorCode(errorCode);
+        String msg = messageSource.getMessage(errorCode, null, LocaleContextHolder.getLocale());
+        data.setMsg(msg);
+        return data;
+    }
+
 }

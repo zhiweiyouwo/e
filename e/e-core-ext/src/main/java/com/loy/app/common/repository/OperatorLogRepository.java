@@ -11,6 +11,6 @@ import com.loy.e.core.repository.GenericRepository;
  * @version 1.0.0
  *
  */
-public interface OperatorLogRepository extends GenericRepository<OperatorLogEntity,String>{
+public interface OperatorLogRepository extends GenericRepository<OperatorLogEntity, String> {
 
 }

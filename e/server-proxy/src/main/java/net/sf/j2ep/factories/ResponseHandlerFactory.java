@@ -32,7 +32,7 @@ import org.apache.commons.httpclient.methods.*;
  * @author Anders Nyman
  */
 public class ResponseHandlerFactory {
-    
+
     /** 
      * These methods are handled by this factory.
      */
@@ -46,11 +46,15 @@ public class ResponseHandlerFactory {
      * @return The handler for this response
      * @throws MethodNotAllowedException If no method could be choose this exception is thrown
      */
-    public static ResponseHandler createResponseHandler(HttpMethod method) throws MethodNotAllowedException {
+    public static ResponseHandler createResponseHandler(HttpMethod method)
+            throws MethodNotAllowedException {
         if (!AllowedMethodHandler.methodAllowed(method)) {
-            throw new MethodNotAllowedException("The method " + method.getName() + " is not in the AllowedHeaderHandler's list of allowed methods.", AllowedMethodHandler.getAllowHeader());
+            throw new MethodNotAllowedException(
+                    "The method " + method.getName()
+                            + " is not in the AllowedHeaderHandler's list of allowed methods.",
+                    AllowedMethodHandler.getAllowHeader());
         }
-        
+
         ResponseHandler handler = null;
         if (method.getName().equals("OPTIONS")) {
             handler = new OptionsResponseHandler((OptionsMethod) method);
@@ -67,12 +71,13 @@ public class ResponseHandlerFactory {
         } else if (method.getName().equals("TRACE")) {
             handler = new TraceResponseHandler((TraceMethod) method);
         } else {
-            throw new MethodNotAllowedException("The method " + method.getName() + " was allowed by the AllowedMethodHandler, not by the factory.", handledMethods);
+            throw new MethodNotAllowedException(
+                    "The method " + method.getName()
+                            + " was allowed by the AllowedMethodHandler, not by the factory.",
+                    handledMethods);
         }
 
         return handler;
     }
-
-
 
 }

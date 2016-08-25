@@ -16,29 +16,31 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class FormProperties {
     public String successUrl = "home.html#";
     public String loginUrl = "index.html";
-    
-    public Map<String,String> anons = new  LinkedHashMap<String, String>();
-    
-	public Map<String, String> getAnons() {
-		return anons;
-	}
-	public void setAnons(Map<String, String> anons) {
-		this.anons = anons;
-	}
-	public String getSuccessUrl() {
-		return successUrl;
-	}
-	public void setSuccessUrl(String successUrl) {
-		this.successUrl = successUrl;
-	}
-	public String getLoginUrl() {
-		return loginUrl;
-	}
-	public void setLoginUrl(String loginUrl) {
-		this.loginUrl = loginUrl;
-	}
-	
-	
-	
-	
+
+    public Map<String, String> anons = new LinkedHashMap<String, String>();
+
+    public Map<String, String> getAnons() {
+        return anons;
+    }
+
+    public void setAnons(Map<String, String> anons) {
+        this.anons = anons;
+    }
+
+    public String getSuccessUrl() {
+        return successUrl;
+    }
+
+    public void setSuccessUrl(String successUrl) {
+        this.successUrl = successUrl;
+    }
+
+    public String getLoginUrl() {
+        return loginUrl;
+    }
+
+    public void setLoginUrl(String loginUrl) {
+        this.loginUrl = loginUrl;
+    }
+
 }

@@ -12,24 +12,24 @@ import freemarker.template.Template;
  */
 public class StatementTemplate {
 
-	public enum TYPE{
-		HQL,SQL
-	}
-	private TYPE type;
-	Template template;
-	
-	public StatementTemplate(TYPE type,Template template){
-		this.type = type;
-		this.template = template;
-	}
-	
-	public TYPE getType() {
-		return type;
-	}
+    public enum TYPE {
+        HQL, SQL
+    }
 
-	public Template getTemplate() {
-		return template;
-	}
-	
-	
+    private TYPE type;
+    Template template;
+
+    public StatementTemplate(TYPE type, Template template) {
+        this.type = type;
+        this.template = template;
+    }
+
+    public TYPE getType() {
+        return type;
+    }
+
+    public Template getTemplate() {
+        return template;
+    }
+
 }

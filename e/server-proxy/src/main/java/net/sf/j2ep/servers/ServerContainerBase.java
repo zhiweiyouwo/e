@@ -26,7 +26,7 @@ import net.sf.j2ep.model.ServerContainer;
  * @author Anders Nyman
  */
 public abstract class ServerContainerBase implements ServerContainer {
-    
+
     /** 
      * The rule we are mapped to.
      */

@@ -17,7 +17,6 @@ package net.sf.j2ep.model;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * The Rule interface is implemented by
  * the rules for the reverse proxy.
@@ -27,7 +26,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author Anders Nyman
  */
 public interface Rule {
-    
+
     /**
      * Determines if the given request
      * matches the rule.
@@ -53,7 +52,7 @@ public interface Rule {
      * @return The final URI
      */
     String process(String uri);
-    
+
     /**
      * Returns the reverted URI, this means
      * that if a URI is processed and then reverted

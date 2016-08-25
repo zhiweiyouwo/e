@@ -15,8 +15,8 @@ import com.loy.e.core.repository.GenericRepository;
  * @version 1.0.0
  *
  */
-public interface SequenceRepository extends GenericRepository<SequenceEntity,String>{
-	@Lock(value = LockModeType.PESSIMISTIC_WRITE)
-	public SequenceEntity getById(String id);
-	
+public interface SequenceRepository extends GenericRepository<SequenceEntity, String> {
+    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
+    public SequenceEntity getById(String id);
+
 }

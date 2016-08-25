@@ -9,8 +9,8 @@ package com.loy.upm.sys.domain.entity;
  */
 public enum ResourceTypeEnum {
 
-	MENU("菜单"), 
-	BUTTON("按钮");
+    MENU("菜单"),
+    BUTTON("按钮");
 
     private final String info;
 

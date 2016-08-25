@@ -8,6 +8,7 @@ import javax.persistence.Transient;
 
 import com.loy.e.common.tree.Tree;
 import com.loy.e.core.entity.BaseEntity;
+
 /**
  * 
  * @author Loy Fu qq群 540553957
@@ -17,77 +18,78 @@ import com.loy.e.core.entity.BaseEntity;
  */
 @SuppressWarnings("rawtypes")
 @Entity
-@Table(name="loy_position",indexes={@Index(columnList = "code",unique=true,name="index_position_code")})
+@Table(name = "loy_position", indexes = {
+        @Index(columnList = "code", unique = true, name = "index_position_code") })
 
-public class PositionEntity extends BaseEntity implements Tree{
+public class PositionEntity extends BaseEntity implements Tree {
 
-	private static final long serialVersionUID = 2353703495465156375L;
-	
-	@Column(length = 100)
-	private String name;
-	@Column(length = 36)
-	private String parentId;
-	@Column(length = 255)
-	private String description;
-	@Column(length = 100)
-	private String code;
-	private Integer sortNum;
-	
-	@Transient
-	private String parentName;
-	
-	public String getName() {
-		return name;
-	}
+    private static final long serialVersionUID = 2353703495465156375L;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    @Column(length = 100)
+    private String name;
+    @Column(length = 36)
+    private String parentId;
+    @Column(length = 255)
+    private String description;
+    @Column(length = 100)
+    private String code;
+    private Integer sortNum;
 
-	public String getDescription() {
-		return description;
-	}
+    @Transient
+    private String parentName;
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getCode() {
-		return code;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setParentId(String parentId) {
-		this.parentId = parentId;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	@Override
-	public Object getData() {
-		return this.name;
-	}
+    public String getCode() {
+        return code;
+    }
 
-	@Override
-	public String getParentId() {
-		return parentId;
-	}
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-	public Integer getSortNum() {
-		return sortNum;
-	}
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
 
-	public void setSortNum(Integer sortNum) {
-		this.sortNum = sortNum;
-	}
+    @Override
+    public Object getData() {
+        return this.name;
+    }
 
-	public String getParentName() {
-		return parentName;
-	}
+    @Override
+    public String getParentId() {
+        return parentId;
+    }
 
-	public void setParentName(String parentName) {
-		this.parentName = parentName;
-	}
-	
+    public Integer getSortNum() {
+        return sortNum;
+    }
+
+    public void setSortNum(Integer sortNum) {
+        this.sortNum = sortNum;
+    }
+
+    public String getParentName() {
+        return parentName;
+    }
+
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
+    }
+
 }

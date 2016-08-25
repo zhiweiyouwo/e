@@ -7,22 +7,25 @@ package com.loy.e.common.vo;
  * @version 1.0.0
  * 
  */
-public class LoginSuccessResponse extends SuccessResponse{
+public class LoginSuccessResponse extends SuccessResponse {
 
-	private String version = "";
-	private String home ="home.html";
-	public String getVersion() {
-		return version;
-	}
-	public void setVersion(String version) {
-		this.version = version;
-	}
-	public String getHome() {
-		return home;
-	}
-	public void setHome(String home) {
-		this.home = home;
-	}
-	
-	
+    private String version = "";
+    private String home = "home.html";
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public String getHome() {
+        return home;
+    }
+
+    public void setHome(String home) {
+        this.home = home;
+    }
+
 }

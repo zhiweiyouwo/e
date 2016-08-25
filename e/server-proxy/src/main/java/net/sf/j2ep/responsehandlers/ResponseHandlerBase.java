@@ -38,13 +38,13 @@ import org.apache.commons.logging.LogFactory;
  *
  * @author Anders Nyman
  */
-public abstract class ResponseHandlerBase implements ResponseHandler{
-    
+public abstract class ResponseHandlerBase implements ResponseHandler {
+
     /** 
      * Method we are using for this request.
      */
     protected HttpMethod method;
-    
+
     /**
      * Basic constructor only setting the method.
      * 
@@ -58,13 +58,13 @@ public abstract class ResponseHandlerBase implements ResponseHandler{
      * @see net.sf.j2ep.model.ResponseHandler#process(javax.servlet.http.HttpServletResponse)
      */
     public abstract void process(HttpServletResponse response) throws IOException;
-    
+
     /**
      * Will release the connection for the method.
      * 
      * @see net.sf.j2ep.model.ResponseHandler#close()
      */
-    public  void close() {
+    public void close() {
         method.releaseConnection();
     }
 
@@ -74,7 +74,7 @@ public abstract class ResponseHandlerBase implements ResponseHandler{
     public int getStatusCode() {
         return method.getStatusCode();
     }
-    
+
     /**
      * Writes the entire stream from the method to the response
      * stream.
@@ -85,21 +85,21 @@ public abstract class ResponseHandlerBase implements ResponseHandler{
     protected void sendStreamToClient(ServletResponse response) throws IOException {
         InputStream streamFromServer = method.getResponseBodyAsStream();
         OutputStream responseStream = response.getOutputStream();
-        
+
         if (streamFromServer != null) {
             byte[] buffer = new byte[1024];
             int read = streamFromServer.read(buffer);
             while (read > 0) {
                 responseStream.write(buffer, 0, read);
                 read = streamFromServer.read(buffer);
-            } 
+            }
             streamFromServer.close();
-            
+
         }
         responseStream.flush();
         responseStream.close();
     }
-    
+
     /**
      * Will write all response headers received in the method to the response.
      * One header, connection, is however omitted since we will only want the 
@@ -109,20 +109,20 @@ public abstract class ResponseHandlerBase implements ResponseHandler{
      */
     protected void setHeaders(HttpServletResponse response) {
         Header[] headers = method.getResponseHeaders();
-        
-        for (int i=0; i < headers.length; i++) {
+
+        for (int i = 0; i < headers.length; i++) {
             Header header = headers[i];
             String name = header.getName();
             boolean contentLength = name.equalsIgnoreCase("content-length");
             boolean connection = name.equalsIgnoreCase("connection");
             boolean transferEncoding = name.equalsIgnoreCase("transfer-encoding");
             if (!contentLength && !connection && !transferEncoding) {
-            	
-            	response.addHeader(name, header.getValue());
-            	
-            } 
+
+                response.addHeader(name, header.getValue());
+
+            }
         }
-        
+
         setViaHeader(response);
     }
 
@@ -133,18 +133,19 @@ public abstract class ResponseHandlerBase implements ResponseHandler{
     private void setViaHeader(HttpServletResponse response) {
         String serverHostName = "jEasyReverseProxy";
         try {
-            serverHostName = InetAddress.getLocalHost().getHostName();   
+            serverHostName = InetAddress.getLocalHost().getHostName();
         } catch (UnknownHostException e) {
-            LogFactory.getLog(RequestHandlerBase.class).error("Couldn't get the hostname needed for header Via", e);
+            LogFactory.getLog(RequestHandlerBase.class)
+                    .error("Couldn't get the hostname needed for header Via", e);
         }
-        
+
         Header originalVia = method.getResponseHeader("via");
         StringBuffer via = new StringBuffer("");
         if (originalVia != null) {
             via.append(originalVia.getValue()).append(", ");
         }
         via.append(method.getStatusLine().getHttpVersion()).append(" ").append(serverHostName);
-         
+
         response.setHeader("via", via.toString());
     }
 }

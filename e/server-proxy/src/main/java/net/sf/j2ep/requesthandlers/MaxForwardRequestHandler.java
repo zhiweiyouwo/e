@@ -26,7 +26,6 @@ import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.methods.OptionsMethod;
 import org.apache.commons.httpclient.methods.TraceMethod;
 
-
 /**
  * Handler for the OPTIONS and TRACE method.
  *
@@ -43,7 +42,7 @@ public class MaxForwardRequestHandler extends RequestHandlerBase {
      */
     public HttpMethod process(HttpServletRequest request, String url) throws IOException {
         HttpMethodBase method = null;
-        
+
         if (request.getMethod().equalsIgnoreCase("OPTIONS")) {
             method = new OptionsMethod(url);
         } else if (request.getMethod().equalsIgnoreCase("TRACE")) {
@@ -51,7 +50,7 @@ public class MaxForwardRequestHandler extends RequestHandlerBase {
         } else {
             return null;
         }
-        
+
         try {
             int max = request.getIntHeader("Max-Forwards");
             if (max == 0 || request.getRequestURI().equals("*")) {
@@ -63,11 +62,12 @@ public class MaxForwardRequestHandler extends RequestHandlerBase {
             } else {
                 setHeaders(method, request);
             }
-        } catch (NumberFormatException e) {}
-        
+        } catch (NumberFormatException e) {
+        }
+
         return method;
     }
-    
+
     /**
      * Will write all the headers included in the request to the method.
      * The difference between this method and setHeaders in BasicRequestHandler
@@ -79,17 +79,17 @@ public class MaxForwardRequestHandler extends RequestHandlerBase {
      * @see RequestHandlerBase#setHeaders(HttpMethod, HttpServletRequest)
      */
     @SuppressWarnings("rawtypes")
-	private void setAllHeaders(HttpMethod method, HttpServletRequest request) {
+    private void setAllHeaders(HttpMethod method, HttpServletRequest request) {
         Enumeration headers = request.getHeaderNames();
-        
+
         while (headers.hasMoreElements()) {
             String name = (String) headers.nextElement();
             Enumeration value = request.getHeaders(name);
-            
+
             while (value.hasMoreElements()) {
                 method.addRequestHeader(name, (String) value.nextElement());
             }
 
-        } 
+        }
     }
 }

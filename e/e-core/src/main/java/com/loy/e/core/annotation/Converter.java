@@ -6,7 +6,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-
 /**
  * 
  * @author Loy Fu qq群 540553957
@@ -14,9 +13,9 @@ import java.lang.annotation.Target;
  * @version 1.0.0
  * 
  */
-@Target({ElementType.PARAMETER, ElementType.METHOD})  
-@Retention(RetentionPolicy.RUNTIME)  
-@Documented  
+@Target({ ElementType.PARAMETER, ElementType.METHOD })
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
 public @interface Converter {
-	Class<?extends com.loy.e.core.converter.Converter> value();  
+    Class<? extends com.loy.e.core.converter.Converter> value();
 }

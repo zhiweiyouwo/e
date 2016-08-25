@@ -13,8 +13,9 @@ import com.loy.upm.personnel.domain.entity.NoticeReaderEntity;
  * @version 1.0.0
  *
  */
-public interface NoticeReaderRepository extends GenericRepository<NoticeReaderEntity,String>{
+public interface NoticeReaderRepository extends GenericRepository<NoticeReaderEntity, String> {
 
-	List<NoticeReaderEntity> findByNoticeId(String noticeId);
-	NoticeReaderEntity findByNoticeIdAndReaderId(String noticeId,String readerId);
+    List<NoticeReaderEntity> findByNoticeId(String noticeId);
+
+    NoticeReaderEntity findByNoticeIdAndReaderId(String noticeId, String readerId);
 }

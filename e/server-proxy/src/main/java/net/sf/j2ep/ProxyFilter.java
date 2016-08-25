@@ -58,12 +58,12 @@ public class ProxyFilter implements Filter {
      * The server chain, will be traversed to find a matching server.
      */
     private ServerChain serverChain;
-    
+
     /** 
      * Logging element supplied by commons-logging.
      */
     private static Log log;
-    
+
     /** 
      * The httpclient used to make all connections with, supplied by commons-httpclient.
      */
@@ -76,27 +76,29 @@ public class ProxyFilter implements Filter {
      * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest,
      *      javax.servlet.ServletResponse, javax.servlet.FilterChain)
      */
-    public void doFilter(ServletRequest request, ServletResponse response,
+    public void doFilter(ServletRequest request,
+            ServletResponse response,
             FilterChain filterChain) throws IOException, ServletException {
 
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         //httpRequest.setCharacterEncoding("UTF-8");
         //httpResponse.setCharacterEncoding("UTF-8");
-        Server server = (Server) httpRequest.getAttribute("proxyServer");  
+        Server server = (Server) httpRequest.getAttribute("proxyServer");
         if (server == null) {
             server = serverChain.evaluate(httpRequest);
         }
-        
+
         if (server == null) {
             filterChain.doFilter(request, response);
         } else {
             String uri = server.getRule().process(getURI(httpRequest));
-            String url = request.getScheme() + "://" + server.getDomainName() + server.getPath() + uri;
+            String url = request.getScheme() + "://" + server.getDomainName() + server.getPath()
+                    + uri;
             log.debug("Connecting to " + url);
-            
+
             ResponseHandler responseHandler = null;
-            
+
             try {
                 httpRequest = server.preExecute(httpRequest);
                 responseHandler = executeRequest(httpRequest, url);
@@ -112,8 +114,10 @@ public class ProxyFilter implements Filter {
                 httpResponse.setStatus(HttpServletResponse.SC_GATEWAY_TIMEOUT);
                 server.setConnectionExceptionRecieved(e);
             } catch (IOException e) {
-                log.error( "Problem probably with the input being send, either with a Header or the Stream", e);
-                httpResponse .setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                log.error(
+                        "Problem probably with the input being send, either with a Header or the Stream",
+                        e);
+                httpResponse.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             } catch (MethodNotAllowedException e) {
                 log.error("Incoming method could not be handled", e);
                 httpResponse.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
@@ -125,7 +129,7 @@ public class ProxyFilter implements Filter {
             }
         }
     }
-    
+
     /**
      * Will build a URI but including the Query String. That means that it really
      * isn't a URI, but quite near.
@@ -161,12 +165,12 @@ public class ProxyFilter implements Filter {
 
         HttpMethod method = requestHandler.process(httpRequest, url);
         method.setFollowRedirects(false);
-      
+
         /*
          * Why does method.validate() return true when the method has been
          * aborted? I mean, if validate returns true the API says that means
-         * that the method is ready to be executed. 
-         * TODO I don't like doing type casting here, see above.
+         * that the method is ready to be executed. TODO I don't like doing type
+         * casting here, see above.
          */
         if (!((HttpMethodBase) method).isAborted()) {
             httpClient.executeMethod(method);
@@ -192,11 +196,11 @@ public class ProxyFilter implements Filter {
     public void init(FilterConfig filterConfig) throws ServletException {
         log = LogFactory.getLog(ProxyFilter.class);
         AllowedMethodHandler.setAllowedMethods("OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE");
-        
+
         httpClient = new HttpClient(new MultiThreadedHttpConnectionManager());
         httpClient.getParams().setBooleanParameter(HttpClientParams.USE_EXPECT_CONTINUE, false);
         httpClient.getParams().setCookiePolicy(CookiePolicy.IGNORE_COOKIES);
-        
+
         String data = filterConfig.getInitParameter("dataUrl");
         if (data == null) {
             serverChain = null;
@@ -204,10 +208,10 @@ public class ProxyFilter implements Filter {
             try {
                 File dataFile = new File(filterConfig.getServletContext().getRealPath(data));
                 ConfigParser parser = new ConfigParser(dataFile);
-                serverChain = parser.getServerChain();               
+                serverChain = parser.getServerChain();
             } catch (Exception e) {
                 throw new ServletException(e);
-            } 
+            }
         }
     }
 

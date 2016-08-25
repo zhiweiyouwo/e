@@ -20,7 +20,6 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletResponse;
 
-
 import org.apache.commons.httpclient.HttpMethod;
 
 /**
@@ -47,10 +46,10 @@ public class BasicResponseHandler extends ResponseHandlerBase {
      * 
      * @see net.sf.j2ep.model.ResponseHandler#process(javax.servlet.http.HttpServletResponse)
      */
-    public void process(HttpServletResponse response) throws IOException{
-            setHeaders(response);
-            response.setStatus(getStatusCode());
-            sendStreamToClient(response);
+    public void process(HttpServletResponse response) throws IOException {
+        setHeaders(response);
+        response.setStatus(getStatusCode());
+        sendStreamToClient(response);
     }
 
 }

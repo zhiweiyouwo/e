@@ -9,6 +9,7 @@ package com.loy.e.core.entity;
  */
 public interface Operator {
 
-	void setOperator(String id);
-	String getOperator();
+    void setOperator(String id);
+
+    String getOperator();
 }

@@ -20,73 +20,70 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "e.conf")
 public class Settings {
 
-	 public String attachmentBaseDirectory;
-	 public String defaultLocale;
-	 public List<String> supportLocales = new ArrayList<String>();
-	 
-	 public Map<String,List<String>> staticMappings = new   LinkedHashMap<String,List<String>>();
-	 
-	 public Boolean debugPageResult = false;
-	 public Boolean recordOperateLog = true;
-	 public String defaultPage = "restApi.html";
-    
-	public String getAttachmentBaseDirectory() {
-		return attachmentBaseDirectory;
-	}
+    public String attachmentBaseDirectory;
+    public String defaultLocale;
+    public List<String> supportLocales = new ArrayList<String>();
 
-	public void setAttachmentBaseDirectory(String attachmentBaseDirectory) {
-		this.attachmentBaseDirectory = attachmentBaseDirectory;
-	}
+    public Map<String, List<String>> staticMappings = new LinkedHashMap<String, List<String>>();
 
-	public List<String> getSupportLocales() {
-		return this.supportLocales;
-	}
+    public Boolean debugPageResult = false;
+    public Boolean recordOperateLog = true;
+    public String defaultPage = "restApi.html";
 
-	public void setSupportLocales(List<String> supportLocales) {
-		this.supportLocales = supportLocales;
-	}
+    public String getAttachmentBaseDirectory() {
+        return attachmentBaseDirectory;
+    }
 
-	public Boolean getDebugPageResult() {
-		return debugPageResult;
-	}
+    public void setAttachmentBaseDirectory(String attachmentBaseDirectory) {
+        this.attachmentBaseDirectory = attachmentBaseDirectory;
+    }
 
-	public void setDebugPageResult(Boolean debugPageResult) {
-		this.debugPageResult = debugPageResult;
-	}
+    public List<String> getSupportLocales() {
+        return this.supportLocales;
+    }
 
-	public Boolean getRecordOperateLog() {
-		return recordOperateLog;
-	}
+    public void setSupportLocales(List<String> supportLocales) {
+        this.supportLocales = supportLocales;
+    }
 
-	public void setRecordOperateLog(Boolean recordOperateLog) {
-		this.recordOperateLog = recordOperateLog;
-	}
+    public Boolean getDebugPageResult() {
+        return debugPageResult;
+    }
 
-	public String getDefaultLocale() {
-		return defaultLocale;
-	}
+    public void setDebugPageResult(Boolean debugPageResult) {
+        this.debugPageResult = debugPageResult;
+    }
 
-	public void setDefaultLocale(String defaultLocale) {
-		this.defaultLocale = defaultLocale;
-	}
+    public Boolean getRecordOperateLog() {
+        return recordOperateLog;
+    }
 
-	public Map<String, List<String>> getStaticMappings() {
-		return staticMappings;
-	}
+    public void setRecordOperateLog(Boolean recordOperateLog) {
+        this.recordOperateLog = recordOperateLog;
+    }
 
-	public void setStaticMappings(Map<String, List<String>> staticMappings) {
-		this.staticMappings = staticMappings;
-	}
+    public String getDefaultLocale() {
+        return defaultLocale;
+    }
 
-	public String getDefaultPage() {
-		return defaultPage;
-	}
+    public void setDefaultLocale(String defaultLocale) {
+        this.defaultLocale = defaultLocale;
+    }
 
-	public void setDefaultPage(String defaultPage) {
-		this.defaultPage = defaultPage;
-	}
+    public Map<String, List<String>> getStaticMappings() {
+        return staticMappings;
+    }
 
-	
-	
-	
+    public void setStaticMappings(Map<String, List<String>> staticMappings) {
+        this.staticMappings = staticMappings;
+    }
+
+    public String getDefaultPage() {
+        return defaultPage;
+    }
+
+    public void setDefaultPage(String defaultPage) {
+        this.defaultPage = defaultPage;
+    }
+
 }

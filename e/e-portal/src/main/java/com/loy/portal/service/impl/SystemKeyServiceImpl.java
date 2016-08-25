@@ -11,12 +11,12 @@ import com.loy.e.security.service.SystemKeyService;
  * @version 1.0.0
  * 
  */
-@Service(value="systemKeyService")
-public class SystemKeyServiceImpl implements SystemKeyService{
+@Service(value = "systemKeyService")
+public class SystemKeyServiceImpl implements SystemKeyService {
 
-	@Override
-	public String getSystemCode() {
-		return "portal";
-	}
+    @Override
+    public String getSystemCode() {
+        return "portal";
+    }
 
 }

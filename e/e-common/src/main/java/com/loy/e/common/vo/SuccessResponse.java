@@ -9,13 +9,14 @@ import com.loy.e.common.vo.Response;
  * @version 1.0.0
  * 
  */
-public class SuccessResponse extends Response{
-	
-	public SuccessResponse(){
-		super(true);
-	}
-	public static SuccessResponse newInstance(){
-		return new SuccessResponse();
-	}
-	
+public class SuccessResponse extends Response {
+
+    public SuccessResponse() {
+        super(true);
+    }
+
+    public static SuccessResponse newInstance() {
+        return new SuccessResponse();
+    }
+
 }

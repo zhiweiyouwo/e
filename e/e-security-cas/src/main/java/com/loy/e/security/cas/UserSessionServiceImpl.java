@@ -15,23 +15,22 @@ import com.loy.e.security.service.UserSessionService;
  * 
  */
 
-
 public class UserSessionServiceImpl implements UserSessionService {
 
-	@Override
-	public SessionUser getSessionUser() {
-		
-		Subject subject = SecurityUtils.getSubject();
-		if(subject != null){
-			return (SessionUser)subject.getSession().getAttribute(Constants.SESSION_KEY);
-		}
-		return null;
-	}
+    @Override
+    public SessionUser getSessionUser() {
 
-	@Override
-	public void setSessionUser(SessionUser sessionUser) {
-		Subject subject = SecurityUtils.getSubject();
-		subject.getSession().setAttribute(Constants.SESSION_KEY,sessionUser);
-	}
+        Subject subject = SecurityUtils.getSubject();
+        if (subject != null) {
+            return (SessionUser) subject.getSession().getAttribute(Constants.SESSION_KEY);
+        }
+        return null;
+    }
+
+    @Override
+    public void setSessionUser(SessionUser sessionUser) {
+        Subject subject = SecurityUtils.getSubject();
+        subject.getSession().setAttribute(Constants.SESSION_KEY, sessionUser);
+    }
 
 }

@@ -24,33 +24,34 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class InitSql {
-	static final Log logger = LogFactory.getLog(InitSql.class);
-	@Autowired
-	JdbcTemplate jdbcTemplate;
-	
-	@PostConstruct
-	public void init() throws Exception{
-		int count = jdbcTemplate.queryForObject("select count(*) from  loy_system", Integer.class);
-		Connection con = jdbcTemplate.getDataSource().getConnection();
-		con.setAutoCommit(false);
-		Statement statement = con.createStatement();
-		if(count == 0){
-			 ClassPathResource classPathResource =  new ClassPathResource("loy_ds.sql");  
-			 BufferedReader br = new BufferedReader(new InputStreamReader(classPathResource.getInputStream(),"UTF-8"));
-			 String s = null;
-			 while((s = br.readLine())!=null){
-				 if(StringUtils.isNotBlank(s) && !s.startsWith("--")){
-					 logger.info(s);
-					 if(s.endsWith(";")){
-						 s = s.substring(0, s.length()-1);
-					 }
-					 statement.execute(s);
-				 }
-			 }
-             con.commit();
-             con.close();
-			 br.close(); 
-		}
-	}
-	
+    static final Log logger = LogFactory.getLog(InitSql.class);
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
+    @PostConstruct
+    public void init() throws Exception {
+        int count = jdbcTemplate.queryForObject("select count(*) from  loy_system", Integer.class);
+        Connection con = jdbcTemplate.getDataSource().getConnection();
+        con.setAutoCommit(false);
+        Statement statement = con.createStatement();
+        if (count == 0) {
+            ClassPathResource classPathResource = new ClassPathResource("loy_ds.sql");
+            BufferedReader br = new BufferedReader(
+                    new InputStreamReader(classPathResource.getInputStream(), "UTF-8"));
+            String s = null;
+            while ((s = br.readLine()) != null) {
+                if (StringUtils.isNotBlank(s) && !s.startsWith("--")) {
+                    logger.info(s);
+                    if (s.endsWith(";")) {
+                        s = s.substring(0, s.length() - 1);
+                    }
+                    statement.execute(s);
+                }
+            }
+            con.commit();
+            con.close();
+            br.close();
+        }
+    }
+
 }

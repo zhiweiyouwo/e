@@ -10,16 +10,16 @@ package com.loy.e.core.util;
  */
 public class FileNameUtil {
 
-	public static String getFileSuffix(String fileName){
-		if(fileName == null){
-			return "";
-		}
-		int index = fileName.lastIndexOf(".");
-		if(index>0){
-			return fileName.substring(index,fileName.length());
-		}else{
-			return "";
-		}
-	}
-	
+    public static String getFileSuffix(String fileName) {
+        if (fileName == null) {
+            return "";
+        }
+        int index = fileName.lastIndexOf(".");
+        if (index > 0) {
+            return fileName.substring(index, fileName.length());
+        } else {
+            return "";
+        }
+    }
+
 }

@@ -27,12 +27,12 @@ import javax.servlet.http.HttpServletRequest;
  * @author Anders Nyman
  */
 public class IPRule extends BaseRule {
-    
+
     /** 
      * The starting IP range.
      */
     private String startRange;
-    
+
     /** 
      * The ending IP range.
      */
@@ -77,7 +77,7 @@ public class IPRule extends BaseRule {
         } catch (NumberFormatException e) {
             correct = false;
         }
-        
+
         return correct;
     }
 
@@ -88,12 +88,14 @@ public class IPRule extends BaseRule {
      * @param startRange The start of the IP range
      */
     public void setStartRange(String startRange) {
-        if(startRange == null) {
+        if (startRange == null) {
             throw new IllegalArgumentException("The startRange cannot be null.");
-        } else if(!validRange(startRange)) {
-            throw new IllegalArgumentException("IP range has to be between \"0.0.0.0\" and \"255.255.255.255\".");
-        } else if(getEndRange() != null && startRange.compareTo(getEndRange()) > 0) {
-            throw new IllegalArgumentException("Starting range has to come before the ending range.");
+        } else if (!validRange(startRange)) {
+            throw new IllegalArgumentException(
+                    "IP range has to be between \"0.0.0.0\" and \"255.255.255.255\".");
+        } else if (getEndRange() != null && startRange.compareTo(getEndRange()) > 0) {
+            throw new IllegalArgumentException(
+                    "Starting range has to come before the ending range.");
         }
         this.startRange = startRange;
     }
@@ -115,13 +117,15 @@ public class IPRule extends BaseRule {
      * @param endRange The end of the IP range
      */
     public void setEndRange(String endRange) {
-        if(endRange == null) {
+        if (endRange == null) {
             throw new IllegalArgumentException("The endRange cannot be null.");
-        } else if(!validRange(endRange)) {
-            throw new IllegalArgumentException("IP range has to be between \"0.0.0.0\" and \"255.255.255.255\".");
-        } else if(getStartRange() != null && endRange.compareTo(getStartRange()) < 0) {
-            throw new IllegalArgumentException("Ending range has to come after the starting range.");
-            
+        } else if (!validRange(endRange)) {
+            throw new IllegalArgumentException(
+                    "IP range has to be between \"0.0.0.0\" and \"255.255.255.255\".");
+        } else if (getStartRange() != null && endRange.compareTo(getStartRange()) < 0) {
+            throw new IllegalArgumentException(
+                    "Ending range has to come after the starting range.");
+
         }
         this.endRange = endRange;
     }

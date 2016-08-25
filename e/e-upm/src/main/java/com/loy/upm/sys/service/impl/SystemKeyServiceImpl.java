@@ -4,14 +4,12 @@ import org.springframework.stereotype.Service;
 
 import com.loy.e.security.service.SystemKeyService;
 
-@Service(value="systemKeyService")
+@Service(value = "systemKeyService")
 public class SystemKeyServiceImpl implements SystemKeyService {
 
-	
-	@Override
-	public String getSystemCode() {
-		return "upm";
-	}
-
+    @Override
+    public String getSystemCode() {
+        return "upm";
+    }
 
 }

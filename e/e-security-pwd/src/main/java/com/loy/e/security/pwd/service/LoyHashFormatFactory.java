@@ -2,6 +2,7 @@ package com.loy.e.security.pwd.service;
 
 import org.apache.shiro.crypto.hash.format.HashFormat;
 import org.apache.shiro.crypto.hash.format.HashFormatFactory;
+
 /**
  * 
  * 
@@ -10,8 +11,8 @@ import org.apache.shiro.crypto.hash.format.HashFormatFactory;
  * @version 1.0.0
  *
  */
-public class LoyHashFormatFactory implements HashFormatFactory{
-	 public HashFormat getInstance(String token){
-		 return new LoyHashFormat();
-	 }
+public class LoyHashFormatFactory implements HashFormatFactory {
+    public HashFormat getInstance(String token) {
+        return new LoyHashFormat();
+    }
 }

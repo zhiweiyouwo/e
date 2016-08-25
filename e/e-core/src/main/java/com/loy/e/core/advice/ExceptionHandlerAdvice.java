@@ -22,8 +22,6 @@ import com.loy.e.core.exception.LoyException;
 import com.loy.e.security.service.LoyLogService;
 import com.loy.e.security.service.SystemKeyService;
 
-
-
 /**
  * 
  * @author Loy Fu qq群 540553957
@@ -34,68 +32,70 @@ import com.loy.e.security.service.SystemKeyService;
 @ControllerAdvice
 
 public class ExceptionHandlerAdvice {
-	protected final Log logger = LogFactory.getLog(ExceptionHandlerAdvice.class);
-	@Autowired
-	private MessageSource messageSource;
-	@Autowired
-	private LoyLogService loyLogService;
-	@Autowired
-	SystemKeyService systemKeyService;
-	
-	@ResponseStatus(HttpStatus.OK)
-	@ExceptionHandler(LoyException.class)
-	@ResponseBody 
-	ErrorResponseData handleBadRequest(HttpServletRequest req, LoyException ex) {
-		ErrorResponseData data = new ErrorResponseData();
-		data.setErrorCode(ex.getErrorKey());
-		String errorKey = ex.getErrorKey();
-		String msg = messageSource.getMessage(errorKey, ex.getParams(), LocaleContextHolder.getLocale());
-		data.setMsg(msg);
-		return data;
-	 } 
-	
-//	@ResponseStatus(HttpStatus.OK)
-//	@ExceptionHandler(IncorrectCredentialsException.class)
-//	@ResponseBody 
-//	ErrorResponseData handleBadRequest(HttpServletRequest req, IncorrectCredentialsException ex) {
-//		ErrorResponseData data = new ErrorResponseData();
-//		String errorCode = "user_password_error";
-//		data.setErrorCode(errorCode);
-//		String msg = messageSource.getMessage(errorCode,null, UserUtils.getLocale());
-//		data.setMsg(msg);
-//		return data;
-//	 } 
-	
-//	@ResponseStatus(HttpStatus.OK)
-//	@ExceptionHandler(UnknownAccountException.class)
-//	@ResponseBody 
-//	ErrorResponseData handleBadRequest(HttpServletRequest req, UnknownAccountException ex) {
-//		ErrorResponseData data = new ErrorResponseData();
-//		String errorCode = "user_password_error";
-//		data.setErrorCode(errorCode);
-//		String msg = messageSource.getMessage(errorCode,null, UserUtils.getLocale());
-//		data.setMsg(msg);
-//		return data;
-//	 } 
-	
-	@ResponseStatus(HttpStatus.OK)
-	@ExceptionHandler(Throwable.class)
-	@ResponseBody 
-	ErrorResponseData handleBadRequest(HttpServletRequest req, Throwable ex) {
-		String exceptionName = ex.getClass().getName();
-		StringWriter sw=new StringWriter();  
-        PrintWriter pw=new PrintWriter(sw);  
+    protected final Log logger = LogFactory.getLog(ExceptionHandlerAdvice.class);
+    @Autowired
+    private MessageSource messageSource;
+    @Autowired
+    private LoyLogService loyLogService;
+    @Autowired
+    SystemKeyService systemKeyService;
+
+    @ResponseStatus(HttpStatus.OK)
+    @ExceptionHandler(LoyException.class)
+    @ResponseBody
+    ErrorResponseData handleBadRequest(HttpServletRequest req, LoyException ex) {
+        ErrorResponseData data = new ErrorResponseData();
+        data.setErrorCode(ex.getErrorKey());
+        String errorKey = ex.getErrorKey();
+        String msg = messageSource.getMessage(errorKey, ex.getParams(),
+                LocaleContextHolder.getLocale());
+        data.setMsg(msg);
+        return data;
+    }
+
+    //	@ResponseStatus(HttpStatus.OK)
+    //	@ExceptionHandler(IncorrectCredentialsException.class)
+    //	@ResponseBody 
+    //	ErrorResponseData handleBadRequest(HttpServletRequest req, IncorrectCredentialsException ex) {
+    //		ErrorResponseData data = new ErrorResponseData();
+    //		String errorCode = "user_password_error";
+    //		data.setErrorCode(errorCode);
+    //		String msg = messageSource.getMessage(errorCode,null, UserUtils.getLocale());
+    //		data.setMsg(msg);
+    //		return data;
+    //	 } 
+
+    //	@ResponseStatus(HttpStatus.OK)
+    //	@ExceptionHandler(UnknownAccountException.class)
+    //	@ResponseBody 
+    //	ErrorResponseData handleBadRequest(HttpServletRequest req, UnknownAccountException ex) {
+    //		ErrorResponseData data = new ErrorResponseData();
+    //		String errorCode = "user_password_error";
+    //		data.setErrorCode(errorCode);
+    //		String msg = messageSource.getMessage(errorCode,null, UserUtils.getLocale());
+    //		data.setMsg(msg);
+    //		return data;
+    //	 } 
+
+    @ResponseStatus(HttpStatus.OK)
+    @ExceptionHandler(Throwable.class)
+    @ResponseBody
+    ErrorResponseData handleBadRequest(HttpServletRequest req, Throwable ex) {
+        String exceptionName = ex.getClass().getName();
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
         ex.printStackTrace(pw);
         String stackTraceMsg = sw.toString();
-        try{
-        	 loyLogService.exception(systemKeyService.getSystemCode(),exceptionName,stackTraceMsg);
-        }catch(Throwable e){
-        	logger.error("",e);
+        try {
+            loyLogService.exception(systemKeyService.getSystemCode(), exceptionName, stackTraceMsg);
+        } catch (Throwable e) {
+            logger.error("", e);
         }
-		logger.error("",ex);
-		ErrorResponseData data = new ErrorResponseData();
-		String msg = messageSource.getMessage(Assert.SYS_ERROR_CODE,null, LocaleContextHolder.getLocale());
-		data.setMsg(msg);
-		return data;
-	 } 
+        logger.error("", ex);
+        ErrorResponseData data = new ErrorResponseData();
+        String msg = messageSource.getMessage(Assert.SYS_ERROR_CODE, null,
+                LocaleContextHolder.getLocale());
+        data.setMsg(msg);
+        return data;
+    }
 }

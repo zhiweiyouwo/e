@@ -9,9 +9,6 @@ import javax.persistence.MappedSuperclass;
 
 import org.hibernate.annotations.GenericGenerator;
 
-
-
-
 /**
  * 
  * @author Loy Fu qq群 540553957
@@ -20,36 +17,32 @@ import org.hibernate.annotations.GenericGenerator;
  * 
  */
 @MappedSuperclass
-public class AbstractEntity<ID extends Serializable>  implements Entity<ID>,Serializable {
-	
+public class AbstractEntity<ID extends Serializable> implements Entity<ID>, Serializable {
 
-	private static final long serialVersionUID = -9077980327887958900L;
-	@Id
-	
-	
-	@GeneratedValue(generator = "uuid2")
+    private static final long serialVersionUID = -9077980327887958900L;
+    @Id
+
+    @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
-	@Column(length = 36)
-	private ID id;
-	
-	public ID getId() {
-		return id;
-	}
+    @Column(length = 36)
+    private ID id;
 
-	@Override
-	public void setId(ID id) {
-		 this.id = id;
-	}   
+    public ID getId() {
+        return id;
+    }
 
-	
-	public boolean isNew(){
-		if(this.id == null || "".equals(this.id)){
-			this.setId(null);
-			return true;
-		}
-		
-		return false;
-	}
-	
-	
+    @Override
+    public void setId(ID id) {
+        this.id = id;
+    }
+
+    public boolean isNew() {
+        if (this.id == null || "".equals(this.id)) {
+            this.setId(null);
+            return true;
+        }
+
+        return false;
+    }
+
 }

@@ -1,6 +1,5 @@
 package com.loy.e.core.query;
 
-
 /**
  * 
  * @author Loy Fu qq群 540553957
@@ -10,15 +9,15 @@ package com.loy.e.core.query;
  */
 public enum Direction {
 
-	ASC("ASC") ,DESC("DESC");
-	
-private final String info;
-	
-	private Direction(String info) {
-		this.info = info;
-	}
+    ASC("ASC"), DESC("DESC");
 
-	public String getInfo() {
-		return info;
-	}
+    private final String info;
+
+    private Direction(String info) {
+        this.info = info;
+    }
+
+    public String getInfo() {
+        return info;
+    }
 }

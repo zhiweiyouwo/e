@@ -36,36 +36,38 @@ import springfox.documentation.annotations.ApiIgnore;
  */
 
 @RestController
-@RequestMapping(value = "**/log",method={RequestMethod.POST,RequestMethod.GET})
+@RequestMapping(value = "**/log", method = { RequestMethod.POST, RequestMethod.GET })
 @Transactional
-@Api(value="操作日志",description="操作日志")
+@Api(value = "操作日志", description = "操作日志")
 public class OperatorLogImplService {
-	@Autowired
-	OperatorLogRepository operatorLogRepository;
-	
-	@RequestMapping(value="/page")
-	
-	@ApiOperation(value="查询操作日志",httpMethod="GET")
-	@ApiImplicitParams({
-		@ApiImplicitParam(name="name" ,value="操作名称" ,paramType="form",dataType="string"),
+    @Autowired
+    OperatorLogRepository operatorLogRepository;
 
-		@ApiImplicitParam(name="pageNumber" ,value="页号" ,paramType="form",dataType="int"),
-		@ApiImplicitParam(name="pageSize" ,value="页的大小" ,paramType="form",dataType="int")
-	})
-	public Page<OperatorLogEntity>  queryPage(@ApiIgnore LogQueryParam logQueryParam,@ApiIgnore Pageable pageable){
-		Page<OperatorLogEntity> page = operatorLogRepository.findPage(new MapQueryParam(logQueryParam), pageable);
-		return page;
-	}
-	
-	@RequestMapping(value="/excel",method={RequestMethod.POST})
-	@ControllerLogExeTime(description="导出操作日志",log=false)
-	@ApiIgnore
-    public void  excel(String html ,HttpServletResponse response) throws IOException{
-		response.setContentType("application/msexcel;charset=UTF-8");
-		response.addHeader("Content-Disposition", "attachment;filename=logs.xls");
-		OutputStream out = response.getOutputStream();
-		TableToExcelUtil.createExcelFormTable("log", html, 1, out);
-		out.flush();
-		out.close();
-	}
+    @RequestMapping(value = "/page")
+
+    @ApiOperation(value = "查询操作日志", httpMethod = "GET")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "name", value = "操作名称", paramType = "form", dataType = "string"),
+
+            @ApiImplicitParam(name = "pageNumber", value = "页号", paramType = "form", dataType = "int"),
+            @ApiImplicitParam(name = "pageSize", value = "页的大小", paramType = "form", dataType = "int")
+    })
+    public Page<OperatorLogEntity> queryPage(@ApiIgnore LogQueryParam logQueryParam,
+            @ApiIgnore Pageable pageable) {
+        Page<OperatorLogEntity> page = operatorLogRepository
+                .findPage(new MapQueryParam(logQueryParam), pageable);
+        return page;
+    }
+
+    @RequestMapping(value = "/excel", method = { RequestMethod.POST })
+    @ControllerLogExeTime(description = "导出操作日志", log = false)
+    @ApiIgnore
+    public void excel(String html, HttpServletResponse response) throws IOException {
+        response.setContentType("application/msexcel;charset=UTF-8");
+        response.addHeader("Content-Disposition", "attachment;filename=logs.xls");
+        OutputStream out = response.getOutputStream();
+        TableToExcelUtil.createExcelFormTable("log", html, 1, out);
+        out.flush();
+        out.close();
+    }
 }

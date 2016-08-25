@@ -41,273 +41,273 @@ import org.apache.commons.logging.LogFactory;
  * @author Anders Nyman
  */
 public final class UrlRewritingResponseWrapper extends
-		HttpServletResponseWrapper {
+        HttpServletResponseWrapper {
 
-	/**
-	 * Stream we are using for the response.
-	 */
-	private UrlRewritingOutputStream outStream;
+    /**
+     * Stream we are using for the response.
+     */
+    private UrlRewritingOutputStream outStream;
 
-	/**
-	 * Writer we are using for the response.
-	 */
-	private PrintWriter outWriter;
+    /**
+     * Writer we are using for the response.
+     */
+    private PrintWriter outWriter;
 
-	/**
-	 * Writer that writes to the underlying stream.
-	 */
-	private PrintWriter originalWriter;
+    /**
+     * Writer that writes to the underlying stream.
+     */
+    private PrintWriter originalWriter;
 
-	/**
-	 * Server used for this page
-	 */
-	private Server server;
+    /**
+     * Server used for this page
+     */
+    private Server server;
 
-	/**
-	 * The location for this server, used when we rewrite absolute URIs
-	 */
-	private String ownHostName;
+    /**
+     * The location for this server, used when we rewrite absolute URIs
+     */
+    private String ownHostName;
 
-	/**
-	 * The contextPath, needed when we rewrite links.
-	 */
-	private String contextPath;
+    /**
+     * The contextPath, needed when we rewrite links.
+     */
+    private String contextPath;
 
-	/**
-	 * The servers.
-	 */
-	private ServerChain serverChain;
+    /**
+     * The servers.
+     */
+    private ServerChain serverChain;
 
-	/**
-	 * the request uri
-	 */
-	private String requestURI;
+    /**
+     * the request uri
+     */
+    private String requestURI;
 
-	/**
-	 * Regex to find absolute links.
-	 */
-	private static Pattern linkPattern = Pattern.compile(
-			"\\b([^/]+://)([^/]+)([\\w/]*)", Pattern.CASE_INSENSITIVE
-					| Pattern.CANON_EQ);
+    /**
+     * Regex to find absolute links.
+     */
+    private static Pattern linkPattern = Pattern.compile(
+            "\\b([^/]+://)([^/]+)([\\w/]*)", Pattern.CASE_INSENSITIVE
+                    | Pattern.CANON_EQ);
 
-	/**
-	 * Regex to find the path in Set-Cookie headers.
-	 */
-	private static Pattern pathAndDomainPattern = Pattern.compile(
-			"\\b(path=|domain=)([^;\\s]+);?", Pattern.CASE_INSENSITIVE
-					| Pattern.CANON_EQ);
+    /**
+     * Regex to find the path in Set-Cookie headers.
+     */
+    private static Pattern pathAndDomainPattern = Pattern.compile(
+            "\\b(path=|domain=)([^;\\s]+);?", Pattern.CASE_INSENSITIVE
+                    | Pattern.CANON_EQ);
 
-	/**
-	 * Logging element supplied by commons-logging.
-	 */
-	private static Log log;
+    /**
+     * Logging element supplied by commons-logging.
+     */
+    private static Log log;
 
-	/**
-	 * Basic constructor.
-	 * 
-	 * @param response
-	 *            The response we are wrapping
-	 * @param server
-	 *            The server that was matched
-	 * @param ownHostName
-	 *            String we are rewriting servers to
-	 * @throws IOException
-	 *             When there is a problem with the streams
-	 */
-	public UrlRewritingResponseWrapper(HttpServletResponse response,
-			Server server, String ownHostName, HttpServletRequest request,
-			ServerChain serverChain) throws IOException {
-		super(response);
-		this.server = server;
-		this.ownHostName = ownHostName;
-		this.contextPath = request.getContextPath();
-		this.requestURI = request.getRequestURI();
-		this.serverChain = serverChain;
+    /**
+     * Basic constructor.
+     * 
+     * @param response
+     *            The response we are wrapping
+     * @param server
+     *            The server that was matched
+     * @param ownHostName
+     *            String we are rewriting servers to
+     * @throws IOException
+     *             When there is a problem with the streams
+     */
+    public UrlRewritingResponseWrapper(HttpServletResponse response,
+            Server server, String ownHostName, HttpServletRequest request,
+            ServerChain serverChain) throws IOException {
+        super(response);
+        this.server = server;
+        this.ownHostName = ownHostName;
+        this.contextPath = request.getContextPath();
+        this.requestURI = request.getRequestURI();
+        this.serverChain = serverChain;
 
-		log = LogFactory.getLog(UrlRewritingResponseWrapper.class);
-		outStream = new UrlRewritingOutputStream(response.getOutputStream(),
-				ownHostName, contextPath, serverChain);
-		outWriter = new PrintWriter(outStream);
-		originalWriter = new PrintWriter(response.getOutputStream());
-	}
+        log = LogFactory.getLog(UrlRewritingResponseWrapper.class);
+        outStream = new UrlRewritingOutputStream(response.getOutputStream(),
+                ownHostName, contextPath, serverChain);
+        outWriter = new PrintWriter(outStream);
+        originalWriter = new PrintWriter(response.getOutputStream());
+    }
 
-	/**
-	 * Checks if we have to rewrite the header and if so will rewrite it.
-	 * 
-	 * @see javax.servlet.http.HttpServletResponse#addHeader(java.lang.String,
-	 *      java.lang.String)
-	 */
-	public void addHeader(String name, String originalValue) {
-		String value;
-		if (name.equalsIgnoreCase("location")) {
-			value = rewriteLocation(originalValue);
-		} else if (name.equalsIgnoreCase("set-cookie")) {
-			value = rewriteSetCookie(originalValue);
-		} else {
-			value = originalValue;
-		}
-		super.addHeader(name, value);
-	}
+    /**
+     * Checks if we have to rewrite the header and if so will rewrite it.
+     * 
+     * @see javax.servlet.http.HttpServletResponse#addHeader(java.lang.String,
+     *      java.lang.String)
+     */
+    public void addHeader(String name, String originalValue) {
+        String value;
+        if (name.equalsIgnoreCase("location")) {
+            value = rewriteLocation(originalValue);
+        } else if (name.equalsIgnoreCase("set-cookie")) {
+            value = rewriteSetCookie(originalValue);
+        } else {
+            value = originalValue;
+        }
+        super.addHeader(name, value);
+    }
 
-	/**
-	 * Checks if we have to rewrite the header and if so will rewrite it.
-	 * 
-	 * @see javax.servlet.http.HttpServletResponse#setHeader(java.lang.String,
-	 *      java.lang.String)
-	 */
-	public void setHeader(String name, String originalValue) {
-		String value;
-		if (name.equalsIgnoreCase("location")) {
-			value = rewriteLocation(originalValue);
-		} else if (name.equalsIgnoreCase("set-cookie")) {
-			value = rewriteSetCookie(originalValue);
-		} else {
-			value = originalValue;
-		}
-		super.setHeader(name, value);
-	}
+    /**
+     * Checks if we have to rewrite the header and if so will rewrite it.
+     * 
+     * @see javax.servlet.http.HttpServletResponse#setHeader(java.lang.String,
+     *      java.lang.String)
+     */
+    public void setHeader(String name, String originalValue) {
+        String value;
+        if (name.equalsIgnoreCase("location")) {
+            value = rewriteLocation(originalValue);
+        } else if (name.equalsIgnoreCase("set-cookie")) {
+            value = rewriteSetCookie(originalValue);
+        } else {
+            value = originalValue;
+        }
+        super.setHeader(name, value);
+    }
 
-	/**
-	 * Rewrites the location header. Will first locate any links in the header
-	 * and then rewrite them.
-	 * 
-	 * @param value
-	 *            The header value we are to rewrite
-	 * @return A rewritten header
-	 */
-	private String rewriteLocation(String value) {
-		StringBuffer header = new StringBuffer();
+    /**
+     * Rewrites the location header. Will first locate any links in the header
+     * and then rewrite them.
+     * 
+     * @param value
+     *            The header value we are to rewrite
+     * @return A rewritten header
+     */
+    private String rewriteLocation(String value) {
+        StringBuffer header = new StringBuffer();
 
-		Matcher matcher = linkPattern.matcher(value);
-		while (matcher.find()) {
+        Matcher matcher = linkPattern.matcher(value);
+        while (matcher.find()) {
 
-			String link = matcher.group(3).replaceAll("\\$", "\\\\$");
-			if (link.length() == 0) {
-				link = "/";
-			}
-			String location = matcher.group(2) + link;
+            String link = matcher.group(3).replaceAll("\\$", "\\\\$");
+            if (link.length() == 0) {
+                link = "/";
+            }
+            String location = matcher.group(2) + link;
 
-			Server matchingServer = serverChain.getServerMapped(location);
-			if (matchingServer != null) {
-				link = link.substring(matchingServer.getPath().length());
-				link = matchingServer.getRule().revert(link);
-				matcher.appendReplacement(header, "$1" + ownHostName
-						+ contextPath + link);
-			}
-		}
-		matcher.appendTail(header);
-		log.debug("Location header rewritten " + value + " >> "
-				+ header.toString());
-		return header.toString();
-	}
+            Server matchingServer = serverChain.getServerMapped(location);
+            if (matchingServer != null) {
+                link = link.substring(matchingServer.getPath().length());
+                link = matchingServer.getRule().revert(link);
+                matcher.appendReplacement(header, "$1" + ownHostName
+                        + contextPath + link);
+            }
+        }
+        matcher.appendTail(header);
+        log.debug("Location header rewritten " + value + " >> "
+                + header.toString());
+        return header.toString();
+    }
 
-	/**
-	 * Rewrites the header Set-Cookie so that path and domain is correct.
-	 * 
-	 * @param value
-	 *            The original header
-	 * @return The rewritten header
-	 */
-	private String rewriteSetCookie(String value) {
-		StringBuffer header = new StringBuffer();
-		Matcher matcher = pathAndDomainPattern.matcher(value);
-		while (matcher.find()) {
-			if (matcher.group(1).equalsIgnoreCase("path=")) {
-				String path = server.getRule()
-						.revert(matcher.group(2).replace(server.getPath(),
-								contextPath)); // server.getRule().revert(matcher.group(2));
-				path = "/";
-				matcher.appendReplacement(header, "$1" + path + ";");
-			} else {
-				matcher.appendReplacement(header, "");
-			}
+    /**
+     * Rewrites the header Set-Cookie so that path and domain is correct.
+     * 
+     * @param value
+     *            The original header
+     * @return The rewritten header
+     */
+    private String rewriteSetCookie(String value) {
+        StringBuffer header = new StringBuffer();
+        Matcher matcher = pathAndDomainPattern.matcher(value);
+        while (matcher.find()) {
+            if (matcher.group(1).equalsIgnoreCase("path=")) {
+                String path = server.getRule()
+                        .revert(matcher.group(2).replace(server.getPath(),
+                                contextPath)); // server.getRule().revert(matcher.group(2));
+                path = "/";
+                matcher.appendReplacement(header, "$1" + path + ";");
+            } else {
+                matcher.appendReplacement(header, "");
+            }
 
-		}
-		matcher.appendTail(header);
-		log.debug("Set-Cookie header rewritten \"" + value + "\" >> "
-				+ header.toString());
-		return header.toString();
-	}
+        }
+        matcher.appendTail(header);
+        log.debug("Set-Cookie header rewritten \"" + value + "\" >> "
+                + header.toString());
+        return header.toString();
+    }
 
-	/**
-	 * Based on the value in the content-type header we either return the
-	 * default stream or our own stream that can rewrite links.
-	 * 
-	 * @see javax.servlet.ServletResponse#getOutputStream()
-	 */
-	public ServletOutputStream getOutputStream() throws IOException {
-		if ((getContentType() != null && shouldRewrite(getContentType()))
-				|| isRss(requestURI)) {
-			return outStream;
-		} else {
-			return super.getOutputStream();
-		}
-	}
+    /**
+     * Based on the value in the content-type header we either return the
+     * default stream or our own stream that can rewrite links.
+     * 
+     * @see javax.servlet.ServletResponse#getOutputStream()
+     */
+    public ServletOutputStream getOutputStream() throws IOException {
+        if ((getContentType() != null && shouldRewrite(getContentType()))
+                || isRss(requestURI)) {
+            return outStream;
+        } else {
+            return super.getOutputStream();
+        }
+    }
 
-	/**
-	 * Based on the value in the content-type header we either return the
-	 * default writer or our own writer. Our own writer will write to the stream
-	 * that can rewrite links.
-	 * 
-	 * @see javax.servlet.ServletResponse#getWriter()
-	 */
-	public PrintWriter getWriter() throws IOException {
-		if (getContentType() != null && shouldRewrite(getContentType())) {
-			return outWriter;
-		} else {
-			return originalWriter;
-		}
-	}
+    /**
+     * Based on the value in the content-type header we either return the
+     * default writer or our own writer. Our own writer will write to the stream
+     * that can rewrite links.
+     * 
+     * @see javax.servlet.ServletResponse#getWriter()
+     */
+    public PrintWriter getWriter() throws IOException {
+        if (getContentType() != null && shouldRewrite(getContentType())) {
+            return outWriter;
+        } else {
+            return originalWriter;
+        }
+    }
 
-	/**
-	 * Rewrites the output stream to change any links. Also closes all the
-	 * streams and writers. We need the user to flush and close the streams
-	 * himself as usual but we can't be sure that the writers created are used
-	 * by the client and therefor we close them here.
-	 * 
-	 * @throws IOException
-	 *             Is thrown when there is a problem with the streams
-	 */
-	public void processStream() throws IOException {
-		if (getContentType() != null && shouldRewrite(getContentType())) {
-			outStream.rewrite(server);
-		} else if (isRss(requestURI)) {
-			outStream.rewriteRss(server);
-		}
-		
-		super.getOutputStream().flush();
-		super.getOutputStream().close();
-		outStream.close();
-		originalWriter.close();
-		outWriter.close();
-		
-	}
+    /**
+     * Rewrites the output stream to change any links. Also closes all the
+     * streams and writers. We need the user to flush and close the streams
+     * himself as usual but we can't be sure that the writers created are used
+     * by the client and therefor we close them here.
+     * 
+     * @throws IOException
+     *             Is thrown when there is a problem with the streams
+     */
+    public void processStream() throws IOException {
+        if (getContentType() != null && shouldRewrite(getContentType())) {
+            outStream.rewrite(server);
+        } else if (isRss(requestURI)) {
+            outStream.rewriteRss(server);
+        }
 
-	/**
-	 * Checks the contentType to evaluate if we should do link rewriting for
-	 * this content.
-	 * 
-	 * @param contentType
-	 *            The Content-Type header
-	 * @return true if we need to rewrite links, false otherwise
-	 */
-	private boolean shouldRewrite(String contentType) {
-		String lowerCased = contentType.toLowerCase();
-		return (lowerCased.indexOf("html") > -1
-				|| lowerCased.indexOf("css") > -1 || lowerCased
-				.indexOf("javascript") > -1);
-	}
+        super.getOutputStream().flush();
+        super.getOutputStream().close();
+        outStream.close();
+        originalWriter.close();
+        outWriter.close();
 
-	/**
-	 * Checks the requestURI to evaluate if we should do link rewriting as RSS.
-	 * 
-	 * @param requestURI
-	 *            the requestURI
-	 * @return true if we need to rewrite links, false otherwise
-	 */
-	private boolean isRss(String requestURI) {
-		String lowerCased = requestURI.toLowerCase();
-		return (lowerCased.endsWith("rss") || lowerCased.endsWith("xml") || lowerCased
-				.endsWith("feed"));
-	}
+    }
+
+    /**
+     * Checks the contentType to evaluate if we should do link rewriting for
+     * this content.
+     * 
+     * @param contentType
+     *            The Content-Type header
+     * @return true if we need to rewrite links, false otherwise
+     */
+    private boolean shouldRewrite(String contentType) {
+        String lowerCased = contentType.toLowerCase();
+        return (lowerCased.indexOf("html") > -1
+                || lowerCased.indexOf("css") > -1 || lowerCased
+                        .indexOf("javascript") > -1);
+    }
+
+    /**
+     * Checks the requestURI to evaluate if we should do link rewriting as RSS.
+     * 
+     * @param requestURI
+     *            the requestURI
+     * @return true if we need to rewrite links, false otherwise
+     */
+    private boolean isRss(String requestURI) {
+        String lowerCased = requestURI.toLowerCase();
+        return (lowerCased.endsWith("rss") || lowerCased.endsWith("xml") || lowerCased
+                .endsWith("feed"));
+    }
 }

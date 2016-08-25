@@ -44,30 +44,33 @@ import com.loy.e.security.vo.Permission;
  */
 @Configuration
 @EnableConfigurationProperties(CasProperties.class)
-public class ShiroCasConfiguration  {  
-   
+public class ShiroCasConfiguration {
+
     @Bean
-    public EhCacheManager getEhCacheManager() {  
-        EhCacheManager em = new EhCacheManager();  
-        em.setCacheManagerConfigFile("classpath:ehcache-shiro.xml");  
-        return em;  
-    }  
-    @Bean  
-    public LoyPasswordService passwordService() {  
-    	LoyPasswordService passwordService = new LoyPasswordService(); 
-        return passwordService;  
-    }  
+    public EhCacheManager getEhCacheManager() {
+        EhCacheManager em = new EhCacheManager();
+        em.setCacheManagerConfigFile("classpath:ehcache-shiro.xml");
+        return em;
+    }
+
+    @Bean
+    public LoyPasswordService passwordService() {
+        LoyPasswordService passwordService = new LoyPasswordService();
+        return passwordService;
+    }
+
     @Bean(name = "myShiroCasRealm")
-    public LoyShiroCasRealm loyShiroCasRealm(EhCacheManager cacheManager) {  
-        LoyShiroCasRealm realm = new LoyShiroCasRealm(); 
+    public LoyShiroCasRealm loyShiroCasRealm(EhCacheManager cacheManager) {
+        LoyShiroCasRealm realm = new LoyShiroCasRealm();
         realm.setCacheManager(cacheManager);
         return realm;
-    } 
-    @Bean 
-    UserSessionService userSessionService(){
-    	return new UserSessionServiceImpl();
     }
-   
+
+    @Bean
+    UserSessionService userSessionService() {
+        return new UserSessionServiceImpl();
+    }
+
     @Bean
     public FilterRegistrationBean filterRegistrationBean() {
         FilterRegistrationBean filterRegistration = new FilterRegistrationBean();
@@ -91,7 +94,8 @@ public class ShiroCasConfiguration  {
     }
 
     @Bean(name = "securityManager")
-    public DefaultWebSecurityManager getDefaultWebSecurityManager(LoyShiroCasRealm loyShiroCasRealm) {
+    public DefaultWebSecurityManager getDefaultWebSecurityManager(
+            LoyShiroCasRealm loyShiroCasRealm) {
         DefaultWebSecurityManager dwsm = new DefaultWebSecurityManager();
         dwsm.setRealm(loyShiroCasRealm);
         dwsm.setCacheManager(getEhCacheManager());
@@ -101,68 +105,74 @@ public class ShiroCasConfiguration  {
     }
 
     @Bean
-    public AuthorizationAttributeSourceAdvisor getAuthorizationAttributeSourceAdvisor(DefaultWebSecurityManager securityManager) {
+    public AuthorizationAttributeSourceAdvisor getAuthorizationAttributeSourceAdvisor(
+            DefaultWebSecurityManager securityManager) {
         AuthorizationAttributeSourceAdvisor aasa = new AuthorizationAttributeSourceAdvisor();
         aasa.setSecurityManager(securityManager);
         return aasa;
     }
 
-   
     private void loadShiroFilterChain(ShiroFilterFactoryBean shiroFilterFactoryBean,
-    		SecurityUserService securityUserService,
-    		SystemKeyService systemKeyService,CasProperties casProperties){
-       
-        Map<String, String> filterChainDefinitionMap =  new  LinkedHashMap<String, String>();
+            SecurityUserService securityUserService,
+            SystemKeyService systemKeyService,
+            CasProperties casProperties) {
+
+        Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
 
         filterChainDefinitionMap.putAll(casProperties.anons);
-        
-        List<Permission> permissions = securityUserService.getAllPermissions(systemKeyService.getSystemCode());
-		if(permissions != null){
-			for(Permission r : permissions){
-				String accessCode = r.getAccessCode();
-				String url = r.getUrl();
-				if(StringUtils.isNotEmpty(accessCode) && StringUtils.isNotEmpty(url)){
-					filterChainDefinitionMap.put("/**/"+r.getUrl(), "perms["+accessCode+"]"); 
-				}
-			}
-		}
-		
+
+        List<Permission> permissions = securityUserService
+                .getAllPermissions(systemKeyService.getSystemCode());
+        if (permissions != null) {
+            for (Permission r : permissions) {
+                String accessCode = r.getAccessCode();
+                String url = r.getUrl();
+                if (StringUtils.isNotEmpty(accessCode) && StringUtils.isNotEmpty(url)) {
+                    filterChainDefinitionMap.put("/**/" + r.getUrl(), "perms[" + accessCode + "]");
+                }
+            }
+        }
+
         filterChainDefinitionMap.put("/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
     }
 
-   
-   
-   
     @Bean(name = "shiroFilter")
-    public ShiroFilterFactoryBean getShiroFilterFactoryBean(DefaultWebSecurityManager securityManager,
-    		SecurityUserService securityUserService,LoyLogService loyLogService,
-    		SystemKeyService systemKeyService,CasProperties casProperties,
-    		ServerProperties serverProperties,MessageSource messageSource) {
+    public ShiroFilterFactoryBean getShiroFilterFactoryBean(
+            DefaultWebSecurityManager securityManager,
+            SecurityUserService securityUserService,
+            LoyLogService loyLogService,
+            SystemKeyService systemKeyService,
+            CasProperties casProperties,
+            ServerProperties serverProperties,
+            MessageSource messageSource) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
-        Locale locale= LocaleContextHolder.getLocale();
+        Locale locale = LocaleContextHolder.getLocale();
         String loginUrl = casProperties.getLoginUrl();
-        if(locale != null){
-        	String country = locale.getCountry();
-     		String language = locale.getLanguage();
-     		String lang = language+"_"+country;
-     		loginUrl = loginUrl+"&locale="+lang;
+        if (locale != null) {
+            String country = locale.getCountry();
+            String language = locale.getLanguage();
+            String lang = language + "_" + country;
+            loginUrl = loginUrl + "&locale=" + lang;
         }
         shiroFilterFactoryBean.setLoginUrl(loginUrl);
         shiroFilterFactoryBean.setSuccessUrl(casProperties.successUrl);
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");
         Map<String, Filter> filters = new HashMap<>();
-    	
-        CasFilter casFilter = new LoyCasFilter(casProperties,serverProperties,securityUserService);
-        LoyPermissionsAuthorizationFilter permFilter = new LoyPermissionsAuthorizationFilter(loyLogService,systemKeyService,messageSource);
-        filters.put("authc", casFilter );
-        filters.put("perms", permFilter );
-        
+
+        CasFilter casFilter = new LoyCasFilter(casProperties, serverProperties,
+                securityUserService);
+        LoyPermissionsAuthorizationFilter permFilter = new LoyPermissionsAuthorizationFilter(
+                loyLogService, systemKeyService, messageSource);
+        filters.put("authc", casFilter);
+        filters.put("perms", permFilter);
+
         shiroFilterFactoryBean.setFilters(filters);
 
-        loadShiroFilterChain(shiroFilterFactoryBean, securityUserService, systemKeyService,casProperties);
+        loadShiroFilterChain(shiroFilterFactoryBean, securityUserService, systemKeyService,
+                casProperties);
         return shiroFilterFactoryBean;
     }
-    
+
 }

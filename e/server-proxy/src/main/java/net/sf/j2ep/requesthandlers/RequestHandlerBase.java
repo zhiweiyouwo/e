@@ -41,7 +41,7 @@ import org.apache.commons.logging.LogFactory;
  */
 @SuppressWarnings("rawtypes")
 public abstract class RequestHandlerBase implements RequestHandler {
-    
+
     /** 
      * A set of headers that are not to be set in the request,
      * these headers are for example Connection.
@@ -52,12 +52,12 @@ public abstract class RequestHandlerBase implements RequestHandler {
      * @see net.sf.j2ep.model.RequestHandler#process(javax.servlet.http.HttpServletRequest, java.lang.String)
      */
     public abstract HttpMethod process(HttpServletRequest request, String url) throws IOException;
-    
+
     /** 
      * Logging element supplied by commons-logging.
      */
     private static Log log = LogFactory.getLog(RequestHandlerBase.class);
-    
+
     /**
      * Will write all request headers stored in the request to the method that
      * are not in the set of banned headers.
@@ -72,19 +72,19 @@ public abstract class RequestHandlerBase implements RequestHandler {
     protected void setHeaders(HttpMethod method, HttpServletRequest request) throws HttpException {
         Enumeration headers = request.getHeaderNames();
         String connectionToken = request.getHeader("connection");
-        
+
         while (headers.hasMoreElements()) {
             String name = (String) headers.nextElement();
             boolean isToken = (connectionToken != null && name.equalsIgnoreCase(connectionToken));
-            
+
             if (!isToken && !bannedHeaders.contains(name.toLowerCase())) {
                 Enumeration value = request.getHeaders(name);
                 while (value.hasMoreElements()) {
                     method.addRequestHeader(name, (String) value.nextElement());
-                } 
-            } 
-        } 
-        
+                }
+            }
+        }
+
         setProxySpecificHeaders(method, request);
     }
 
@@ -95,14 +95,15 @@ public abstract class RequestHandlerBase implements RequestHandler {
      * @param request The incoming request, will need to get virtual host.
      * @throws HttpException 
      */
-    private void setProxySpecificHeaders(HttpMethod method, HttpServletRequest request) throws HttpException {
+    private void setProxySpecificHeaders(HttpMethod method, HttpServletRequest request)
+            throws HttpException {
         String serverHostName = "jEasyExtensibleProxy";
         try {
-            serverHostName = InetAddress.getLocalHost().getHostName();   
+            serverHostName = InetAddress.getLocalHost().getHostName();
         } catch (UnknownHostException e) {
             log.error("Couldn't get the hostname needed for headers x-forwarded-server and Via", e);
         }
-        
+
         String originalVia = request.getHeader("via");
         StringBuffer via = new StringBuffer("");
         if (originalVia != null) {
@@ -113,23 +114,23 @@ public abstract class RequestHandlerBase implements RequestHandler {
             via.append(originalVia).append(", ");
         }
         via.append(request.getProtocol()).append(" ").append(serverHostName);
-         
+
         method.setRequestHeader("via", via.toString());
-        method.setRequestHeader("x-forwarded-for", request.getRemoteAddr());     
+        method.setRequestHeader("x-forwarded-for", request.getRemoteAddr());
         method.setRequestHeader("x-forwarded-host", request.getServerName());
         method.setRequestHeader("x-forwarded-server", serverHostName);
-        
+
         method.setRequestHeader("accept-encoding", "");
     }
-    
+
     /**
      * Adds a headers to the list of banned headers.
      * 
      * @param header The header to add
      */
-   
-	@SuppressWarnings("unchecked")
-	public static void addBannedHeader(String header) {
+
+    @SuppressWarnings("unchecked")
+    public static void addBannedHeader(String header) {
         bannedHeaders.add(header);
     }
 
@@ -144,7 +145,7 @@ public abstract class RequestHandlerBase implements RequestHandler {
      * @param headers The headers that are banned
      */
     @SuppressWarnings("unchecked")
-	public static void addBannedHeaders(String headers) {
+    public static void addBannedHeaders(String headers) {
         StringTokenizer tokenizer = new StringTokenizer(headers, ",");
         while (tokenizer.hasMoreTokens()) {
             bannedHeaders.add(tokenizer.nextToken().trim().toLowerCase());

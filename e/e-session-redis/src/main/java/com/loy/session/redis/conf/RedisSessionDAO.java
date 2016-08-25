@@ -18,8 +18,8 @@ import org.springframework.data.redis.core.ValueOperations;
  * @version 1.0.0
  * 
  */
-public class RedisSessionDAO  extends AbstractSessionDAO {
-    
+public class RedisSessionDAO extends AbstractSessionDAO {
+
     private RedisTemplate<Serializable, Session> redisTemplate;
     private ValueOperations<Serializable, Session> sessionOperations;
 

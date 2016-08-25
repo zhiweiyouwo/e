@@ -14,8 +14,8 @@ import com.loy.upm.sys.domain.entity.MenuI18nEntity;
  * 
  */
 @CacheConfig(cacheNames = "menuI18ns")
-public interface MenuI18nRepository  extends GenericRepository<MenuI18nEntity,String>{
-	@Cacheable
-	public MenuI18nEntity findByKeyAndLang(String key,String lang);
-	
+public interface MenuI18nRepository extends GenericRepository<MenuI18nEntity, String> {
+    @Cacheable
+    public MenuI18nEntity findByKeyAndLang(String key, String lang);
+
 }

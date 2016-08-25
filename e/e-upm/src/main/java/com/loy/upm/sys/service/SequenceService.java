@@ -8,5 +8,5 @@ package com.loy.upm.sys.service;
  * 
  */
 public interface SequenceService {
-	public String getEmployeeNo();
+    public String getEmployeeNo();
 }

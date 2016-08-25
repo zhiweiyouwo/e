@@ -37,17 +37,16 @@ import org.apache.commons.logging.LogFactory;
  * @author Anders Nyman
  */
 public class RewriteFilter implements Filter {
-    
+
     /** 
      * Logging element supplied by commons-logging.
      */
     private static Log log;
-    
+
     /** 
      * The server chain, will be traversed to find a matching server.
      */
     private ServerChain serverChain;
-
 
     /**
      * Rewrites the outgoing stream to make sure URLs and headers
@@ -56,12 +55,13 @@ public class RewriteFilter implements Filter {
      * 
      * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
      */
-    public void doFilter(ServletRequest request, ServletResponse response,
+    public void doFilter(ServletRequest request,
+            ServletResponse response,
             FilterChain filterChain) throws IOException, ServletException {
-    	  HttpServletResponse httpResponse = (HttpServletResponse) response;
-          HttpServletRequest httpRequest = (HttpServletRequest) request;
-    	 //httpRequest.setCharacterEncoding("UTF-8");
-         //httpResponse.setCharacterEncoding("UTF-8");
+        HttpServletResponse httpResponse = (HttpServletResponse) response;
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        //httpRequest.setCharacterEncoding("UTF-8");
+        //httpResponse.setCharacterEncoding("UTF-8");
         if (response.isCommitted()) {
             log.info("Not proxying, already committed.");
             return;
@@ -72,27 +72,26 @@ public class RewriteFilter implements Filter {
             log.info("Request is not HttpResponse, will only handle HttpResponses.");
             return;
         } else {
-           
+
             Server server = serverChain.evaluate(httpRequest);
             if (server == null) {
                 log.info("Could not find a rule for this request, will not do anything.");
                 filterChain.doFilter(request, response);
             } else {
                 httpRequest.setAttribute("proxyServer", server);
-                
+
                 String ownHostName = request.getServerName() + ":" + request.getServerPort();
                 UrlRewritingResponseWrapper wrappedResponse;
-                wrappedResponse = new UrlRewritingResponseWrapper(httpResponse, server, ownHostName, httpRequest, serverChain);
-                
+                wrappedResponse = new UrlRewritingResponseWrapper(httpResponse, server, ownHostName,
+                        httpRequest, serverChain);
+
                 filterChain.doFilter(httpRequest, wrappedResponse);
 
                 wrappedResponse.processStream();
             }
         }
     }
-    
-    
-    
+
     /**
      * Initialize.
      * 
@@ -100,7 +99,7 @@ public class RewriteFilter implements Filter {
      */
     public void init(FilterConfig filterConfig) throws ServletException {
         log = LogFactory.getLog(RewriteFilter.class);
-        
+
         String data = filterConfig.getInitParameter("dataUrl");
         if (data == null) {
             throw new ServletException("dataUrl is required.");
@@ -108,12 +107,12 @@ public class RewriteFilter implements Filter {
             try {
                 File dataFile = new File(filterConfig.getServletContext().getRealPath(data));
                 ConfigParser parser = new ConfigParser(dataFile);
-                serverChain = parser.getServerChain();               
+                serverChain = parser.getServerChain();
             } catch (Exception e) {
                 throw new ServletException(e);
-            }  
+            }
         }
-        
+
     }
 
     /**
@@ -125,7 +124,5 @@ public class RewriteFilter implements Filter {
         log = null;
         serverChain = null;
     }
-    
-    
 
 }

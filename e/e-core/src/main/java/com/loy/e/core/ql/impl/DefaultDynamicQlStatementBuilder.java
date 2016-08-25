@@ -50,153 +50,162 @@ import freemarker.template.Template;
  *
  */
 
-public class DefaultDynamicQlStatementBuilder implements DynamicQlStatementBuilder, ResourceLoaderAware {
-	protected final Log LOGGER = LogFactory.getLog(DefaultDynamicQlStatementBuilder.class);
-	private Map<String, String> namedHQLQueries;
-	private Map<String, String> namedSQLQueries;
-	private String[] fileNames = { "classpath*:/**/*-dynamic.xml" };
-	private ResourceLoader resourceLoader = new PathMatchingResourcePatternResolver();
-	private EntityResolver entityResolver = new DynamicStatementDTDEntityResolver();
-	protected Map<String, StatementTemplate> templateCache;
-	private Set<String> nameCache = new HashSet<String>();
+public class DefaultDynamicQlStatementBuilder
+        implements DynamicQlStatementBuilder, ResourceLoaderAware {
+    protected final Log LOGGER = LogFactory.getLog(DefaultDynamicQlStatementBuilder.class);
+    private Map<String, String> namedHQLQueries;
+    private Map<String, String> namedSQLQueries;
+    private String[] fileNames = { "classpath*:/**/*-dynamic.xml" };
+    private ResourceLoader resourceLoader = new PathMatchingResourcePatternResolver();
+    private EntityResolver entityResolver = new DynamicStatementDTDEntityResolver();
+    protected Map<String, StatementTemplate> templateCache;
+    private Set<String> nameCache = new HashSet<String>();
 
-	public void setFileNames(String[] fileNames) {
-		this.fileNames = fileNames;
-	}
+    public void setFileNames(String[] fileNames) {
+        this.fileNames = fileNames;
+    }
 
-	public Map<String, String> getNamedHQLQueries() {
-		return namedHQLQueries;
-	}
+    public Map<String, String> getNamedHQLQueries() {
+        return namedHQLQueries;
+    }
 
-	public Map<String, String> getNamedSQLQueries() {
-		return namedSQLQueries;
-	}
+    public Map<String, String> getNamedSQLQueries() {
+        return namedSQLQueries;
+    }
 
-	@Override
-	public void init() throws IOException {
-		namedHQLQueries = new HashMap<String, String>();
-		namedSQLQueries = new HashMap<String, String>();
-		boolean flag = this.resourceLoader instanceof ResourcePatternResolver;
-		for (String file : fileNames) {
-			if (flag) {
-				Resource[] resources = ((ResourcePatternResolver) this.resourceLoader).getResources(file);
-				buildMap(resources);
-			} else {
-				Resource resource = resourceLoader.getResource(file);
-				buildMap(resource);
-			}
-		}
-		nameCache.clear();
+    @Override
+    public void init() throws IOException {
+        namedHQLQueries = new HashMap<String, String>();
+        namedSQLQueries = new HashMap<String, String>();
+        boolean flag = this.resourceLoader instanceof ResourcePatternResolver;
+        for (String file : fileNames) {
+            if (flag) {
+                Resource[] resources = ((ResourcePatternResolver) this.resourceLoader)
+                        .getResources(file);
+                buildMap(resources);
+            } else {
+                Resource resource = resourceLoader.getResource(file);
+                buildMap(resource);
+            }
+        }
+        nameCache.clear();
 
-		templateCache = new HashMap<String, StatementTemplate>();
+        templateCache = new HashMap<String, StatementTemplate>();
 
-		Configuration configuration = new Configuration();
-		configuration.setNumberFormat("#");
-		NotEmpty notEmpty = new NotEmpty();
-		configuration.setSharedVariable("notEmpty", notEmpty);
-		StringTemplateLoader stringLoader = new StringTemplateLoader();
-		for (Entry<String, String> entry : namedHQLQueries.entrySet()) {
-			stringLoader.putTemplate(entry.getKey(), entry.getValue());
-			templateCache.put(entry.getKey(), new StatementTemplate(StatementTemplate.TYPE.HQL,
-					new Template(entry.getKey(), new StringReader(entry.getValue()), configuration)));
-		}
-		for (Entry<String, String> entry : namedSQLQueries.entrySet()) {
-			stringLoader.putTemplate(entry.getKey(), entry.getValue());
-			templateCache.put(entry.getKey(), new StatementTemplate(StatementTemplate.TYPE.SQL,
-					new Template(entry.getKey(), new StringReader(entry.getValue()), configuration)));
-		}
-		configuration.setTemplateLoader(stringLoader);
-	}
+        Configuration configuration = new Configuration();
+        configuration.setNumberFormat("#");
+        NotEmpty notEmpty = new NotEmpty();
+        configuration.setSharedVariable("notEmpty", notEmpty);
+        StringTemplateLoader stringLoader = new StringTemplateLoader();
+        for (Entry<String, String> entry : namedHQLQueries.entrySet()) {
+            stringLoader.putTemplate(entry.getKey(), entry.getValue());
+            templateCache.put(entry.getKey(), new StatementTemplate(StatementTemplate.TYPE.HQL,
+                    new Template(entry.getKey(), new StringReader(entry.getValue()),
+                            configuration)));
+        }
+        for (Entry<String, String> entry : namedSQLQueries.entrySet()) {
+            stringLoader.putTemplate(entry.getKey(), entry.getValue());
+            templateCache.put(entry.getKey(), new StatementTemplate(StatementTemplate.TYPE.SQL,
+                    new Template(entry.getKey(), new StringReader(entry.getValue()),
+                            configuration)));
+        }
+        configuration.setTemplateLoader(stringLoader);
+    }
 
-	@Override
-	public void setResourceLoader(ResourceLoader resourceLoader) {
-		this.resourceLoader = resourceLoader;
-	}
+    @Override
+    public void setResourceLoader(ResourceLoader resourceLoader) {
+        this.resourceLoader = resourceLoader;
+    }
 
-	private void buildMap(Resource[] resources) throws IOException {
-		if (resources == null) {
-			return;
-		}
-		for (Resource resource : resources) {
-			buildMap(resource);
-		}
-	}
+    private void buildMap(Resource[] resources) throws IOException {
+        if (resources == null) {
+            return;
+        }
+        for (Resource resource : resources) {
+            buildMap(resource);
+        }
+    }
 
-	@SuppressWarnings({ "rawtypes" })
-	private void buildMap(Resource resource) {
-		InputSource inputSource = null;
-		try {
-			inputSource = new InputSource(resource.getInputStream());
-			XmlDocument metadataXml = readMappingDocument(entityResolver, inputSource,
-							new OriginImpl("file", resource.getFilename()));
-			if (isDynamicStatementXml(metadataXml)) {
-				final Document doc = metadataXml.getDocumentTree();
-				final Element dynamicHibernateStatement = doc.getRootElement();
-				Iterator rootChildren = dynamicHibernateStatement.elementIterator();
-				while (rootChildren.hasNext()) {
-					final Element element = (Element) rootChildren.next();
-					final String elementName = element.getName();
-					if ("sql-query".equals(elementName)) {
-						putStatementToCacheMap(resource, element, namedSQLQueries);
-					} else if ("hql-query".equals(elementName)) {
-						putStatementToCacheMap(resource, element, namedHQLQueries);
-					}
-				}
-			}
-		} catch (Exception e) {
-			LOGGER.error("构建QL error", e);
-			throw new LoyException("system_error");
-		} finally {
-			if (inputSource != null && inputSource.getByteStream() != null) {
-				try {
-					inputSource.getByteStream().close();
-				} catch (IOException e) {
-					LOGGER.error("解析ql文件出错", e);
-					throw new LoyException("system_error");
-				}
-			}
-		}
+    @SuppressWarnings({ "rawtypes" })
+    private void buildMap(Resource resource) {
+        InputSource inputSource = null;
+        try {
+            inputSource = new InputSource(resource.getInputStream());
+            XmlDocument metadataXml = readMappingDocument(entityResolver, inputSource,
+                    new OriginImpl("file", resource.getFilename()));
+            if (isDynamicStatementXml(metadataXml)) {
+                final Document doc = metadataXml.getDocumentTree();
+                final Element dynamicHibernateStatement = doc.getRootElement();
+                Iterator rootChildren = dynamicHibernateStatement.elementIterator();
+                while (rootChildren.hasNext()) {
+                    final Element element = (Element) rootChildren.next();
+                    final String elementName = element.getName();
+                    if ("sql-query".equals(elementName)) {
+                        putStatementToCacheMap(resource, element, namedSQLQueries);
+                    } else if ("hql-query".equals(elementName)) {
+                        putStatementToCacheMap(resource, element, namedHQLQueries);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            LOGGER.error("构建QL error", e);
+            throw new LoyException("system_error");
+        } finally {
+            if (inputSource != null && inputSource.getByteStream() != null) {
+                try {
+                    inputSource.getByteStream().close();
+                } catch (IOException e) {
+                    LOGGER.error("解析ql文件出错", e);
+                    throw new LoyException("system_error");
+                }
+            }
+        }
 
-	}
+    }
 
-	private void putStatementToCacheMap(Resource resource, final Element element, Map<String, String> statementMap)
-			throws IOException {
-		String sqlQueryName = element.attribute("name").getText();
-		Validate.notEmpty(sqlQueryName);
-		if (nameCache.contains(sqlQueryName)) {
-			LOGGER.error("重复的sql-query/hql-query语句定义在文件:" + resource.getURI() + "中，必须保证name的唯一.");
-			throw new LoyException("system_error");
-		}
-		nameCache.add(sqlQueryName);
-		String queryText = element.getText();
-		statementMap.put(sqlQueryName, queryText);
-	}
+    private void putStatementToCacheMap(Resource resource,
+            final Element element,
+            Map<String, String> statementMap)
+            throws IOException {
+        String sqlQueryName = element.attribute("name").getText();
+        Validate.notEmpty(sqlQueryName);
+        if (nameCache.contains(sqlQueryName)) {
+            LOGGER.error("重复的sql-query/hql-query语句定义在文件:" + resource.getURI() + "中，必须保证name的唯一.");
+            throw new LoyException("system_error");
+        }
+        nameCache.add(sqlQueryName);
+        String queryText = element.getText();
+        statementMap.put(sqlQueryName, queryText);
+    }
 
-	private static boolean isDynamicStatementXml(XmlDocument xmlDocument) {
-		return "dynamic-ql-statement".equals(xmlDocument.getDocumentTree().getRootElement().getName());
-	}
+    private static boolean isDynamicStatementXml(XmlDocument xmlDocument) {
+        return "dynamic-ql-statement"
+                .equals(xmlDocument.getDocumentTree().getRootElement().getName());
+    }
 
-	@Override
-	public StatementTemplate get(String key) {
-		return this.templateCache.get(key);
-	}
+    @Override
+    public StatementTemplate get(String key) {
+        return this.templateCache.get(key);
+    }
 
-	public XmlDocument readMappingDocument(EntityResolver entityResolver, InputSource source, Origin origin) throws DocumentException, SAXParseException {
-		ErrorLogger errorHandler = new ErrorLogger();
-		SAXReader saxReader = new SAXReader();
-		saxReader.setEntityResolver(entityResolver);
-		saxReader.setErrorHandler(errorHandler);
-		saxReader.setMergeAdjacentText(true);
-		saxReader.setValidation(true);
+    public XmlDocument readMappingDocument(EntityResolver entityResolver,
+            InputSource source,
+            Origin origin) throws DocumentException, SAXParseException {
+        ErrorLogger errorHandler = new ErrorLogger();
+        SAXReader saxReader = new SAXReader();
+        saxReader.setEntityResolver(entityResolver);
+        saxReader.setErrorHandler(errorHandler);
+        saxReader.setMergeAdjacentText(true);
+        saxReader.setValidation(true);
 
-		Document document = null;
-		
-		document = saxReader.read(source);
-		 List<SAXParseException> errors = errorHandler.getErrors();
-		if (errors != null &&  errors.size()>0) {
-			throw errors.get(0);
-		}
-		return new XmlDocumentImpl(document, origin.getType(), origin.getName());
-	}
+        Document document = null;
 
-}  
+        document = saxReader.read(source);
+        List<SAXParseException> errors = errorHandler.getErrors();
+        if (errors != null && errors.size() > 0) {
+            throw errors.get(0);
+        }
+        return new XmlDocumentImpl(document, origin.getType(), origin.getName());
+    }
+
+}

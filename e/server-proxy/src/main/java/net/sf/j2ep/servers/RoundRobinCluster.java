@@ -16,7 +16,6 @@
 
 package net.sf.j2ep.servers;
 
-
 /**
  * A cluster using round-robin to get the next server in the
  * cluster.
@@ -31,12 +30,12 @@ public class RoundRobinCluster extends ClusterContainer {
      * single threaded environment.
      */
     private int numberOfServers;
-    
+
     /**
      * The currentServer we are using.
      */
     private int currentServerNumber;
-    
+
     /**
      * Creates a new round-robin cluster
      */
@@ -45,7 +44,7 @@ public class RoundRobinCluster extends ClusterContainer {
         currentServerNumber = 0;
         numberOfServers = 0;
     }
-    
+
     /**
      * Returns the next in the cluster. The server if found
      * using round-robin and checking that the server is marked
@@ -59,13 +58,13 @@ public class RoundRobinCluster extends ClusterContainer {
         int current = start;
         do {
             current = (current + 1) % numberOfServers;
-            server = (ClusteredServer) servers.get("server" + current); 
+            server = (ClusteredServer) servers.get("server" + current);
         } while (!server.online() && start != current);
-        
+
         currentServerNumber = current;
         return server;
     }
-    
+
     /**
      * @see net.sf.j2ep.servers.ClusterContainer#createNewServer(java.lang.String, java.lang.String)
      */

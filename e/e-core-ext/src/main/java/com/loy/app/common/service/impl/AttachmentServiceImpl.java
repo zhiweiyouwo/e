@@ -39,73 +39,74 @@ import io.swagger.annotations.ApiOperation;
  * 
  */
 
-@RestController(value="attachmentService")
-@RequestMapping(value = "attachment",method={RequestMethod.POST,RequestMethod.GET})
+@RestController(value = "attachmentService")
+@RequestMapping(value = "attachment", method = { RequestMethod.POST, RequestMethod.GET })
 @Transactional
 
-@Api(value="附件相关操作",description="附件相关操作")
+@Api(value = "附件相关操作", description = "附件相关操作")
 
 public class AttachmentServiceImpl {
-	protected final Log logger = LogFactory.getLog(AttachmentServiceImpl.class);
-	@Autowired
-	AttachmentRepository attachmentRepository;
-	@Autowired
-	Settings settings;
-	
-	public void save(MultipartFile multipartFile,String targetId){
-		String fileName = multipartFile.getOriginalFilename();
-		if(StringUtils.isEmpty(fileName)){
-			return;
-		}
-		String fileNameSuffix = FileNameUtil.getFileSuffix(fileName);
-		AttachmentEntity attachmentEntity = new AttachmentEntity();
-		attachmentEntity.setTargetId(targetId);
-		attachmentEntity.setFileShowName(fileName);
-		attachmentRepository.save(attachmentEntity);
-		String attachmentId = attachmentEntity.getId();
-		fileName = attachmentId+fileNameSuffix;
-		attachmentEntity.setFileName(fileName);
-		try {
-			File dir = new File(settings.getAttachmentBaseDirectory());
-			if(!dir.exists()){
-				dir.mkdirs();
-			}
-		    File file = new File(settings.getAttachmentBaseDirectory(),fileName);
-			FileCopyUtils.copy(multipartFile.getBytes(), file);
-		} catch (IOException e) {
-			logger.error(e);
-			Assert.throwException();
-		}
-	}
-	
-	@ControllerLogExeTime(description="删除附件")
-	@RequestMapping(value="/del",method={RequestMethod.DELETE,RequestMethod.GET,RequestMethod.POST})
-	
-	@ApiOperation(value="删除附件",httpMethod="DELETE")
-	@ApiImplicitParam(name="id",value="附件ID",paramType="query" ,required=true,dataType="string")
-	
-	public SuccessResponse  del(String id){
-		attachmentRepository.delete(id);
-		return SuccessResponse.newInstance();
-	}
-	
-	@ControllerLogExeTime(description="下载附件",log=false)
-	@RequestMapping(value="/download",method={RequestMethod.GET})
-	
-	@ApiOperation(value="下载附件",httpMethod="GET")
-	@ApiImplicitParam(name="id",value="附件ID",paramType="query",dataType="string")
-	
-    public void  download(String id,HttpServletResponse response) throws IOException{
-		AttachmentEntity attachmentEntity = attachmentRepository.get(id);
-		String fileName = attachmentEntity.getFileName();
-		response.setContentType("application/x-download");
-		String fileDisplay = fileName;//下载文件时显示的文件保存名称  
-		fileDisplay = URLEncoder.encode(fileDisplay,"UTF-8");  
-		response.addHeader("Content-Disposition","attachment;filename=" + fileDisplay);  
-		OutputStream out = response.getOutputStream();
-		File file = new File(settings.getAttachmentBaseDirectory(),fileName);
-		FileCopyUtils.copy(new FileInputStream(file), out);
-		out.flush();
-		out.close();
-	}
+    protected final Log logger = LogFactory.getLog(AttachmentServiceImpl.class);
+    @Autowired
+    AttachmentRepository attachmentRepository;
+    @Autowired
+    Settings settings;
+
+    public void save(MultipartFile multipartFile, String targetId) {
+        String fileName = multipartFile.getOriginalFilename();
+        if (StringUtils.isEmpty(fileName)) {
+            return;
+        }
+        String fileNameSuffix = FileNameUtil.getFileSuffix(fileName);
+        AttachmentEntity attachmentEntity = new AttachmentEntity();
+        attachmentEntity.setTargetId(targetId);
+        attachmentEntity.setFileShowName(fileName);
+        attachmentRepository.save(attachmentEntity);
+        String attachmentId = attachmentEntity.getId();
+        fileName = attachmentId + fileNameSuffix;
+        attachmentEntity.setFileName(fileName);
+        try {
+            File dir = new File(settings.getAttachmentBaseDirectory());
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+            File file = new File(settings.getAttachmentBaseDirectory(), fileName);
+            FileCopyUtils.copy(multipartFile.getBytes(), file);
+        } catch (IOException e) {
+            logger.error(e);
+            Assert.throwException();
+        }
+    }
+
+    @ControllerLogExeTime(description = "删除附件")
+    @RequestMapping(value = "/del", method = { RequestMethod.DELETE, RequestMethod.GET,
+            RequestMethod.POST })
+
+    @ApiOperation(value = "删除附件", httpMethod = "DELETE")
+    @ApiImplicitParam(name = "id", value = "附件ID", paramType = "query", required = true, dataType = "string")
+
+    public SuccessResponse del(String id) {
+        attachmentRepository.delete(id);
+        return SuccessResponse.newInstance();
+    }
+
+    @ControllerLogExeTime(description = "下载附件", log = false)
+    @RequestMapping(value = "/download", method = { RequestMethod.GET })
+
+    @ApiOperation(value = "下载附件", httpMethod = "GET")
+    @ApiImplicitParam(name = "id", value = "附件ID", paramType = "query", dataType = "string")
+
+    public void download(String id, HttpServletResponse response) throws IOException {
+        AttachmentEntity attachmentEntity = attachmentRepository.get(id);
+        String fileName = attachmentEntity.getFileName();
+        response.setContentType("application/x-download");
+        String fileDisplay = fileName;//下载文件时显示的文件保存名称  
+        fileDisplay = URLEncoder.encode(fileDisplay, "UTF-8");
+        response.addHeader("Content-Disposition", "attachment;filename=" + fileDisplay);
+        OutputStream out = response.getOutputStream();
+        File file = new File(settings.getAttachmentBaseDirectory(), fileName);
+        FileCopyUtils.copy(new FileInputStream(file), out);
+        out.flush();
+        out.close();
+    }
 }

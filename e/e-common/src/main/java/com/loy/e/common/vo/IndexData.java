@@ -10,6 +10,7 @@ import com.loy.e.common.tree.TreeNode;
 import com.loy.e.common.vo.LocaleVO;
 import com.loy.e.common.vo.SessionUser;
 import com.loy.e.common.vo.System;
+
 /**
  * 
  * @author Loy Fu qq群 540553957
@@ -18,94 +19,92 @@ import com.loy.e.common.vo.System;
  * 
  */
 @SuppressWarnings("rawtypes")
-public class IndexData implements Serializable{
-	private static final long serialVersionUID = 385770670924715475L;
-	
-	private String version;
-	private SessionUser simpleUser;
-	
-	List<TreeNode> menuData;
+public class IndexData implements Serializable {
+    private static final long serialVersionUID = 385770670924715475L;
+
+    private String version;
+    private SessionUser simpleUser;
+
+    List<TreeNode> menuData;
     List<System> mySystems;
-	private boolean photo;
-	
-	String defaultPage = "restapi.html";
-	
-	private Map<String,Boolean> accessCodes = new HashMap<String,Boolean>();
-	private long notReadNotice = 0;
-	private List<LocaleVO> supportLocales = new ArrayList<LocaleVO>();
-	
-	
-	public List<TreeNode> getMenuData() {
-		return menuData;
-	}
+    private boolean photo;
 
-	public void setMenuData(List<TreeNode> menuData) {
-		this.menuData = menuData;
-	}
+    String defaultPage = "restapi.html";
 
-	public SessionUser getSimpleUser() {
-		return simpleUser;
-	}
+    private Map<String, Boolean> accessCodes = new HashMap<String, Boolean>();
+    private long notReadNotice = 0;
+    private List<LocaleVO> supportLocales = new ArrayList<LocaleVO>();
 
-	public void setSimipleUser(SessionUser simpleUser) {
-		this.simpleUser = simpleUser;
-	}
+    public List<TreeNode> getMenuData() {
+        return menuData;
+    }
 
-	public Map<String, Boolean> getAccessCodes() {
-		return accessCodes;
-	}
+    public void setMenuData(List<TreeNode> menuData) {
+        this.menuData = menuData;
+    }
 
-	public void setAccessCodes(Map<String, Boolean> accessCodes) {
-		this.accessCodes = accessCodes;
-	}
+    public SessionUser getSimpleUser() {
+        return simpleUser;
+    }
 
-	public boolean isPhoto() {
-		return photo;
-	}
+    public void setSimipleUser(SessionUser simpleUser) {
+        this.simpleUser = simpleUser;
+    }
 
-	public void setPhoto(boolean photo) {
-		this.photo = photo;
-	}
+    public Map<String, Boolean> getAccessCodes() {
+        return accessCodes;
+    }
 
-	public long getNotReadNotice() {
-		return notReadNotice;
-	}
+    public void setAccessCodes(Map<String, Boolean> accessCodes) {
+        this.accessCodes = accessCodes;
+    }
 
-	public void setNotReadNotice(long notReadNotice) {
-		this.notReadNotice = notReadNotice;
-	}
+    public boolean isPhoto() {
+        return photo;
+    }
 
-	public List<LocaleVO> getSupportLocales() {
-		return supportLocales;
-	}
+    public void setPhoto(boolean photo) {
+        this.photo = photo;
+    }
 
-	public void setSupportLocales(List<LocaleVO> supportLocales) {
-		this.supportLocales = supportLocales;
-	}
+    public long getNotReadNotice() {
+        return notReadNotice;
+    }
 
-	public String getVersion() {
-		return version;
-	}
+    public void setNotReadNotice(long notReadNotice) {
+        this.notReadNotice = notReadNotice;
+    }
 
-	public void setVersion(String version) {
-		this.version = version;
-	}
+    public List<LocaleVO> getSupportLocales() {
+        return supportLocales;
+    }
 
-	public List<System> getMySystems() {
-		return mySystems;
-	}
+    public void setSupportLocales(List<LocaleVO> supportLocales) {
+        this.supportLocales = supportLocales;
+    }
 
-	public void setMySystems(List<System> mySystems) {
-		this.mySystems = mySystems;
-	}
+    public String getVersion() {
+        return version;
+    }
 
-	public String getDefaultPage() {
-		return defaultPage;
-	}
+    public void setVersion(String version) {
+        this.version = version;
+    }
 
-	public void setDefaultPage(String defaultPage) {
-		this.defaultPage = defaultPage;
-	}
+    public List<System> getMySystems() {
+        return mySystems;
+    }
 
-	
+    public void setMySystems(List<System> mySystems) {
+        this.mySystems = mySystems;
+    }
+
+    public String getDefaultPage() {
+        return defaultPage;
+    }
+
+    public void setDefaultPage(String defaultPage) {
+        this.defaultPage = defaultPage;
+    }
+
 }

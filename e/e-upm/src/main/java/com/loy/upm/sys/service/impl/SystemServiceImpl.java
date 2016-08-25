@@ -23,26 +23,26 @@ import com.loy.upm.sys.repository.SystemRepository;
 @Service(value = "systemService")
 @Transactional
 public class SystemServiceImpl implements SystemService {
-	@Autowired
-	SystemRepository systemRepository;
+    @Autowired
+    SystemRepository systemRepository;
 
-	@Override
-	@Transactional(readOnly = true)
-	public List<System> getMySystem(String username) {
-		List<SystemEntity> list = systemRepository.querySystemByUsername(username);
-		List<System> systems = null;
-		if (list != null) {
-			systems = new ArrayList<System>();
-			for (SystemEntity e : list) {
-				System system = new System();
-				system.setId(e.getId());
-				system.setName(e.getName());
-				system.setUrl(e.getUrl());
-				system.setCode(e.getCode());
-				systems.add(system);
-			}
-		}
-		return systems;
-	}
+    @Override
+    @Transactional(readOnly = true)
+    public List<System> getMySystem(String username) {
+        List<SystemEntity> list = systemRepository.querySystemByUsername(username);
+        List<System> systems = null;
+        if (list != null) {
+            systems = new ArrayList<System>();
+            for (SystemEntity e : list) {
+                System system = new System();
+                system.setId(e.getId());
+                system.setName(e.getName());
+                system.setUrl(e.getUrl());
+                system.setCode(e.getCode());
+                systems.add(system);
+            }
+        }
+        return systems;
+    }
 
 }

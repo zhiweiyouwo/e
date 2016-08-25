@@ -41,7 +41,7 @@ public class OptionsResponseHandler extends ResponseHandlerBase {
      * The logger.
      */
     private static Log log = LogFactory.getLog(OptionsResponseHandler.class);
-    
+
     /** 
      * Set a construction to indicate if the request is directed to the
      * proxy directly by using Max-Forwards: 0 or using URI *.
@@ -86,7 +86,9 @@ public class OptionsResponseHandler extends ResponseHandlerBase {
                 try {
                     sendStreamToClient(response);
                 } catch (IOException e) {
-                    log.error("Problem with writing response stream, solving by setting Content-Length=0", e);
+                    log.error(
+                            "Problem with writing response stream, solving by setting Content-Length=0",
+                            e);
                     response.setHeader("Content-Length", "0");
                 }
             }

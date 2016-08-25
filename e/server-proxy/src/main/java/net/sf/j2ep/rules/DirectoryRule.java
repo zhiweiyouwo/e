@@ -34,7 +34,7 @@ public class DirectoryRule extends BaseRule {
      * The directory structure.
      */
     private String directory;
-    
+
     /**
      * Sets the directory structure that will
      * be mapped to a specified server.
@@ -44,7 +44,7 @@ public class DirectoryRule extends BaseRule {
     public void setDirectory(String directory) {
         if (directory == null) {
             throw new IllegalArgumentException(
-                "The directory string cannot be null.");
+                    "The directory string cannot be null.");
         } else {
             if (!directory.startsWith("/")) {
                 directory = "/" + directory;
@@ -65,7 +65,7 @@ public class DirectoryRule extends BaseRule {
     public String getDirectory() {
         return directory;
     }
-    
+
     /**
      * Will see if the directory for the incoming URI is the same
      * as this rule is set to match on.
@@ -76,16 +76,16 @@ public class DirectoryRule extends BaseRule {
         String uri = request.getServletPath();
         return (uri.startsWith(directory));
     }
-    
+
     /**
      * Removes the specified mapping directory from the URI.
      * 
      * @see net.sf.j2ep.model.Rule#process(java.lang.String)
      */
     public String process(String uri) {
-        return uri.substring(directory.length()-1);
+        return uri.substring(directory.length() - 1);
     }
-    
+
     /**
      * Does the opposite of process. revert(String URI) will add the directory
      * specified to the start of the incoming URI.

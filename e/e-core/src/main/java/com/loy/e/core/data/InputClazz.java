@@ -9,11 +9,11 @@ package com.loy.e.core.data;
  */
 public enum InputClazz {
     NONE,
-	TEXT,
-	TEXTAREA,
-	CHECKBOX,
-	DATE,
-	TIME,
-	SELECT,
-	SEARCH_INPUT
+    TEXT,
+    TEXTAREA,
+    CHECKBOX,
+    DATE,
+    TIME,
+    SELECT,
+    SEARCH_INPUT
 }

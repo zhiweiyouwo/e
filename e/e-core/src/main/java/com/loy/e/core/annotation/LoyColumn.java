@@ -16,18 +16,27 @@ import com.loy.e.core.data.InputClazz;
  * @version 1.0.0
  *
  */
-@Retention(RetentionPolicy.RUNTIME) 
-@Target({ElementType.FIELD})
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ ElementType.FIELD })
 @Documented
 public @interface LoyColumn {
-	boolean list() default true;
-	boolean edit() default true;
-	boolean detail() default true;
-	String description();
-	String column() default "";
-	boolean sortable() default false;
-	InputClazz inputType() default InputClazz.NONE;
-	String validate() default  "";//这里的值必需是一个json串;{required:true, minlength: 5}
-	LoyField[] lists() default {};
-	LoyField[] details() default {};
+    boolean list() default true;
+
+    boolean edit() default true;
+
+    boolean detail() default true;
+
+    String description();
+
+    String column() default "";
+
+    boolean sortable() default false;
+
+    InputClazz inputType() default InputClazz.NONE;
+
+    String validate() default "";//这里的值必需是一个json串;{required:true, minlength: 5}
+
+    LoyField[] lists() default {};
+
+    LoyField[] details() default {};
 }

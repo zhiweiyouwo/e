@@ -37,37 +37,37 @@ import org.apache.commons.logging.LogFactory;
  */
 @SuppressWarnings("rawtypes")
 public class ServerStatusChecker extends Thread {
-    
+
     /** 
      * The online servers.
      */
     private LinkedList online;
-    
+
     /** 
      * The offline servers.
      */
     private LinkedList offline;
-    
+
     /** 
      * Client used to make the connections.
      */
     private HttpClient httpClient;
-    
+
     /** 
      * The listener we notify when a servers status changes.
      */
     private ServerStatusListener listener;
-    
+
     /** 
      * The time we wait between checking the servers status.
      */
     private long pollingTime;
-    
+
     /** 
      * Logging element supplied by commons-logging.
      */
     private static Log log = LogFactory.getLog(ServerStatusChecker.class);
-    
+
     /**
      * Basic constructor sets the listener to notify when
      * servers goes down/up. Also sets the polling time
@@ -78,39 +78,39 @@ public class ServerStatusChecker extends Thread {
      */
     public ServerStatusChecker(ServerStatusListener listener, long pollingTime) {
         this.listener = listener;
-        this.pollingTime = Math.max(30*1000, pollingTime);
-        setPriority(Thread.NORM_PRIORITY-1);
+        this.pollingTime = Math.max(30 * 1000, pollingTime);
+        setPriority(Thread.NORM_PRIORITY - 1);
         setDaemon(true);
-        
+
         online = new LinkedList();
         offline = new LinkedList();
-        httpClient = new HttpClient(); 
+        httpClient = new HttpClient();
         httpClient.getParams().setBooleanParameter(HttpClientParams.USE_EXPECT_CONTINUE, false);
         httpClient.getParams().setCookiePolicy(CookiePolicy.IGNORE_COOKIES);
     }
-    
+
     /**
      * Runs the tests
      * @see java.lang.Runnable#run()
      */
     public void run() {
-        for(;;) {
+        for (;;) {
             checkOnlineServers();
             checkOfflineServers();
             try {
                 sleep(pollingTime);
             } catch (InterruptedException ie) {
-                
+
             }
         }
     }
-    
+
     /**
      * Checks all the servers marked as being online
      * if they still are online.
      */
     @SuppressWarnings("unchecked")
-	private synchronized void checkOnlineServers() {
+    private synchronized void checkOnlineServers() {
         Iterator itr;
         itr = online.listIterator();
         while (itr.hasNext()) {
@@ -118,7 +118,7 @@ public class ServerStatusChecker extends Thread {
             String url = getServerURL(server);
             GetMethod get = new GetMethod(url);
             get.setFollowRedirects(false);
-            
+
             try {
                 httpClient.executeMethod(get);
                 if (!okServerResponse(get.getStatusCode())) {
@@ -127,7 +127,7 @@ public class ServerStatusChecker extends Thread {
                     log.debug("Server going OFFLINE! " + getServerURL(server));
                     listener.serverOffline(server);
                 }
-            } catch (Exception e) { 
+            } catch (Exception e) {
                 offline.add(server);
                 itr.remove();
                 log.debug("Server going OFFLINE! " + getServerURL(server));
@@ -143,21 +143,21 @@ public class ServerStatusChecker extends Thread {
      * again.
      */
     @SuppressWarnings("unchecked")
-	private synchronized void checkOfflineServers() {
+    private synchronized void checkOfflineServers() {
         Iterator itr = offline.listIterator();
         while (itr.hasNext()) {
             Server server = (Server) itr.next();
             String url = getServerURL(server);
             GetMethod get = new GetMethod(url);
             get.setFollowRedirects(false);
-            
+
             try {
                 httpClient.executeMethod(get);
                 if (okServerResponse(get.getStatusCode())) {
                     online.add(server);
                     itr.remove();
                     log.debug("Server back online " + getServerURL(server));
-                    listener.serverOnline(server); 
+                    listener.serverOnline(server);
                 }
             } catch (Exception e) {
                 listener.serverOffline(server);
@@ -176,7 +176,7 @@ public class ServerStatusChecker extends Thread {
         String url = "http://" + server.getDomainName() + server.getPath() + "/";
         return url;
     }
-    
+
     /**
      * Checks the status code received from the server and 
      * validates if this server should be considered online
@@ -186,9 +186,9 @@ public class ServerStatusChecker extends Thread {
      * @return true if the server if online, otherwise false
      */
     private boolean okServerResponse(int statusCode) {
-        return !(statusCode/100 == 5);
+        return !(statusCode / 100 == 5);
     }
- 
+
     /**
      * Adds a server that we will check for it's status.
      * The server is added to the offline list and will first
@@ -198,7 +198,7 @@ public class ServerStatusChecker extends Thread {
      * @param server The server to add
      */
     @SuppressWarnings("unchecked")
-	public synchronized void addServer(Server server) {
+    public synchronized void addServer(Server server) {
         offline.add(server);
     }
 }

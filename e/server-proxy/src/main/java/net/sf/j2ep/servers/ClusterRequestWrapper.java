@@ -39,22 +39,24 @@ import org.apache.commons.logging.LogFactory;
  */
 @SuppressWarnings("rawtypes")
 public class ClusterRequestWrapper extends HttpServletRequestWrapper {
-    
+
     /** 
      * The cookies for this request.
      */
     private Vector cookies;
-    
+
     /** 
      * Regex to find session in cookies.
      */
-    private static Pattern sessionPattern = Pattern.compile("((JSESSIONID=|PHPSESSID=|ASPSESSIONID=|ASP.NET_SessionId=)[a-z0-9]+)(\\.[^;\\s]+)", Pattern.CASE_INSENSITIVE | Pattern.CANON_EQ);
-    
+    private static Pattern sessionPattern = Pattern.compile(
+            "((JSESSIONID=|PHPSESSID=|ASPSESSIONID=|ASP.NET_SessionId=)[a-z0-9]+)(\\.[^;\\s]+)",
+            Pattern.CASE_INSENSITIVE | Pattern.CANON_EQ);
+
     /** 
      * Logging element supplied by commons-logging.
      */
     private static Log log = LogFactory.getLog(ClusterResponseWrapper.class);
-    
+
     /**
      * Constructor, will check all cookies if they include
      * JSESSIONID. If they do any extra information about
@@ -63,10 +65,10 @@ public class ClusterRequestWrapper extends HttpServletRequestWrapper {
      * @param request The request we wrap.
      */
     @SuppressWarnings("unchecked")
-	public ClusterRequestWrapper(HttpServletRequest request) {
+    public ClusterRequestWrapper(HttpServletRequest request) {
         super(request);
         cookies = new Vector();
-        
+
         Enumeration reqCookies = request.getHeaders("Cookie");
         while (reqCookies.hasMoreElements()) {
             String value = (String) reqCookies.nextElement();
@@ -92,7 +94,7 @@ public class ClusterRequestWrapper extends HttpServletRequestWrapper {
             return super.getHeader(name);
         }
     }
-    
+
     /**
      * Will return the default request's headers unless we are requesting
      * a cookie. If it's a cookie we want we will use our own vector.
@@ -105,6 +107,6 @@ public class ClusterRequestWrapper extends HttpServletRequestWrapper {
         } else {
             return super.getHeaders(name);
         }
-    }   
-    
+    }
+
 }

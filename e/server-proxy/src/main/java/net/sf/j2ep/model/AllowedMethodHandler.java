@@ -30,17 +30,17 @@ import org.apache.commons.httpclient.HttpMethod;
  */
 @SuppressWarnings("rawtypes")
 public class AllowedMethodHandler {
-    
+
     /** 
      * The methods handled by the proxy.
      */
     private static String allowString;
-    
+
     /** 
      * A set of the HTTP methods allowed by the proxy.
      */
     private static HashSet allowedMethods;
-    
+
     /**
      * Will go through all the methods sent in
      * checking to see that the method is allowed.
@@ -62,16 +62,16 @@ public class AllowedMethodHandler {
 
         return allowToSend.toString();
     }
-    
+
     /**
      * Returns the allow methods for this proxy.
      * 
      * @return Allowed methods
-     */ 
+     */
     public static String getAllowHeader() {
         return allowString;
     }
-    
+
     /**
      * Will check if the specified method is allowed by
      * looking if it is included in the allowedMethods.
@@ -82,7 +82,7 @@ public class AllowedMethodHandler {
     public static boolean methodAllowed(String method) {
         return allowedMethods.contains(method.toUpperCase());
     }
-    
+
     /**
      * Checks the method to see if it's allowed
      * 
@@ -93,14 +93,14 @@ public class AllowedMethodHandler {
     public static boolean methodAllowed(HttpMethod method) {
         return methodAllowed(method.getName());
     }
-    
+
     /**
      * Will set the allowed methods, both by setting the string
      * and also by adding all the methods to the set of allowed.
      * @param allowed The list of allowed methods, should be comma separated
      */
     @SuppressWarnings("unchecked")
-	public synchronized static void setAllowedMethods(String allowed) {
+    public synchronized static void setAllowedMethods(String allowed) {
         allowedMethods = new HashSet();
         allowString = allowed;
         StringTokenizer tokenizer = new StringTokenizer(allowed, ",");

@@ -18,7 +18,6 @@ package net.sf.j2ep.requesthandlers;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.HttpMethodBase;
@@ -42,9 +41,9 @@ public class BasicRequestHandler extends RequestHandlerBase {
      * @see net.sf.j2ep.model.RequestHandler#process(javax.servlet.http.HttpServletRequest, java.lang.String)
      */
     public HttpMethod process(HttpServletRequest request, String url) throws HttpException {
-        
+
         HttpMethodBase method = null;
-      
+
         if (request.getMethod().equalsIgnoreCase("GET")) {
             method = new GetMethod(url);
         } else if (request.getMethod().equalsIgnoreCase("HEAD")) {
@@ -54,10 +53,9 @@ public class BasicRequestHandler extends RequestHandlerBase {
         } else {
             return null;
         }
-        
+
         setHeaders(method, request);
         return method;
     }
-      
 
 }

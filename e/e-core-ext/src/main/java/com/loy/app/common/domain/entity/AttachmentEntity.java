@@ -16,38 +16,42 @@ import com.loy.e.core.entity.AbstractEntity;
  */
 
 @Entity
-@Table(name="loy_attachment") 
-public class AttachmentEntity extends AbstractEntity<String>{
+@Table(name = "loy_attachment")
+public class AttachmentEntity extends AbstractEntity<String> {
 
-	private static final long serialVersionUID = 4910053112873181081L;
+    private static final long serialVersionUID = 4910053112873181081L;
 
-	@Column(length=100)
-	private String fileShowName;
-	
-	@Column(length=100)
-	private String fileName;
-	
-	@Column(length=36)
-	private String targetId;
-	
-	public String getFileShowName() {
-		return fileShowName;
-	}
-	public void setFileShowName(String fileShowName) {
-		this.fileShowName = fileShowName;
-	}
-	public String getFileName() {
-		return fileName;
-	}
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
-	public String getTargetId() {
-		return targetId;
-	}
-	public void setTargetId(String targetId) {
-		this.targetId = targetId;
-	}
-	
-	
+    @Column(length = 100)
+    private String fileShowName;
+
+    @Column(length = 100)
+    private String fileName;
+
+    @Column(length = 36)
+    private String targetId;
+
+    public String getFileShowName() {
+        return fileShowName;
+    }
+
+    public void setFileShowName(String fileShowName) {
+        this.fileShowName = fileShowName;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getTargetId() {
+        return targetId;
+    }
+
+    public void setTargetId(String targetId) {
+        this.targetId = targetId;
+    }
+
 }

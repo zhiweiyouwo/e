@@ -10,11 +10,11 @@ import javax.net.ssl.SSLSession;
  * @version 1.0.0
  * 
  */
-public class LoyHostnameVerifier implements HostnameVerifier{
+public class LoyHostnameVerifier implements HostnameVerifier {
 
-	@Override
-	public boolean verify(String urlHostName, SSLSession session) {
-		return true;
-	}
+    @Override
+    public boolean verify(String urlHostName, SSLSession session) {
+        return true;
+    }
 
 }

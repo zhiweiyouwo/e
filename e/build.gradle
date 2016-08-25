@@ -7,7 +7,7 @@
 			mavenCentral()
 	    }
 	    dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") 
+		    classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") 
 	    }
 	    ext.customSecurityRef = ""
 	}
@@ -42,7 +42,7 @@
        tasks.withType(JavaCompile) {  
 		 options.encoding = "UTF-8"  
 	}
-        task eclean(dependsOn: ['clean','cleanEclipse']){ 
+    task eclean(dependsOn: ['clean','cleanEclipse']){ 
 		def o = new File(projectDir,".project");
 		o.deleteDir()
 		o = new File(projectDir,"bin");
@@ -53,18 +53,18 @@
 		o.deleteDir()
 		o = new File(projectDir,"logs");
 		o.deleteDir()
-       }
+    }
 
-        task deleteGradle(){ 
+    task deleteGradle(){ 
 		def o = new File(projectDir,".gradle");
 		o.deleteDir()
-       }
+    }
  }
    subprojects {
 	   apply plugin: "java"
 	   apply plugin: "eclipse"
 	
-	repositories {
+	   repositories {
 			mavenCentral()
 			maven { url "https://repo.spring.io/snapshot" }
 			maven { url "https://repo.spring.io/milestone" }

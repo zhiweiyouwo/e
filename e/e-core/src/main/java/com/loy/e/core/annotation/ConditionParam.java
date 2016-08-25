@@ -8,7 +8,6 @@ import java.lang.annotation.Target;
 
 import com.loy.e.core.query.Op;
 
-
 /**
  * 
  * 
@@ -19,13 +18,18 @@ import com.loy.e.core.query.Op;
  */
 
 @Retention(RetentionPolicy.RUNTIME) // 注解会在class字节码文件中存在，在运行时可以通过反射获取到
-@Target({ElementType.FIELD})//定义注解的作用目标**作用范围字段、枚举的常量/方法
-@Documented//说明该注解将被包含在javadoc中
+@Target({ ElementType.FIELD }) //定义注解的作用目标**作用范围字段、枚举的常量/方法
+@Documented //说明该注解将被包含在javadoc中
 public @interface ConditionParam {
-	public String name() default "";
-	public Op op() default Op.eq;
-	public boolean rootAlias() default true;
-	public int count() default 1;
-	public boolean often() default false;
-	public LoyField[] list()default {};
+    public String name() default "";
+
+    public Op op() default Op.eq;
+
+    public boolean rootAlias() default true;
+
+    public int count() default 1;
+
+    public boolean often() default false;
+
+    public LoyField[] list() default {};
 }

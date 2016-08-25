@@ -28,64 +28,70 @@ import com.loy.e.core.repository.GenericRepository;
  * 
  */
 public class DefaultRepositoryFactoryBean<R extends JpaRepository<M, ID>, M extends Entity<ID>, ID extends Serializable>
-		extends JpaRepositoryFactoryBean<R, M, ID> {
-	@Autowired
-	DynamicQlStatementBuilder dynamicQlStatementBuilder;
-	@Autowired
-	NamedParameterJdbcTemplate jdbcTemplate;
-	@Autowired
-	private Settings settings;
-	public DefaultRepositoryFactoryBean() {
-	}
+        extends JpaRepositoryFactoryBean<R, M, ID> {
+    @Autowired
+    DynamicQlStatementBuilder dynamicQlStatementBuilder;
+    @Autowired
+    NamedParameterJdbcTemplate jdbcTemplate;
+    @Autowired
+    private Settings settings;
 
-	protected RepositoryFactorySupport createRepositoryFactory(EntityManager entityManager) {
-		return new DefaultRepositoryFactory<M, ID >(entityManager,dynamicQlStatementBuilder, jdbcTemplate,settings);
-	}
+    public DefaultRepositoryFactoryBean() {
+    }
+
+    protected RepositoryFactorySupport createRepositoryFactory(EntityManager entityManager) {
+        return new DefaultRepositoryFactory<M, ID>(entityManager, dynamicQlStatementBuilder,
+                jdbcTemplate, settings);
+    }
 }
 
-class DefaultRepositoryFactory< M extends Entity<ID>, ID extends Serializable> extends JpaRepositoryFactory {
-	private EntityManager entityManager;
-	private DynamicQlStatementBuilder dynamicQlStatementBuilder;
-	private NamedParameterJdbcTemplate jdbcTemplate;
-	private Settings settings;
-	public DefaultRepositoryFactory(EntityManager entityManager,
-			DynamicQlStatementBuilder dynamicQlStatementBuilder,
-			NamedParameterJdbcTemplate jdbcTemplate ,
-			Settings settings) {
-		super(entityManager);
-		this.entityManager = entityManager;
-		this.dynamicQlStatementBuilder = dynamicQlStatementBuilder;
-		this.jdbcTemplate = jdbcTemplate;
-		this.settings = settings;
-	}
+class DefaultRepositoryFactory<M extends Entity<ID>, ID extends Serializable>
+        extends JpaRepositoryFactory {
+    private EntityManager entityManager;
+    private DynamicQlStatementBuilder dynamicQlStatementBuilder;
+    private NamedParameterJdbcTemplate jdbcTemplate;
+    private Settings settings;
 
-	@SuppressWarnings("unchecked")
-	protected Object getTargetRepository(RepositoryInformation metadata) {
-		Class<?> repositoryInterface = metadata.getRepositoryInterface();
-		if (isBaseRepository(repositoryInterface)) {
-			JpaEntityInformation<M, ID> entityInformation = getEntityInformation((Class<M>) metadata.getDomainType());
-			GenericRepository<M, ID> repository = new GenericRepositoryImpl<M, ID>(entityInformation,
-					entityManager,dynamicQlStatementBuilder,jdbcTemplate,settings);
-			return repository;
-		}
-		return super.getTargetRepository(metadata);
-	}
+    public DefaultRepositoryFactory(EntityManager entityManager,
+            DynamicQlStatementBuilder dynamicQlStatementBuilder,
+            NamedParameterJdbcTemplate jdbcTemplate,
+            Settings settings) {
+        super(entityManager);
+        this.entityManager = entityManager;
+        this.dynamicQlStatementBuilder = dynamicQlStatementBuilder;
+        this.jdbcTemplate = jdbcTemplate;
+        this.settings = settings;
+    }
 
-	protected Class<?> getRepositoryBaseClass(RepositoryMetadata metadata) {
-		if (isBaseRepository(metadata.getRepositoryInterface())) {
-			return GenericRepository.class;
-		}
-		return super.getRepositoryBaseClass(metadata);
-	}
+    @SuppressWarnings("unchecked")
+    protected Object getTargetRepository(RepositoryInformation metadata) {
+        Class<?> repositoryInterface = metadata.getRepositoryInterface();
+        if (isBaseRepository(repositoryInterface)) {
+            JpaEntityInformation<M, ID> entityInformation = getEntityInformation(
+                    (Class<M>) metadata.getDomainType());
+            GenericRepository<M, ID> repository = new GenericRepositoryImpl<M, ID>(
+                    entityInformation,
+                    entityManager, dynamicQlStatementBuilder, jdbcTemplate, settings);
+            return repository;
+        }
+        return super.getTargetRepository(metadata);
+    }
 
-	private boolean isBaseRepository(Class<?> repositoryInterface) {
-		return GenericRepository.class.isAssignableFrom(repositoryInterface);
-	}
+    protected Class<?> getRepositoryBaseClass(RepositoryMetadata metadata) {
+        if (isBaseRepository(metadata.getRepositoryInterface())) {
+            return GenericRepository.class;
+        }
+        return super.getRepositoryBaseClass(metadata);
+    }
 
-	@SuppressWarnings("deprecation")
-	@Override
-	protected QueryLookupStrategy getQueryLookupStrategy(QueryLookupStrategy.Key key) {
-		return super.getQueryLookupStrategy(key);
-	}
+    private boolean isBaseRepository(Class<?> repositoryInterface) {
+        return GenericRepository.class.isAssignableFrom(repositoryInterface);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    protected QueryLookupStrategy getQueryLookupStrategy(QueryLookupStrategy.Key key) {
+        return super.getQueryLookupStrategy(key);
+    }
 
 }

@@ -27,26 +27,28 @@ import springfox.documentation.annotations.ApiIgnore;
  */
 
 @RestController
-@RequestMapping(value="/",method={RequestMethod.GET})
+@RequestMapping(value = "/", method = { RequestMethod.GET })
 
 @ApiIgnore
 
 public class BundleController {
-	protected final Log LOGGER = LogFactory.getLog(BundleController.class); 
-	@RequestMapping(value="**/i18n/**/**.properties")
-	
-	@ApiOperation(value="获取国际化资源",httpMethod="GET")
-	public void file(HttpServletRequest request,HttpServletResponse response){
-		String uri = request.getRequestURI();
-		int begin = uri.indexOf("i18n");
-		uri = uri.substring(begin, uri.length());
-		try {
-			response.setCharacterEncoding("UTF-8");
-			ClassPathResource classPathResource =  new ClassPathResource(uri); 
-			BufferedReader br = new BufferedReader(new InputStreamReader(classPathResource.getInputStream(),"UTF-8"));
-			FileCopyUtils.copy(br, response.getWriter());
-		} catch (Exception e) {
-			
-		}
-	}
+    protected final Log LOGGER = LogFactory.getLog(BundleController.class);
+
+    @RequestMapping(value = "**/i18n/**/**.properties")
+
+    @ApiOperation(value = "获取国际化资源", httpMethod = "GET")
+    public void file(HttpServletRequest request, HttpServletResponse response) {
+        String uri = request.getRequestURI();
+        int begin = uri.indexOf("i18n");
+        uri = uri.substring(begin, uri.length());
+        try {
+            response.setCharacterEncoding("UTF-8");
+            ClassPathResource classPathResource = new ClassPathResource(uri);
+            BufferedReader br = new BufferedReader(
+                    new InputStreamReader(classPathResource.getInputStream(), "UTF-8"));
+            FileCopyUtils.copy(br, response.getWriter());
+        } catch (Exception e) {
+
+        }
+    }
 }

@@ -4,6 +4,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import org.springframework.stereotype.Component;
+
 /**
  * 
  * 
@@ -12,23 +13,24 @@ import org.springframework.stereotype.Component;
  * @version 1.0.0
  *
  */
-@Component("myListener") 
-public class MyListener implements ServletContextListener{  
+@Component("myListener")
+public class MyListener implements ServletContextListener {
     /** 
      * @param arg0 
      * @see javax.servlet.ServletContextListener#contextDestroyed(javax.servlet.ServletContextEvent) 
-     */  
-    @Override  
-    public void contextDestroyed(ServletContextEvent arg0) {  
-        System.out.println("contextDestroyed...");  
-    }  
+     */
+    @Override
+    public void contextDestroyed(ServletContextEvent arg0) {
+        System.out.println("contextDestroyed...");
+    }
+
     /** 
      * @param arg0 
      * @see javax.servlet.ServletContextListener#contextInitialized(javax.servlet.ServletContextEvent) 
-     */  
-    @Override  
-    public void contextInitialized(ServletContextEvent arg0) {  
-        System.out.println("listener contextInitialized...");  
-    }  
-       
-}  
+     */
+    @Override
+    public void contextInitialized(ServletContextEvent arg0) {
+        System.out.println("listener contextInitialized...");
+    }
+
+}

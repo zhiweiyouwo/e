@@ -8,5 +8,5 @@ package com.loy.e.core.converter;
  * 
  */
 public interface Converter {
-	public Object converter(Object source);
+    public Object converter(Object source);
 }

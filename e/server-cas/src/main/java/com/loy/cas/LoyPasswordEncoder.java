@@ -1,7 +1,5 @@
 package com.loy.cas;
 
-
-
 import org.jasig.cas.authentication.handler.PasswordEncoder;
 
 import com.loy.e.security.pwd.service.LoyPasswordService;
@@ -14,20 +12,17 @@ import com.loy.e.security.pwd.service.LoyPasswordService;
  * 
  */
 
+public class LoyPasswordEncoder implements PasswordEncoder {
 
+    private LoyPasswordService passwordService;
 
-public class LoyPasswordEncoder implements PasswordEncoder{
+    public void setPasswordService(LoyPasswordService passwordService) {
+        this.passwordService = passwordService;
+    }
 
-	private LoyPasswordService passwordService;
-	
+    @Override
+    public String encode(String plaintext) {
+        return passwordService.encryptPassword(plaintext);
+    }
 
-	public void setPasswordService(LoyPasswordService passwordService) {
-		this.passwordService = passwordService;
-	}
-
-	@Override
-	public String encode(String plaintext) {
-		return passwordService.encryptPassword(plaintext);
-	}
-    
 }

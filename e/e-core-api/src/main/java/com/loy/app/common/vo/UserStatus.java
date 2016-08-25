@@ -8,9 +8,9 @@ package com.loy.app.common.vo;
  * 
  */
 public enum UserStatus {
-	
-	NORMAL("正常状态"), 
-	DISABLED("禁用状态");
+
+    NORMAL("正常状态"),
+    DISABLED("禁用状态");
 
     private final String info;
 

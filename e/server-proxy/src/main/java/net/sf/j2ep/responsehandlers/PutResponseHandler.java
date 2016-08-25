@@ -24,7 +24,7 @@ import org.apache.commons.httpclient.methods.PutMethod;
  * @author Anders Nyman
  */
 public class PutResponseHandler extends BasicResponseHandler {
-    
+
     /**
      * Default constructor, will only call the super-constructor
      * for ResponseHandlerBase. 

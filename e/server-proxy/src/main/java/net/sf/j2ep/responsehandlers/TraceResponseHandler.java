@@ -39,7 +39,7 @@ public class TraceResponseHandler extends ResponseHandlerBase {
      * proxy directly by using Max-Forwards: 0 or using URI *.
      */
     private boolean proxyTargeted;
-    
+
     /**
      * Basic constructor setting the method, and also checks if
      * the request is targeted to the proxy or the underlying server.
@@ -56,30 +56,30 @@ public class TraceResponseHandler extends ResponseHandlerBase {
      * @see net.sf.j2ep.model.ResponseHandler#process(javax.servlet.http.HttpServletResponse)
      */
     public void process(HttpServletResponse response) throws IOException {
-        
+
         if (proxyTargeted) {
             response.setStatus(HttpServletResponse.SC_OK);
             response.setHeader("content-type", "message/http");
             response.setHeader("Connection", "close");
-            
+
             String path = method.getPath();
             String protocol = method.getParams().getVersion().toString();
             PrintWriter writer = response.getWriter();
             writer.println("TRACE " + path + " " + protocol);
             Header[] headers = method.getRequestHeaders();
-            for (int i=0; i < headers.length; i++) {
+            for (int i = 0; i < headers.length; i++) {
                 writer.print(headers[i]);
             }
             writer.flush();
             writer.close();
-            
+
         } else {
             setHeaders(response);
             response.setStatus(getStatusCode());
             sendStreamToClient(response);
         }
     }
-    
+
     /**
      * Returns 200 if the request is targeted to the proxy
      * otherwise the normal status code is returned.

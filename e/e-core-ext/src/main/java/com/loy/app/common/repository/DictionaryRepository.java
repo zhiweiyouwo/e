@@ -12,8 +12,8 @@ import com.loy.e.core.repository.GenericRepository;
  * @version 1.0.0
  * 
  */
-public interface DictionaryRepository extends GenericRepository<DictionaryEntity,String>{
+public interface DictionaryRepository extends GenericRepository<DictionaryEntity, String> {
 
-	List<DictionaryEntity> findByGroup(String group);
+    List<DictionaryEntity> findByGroup(String group);
 
 }

@@ -18,22 +18,22 @@ import springfox.documentation.annotations.ApiIgnore;
 @Controller
 @ApiIgnore
 public class LoginController {
-	@Autowired
-	CasProperties casProperties;
-	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String login() {
-		return "redirect:" + casProperties.getLoginUrl();
-	}
-	
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String loginForm() {
-		return "redirect:" + casProperties.getLoginUrl();
-	}
+    @Autowired
+    CasProperties casProperties;
 
-	@RequestMapping(value = "/logout", method = {RequestMethod.GET,RequestMethod.POST})
-	public String logout() {
-		 SecurityUtils.getSubject().logout(); 
-		return "redirect:"+casProperties.getCasLogoutUrl();
-	}
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String login() {
+        return "redirect:" + casProperties.getLoginUrl();
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String loginForm() {
+        return "redirect:" + casProperties.getLoginUrl();
+    }
+
+    @RequestMapping(value = "/logout", method = { RequestMethod.GET, RequestMethod.POST })
+    public String logout() {
+        SecurityUtils.getSubject().logout();
+        return "redirect:" + casProperties.getCasLogoutUrl();
+    }
 }

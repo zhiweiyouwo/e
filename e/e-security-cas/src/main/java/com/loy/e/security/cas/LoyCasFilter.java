@@ -39,122 +39,129 @@ import com.loy.e.security.vo.User;
  * 
  */
 public class LoyCasFilter extends CasFilter {
-	
-	@Autowired(required = false)
-	CasProperties casProperties;
-	@Autowired(required = false)
-	ServerProperties serverProperties;
-	@Autowired(required = false)
-	SecurityUserService securityUserService;
+
+    @Autowired(required = false)
+    CasProperties casProperties;
+    @Autowired(required = false)
+    ServerProperties serverProperties;
+    @Autowired(required = false)
+    SecurityUserService securityUserService;
+
     public LoyCasFilter(CasProperties casProperties,
-    		ServerProperties serverProperties,
-    		SecurityUserService securityUserService){
-    	this.casProperties = casProperties;
-    	this.serverProperties =serverProperties;
-    	this.securityUserService = securityUserService;
+            ServerProperties serverProperties,
+            SecurityUserService securityUserService) {
+        this.casProperties = casProperties;
+        this.serverProperties = serverProperties;
+        this.securityUserService = securityUserService;
     }
-    public LoyCasFilter(){
-    	
+
+    public LoyCasFilter() {
+
     }
-	@Override
-	protected boolean onLoginSuccess(AuthenticationToken token, Subject subject, ServletRequest request,
-			ServletResponse response) throws Exception {
-		SessionUser sessionUser = new SessionUser();
-		String loginName = subject.getPrincipal().toString();
-		User user = securityUserService.findByUsername(loginName);
-		sessionUser.setUsername(loginName);
-		sessionUser.setName(user.getName());
-		sessionUser.setId(user.getId());
-		sessionUser.setPhoto(user.getPhoto());
-		subject.getSession().setTimeout(30 * 60 * 1000);
-		subject.getSession().setAttribute(Constants.SESSION_KEY, sessionUser);
-		HttpServletRequest httpServletRequest = (HttpServletRequest)request;
-		String uri = httpServletRequest.getRequestURI();
-		String temp = serverProperties.getContextPath()+casProperties.casFilterUrlPattern;
-		String sessionId = subject.getSession().getId().toString();
-		if(uri.equals(temp)){
-			 HttpServletResponse httpServletResponse = (HttpServletResponse)response;
-			 Cookie cookie = new Cookie("JSESSIONID", sessionId); 
-			 httpServletResponse.addCookie(cookie);
-			issueSuccessRedirect(request, response);
-			return false;
-		}else{
-			return true;
-		}
-	}
 
+    @Override
+    protected boolean onLoginSuccess(AuthenticationToken token,
+            Subject subject,
+            ServletRequest request,
+            ServletResponse response) throws Exception {
+        SessionUser sessionUser = new SessionUser();
+        String loginName = subject.getPrincipal().toString();
+        User user = securityUserService.findByUsername(loginName);
+        sessionUser.setUsername(loginName);
+        sessionUser.setName(user.getName());
+        sessionUser.setId(user.getId());
+        sessionUser.setPhoto(user.getPhoto());
+        subject.getSession().setTimeout(30 * 60 * 1000);
+        subject.getSession().setAttribute(Constants.SESSION_KEY, sessionUser);
+        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+        String uri = httpServletRequest.getRequestURI();
+        String temp = serverProperties.getContextPath() + casProperties.casFilterUrlPattern;
+        String sessionId = subject.getSession().getId().toString();
+        if (uri.equals(temp)) {
+            HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+            Cookie cookie = new Cookie("JSESSIONID", sessionId);
+            httpServletResponse.addCookie(cookie);
+            issueSuccessRedirect(request, response);
+            return false;
+        } else {
+            return true;
+        }
+    }
 
-	@Override
-	protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {
-		String ticket = request.getParameter("ticket");
-		if(ticket != null){
-			request.setAttribute("ticket", ticket);
-			return super.executeLogin(request, response);
-		}
-		HttpGet httpGet = new HttpGet(casProperties.getLoginUrl());
-		HttpServletRequest req = (HttpServletRequest) request;
-		Cookie[] cookies = req.getCookies();
-		List<String> cookiess = new ArrayList<String>();
-		boolean hasCASTGC = false;
-		String casTGC = null;
-		if (cookies != null) {
-			for (Cookie c : cookies) {
-				String name = c.getName();
-				String value = c.getValue();
-				value = name + "=" + value;
-				cookiess.add(value);
-				if (name.equals("CASTGC")) {
-					hasCASTGC = true;
-					casTGC = c.getValue();
-				}
-			}
-		}
-		if (!hasCASTGC) {
-			this.redirectToLogin(request, response);
-			return false;
-		}
-		
-		String cookiesStr = StringUtils.join(cookiess, ";");
-		if (StringUtils.isNotBlank(cookiesStr)) {
-			httpGet.addHeader(new BasicHeader("Cookie", cookiesStr));
-		}
-		CloseableHttpClient httpClient = HttpClients.createMinimal();
-		HttpResponse httpResponse = httpClient.execute(httpGet);
-		StatusLine statusLine = httpResponse.getStatusLine();
-		if (statusLine.getStatusCode() == 302) {
-			Header locationHeader = httpResponse.getLastHeader(HttpHeaders.LOCATION);
-			String locStr = locationHeader.getValue();
-			int index = locStr.indexOf('?') + 1;
-			ticket = locStr.substring(index, locStr.length());
-			String[] tickets = ticket.split("=");
-			if(tickets[0].equals("ticket")){
-				request.setAttribute(tickets[0], tickets[1]);
-			}else{
-				 HttpServletResponse httpServletResponse = (HttpServletResponse)response;
-				 Cookie cookie = new Cookie("CASTGC", casTGC); 
-				 httpServletResponse.addCookie(cookie);
-				 WebUtils.issueRedirect(request, response, casProperties.getLoginUrl());
-				return false;
-			}
+    @Override
+    protected boolean executeLogin(ServletRequest request, ServletResponse response)
+            throws Exception {
+        String ticket = request.getParameter("ticket");
+        if (ticket != null) {
+            request.setAttribute("ticket", ticket);
+            return super.executeLogin(request, response);
+        }
+        HttpGet httpGet = new HttpGet(casProperties.getLoginUrl());
+        HttpServletRequest req = (HttpServletRequest) request;
+        Cookie[] cookies = req.getCookies();
+        List<String> cookiess = new ArrayList<String>();
+        boolean hasCASTGC = false;
+        String casTGC = null;
+        if (cookies != null) {
+            for (Cookie c : cookies) {
+                String name = c.getName();
+                String value = c.getValue();
+                value = name + "=" + value;
+                cookiess.add(value);
+                if (name.equals("CASTGC")) {
+                    hasCASTGC = true;
+                    casTGC = c.getValue();
+                }
+            }
+        }
+        if (!hasCASTGC) {
+            this.redirectToLogin(request, response);
+            return false;
+        }
 
-		} else if (statusLine.getStatusCode() == 200) {
-			this.redirectToLogin(request, response);
-			return false;
-		}
-		return super.executeLogin(request, response);
-	}
+        String cookiesStr = StringUtils.join(cookiess, ";");
+        if (StringUtils.isNotBlank(cookiesStr)) {
+            httpGet.addHeader(new BasicHeader("Cookie", cookiesStr));
+        }
+        CloseableHttpClient httpClient = HttpClients.createMinimal();
+        HttpResponse httpResponse = httpClient.execute(httpGet);
+        StatusLine statusLine = httpResponse.getStatusLine();
+        if (statusLine.getStatusCode() == 302) {
+            Header locationHeader = httpResponse.getLastHeader(HttpHeaders.LOCATION);
+            String locStr = locationHeader.getValue();
+            int index = locStr.indexOf('?') + 1;
+            ticket = locStr.substring(index, locStr.length());
+            String[] tickets = ticket.split("=");
+            if (tickets[0].equals("ticket")) {
+                request.setAttribute(tickets[0], tickets[1]);
+            } else {
+                HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+                Cookie cookie = new Cookie("CASTGC", casTGC);
+                httpServletResponse.addCookie(cookie);
+                WebUtils.issueRedirect(request, response, casProperties.getLoginUrl());
+                return false;
+            }
 
-	@Override
-	protected AuthenticationToken createToken(ServletRequest request, ServletResponse response) throws Exception {
-		HttpServletRequest httpRequest = (HttpServletRequest) request;
-		String ticket = (String) httpRequest.getAttribute("ticket");
-		return new CasToken(ticket);
-	}
+        } else if (statusLine.getStatusCode() == 200) {
+            this.redirectToLogin(request, response);
+            return false;
+        }
+        return super.executeLogin(request, response);
+    }
 
-	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
-		Subject subject = getSubject(request, response);
-		return subject.isAuthenticated();
-	}
+    @Override
+    protected AuthenticationToken createToken(ServletRequest request, ServletResponse response)
+            throws Exception {
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        String ticket = (String) httpRequest.getAttribute("ticket");
+        return new CasToken(ticket);
+    }
 
-	
+    protected boolean isAccessAllowed(ServletRequest request,
+            ServletResponse response,
+            Object mappedValue) {
+        Subject subject = getSubject(request, response);
+        return subject.isAuthenticated();
+    }
+
 }

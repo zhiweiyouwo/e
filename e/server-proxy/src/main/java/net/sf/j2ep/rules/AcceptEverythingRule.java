@@ -18,7 +18,6 @@ package net.sf.j2ep.rules;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * This rule matches every request
  * passed to it, making it suitable
@@ -28,7 +27,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author Yoav Shapira
  */
 public class AcceptEverythingRule extends BaseRule {
-    
+
     /**
      * This implementation always matches.
      * 
@@ -37,5 +36,5 @@ public class AcceptEverythingRule extends BaseRule {
     public boolean matches(HttpServletRequest request) {
         return true;
     }
-    
+
 }

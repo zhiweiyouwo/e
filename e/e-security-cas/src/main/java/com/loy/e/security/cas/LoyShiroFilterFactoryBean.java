@@ -18,7 +18,6 @@ import org.springframework.beans.factory.BeanInitializationException;
  *
  */
 public class LoyShiroFilterFactoryBean extends ShiroFilterFactoryBean {
-   
 
     @Override
     protected AbstractShiroFilter createInstance() throws Exception {
@@ -43,8 +42,9 @@ public class LoyShiroFilterFactoryBean extends ShiroFilterFactoryBean {
     }
 
     private final class MSpringShiroFilter extends AbstractShiroFilter {
-         
-        protected MSpringShiroFilter(WebSecurityManager webSecurityManager, FilterChainResolver resolver) {
+
+        protected MSpringShiroFilter(WebSecurityManager webSecurityManager,
+                FilterChainResolver resolver) {
             super();
             if (webSecurityManager == null) {
                 throw new IllegalArgumentException("WebSecurityManager property cannot be null.");
@@ -53,8 +53,9 @@ public class LoyShiroFilterFactoryBean extends ShiroFilterFactoryBean {
             if (resolver != null) {
                 setFilterChainResolver(resolver);
             }
-            
+
         }
+
         public boolean isStaticSecurityManagerEnabled() {
             return true;
         }

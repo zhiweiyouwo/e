@@ -11,6 +11,6 @@ import com.loy.e.core.repository.GenericRepository;
  * @version 1.0.0
  *
  */
-public interface ExceptionRepository extends GenericRepository<ExceptionEntity,String>{
+public interface ExceptionRepository extends GenericRepository<ExceptionEntity, String> {
 
 }

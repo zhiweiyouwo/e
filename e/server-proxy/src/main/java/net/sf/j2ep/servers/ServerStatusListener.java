@@ -29,14 +29,14 @@ import net.sf.j2ep.model.Server;
  * @author Anders Nyman
  */
 public interface ServerStatusListener extends EventListener {
-    
+
     /**
      * Notifies that a servers has gone down
      * 
      * @param server Server that is now offline
      */
     public void serverOffline(Server server);
-    
+
     /**
      * Notifies that a server is online. This
      * means that the server previously has been marked

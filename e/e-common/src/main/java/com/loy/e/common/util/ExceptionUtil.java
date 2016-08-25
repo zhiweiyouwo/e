@@ -2,6 +2,7 @@ package com.loy.e.common.util;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+
 /**
  * 
  * 
@@ -12,11 +13,11 @@ import java.io.StringWriter;
  */
 public class ExceptionUtil {
 
-	public static String exceptionStackTrace(Throwable e){
-		StringWriter sw=new StringWriter();  
-        PrintWriter pw=new PrintWriter(sw);  
+    public static String exceptionStackTrace(Throwable e) {
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
         e.printStackTrace(pw);
         String stackTraceMsg = sw.toString();
         return stackTraceMsg;
-	}
+    }
 }

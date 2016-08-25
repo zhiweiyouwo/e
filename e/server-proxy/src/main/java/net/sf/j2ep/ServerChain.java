@@ -25,7 +25,6 @@ import net.sf.j2ep.model.Rule;
 import net.sf.j2ep.model.Server;
 import net.sf.j2ep.model.ServerContainer;
 
-
 /**
  * A ServerChain is a list of server
  * considered in order.  The first
@@ -39,13 +38,13 @@ import net.sf.j2ep.model.ServerContainer;
  * @author Anders Nyman, Yoav Shapira
  */
 @SuppressWarnings("rawtypes")
-public class ServerChain{
-    
+public class ServerChain {
+
     /**
      * The list of servers to evaluate.
      */
-    
-	private List serverContainers;
+
+    private List serverContainers;
 
     /**
      * Constructor.
@@ -80,7 +79,7 @@ public class ServerChain{
      * @param theServer The server to add
      */
     @SuppressWarnings("unchecked")
-	public void addServer(Server theServer) {
+    public void addServer(Server theServer) {
         if (theServer == null) {
             throw new IllegalArgumentException("The rule cannot be null.");
         } else {
@@ -106,14 +105,14 @@ public class ServerChain{
             currentContainer = (ServerContainer) itr.next();
             currentMatches = currentContainer.getRule().matches(request);
         }
-        
+
         if (currentMatches) {
             return currentContainer.getServer(request);
         } else {
             return null;
         }
     }
-    
+
     /**
      * Finds a server with the full path specified by the 
      * location sent in. This is used when we want to find a 

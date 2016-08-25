@@ -19,7 +19,6 @@ package net.sf.j2ep.model;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /**
  * A representation of the server. Its main use it to be able to open
  * a connection to the server sending back a executed method.
@@ -39,7 +38,7 @@ public interface Server {
      * @return Eventual modified HttpServletRequest
      */
     HttpServletRequest preExecute(HttpServletRequest request);
-    
+
     /**
      * Can do handling of the response, if needed the
      * server can also return a new HttpServletResponse
@@ -49,7 +48,7 @@ public interface Server {
      * @return Eventual modified HttpServletResponse
      */
     HttpServletResponse postExecute(HttpServletResponse response);
-    
+
     /**
      * Used to notify the server that there is a problem using the data this
      * server supplied to the user. Maybe the domainName isn't working or the
@@ -62,13 +61,13 @@ public interface Server {
      * @param e The exception received when trying to use this servers data
      */
     void setConnectionExceptionRecieved(Exception e);
-    
+
     /**
      * Returns the host name and port for this server.
      * @return Host name and port
      */
     String getDomainName();
-    
+
     /**
      * Returns the path that we are mapping to. Starting from the 
      * servers root the path starts with a / but doesn't end with 
@@ -79,7 +78,6 @@ public interface Server {
      */
     String getPath();
 
-    
     /**
      * Returns the mapped rule so we can rewrite links.
      * 

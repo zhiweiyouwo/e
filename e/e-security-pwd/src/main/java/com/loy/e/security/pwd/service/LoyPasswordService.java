@@ -13,14 +13,14 @@ import org.apache.shiro.crypto.hash.format.DefaultHashFormatFactory;
  *
  */
 
-public class LoyPasswordService extends DefaultPasswordService{
-	 public LoyPasswordService() {
-		
-	        DefaultHashService hashService = new DefaultHashService();
-	        hashService.setGeneratePublicSalt(false);
-	        this.setHashService(hashService);
-	        this.setHashFormat(new LoyHashFormat());
-	        this.setHashFormatFactory(new DefaultHashFormatFactory());
-	 }
-	
+public class LoyPasswordService extends DefaultPasswordService {
+    public LoyPasswordService() {
+
+        DefaultHashService hashService = new DefaultHashService();
+        hashService.setGeneratePublicSalt(false);
+        this.setHashService(hashService);
+        this.setHashFormat(new LoyHashFormat());
+        this.setHashFormatFactory(new DefaultHashFormatFactory());
+    }
+
 }

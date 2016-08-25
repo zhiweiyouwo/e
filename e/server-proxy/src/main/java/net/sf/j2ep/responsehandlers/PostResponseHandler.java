@@ -24,7 +24,7 @@ import org.apache.commons.httpclient.methods.PostMethod;
  * @author Anders Nyman
  */
 public class PostResponseHandler extends BasicResponseHandler {
-    
+
     /**
      * Default constructor, will only call the super-constructor
      * for ResponseHandlerBase. 

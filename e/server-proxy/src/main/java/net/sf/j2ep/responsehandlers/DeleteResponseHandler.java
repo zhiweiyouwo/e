@@ -24,7 +24,7 @@ import org.apache.commons.httpclient.methods.DeleteMethod;
  * @author Anders Nyman
  */
 public class DeleteResponseHandler extends BasicResponseHandler {
-    
+
     /**
      * Default constructor, will only call the super-constructor
      * for BasicResponseHandler. 

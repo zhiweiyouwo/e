@@ -11,5 +11,5 @@ import com.loy.e.common.vo.System;
  * 
  */
 public interface SystemService {
-	public List<System> getMySystem(String username);
+    public List<System> getMySystem(String username);
 }

@@ -1,10 +1,11 @@
-start  gradlew -PcustomSecurityRef=e-security-cas startUpm
-
-echo  这里暂停等UPM 启动完毕后再继续执行
-
+start gradlew -PcustomSecurityRef=e-security-cas startUpm
 pause
 
 start  gradlew startCrm
+
+
 start  gradlew  startPortal
+
 start  gradlew  startCas 
+
 start  gradlew  startProxy

@@ -8,5 +8,5 @@ package com.loy.e.core.entity;
  * 
  */
 public interface LogicDeleteable {
-	void markDeleted();
+    void markDeleted();
 }

@@ -31,40 +31,42 @@ import com.loy.e.security.vo.User;
  */
 public class MyShiroRealm extends AuthorizingRealm {
 
-	@Autowired
-	SecurityUserService securityUserService;
-	@Autowired
-	SystemKeyService systemKeyService;
-	@Override
+    @Autowired
+    SecurityUserService securityUserService;
+    @Autowired
+    SystemKeyService systemKeyService;
+
+    @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        String loginName = (String)super.getAvailablePrincipal(principalCollection); 
-		SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-		Set<String> permissions = new HashSet<String>();
-		List<Permission> ps = securityUserService.findPermissionsByUsername(loginName,systemKeyService.getSystemCode());
-		if(ps != null){
-			for(Permission r : ps){
-				String accessCode = r.getAccessCode();
-				if(StringUtils.isNotEmpty(accessCode)){
-					permissions.add(accessCode);
-				}
-			}
-		}
-		authorizationInfo.setStringPermissions(permissions);
-		return authorizationInfo;
+        String loginName = (String) super.getAvailablePrincipal(principalCollection);
+        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
+        Set<String> permissions = new HashSet<String>();
+        List<Permission> ps = securityUserService.findPermissionsByUsername(loginName,
+                systemKeyService.getSystemCode());
+        if (ps != null) {
+            for (Permission r : ps) {
+                String accessCode = r.getAccessCode();
+                if (StringUtils.isNotEmpty(accessCode)) {
+                    permissions.add(accessCode);
+                }
+            }
+        }
+        authorizationInfo.setStringPermissions(permissions);
+        return authorizationInfo;
     }
 
-	
-	@Override
-	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken)
-			throws AuthenticationException {
+    @Override
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken)
+            throws AuthenticationException {
 
-		UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
-		String username = token.getUsername();
-		User user = securityUserService.findByUsername(username);
-		if (user != null) {
-			SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(user.getUsername(), user.getPassword(), getName());
-			return simpleAuthenticationInfo;
-		}
-		return null;
-	}
+        UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
+        String username = token.getUsername();
+        User user = securityUserService.findByUsername(username);
+        if (user != null) {
+            SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(
+                    user.getUsername(), user.getPassword(), getName());
+            return simpleAuthenticationInfo;
+        }
+        return null;
+    }
 }
