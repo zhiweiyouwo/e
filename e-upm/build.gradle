@@ -1,10 +1,13 @@
 apply plugin: "spring-boot" 
-apply plugin: "application"
+
 jar {
 	baseName = "e-upm"
-	//from("src/main/java") {
-    //    include "**/ql/*.xml"
-    //}
+	from("src/main/java") {
+        include "**"
+    }
+    from("src/main/resources") {
+        include "**"
+    }
 }
 
 springBoot  {
