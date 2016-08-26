@@ -42,23 +42,6 @@ allprojects {
 	tasks.withType(JavaCompile) {  
 		options.encoding = "UTF-8"  
 	}
-	task eclean(dependsOn: ['clean','cleanEclipse']){ 
-		def o = new File(projectDir,".project");
-		o.deleteDir()
-		o = new File(projectDir,"bin");
-		o.deleteDir()
-		o = new File(projectDir,".settings");
-		o.deleteDir()
-		o = new File(projectDir,"build.gradle.bak");
-		o.deleteDir()
-		o = new File(projectDir,"logs");
-		o.deleteDir()
-	}
-
-	task deleteGradle(){ 
-		def o = new File(projectDir,".gradle");
-		o.deleteDir()
-	}
 }
 subprojects {
 	apply plugin: "java"
