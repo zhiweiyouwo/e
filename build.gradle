@@ -21,8 +21,7 @@ repositories {
 	maven { url "https://repo.spring.io/milestone" }
 	maven { url "http://repo1.maven.org/maven2" }
 }
-  
-  
+
 allprojects {
 	apply plugin: "java"
 	apply plugin: "eclipse"
@@ -79,8 +78,8 @@ subprojects {
 	
 }
 
-/**
-task eclean(){
+
+task eclean() << {
 	allprojects.each{
 		def o = new File(it.projectDir,".project");
 		o.delete()
@@ -104,8 +103,15 @@ task eclean(){
 		o.delete()
 		
 	}
-}**/
-	
+}
+
+task ecleanBuild() << {
+	allprojects.each{
+		def o = new File(it.projectDir,"build");
+		o.deleteDir()
+	}
+}
+
 task startCrm(dependsOn: 'crm:erun') << {
 
 }
