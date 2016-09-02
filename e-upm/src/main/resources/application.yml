@@ -15,13 +15,12 @@ e:
                 - classpath:/public/component/
          /upm/**: 
             - classpath:/static/
-    
  cas:
-     casServerUrlPrefix: http://localhost:18080/cas
-     shiroServerUrlPrefix: http://localhost
-     successUrl: /home.html#
-     trustAllHttps: true
-     anons:
+    casServerUrlPrefix: http://localhost:18080/cas
+    shiroServerUrlPrefix: http://localhost
+    successUrl: /home.html#
+    trustAllHttps: true
+    anons:
        /index.html: anon
        /component/**: anon
        /i18n/**: anon
@@ -32,6 +31,7 @@ e:
        /logout: anon
        /static: anon
        /metrics: anon
+       
  form:
      successUrl: home.html#
      loginUrl: /index.html

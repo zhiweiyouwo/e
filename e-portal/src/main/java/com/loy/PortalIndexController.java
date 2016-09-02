@@ -35,14 +35,14 @@ import com.loy.e.security.vo.Permission;
 @SuppressWarnings("rawtypes")
 public class PortalIndexController {
 
-    @Autowired
+    @Autowired(required = false)
     SecurityUserService securityUserService;
     @Autowired
     UserSessionService userSessionService;
 
     @Autowired
     SystemKeyService systemKeyService;
-    @Autowired
+    @Autowired(required = false)
     SystemService systemService;
     @Autowired
     Settings settings;

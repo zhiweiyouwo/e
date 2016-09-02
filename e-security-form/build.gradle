@@ -5,6 +5,7 @@ jar {
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+    compile "org.springframework.boot:spring-boot-configuration-processor:${springBootVersion}"
 	compile("org.apache.shiro:shiro-core:${shiroVersion}")
 	compile("org.apache.shiro:shiro-web:${shiroVersion}")
 	compile("org.apache.shiro:shiro-spring:${shiroVersion}")

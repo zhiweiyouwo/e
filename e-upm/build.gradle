@@ -35,8 +35,10 @@ dependencies {
 	}
     compile project(":e-core-static")
     compile project(":e-upm-webapp")
+    testCompile project(":e-test")
     compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
     runtime("mysql:mysql-connector-java")
+    
 
 }
 

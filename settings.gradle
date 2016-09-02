@@ -22,7 +22,7 @@ include 'crm'
 include 'crm-webapp'
 
 include 'e-spring-fox'
-
+include 'e-test'
 include 'server-zkp'
 include 'server-cas'
 include 'server-proxy'

@@ -111,7 +111,7 @@ public class JsonUtil {
      * @return 指定缩进次数的字符串。 
      */
     private static String indent(int number) {
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         for (int i = 0; i < number; i++) {
             result.append(SPACE);
         }

@@ -36,4 +36,5 @@ public class LoginController {
         SecurityUtils.getSubject().logout();
         return "redirect:" + casProperties.getCasLogoutUrl();
     }
+   
 }

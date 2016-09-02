@@ -38,10 +38,13 @@ allprojects {
 	   
 	dependencies {
 		compile "org.codehaus.groovy:groovy-all:${groovyVersion}"
+		testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
 	}
 	tasks.withType(JavaCompile) {  
 		options.encoding = "UTF-8"  
 	}
+	
+	
 }
 subprojects {
 	apply plugin: "java"
@@ -65,7 +68,6 @@ subprojects {
 	eclipse {
 		classpath {
 			containers.remove("org.eclipse.jdt.launching.JRE_CONTAINER")
-			defaultOutputDir = file('build')
 		}
 	}
 	tasks.withType(JavaCompile) {  
@@ -74,9 +76,33 @@ subprojects {
 	task wrapper(type: Wrapper) {
 		gradleVersion = "${gradleVersion}"
 	}   
-}
 	
-   
+}
+task eclean(){
+	allprojects.each{
+		def o = new File(it.projectDir,".project");
+		o.delete()
+		o = new File(it.projectDir,"bin");
+		o.deleteDir()
+		o = new File(it.projectDir,".settings");
+		o.deleteDir()
+		o = new File(it.projectDir,"build.gradle.bak");
+		o.delete()
+		o = new File(it.projectDir,"logs");
+		o.deleteDir()
+		o = new File(it.projectDir,"build");
+		o.deleteDir()
+		o = new File(it.projectDir,".classpath");
+		o.delete()
+		o = new File(it.projectDir,".factorypath");
+		o.delete()
+		o = new File(it.projectDir,".apt_generated");
+		o.delete()
+		o = new File(it.projectDir,".metadata");
+		o.delete()
+		
+	}
+}
 	
 task startCrm(dependsOn: 'crm:erun') << {
 
@@ -93,4 +119,3 @@ task startPortal(dependsOn: 'e-portal:erun') << {
 task startProxy(dependsOn: 'server-proxy:erun') << {
 
 }
-
