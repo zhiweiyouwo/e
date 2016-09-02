@@ -101,7 +101,6 @@ public class ClusterRequestWrapper extends HttpServletRequestWrapper {
      * 
      * @see javax.servlet.http.HttpServletRequest#getHeaders(java.lang.String)
      */
-    @SuppressWarnings("unchecked")
     public Enumeration getHeaders(String name) {
         if (name.equalsIgnoreCase("cookie")) {
             return cookies.elements();
