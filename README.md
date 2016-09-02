@@ -12,6 +12,11 @@ E框架的目的是让开发不必从零开始开发，让开发者只关注自�
 * 支持高并发和水平扩展，支持Session的统一存储。
 * 项目采用gradle构建，能够方便的将各项目进行按需组装。
 
+#项目构建
+* 找到e\e-upm\src\main\resources\application.yml文件，修改数据库用户名、密码和url为实际值
+* 运行start.bat 文件，这里需要很长的等待时间
+* 构建成功后在浏览器中输入http://localhost:19090/upm  进入登录页
+
 #开发环境
 * 安装gradle插件；导入e目录；运行UpmApplicationMain文件；进入http://localhost:19090/upm；
 * 或者不安装gradle插件，直接在e目录下运行gradlew  eclipse 生成eclipse项目；导入e目录；运行UpmApplicationMain文件；进入http://localhost:19090/upm；
