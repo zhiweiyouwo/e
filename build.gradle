@@ -82,7 +82,6 @@ subprojects {
 /**
 task eclean(){
 	allprojects.each{
-		println    "===================================================="
 		def o = new File(it.projectDir,".project");
 		o.delete()
 		o = new File(it.projectDir,"bin");
