@@ -12,5 +12,26 @@ E框架的目的是让开发不必从零开始开发，让开发者只关注自�
 * 支持高并发和水平扩展，支持Session的统一存储。
 * 项目采用gradle构建，能够方便的将各项目进行按需组装。
 
+#开发环境
+1.安装gradle插件；2.导入项目；3.直接运行UpmApplicationMain文件；4.进入http://localhost:19090/upm；
+
+#项目说明
+* crm,crm-webapp  客户关系管理系统，这里只是一个demo，目的是为了说明在多个系统的构架中你可以按照这个demo工程来建你的系统。其中crm-webapp中放的静态的html和js;crm中主要是后台服务。
+* e-common 主要是一些基础的数据结构和工具类。
+* e-core-api 接口API
+* e-core-ext 一些如日志，数据字典等功能；其它系统如果需要可以重用。
+* e-core-security-api 安全方面的API 如果用户信息，授权等。
+* e-core-static 前端html公共页，js ,css.
+* e-core 框架主要实现
+* e-portal 多系统的一个入口，集成多系统菜单，让所有系统看上去就象一个系统一样。
+* e-security-cas 单点登录的支持和授权。
+* e-security-form 登录和授权。
+* e-security-pwd 密码加密。
+* e-session-redis 可以让session统一保存在redis服务器；方便做负载均衡从而达到水平扩展。
+* e-spring-fox 生成REST API 文档和在线测试REST API。
+* e-upm-api 用户权限管理相关API；e-upm-service 用户权限管理系统服务发部；e-upm-webapp 用户权限管理系统前端页面和js;e-upm用户权限管理系统后台实现。
+* server-cas 单点登录服务器；server-proxy 代理服务器,主要是将各系统配在一个域下；server-zkp ZooKeeper服务器，dubbo会用到。这三个系统都是外部系统，放在这里主要是为了能直接运行startAll.bat将这些系统都启动起来，方便演示。实际中
+代理服务器可选择专的代理服务器。
+
 #多系统构架
 ![](e-core-static/src/main/resources/public/readme/jiagou.jpg)
