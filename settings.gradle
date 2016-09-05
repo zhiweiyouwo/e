@@ -21,6 +21,9 @@ include 'e-portal'
 include 'crm'
 include 'crm-webapp'
 
+include 'cms'
+include 'cms-webapp'
+
 include 'e-spring-fox'
 include 'e-test'
 include 'server-zkp'

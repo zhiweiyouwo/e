@@ -1,0 +1,20 @@
+apply plugin: "spring-boot" 
+jar {
+	baseName = "cms"
+}
+springBoot  {
+    mainClass = "com.loy.CmsApplicationMain"
+}
+
+bootRepackage {
+    mainClass = "com.loy.CmsApplicationMain"
+}
+dependencies {
+        compile project(":cms-webapp")
+	compile project(":e-upm")
+	runtime("mysql:mysql-connector-java")
+}
+task erun(type:Exec, dependsOn: build) {
+    workingDir "${project.buildDir}/libs"
+    commandLine "java", "-jar","${project.name}-${version}.jar"
+}

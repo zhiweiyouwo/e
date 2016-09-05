@@ -6,21 +6,25 @@ e:
     recordOperateLog: true
     supportLocales: 
                  - en_US
-                 - zh_CN 
-    defaultPage: readme.html
-       
+                 - zh_CN
+    defaultPage: restapi.html
     staticMappings:
          /upm/component/**: 
                 - classpath:/static/component/
                 - classpath:/public/component/
          /upm/**: 
             - classpath:/static/
+         /cms/component/**: 
+                - classpath:/static/component/
+                - classpath:/public/component/
+         /cms/**: 
+            - classpath:/static/
  cas:
-    casServerUrlPrefix: http://localhost:18080/cas
-    shiroServerUrlPrefix: http://localhost
-    successUrl: /home.html#
-    trustAllHttps: true
-    anons:
+     casServerUrlPrefix: http://localhost:18080/cas
+     shiroServerUrlPrefix: http://localhost
+     successUrl: /home.html#
+     trustAllHttps: true
+     anons:
        /index.html: anon
        /component/**: anon
        /i18n/**: anon
@@ -31,7 +35,6 @@ e:
        /logout: anon
        /static: anon
        /metrics: anon
-       
  form:
      successUrl: home.html#
      loginUrl: /index.html
@@ -46,7 +49,6 @@ e:
        /logout: anon
        /static: anon
        /metrics: anon
-       
  apiInfo:
        title: E-框架 REST API
        description: 
@@ -58,8 +60,8 @@ e:
             email: 21549322@qq.com
        license: 
        licenseUrl: 
-       pathsRegex: ^.*(?<!error)$
- 
+       pathsRegex: ^.*(?<!error)$    
+        
 spring:
    datasource:
              platform: mysql
@@ -81,20 +83,16 @@ spring:
          ddlAuto: update
    jackson:
           date-format: yyyy-MM-dd HH:mm:ss
-          
-   redis:
-      host: localhost
-      port: 6379
 server:
     port: 19090
     session: 
         timeout: 30
-    context-path: /upm
+    context-path: /cms
     tomcat:
       uri-encoding: UTF-8
       
 logging:
     path: ./logs
-    file: ./logs/upm.log
+    file: ./logs/cms.log
 
 
