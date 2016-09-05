@@ -22,6 +22,7 @@ E框架的目的是让开发不必从零开始开发，让开发者只关注自�
 * 或者不安装gradle插件，直接在e目录下运行gradlew  eclipse 生成eclipse项目；导入e目录；运行UpmApplicationMain文件；进入http://localhost:19090/upm；
 
 #项目说明
+* cms,cms-webapp  内容管理系统，这里只是一个demo，就是说这个系统可以基于upm来做开发单系统开发可以按照这个模式来来，你可以将你的代码放入cms,cms-webapp中，他们共用upm的库和代码。
 * crm,crm-webapp  客户关系管理系统，这里只是一个demo，目的是为了说明在多个系统的构架中你可以按照这个demo工程来建你的系统。其中crm-webapp中放的静态的html和js;crm中主要是后台服务。
 * e-common 主要是一些基础的数据结构和工具类。
 * e-core-api 接口API
