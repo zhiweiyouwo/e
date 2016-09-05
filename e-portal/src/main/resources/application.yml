@@ -42,7 +42,7 @@ e:
 spring:
    datasource:
              platform: mysql
-             url: jdbc:mysql://localhost/portal?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&autoReconnect=true&failOverReadOnly=false
+             url: jdbc:mysql://localhost/portal?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&autoReconnect=true&failOverReadOnly=false
              username: root
              password: 123456
              driverClassName: com.mysql.jdbc.Driver
@@ -59,7 +59,7 @@ spring:
        hibernate:
          ddl-auto: update
    jackson:
-          date-format: yyyy-MM-dd HH:mm:ss
+         date-format: yyyy-MM-dd HH:mm:ss
 server:
     port: 39090
     session: 
