@@ -3,7 +3,10 @@ buildscript {
 	    springBootVersion = "${springBootVersion}"
 	}
 	repositories {
-		mavenCentral()
+		//mavenCentral()
+		maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
+		maven { url "https://repo.spring.io/snapshot" }
+		maven { url "https://repo.spring.io/milestone" }
 	}
 	dependencies {
 	    classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") 
@@ -15,10 +18,10 @@ apply plugin: "java"
 apply plugin:'groovy'
 
 repositories {
-	mavenCentral()
-	maven { url "https://repo.spring.io/snapshot" }
-	maven { url "https://repo.spring.io/milestone" }
-	maven { url "http://repo1.maven.org/maven2" }
+	//mavenCentral()
+		maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
+		maven { url "https://repo.spring.io/snapshot" }
+		maven { url "https://repo.spring.io/milestone" }
 }
 
 allprojects {
@@ -27,10 +30,10 @@ allprojects {
 	// apply plugin: "findbugs"
 	//apply plugin: "checkstyle"
 	repositories {
-		mavenCentral()
+		//mavenCentral()
+		maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
 		maven { url "https://repo.spring.io/snapshot" }
 		maven { url "https://repo.spring.io/milestone" }
-		maven { url "http://repo1.maven.org/maven2" }
 	}	
 	   
 	dependencies {
@@ -48,10 +51,10 @@ subprojects {
 	apply plugin: "eclipse"
 
 	repositories {
-		mavenCentral()
+		//mavenCentral()
+		maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
 		maven { url "https://repo.spring.io/snapshot" }
 		maven { url "https://repo.spring.io/milestone" }
-		maven { url "http://repo1.maven.org/maven2" }
 		
 	}
 	jar {
