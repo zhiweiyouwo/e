@@ -1,4 +1,4 @@
-e:
+﻿e:
  conf:
     attachmentBaseDirectory : ./upload
     defaultLocale: zh_CN
@@ -76,6 +76,9 @@ spring:
              test-on-return: false
              test-while-idle: true      
    jpa:
+       properties: 
+           hibernate:
+             dialect: com.loy.e.core.dialect.EMySQL5InnoDBDialect
        showSql: false
        hibernate:
          ddlAuto: update
