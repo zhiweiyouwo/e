@@ -31,6 +31,7 @@ public class MainDb {
         Server server = Server.createTcpServer(arg);
         server.start();
 
+		System.out.println("JVM running for");
     }
 
 }
