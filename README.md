@@ -41,6 +41,15 @@ E框架的目的是让开发不必从零开始开发，让开发者只关注自�
 ## eclipse
  
 * 直接在e目录下运行gradlew  eclipse 生成eclipse项目；导入e目录；运行e-example-single项目下的SingleApplicationMain文件；进入http://localhost；
+* 多系统启动可按下面顺序来启动各项目，最好等前一个项目启动完后再启动下一下项目
+
+	- e-example-ms-db
+    - e-example-ms-discovery
+    - e-example-ms-upm
+    - e-example-ms-oauth2
+    - e-example-ms-log
+    - e-example-ms-ui
+    - e-example-ms-gateway
 
 ## idea
 
