@@ -1,7 +1,0 @@
-jar {
-	baseName = 'e-upm-api'
-}
-
-dependencies {
-	compile project(':e-common')
-}

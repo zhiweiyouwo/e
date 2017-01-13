@@ -1,33 +1,28 @@
 rootProject.name = 'e'
-include 'e-common'
 
-include 'e-security-pwd'
-include 'e-security-cas'
-include 'e-security-form'
 
-include 'e-core'
-include 'e-core-api'
-include 'e-core-security-api'
-include 'e-core-ext'
-include 'e-core-static'
-include 'e-upm'
-include 'e-upm-api'
-include 'e-upm-service'
-include 'e-upm-webapp'
-include 'e-session-redis'
+//include 'e-log:e-log-service'
+//include 'e-log:e-log-ui'
 
-include 'e-portal'
+//include 'e-upm:e-upm-api'
+//include 'e-upm:e-upm-service'
+//include 'e-upm:e-upm-ui'
 
-include 'crm'
-include 'crm-webapp'
+include 'e-example:e-example-single'
 
-include 'cms'
-include 'cms-webapp'
+include 'e-example:e-micro-service:e-example-ms-ui'
+include 'e-example:e-micro-service:e-example-ms-gateway'
+include 'e-example:e-micro-service:e-example-ms-upm'
+include 'e-example:e-micro-service:e-example-ms-log'
+include 'e-example:e-micro-service:e-example-ms-oauth2'
+include 'e-example:e-micro-service:e-example-ms-discovery'
+include 'e-example:e-micro-service:e-example-ms-db'
 
-include 'e-spring-fox'
-include 'e-test'
-include 'server-zkp'
-include 'server-cas'
-include 'server-proxy'
+include 'e-example:e-micro-service:e-example-ms-start'
+include 'e-example:e-micro-service:e-example-ms-start-w'
+
+
+
+
 
 

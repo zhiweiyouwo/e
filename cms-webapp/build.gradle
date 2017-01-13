@@ -1,5 +1,0 @@
-
-jar {
-	baseName = "cms-webapp"
-}
-

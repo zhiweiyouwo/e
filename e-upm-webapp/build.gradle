@@ -1,6 +1,0 @@
-description = "User Permissions Management"
-
-jar {
-	baseName = "e-upm-webapp"
-
-}

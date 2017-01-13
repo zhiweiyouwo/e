@@ -1,0 +1,58 @@
+apply plugin: "java"
+apply plugin: "eclipse"
+apply plugin: "idea"
+apply plugin: "org.springframework.boot"
+apply plugin: "com.bmuschko.docker-remote-api"
+
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+description = ""
+
+jar {
+	baseName = "e-example-ms-db"
+}
+
+springBoot  {
+    mainClass = "com.loy.MainDb"
+}
+
+bootRepackage {
+    mainClass = "com.loy.MainDb"
+}
+
+dependencies {
+	 compile fileTree(dir: "lib", include: "*.jar")
+	 
+}
+task erun(type:Exec, dependsOn: build) {
+    workingDir "${project.buildDir}/libs"
+    commandLine "java", "-Dfile.encoding=${fileEncoding}", "-jar","${project.name}-${version}.jar"
+}
+
+task copyJar(type: Copy) {
+    dependsOn   "build"
+    from        "build/libs/${jar.baseName}-${version}.jar"
+    into        "build/docker"
+    //rename { String fileName ->
+    //    fileName.replace("-${version}", "-docker-${version}")
+    //}
+    
+    from        "src/main/docker"
+    into        "build/docker"
+    
+}
+task buildDockerImage(type: DockerBuildImage) {
+    dependsOn   copyJar
+    if (System.env.DOCKER_HOST) {
+        url = "$System.env.DOCKER_HOST".replace("tcp","https")
+        if (System.env.DOCKER_CERT_PATH) {
+            certPath = new File(System.env.DOCKER_CERT_PATH)
+        }
+    }
+    else {
+        url = 'unix:///var/run/docker.sock'
+    }
+    
+    inputDir = file('build/docker')
+    tag = 'com.loy/db'
+}
+

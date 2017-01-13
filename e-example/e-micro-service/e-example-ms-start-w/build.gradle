@@ -1,0 +1,29 @@
+apply plugin: "java"
+apply plugin: "eclipse"
+apply plugin: "idea"
+apply plugin: "org.springframework.boot"
+
+description = ""
+
+jar {
+	baseName = "e-example-ms-start-w"
+}
+
+springBoot  {
+    mainClass = "com.loy.MainFrame"
+}
+
+bootRepackage {
+    mainClass = "com.loy.MainFrame"
+}
+
+dependencies {
+	compile ("org.yaml:snakeyaml:1.17")
+	compile fileTree(dir: "lib", include: "*.jar")
+	compile ("commons-logging:commons-logging:1.2")
+}
+task erun(type:Exec, dependsOn: build) {
+    workingDir "${project.buildDir}/libs"
+    commandLine "java", "-Dfile.encoding=${fileEncoding}", "-jar","${project.name}-${version}.jar"
+}
+

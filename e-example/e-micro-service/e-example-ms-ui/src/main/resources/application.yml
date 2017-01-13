@@ -1,0 +1,44 @@
+e:
+  conf:
+    loyAspect: true
+    attachmentBaseDirectory: ./upload
+    defaultLocale: zh_CN
+    debugPageResult: false
+    recordOperateLog: true
+    supportLocales:
+    - en_US
+    - zh_CN
+    defaultPage: readme.html
+    
+   
+      
+    ignoreJsonResponseUrls:
+    - /configuration/ui
+    - /swagger-resources
+    - /v2/api-docs
+    - /configuration/security
+    - /model/*/json
+    - /model/*/save
+    - /editor/stencilset
+  
+  
+spring:
+  application:
+    name: ui 
+server:
+  port: 8888
+  tomcat:
+    uri-encoding: UTF-8
+
+endpoints:
+  actuator:
+    enabled: false
+  logfile:
+    enabled: false
+    path: /logfile
+
+   
+logging:
+  path: ./logs
+  file: ./logs/example-ms-ui.log
+  

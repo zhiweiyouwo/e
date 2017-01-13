@@ -1,0 +1,11 @@
+platform: Windows
+version: 3.0.1.2
+jvmOption: -Xms256m -Xmx256m
+
+projects:
+    - e-example-ms-discovery
+    - e-example-ms-upm
+    - e-example-ms-oauth2
+    - e-example-ms-log
+    - e-example-ms-ui
+    - e-example-ms-gateway

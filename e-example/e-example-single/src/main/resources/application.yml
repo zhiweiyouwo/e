@@ -1,0 +1,102 @@
+e:
+  conf:
+    loyAspect: true
+    defaultLocale: zh_CN
+    debugPageResult: false
+    recordOperateLog: true
+    supportLocales:
+    - en_US
+    - zh_CN
+    defaultPage: readme.html
+    homePage: home_tabs.html
+    defaultPassword: 456789
+        
+    homePageConfig: 
+              staticResourceFolder: asssets
+    
+    staticMappings:
+      /upm-ui/component/**:
+      - classpath:/static/component/
+      - classpath:/public/component/
+      /upm-ui/**:
+      - classpath:/static/
+      /log-ui/**:
+      - classpath:/static/
+      
+    ignoreJsonResponseUrls:
+      - /configuration/ui
+      - /swagger-resources
+      - /v2/api-docs
+      - /configuration/security
+      - /model/*/json
+      - /model/*/save
+      - /editor/stencilset
+  
+  apiInfo:
+    title: E-框架 REST API
+    description: null
+    version: 2.0.0
+    termsOfServiceUrl: null
+    contact:
+      name: Loy Fu
+      url: http://www.17jee.com
+      email: 21549322@qq.com
+    license: null
+    licenseUrl: null
+    pathsRegex: ^.*(?<!error)$
+    
+    
+spring:
+  profiles: 
+      active: prod
+  application:
+    name: upm
+  datasource:
+    platform: h2
+    #url: jdbc:mysql://localhost/e_upm?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&autoReconnect=true&failOverReadOnly=false
+    url: jdbc:h2:~/.h2/e_upm
+    username: root
+    password: 123456
+    #driverClassName: com.mysql.jdbc.Driver
+    driverClassName: org.h2.Driver
+    max-active: 50
+    max-idle: 40
+    min-idle: 20
+    initial-size: 6
+    validation-query: select 1
+    test-on-borrow: false
+    test-on-return: false
+    test-while-idle: true
+  jpa:
+    properties:
+      hibernate:
+        #dialect: com.loy.e.core.dialect.EMySQL5InnoDBDialect
+        dialect: org.hibernate.dialect.H2Dialect
+    showSql: false
+    hibernate:
+      ddlAuto: update
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    
+  cloud: 
+    discovery:
+      enabled: false 
+server:
+  port: 80
+  tomcat:
+    uri-encoding: UTF-8
+
+endpoints:
+  actuator:
+    enabled: true
+    sensitive: false
+  logfile:
+    enabled: true
+    path: /logfile
+    sensitive: true
+
+
+logging:
+  path: ./logs
+  file: ./logs/example-single.log
+  

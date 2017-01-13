@@ -1,0 +1,60 @@
+db:
+ build: e-example/e-micro-service/e-example-ms-db/build/docker
+ ports:
+     - 9092:9092
+ volumes:
+      - .:/db
+        
+discovery:
+      build: e-example/e-micro-service/e-example-ms-discovery/build/docker
+      ports:
+         - 8761:8761
+      volumes:
+             - .:/discovery
+upm:
+  build: e-example/e-micro-service/e-example-ms-upm/build/docker
+  ports:
+        - 18080:18080
+  volumes:
+        - .:/upm
+  links:
+       - discovery
+       - db
+        
+gateway:
+    build: e-example/e-micro-service/e-example-ms-gateway/build/docker
+    ports:
+        - 80:80
+    volumes:
+          - .:/gateway
+    links:
+        - discovery        
+        
+oauth2:
+    build: e-example/e-micro-service/e-example-ms-oauth2/build/docker
+    ports:
+        - 9999:9999
+    volumes:
+          - .:/oauth2
+    links:
+        - discovery
+        - db
+log:
+   build: e-example/e-micro-service/e-example-ms-log/build/docker
+   ports:
+        - 28080:28080
+   volumes:
+          - .:/log
+   links:
+        - upm
+        - oauth2
+        - discovery
+        - db
+        
+        
+ui:
+  build: e-example/e-micro-service/e-example-ms-ui/build/docker
+  ports:
+       - 8888:8888
+  volumes:
+         - .:/ui

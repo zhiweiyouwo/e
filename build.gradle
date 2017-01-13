@@ -2,59 +2,45 @@ buildscript {
 	ext {
 	    springBootVersion = "${springBootVersion}"
 	}
-	repositories {
-		//mavenCentral()
+	repositories {	
 		maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
-		maven { url "https://repo.spring.io/snapshot" }
-		maven { url "https://repo.spring.io/milestone" }
+		maven { url "http://repo2.maven.org/maven2" }
 	}
 	dependencies {
-	    classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") 
+	    classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")          
+	    classpath ("com.bmuschko:gradle-docker-plugin:3.0.3")
 	}
-	ext.customSecurityRef = ""
 }
 
-apply plugin: "java"
 apply plugin:'groovy'
 
 repositories {
-	//mavenCentral()
 		maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
-		maven { url "https://repo.spring.io/snapshot" }
-		maven { url "https://repo.spring.io/milestone" }
+		maven { url "http://repo2.maven.org/maven2" }
 }
 
 allprojects {
-	apply plugin: "java"
-	//apply plugin: "pmd"
-	// apply plugin: "findbugs"
-	//apply plugin: "checkstyle"
-	repositories {
-		//mavenCentral()
+	repositories {	
 		maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
-		maven { url "https://repo.spring.io/snapshot" }
-		maven { url "https://repo.spring.io/milestone" }
+		maven { url "http://repo2.maven.org/maven2" }
 	}	
 	   
+}
+
+subprojects {
+	apply plugin:'groovy'
+	apply plugin: 'maven'
+	apply plugin: 'signing'
+
 	dependencies {
 		compile "org.codehaus.groovy:groovy-all:${groovyVersion}"
-		testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
 	}
 	tasks.withType(JavaCompile) {  
 		options.encoding = "UTF-8"  
 	}
-	
-	
-}
-subprojects {
-	apply plugin: "java"
-	apply plugin: "eclipse"
-
 	repositories {
-		//mavenCentral()
 		maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
-		maven { url "https://repo.spring.io/snapshot" }
-		maven { url "https://repo.spring.io/milestone" }
+		maven { url "http://repo2.maven.org/maven2" }
 		
 	}
 	jar {
@@ -65,21 +51,20 @@ subprojects {
 			        "Implementation-Version": project.version)
 		}
 	}
-	eclipse {
-		classpath {
-			containers.remove("org.eclipse.jdt.launching.JRE_CONTAINER")
-		}
-	}
+
+	
 	tasks.withType(JavaCompile) {  
 		options.encoding = "UTF-8"  
 	}
 	task wrapper(type: Wrapper) {
 		gradleVersion = "${gradleVersion}"
 	}   
-	
+
+
 }
+task startSingleService(dependsOn: 'e-example:e-example-single:erun') << {
 
-
+}
 task eclean() << {
 	allprojects.each{
 		def o = new File(it.projectDir,".project");
@@ -102,29 +87,8 @@ task eclean() << {
 		o.deleteDir()
 		o = new File(it.projectDir,".metadata");
 		o.deleteDir()
+		o = new File(it.projectDir,"pids");
+		o.deleteDir()
 		
 	}
-}
-
-task ecleanBuild() << {
-	allprojects.each{
-		def o = new File(it.projectDir,"build");
-		o.deleteDir()
-	}
-}
-
-task startCrm(dependsOn: 'crm:erun') << {
-
-}
-task startUpm(dependsOn: 'e-upm:erun') << {
-
-}
-task startCas(dependsOn: 'server-cas:erun') << {
-
-}
-task startPortal(dependsOn: 'e-portal:erun') << {
-
-}
-task startProxy(dependsOn: 'server-proxy:erun') << {
-
 }
