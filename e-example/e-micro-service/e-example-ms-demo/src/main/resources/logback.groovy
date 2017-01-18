@@ -29,7 +29,7 @@ appender("FILE", RollingFileAppender) {
     charset = Charset.forName("UTF-8")
   }
   rollingPolicy(TimeBasedRollingPolicy) {
-    fileNamePattern = "../logs/upm-%d{yyyy-MM-dd}.%i.log"
+    fileNamePattern = "../logs/demo-%d{yyyy-MM-dd}.%i.log"
     timeBasedFileNamingAndTriggeringPolicy(SizeAndTimeBasedFNATP) {
       maxFileSize = "64 MB"
     }
