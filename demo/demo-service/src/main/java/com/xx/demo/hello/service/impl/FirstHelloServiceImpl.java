@@ -53,7 +53,7 @@ public class FirstHelloServiceImpl{
 
    
     public Page<FirstHelloEntity> queryPage(FirstHelloQueryParam firstHelloQueryParam,
-            @ApiIgnore Pageable pageable) {
+            Pageable pageable) {
         Page<FirstHelloEntity> page = firstHelloRepository.findFirstHelloPage(firstHelloQueryParam, pageable);
         return page;
     }
