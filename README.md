@@ -48,6 +48,7 @@ E框架的目的是让开发不必从零开始开发，让开发者只关注自�
     - e-example-ms-upm
     - e-example-ms-oauth2
     - e-example-ms-log
+	- e-example-ms-demo
     - e-example-ms-ui
     - e-example-ms-gateway
 
@@ -58,9 +59,9 @@ E框架的目的是让开发不必从零开始开发，让开发者只关注自�
 # 开发说明
 
 * 一般情况每个具体的子项目由两工程组成，一个是UI，一个是Service 目录结构如
-* 	upm
-*    |_   upm-ui
-*    |_   upm-service
+* 	demo
+*    |_   demo-ui
+*    |_   demo-service
 *  
 * 可以象例子中那样根据需要把子工程组装起来
 * 开发时尽量在自己的代码中扩展功能和替换原来的功能，而不是修改框架代码本身，以便于今后升级方便

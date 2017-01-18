@@ -8,4 +8,5 @@ projects:
     - e-example-ms-oauth2
     - e-example-ms-log
     - e-example-ms-ui
+    - e-example-ms-demo
     - e-example-ms-gateway

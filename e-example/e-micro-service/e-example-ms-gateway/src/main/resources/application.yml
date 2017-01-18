@@ -34,6 +34,19 @@ zuul:
         url: http://localhost:8888/
         
         
+      demo:
+        sensitive-headers: true
+        stripPrefix: true
+        path: /demo/**
+        url: http://localhost:38080/
+        
+      demo-ui:
+        sensitive-headers: true
+        stripPrefix: true
+        path: /demo-ui/**
+        url: http://localhost:8888/
+        
+        
       auth: 
         sensitive-headers: true
         stripPrefix: true

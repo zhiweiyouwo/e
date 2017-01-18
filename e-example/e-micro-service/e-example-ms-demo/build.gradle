@@ -1,35 +1,36 @@
 apply plugin: "java"
 apply plugin: "eclipse"
-apply plugin: "idea"
+apply plugin: 'idea'
 apply plugin: "org.springframework.boot" 
 apply plugin: "com.bmuschko.docker-remote-api"
 
 import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
-description = ""
 
 jar {
-	baseName = "e-example-ms-ui"
-
+	baseName = "e-example-ms-demo"
 }
 
 springBoot  {
-    mainClass = "com.loy.UIApplicationMain"
+    mainClass = "com.loy.CloudDemoApplicationMain"
 }
 
 bootRepackage {
-    mainClass = "com.loy.UIApplicationMain"
+    mainClass = "com.loy.CloudDemoApplicationMain"
 }
+
 dependencies {
-	compile ("com.17jee:e-core-static:${version}")
-	compile ("com.17jee:e-core-ui:${version}")
-	compile ("com.17jee:e-upm-ui:${version}")
-	compile ("com.17jee:e-log-ui:${version}")
-	compile project(":demo:demo-ui")
+	 compile ("com.17jee:e-security-jwt:${version}")
+	 compile ("com.17jee:e-cloud-authorize:${version}")
+	 compile project(":demo:demo-service")
+	 runtime("mysql:mysql-connector-java:${mysqlVersion}")
+	 runtime ("com.h2database:h2:1.4.193")
+	 compile "io.springfox:springfox-swagger-ui:${springfoxSwaggerVersion}"
 }
 task erun(type:Exec, dependsOn: build) {
     workingDir "${project.buildDir}/libs"
     commandLine "java", "-Dfile.encoding=${fileEncoding}", "-jar","${project.name}-${version}.jar"
 }
+
 task copyJar(type: Copy) {
     dependsOn   "build"
     from        "build/libs/${jar.baseName}-${version}.jar"
@@ -55,5 +56,5 @@ task buildDockerImage(type: DockerBuildImage) {
     }
     
     inputDir = file('build/docker')
-    tag = 'com.loy/ui'
+    tag = 'com.loy/demo'
 }

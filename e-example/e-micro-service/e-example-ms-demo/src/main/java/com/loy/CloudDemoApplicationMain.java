@@ -18,18 +18,13 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import com.loy.e.core.repository.impl.DefaultRepositoryFactoryBean;
-import com.loy.e.core.web.filter.LoginRedirectFilter;
-
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * 
@@ -38,6 +33,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @version 3.0.0
  * 
  */
+
 @Configuration
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableAutoConfiguration()
@@ -45,24 +41,11 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableJpaRepositories(repositoryFactoryBeanClass = DefaultRepositoryFactoryBean.class, basePackages = {
         "com.xx", "com.loy" })
 @EnableCaching
-@EnableSwagger2
 @EntityScan({ "com.xx", "com.loy" })
-public class SingleApplicationMain {
-    static final Log logger = LogFactory.getLog(SingleApplicationMain.class);
+public class CloudDemoApplicationMain {
+    static final Log logger = LogFactory.getLog(CloudDemoApplicationMain.class);
 
     public static void main(String[] args) throws Exception {
-        SpringApplication.run(SingleApplicationMain.class, args);
-    }
-
-    @Bean
-    public FilterRegistrationBean loginRedirectFilterRegistration() {
-
-        FilterRegistrationBean registration = new FilterRegistrationBean();
-        registration.setFilter(new LoginRedirectFilter());
-        registration.addUrlPatterns("/login");
-        registration.addUrlPatterns("/login.html");
-        registration.setName("loginRedirectFilter");
-        registration.setOrder(-1000);
-        return registration;
+        SpringApplication.run(CloudDemoApplicationMain.class, args);
     }
 }

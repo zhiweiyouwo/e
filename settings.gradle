@@ -17,12 +17,11 @@ include 'e-example:e-micro-service:e-example-ms-log'
 include 'e-example:e-micro-service:e-example-ms-oauth2'
 include 'e-example:e-micro-service:e-example-ms-discovery'
 include 'e-example:e-micro-service:e-example-ms-db'
+include 'e-example:e-micro-service:e-example-ms-demo'
 
 include 'e-example:e-micro-service:e-example-ms-start'
 include 'e-example:e-micro-service:e-example-ms-start-w'
 
-
-
-
-
+include ':demo:demo-ui'
+include ':demo:demo-service'
 

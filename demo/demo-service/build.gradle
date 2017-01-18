@@ -1,0 +1,13 @@
+apply plugin: "java"
+apply plugin: "eclipse"
+apply plugin: "idea"
+jar {
+	baseName = "demo-service"
+}
+
+dependencies {
+	compile ("com.17jee:e-core:${eversion}")
+    compile("io.springfox:springfox-swagger2:${springfoxSwaggerVersion}")
+    compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+    runtime("mysql:mysql-connector-java:${mysqlVersion}") 
+}

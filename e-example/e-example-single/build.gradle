@@ -24,6 +24,8 @@ bootRepackage {
     mainClass = "com.loy.SingleApplicationMain"
 }
 dependencies {
+	compile project(":demo:demo-service")
+	compile project(":demo:demo-ui")
 	compile ("com.17jee:e-core-static:${version}")
 	compile ("com.17jee:e-upm-service:${version}")
 	compile ("com.17jee:e-upm-ui:${version}")
