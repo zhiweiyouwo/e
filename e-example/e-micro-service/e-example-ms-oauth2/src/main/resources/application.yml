@@ -33,7 +33,7 @@ spring:
    jpa:
       properties:
         hibernate:
-          #dialect: com.loy.e.core.dialect.EMySQL5InnoDBDialect
+          #dialect: org.hibernate.dialect.MySQL5InnoDBDialect
           dialect: org.hibernate.dialect.H2Dialect
       showSql: false
       hibernate:
