@@ -16,7 +16,7 @@ bootRepackage {
     mainClass = "com.loy.GatewayApplicationMain"
 }
 dependencies {
-	compile ("com.17jee:e-cloud-gateway:${version}")
+	compile ("com.17jee:e-cloud-gateway:${eversion}")
 	compile("org.springframework.cloud:spring-cloud-starter-security:${springCloudOauth2}")
 	compile("org.springframework.cloud:spring-cloud-starter-oauth2:${springCloudOauth2}")
 	compile("org.springframework.cloud:spring-cloud-starter-eureka:${springCloud}")

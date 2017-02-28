@@ -1,0 +1,501 @@
+<div  id="customer_container">
+	<div class="row">
+		<div class="col-xs-12">
+			<div id="search_box" class="widget-box  ui-sortable-handle collapsed">
+				<div class="widget-header">
+				    <div class="nav-search"  style="padding-top: 5px;  right: 50px">
+						<span class="input-icon">
+							<input type="text"  i18n="com.xx.demo.test.customer.name" placeholder=" "   id="queryParam_name" class="nav-search-input"  >
+							<i class="ace-icon fa fa-search nav-search-icon"
+							 onclick="$('#customerSearchBtn',$('#customer_container')).click()" ></i>
+						</span>
+					</div>
+				    
+					<div class="widget-toolbar">
+						<a href="#" data-action="collapse">
+							<i class="1 ace-icon fa bigger-125 fa-chevron-up"></i>
+						</a>
+					</div>
+
+				</div>
+
+				<div class="widget-body" style="display: none;">
+					<div class="widget-main">
+						<div class="row">
+							<div style="padding-left: 10px">
+							      <div class="col-xs-12 col-sm-2 "><select group="demo.sex"   i18n="com.xx.demo.test.customer.sex" placeholder =" " class="form-control search-query"  id="queryParam_sex" name="sexId" > <option value="">ALL</option> </select></div>
+							      <div class="col-xs-12 col-sm-2 "><select class="form-control chosen-select"  id="queryParam_vip" name="vip"> <option  value=""  i18n="com.xx.demo.test.customer.vip" ></option>  <option value="true">Y</option>  <option value="false">N</option> </select></div>
+							      <div class="input-group col-xs-12 col-sm-2" style="float:left"><input type="text"  i18n="com.xx.demo.test.customer.dobStart" placeholder =" "  class="form-control search-query date-picker" id="queryParam_dobStart" name="dobStart" /><span class="input-group-addon"><i class="fa fa-calendar bigger-110"></i></span></div>
+							      <div class="input-group col-xs-12 col-sm-2" style="float:left"><input type="text"  i18n="com.xx.demo.test.customer.dobEnd" placeholder =" "  class="form-control search-query date-picker" id="queryParam_dobEnd" name="dobEnd" /><span class="input-group-addon"><i class="fa fa-calendar bigger-110"></i></span></div>
+							      <div class="col-xs-12 col-sm-2 "><input type="text"  i18n="com.xx.demo.test.customer.phone" placeholder =" " class="form-control  search-query" id="queryParam_phone" name="phone" /></div>
+					           <div class="col-xs-12 col-sm-2 " style="float:right">
+							    <div id="customerSearchDiv" class="input-group" style="padding-bottom: 2px">
+								  
+									<span class="input-group-btn" >
+										<button id="customerSearchBtn" type="button" class="btn btn-purple btn-sm">
+											<span class="ace-icon fa fa-search icon-on-right bigger-110"></span>
+											<span i18n="find"></span>
+										</button>
+									</span>
+				              </div>
+				              </div>
+				         </div>     
+			            </div>
+					</div>
+				</div>
+			</div>
+							    
+			
+			<table id="customer_grid-table"></table>
+
+			<div id="customer_grid-pager"></div>
+
+		</div>
+		<!-- /.col -->
+	</div>
+	<!-- /.row -->
+	
+	
+	<div id="customerModalDiv" class="modal fade" tabindex="-1" data-backdrop="static">
+		<div class="modal-dialog" >
+				<div class="modal-content">
+					<div class="modal-header no-padding">
+						<div class="table-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+								<span class="white">&times;</span>
+							</button>
+							<span i18n="com.xx.demo.test.customer"></span>
+						</div>
+					</div>
+					<div class="modal-body" style="max-height: 450px;overflow-y: scroll;">
+						<div id="modal-tip" class="red clearfix"></div>
+						<div>
+							<div class="widget-body">
+								<form id="customerForm" name="customerForm" class="form-horizontal  col-xs-12">
+								     <input type="hidden"  name="id" id="id"/>
+                                    <div class="row" style="padding-bottom: 2px">
+								         <div class="form-group">
+					                          <label class="col-sm-3 control-label"  i18n="com.xx.demo.test.customer.name"></label>
+					                          <div class="col-sm-6">
+					                             <input type="text"  class="form-control" id="name" name="name" />
+					                          </div>
+					                     </div>
+                                    </div>
+                                    <div class="row" style="padding-bottom: 2px">
+								         <div class="form-group">
+					                          <label class="col-sm-3 control-label"  i18n="com.xx.demo.test.customer.sex"></label>
+					                          <div class="col-sm-6">
+					                             <select class="form-control chosen-select" group="demo.sex" id="sex" name="sex.id"> <option value=""></option> </select>
+					                          </div>
+					                     </div>
+                                    </div>
+                                    <div class="row" style="padding-bottom: 2px">
+								         <div class="form-group">
+					                          <label class="col-sm-3 control-label"  i18n="com.xx.demo.test.customer.company"></label>
+					                          <div class="col-sm-6">
+					                             <select class="form-control chosen-select" id="company" name="company.id" nameField="name" url="demo/select" entityName="com.xx.demo.test.domain.entity.CompanyEntity"> <option value=""></option> </select>
+					                          </div>
+					                     </div>
+                                    </div>
+                                    <div class="row" style="padding-bottom: 2px">
+								         <div class="form-group">
+					                          <label class="col-sm-3 control-label"  i18n="com.xx.demo.test.customer.vip"></label>
+					                          <div class="col-sm-6">
+					                             <label class="inline"><input type="checkbox" value="true"  class="form-control ace ace-switch ace-switch-5" id="vip" name="vip" /><span class="lbl"></span></label>
+					                          </div>
+					                     </div>
+                                    </div>
+                                    <div class="row" style="padding-bottom: 2px">
+								         <div class="form-group">
+					                          <label class="col-sm-3 control-label"  i18n="com.xx.demo.test.customer.dob"></label>
+					                          <div class="col-sm-6">
+					                             <div class="input-group"><input type="text"  class="form-control  date-picker" id="dob" name="dob" /><span class="input-group-addon"><i class="fa fa-calendar bigger-110"></i></span></div>
+					                          </div>
+					                     </div>
+                                    </div>
+                                    <div class="row" style="padding-bottom: 2px">
+								         <div class="form-group">
+					                          <label class="col-sm-3 control-label"  i18n="com.xx.demo.test.customer.phone"></label>
+					                          <div class="col-sm-6">
+					                             <input type="text"  class="form-control" id="phone" name="phone" />
+					                          </div>
+					                     </div>
+                                    </div>
+                                    <div class="row" style="padding-bottom: 2px">
+								         <div class="form-group">
+					                          <label class="col-sm-3 control-label"  i18n="com.xx.demo.test.customer.address"></label>
+					                          <div class="col-sm-6">
+					                             <input type="text"  class="form-control" id="address" name="address" />
+					                          </div>
+					                     </div>
+                                    </div>
+								</form>
+									
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer no-margin-top">
+						<div class="text-center">
+							
+							<button id="submitCustomerBtn"  class="btn btn-sm btn-primary">
+							  <i class="ace-icon fa fa-floppy-o"></i>
+							  <span i18n="save"></span>
+							</button>
+							
+							<button class="btn btn-sm"  data-dismiss="modal">
+							  <i class="ace-icon fa fa-share "></i>
+							 <span i18n="cancel"></span>
+							</button>
+						</div>
+					</div>
+				</div><!-- /.modal-content -->
+			
+		</div><!-- /.modal-dialog -->
+	</div>
+	
+	
+	
+	
+     <div id="customerViewModalDiv" class="modal fade" tabindex="-1" data-backdrop="static">
+		<div class="modal-dialog" >
+				<div class="modal-content">
+					<div class="modal-header no-padding">
+						<div class="table-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+								<span class="white">&times;</span>
+							</button>
+							<span i18n="com.xx.demo.test.customer"></span>
+						</div>
+					</div>
+					<div class="modal-body" style="max-height: 450px;overflow-y: scroll;">
+						<div id="modal-tip" class="red clearfix"></div>
+						<div>
+							<div class="widget-body">
+								<form class="form-horizontal  col-xs-12">
+								    
+                                    <div class="row" style="padding-bottom: 2px">
+								         <div class="form-group">
+					                          <label class="col-sm-3 control-label"  i18n="com.xx.demo.test.customer.name"></label>
+					                          <div class="col-sm-6"  id="view_name"> 
+					                          </div>
+					                     </div>
+                                    </div>
+                                    <div class="row" style="padding-bottom: 2px">
+								         <div class="form-group">
+					                          <label class="col-sm-3 control-label"  i18n="com.xx.demo.test.customer.sex"></label>
+					                          <div class="col-sm-6"  id="view_sex"> 
+					                          </div>
+					                     </div>
+                                    </div>
+                                    <div class="row" style="padding-bottom: 2px">
+								         <div class="form-group">
+					                          <label class="col-sm-3 control-label"  i18n="com.xx.demo.test.customer.company.name"></label>
+					                          <div class="col-sm-6"  id="view_companyName"> 
+					                          </div>
+					                     </div>
+                                    </div>
+                                    <div class="row" style="padding-bottom: 2px">
+								         <div class="form-group">
+					                          <label class="col-sm-3 control-label"  i18n="com.xx.demo.test.customer.vip"></label>
+					                          <div class="col-sm-6"  id="view_vip"> 
+					                          </div>
+					                     </div>
+                                    </div>
+                                    <div class="row" style="padding-bottom: 2px">
+								         <div class="form-group">
+					                          <label class="col-sm-3 control-label"  i18n="com.xx.demo.test.customer.dob"></label>
+					                          <div class="col-sm-6"  id="view_dob"> 
+					                          </div>
+					                     </div>
+                                    </div>
+                                    <div class="row" style="padding-bottom: 2px">
+								         <div class="form-group">
+					                          <label class="col-sm-3 control-label"  i18n="com.xx.demo.test.customer.phone"></label>
+					                          <div class="col-sm-6"  id="view_phone"> 
+					                          </div>
+					                     </div>
+                                    </div>
+                                    <div class="row" style="padding-bottom: 2px">
+								         <div class="form-group">
+					                          <label class="col-sm-3 control-label"  i18n="com.xx.demo.test.customer.address"></label>
+					                          <div class="col-sm-6"  id="view_address"> 
+					                          </div>
+					                     </div>
+                                    </div>
+								</form>
+									
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer no-margin-top">
+						<div class="text-center">
+							<button class="btn btn-sm"  data-dismiss="modal">
+							  <i class="ace-icon fa fa-share "></i>
+							 <span i18n="cancel"></span>
+							</button>
+						</div>
+					</div>
+				</div><!-- /.modal-content -->
+			
+		</div><!-- /.modal-dialog -->
+	</div>
+	
+</div>
+
+
+
+<script type="text/javascript">
+var scripts = [ null,null ];
+$('.page-content-area').ace_ajax('loadScripts', scripts, function() {
+	var $container = $('#customer_container');
+	var grid_selector  = "#customer_grid-table";
+	var pager_selector = "#customer_grid-pager";
+	
+	$('.date-picker',$container).datepicker({
+		autoclose: true,
+		format : 'yyyy-mm-dd',
+		language: $.homeGlobal.LANG,
+		todayHighlight: true
+	}).next().on(ace.click_event, function(){
+		$(this).prev().focus();
+	});
+	
+	var colNames;
+	var  customerGrid = null;
+	$.loy.i18n(['demo/i18n/test/customer'],$.homeGlobal.LANG,$container,{custCallback:function(){
+		$('input, textarea',$container).placeholder();
+		colNames =[' ',
+			$.i18n.prop("com.xx.demo.test.customer.name") ,
+			$.i18n.prop("com.xx.demo.test.customer.sex") ,
+			$.i18n.prop("com.xx.demo.test.customer.company.name") ,
+			$.i18n.prop("com.xx.demo.test.customer.vip") ,
+			$.i18n.prop("com.xx.demo.test.customer.dob") ,
+			$.i18n.prop("com.xx.demo.test.customer.phone") ,
+			$.i18n.prop("com.xx.demo.test.customer.address")
+		];
+		$('#company').cchosen({allow_single_deselect:true,
+		placeholder_text_single:$.i18n.prop("pleaseChoose")});
+		$(window)
+			.off('resize.chosen')
+			.on('resize.chosen', function() {
+				$('.chosen-select').each(function() {
+					 var $this = $(this);
+					 $this.next().css({'width': $this.parent().width()});
+				})
+			}).trigger('resize.chosen');
+			$('#customerModalDiv',$container).on('shown.bs.modal', function () {
+			$('.chosen-select',$('#customerModalDiv',$container)).each(function() {
+				 var $this = $(this);
+				 $this.next().css({'width': $this.parent().width()});
+			});
+		});
+		$('#search_box',$container).on('shown.ace.widget', function(e) {
+			$('.chosen-container',$('#search_box',$container)).each(function() {
+				 var $this = $(this);
+				 $this.css({'width': $this.parent().width()});
+			});
+			var searchConditionHeight = $('.widget-body',$('#search_box',$container)).height();
+			customerGrid.setGridHeight(getGridDefaultHeight()-searchConditionHeight);
+		});
+		$('#search_box',$container).on('hide.ace.widget', function(e) {
+			var searchConditionHeight = $('.widget-body',$('#search_box',$container)).height();
+			customerGrid.setGridHeight(getGridDefaultHeight());
+		});
+		$.loy.dicts('demo','demo.sex',HomeGlobal.LANG,function(){
+			$.loy.buildSelectOptions('queryParam_sex',$('#queryParam_sex',$container).attr("group"),$.i18n.prop("all"));
+			$.loy.buildSelectOptions('sex',$('#sex',$container).attr("group"),$.i18n.prop("pleaseChoose"));
+			createCustomerGrid();
+		});
+	}});
+	
+	var $validateCustomerForm = $('#customerForm',$container).validate({
+    	onsubmit:false,
+    	rules : {
+			/**name : {
+				required : true,
+			}*/
+		}
+    });
+	function clearCustomerForm(){
+		$('#name',$container).val('');
+		$('#sex',$container).val('');
+		$('#sex',$container).trigger("chosen:updated");
+		$('#company',$container).val('');
+		$('#company',$container).trigger("chosen:updated");
+		$('#vip',$container).prop("checked", false);
+		$('#dob',$container).val('');
+		$('#phone',$container).val('');
+		$('#address',$container).val('');
+	}
+	function edit (id){
+		clearCustomerForm();
+		$('#submitCustomerBtn',$container).attr("url","customer/update");
+		$('#customerModalDiv',$container).modal("show");
+		$.loy.ajax({
+			url:'demo/customer/get',
+			data:{id:id},
+			success:function(data){
+				var result = data.data;
+				$('#id',$container).val(result.id?result.id:'');
+				$('#name',$container).val(result.name?result.name:'');
+				var sexIdValue = '';
+				if(result.sex && result.sex.id){
+					sexIdValue = result.sex.id;
+				}
+				$('#sex',$container).val(sexIdValue);
+				$('#sex',$container).trigger("chosen:updated");
+				var companyIdValue = '';
+				if(result.company && result.company.id){
+					companyIdValue = result.company.id;
+				}
+				if(companyIdValue && companyIdValue !=''){
+					var name = result.company.name?result.company.name:'';
+					$('#company',$container).html('<option value=""></option> <option selected value="'+companyIdValue+'">'+name+'</option>');
+					$('#company',$container).trigger("chosen:updated");
+				}
+				if(result.vip){
+					$('#vip',$container).prop("checked", true);
+				}else{
+					$('#vip',$container).prop("checked", false);
+				}
+				$('#dob',$container).val(result.dob?result.dob.substring(0,10):'');
+				$('#phone',$container).val(result.phone?result.phone:'');
+				$('#address',$container).val(result.address?result.address:'');
+			}
+	   });
+	}
+	function view (id){
+		$('#customerViewModalDiv').modal("show");
+		$.loy.ajax({
+			url:'demo/customer/get',
+			data:{id:id},
+			success:function(data){
+				var result = data.data;
+				var v = null;
+				v = $.loy.getObjectValue(result,"name");
+				$('#view_name',$container).html(v?v:'');
+				v = $.loy.getObjectValue(result,"sex.name");
+				if(result.sex && result.sex.id){
+					v = $.loy.dictValue(result.sex.id,'demo.sex');
+				}
+				$('#view_sex',$container).html(v?v:'');
+				v = $.loy.getObjectValue(result,"company.name");
+				$('#view_companyName',$container).html(v?v:'');
+				v = $.loy.getObjectValue(result,"vip");
+				if(v){
+					$('#view_vip',$container).html('<input type="checkbox" checked="checked"  disabled="disabled" >');
+				}else{
+					$('#view_vip',$container).html('<input type="checkbox" disabled="disabled" >');
+				}
+				v = $.loy.getObjectValue(result,"dob");
+				$('#view_dob',$container).html(v?v.substring(0,10):'');
+				v = $.loy.getObjectValue(result,"phone");
+				$('#view_phone',$container).html(v?v:'');
+				v = $.loy.getObjectValue(result,"address");
+				$('#view_address',$container).html(v?v:'');
+			}
+		});
+    }
+	function add(){
+		clearCustomerForm();
+		$('#id',$container).val('');
+		$('#submitCustomerBtn',$container).attr("url","demo/customer/save");
+		$('#customerModalDiv',$container).modal("show");
+	}
+  
+	$('#queryParam_name',$container).bind('keypress',function(event){
+        if(event.keyCode == "13"){
+           $('#customerSearchBtn',$container).click();
+        }
+    });
+	$("#customerSearchBtn",$container).click(function(){
+		var postData ={page:0};
+		postData["sexId"] = $("#queryParam_sex",$container).val();	
+		postData["vip"] = $("#queryParam_vip",$container).val();
+		postData["dobStart"] = $("#queryParam_dobStart",$container).val();
+		postData["dobEnd"] = $("#queryParam_dobEnd",$container).val();
+		postData["phone"] = $("#queryParam_phone",$container).val();
+		postData["name"] = $("#queryParam_name",$container).val();	
+		customerGrid.loyGrid("setGridParam",{"postData":postData}).trigger("reloadGrid"); 	
+	});
+	
+	$('#submitCustomerBtn').click(function(){
+		if(!$validateCustomerForm.checkForm()){
+			$validateCustomerForm.defaultShowErrors();
+			return;
+		}
+		var url = $(this).attr("url");
+        $.loy.ajax({
+				url:url,
+				data:$("#customerForm",$container).serialize(),
+				success:function(data){
+					if(data.success){
+						$('#customerModalDiv',$container).modal("hide");
+						customerGrid.trigger("reloadGrid");
+					}
+				}
+		});
+    });
+	function  createCustomerGrid(){
+		customerGrid =jQuery(grid_selector).loyGrid({
+			url: 'demo/customer/page',
+			datatype: "json",
+			mtype: 'GET',
+			colNames:colNames,
+			colModel: [
+				{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false ,
+					formatter:'actions', 
+					formatoptions:getFormatoptions('demo/customer/','customer')
+				},
+		   		{ name: 'name', index: 'name',sortable:false, width: 100, align: "left", editable: false} ,
+		   		{ name: 'sex.id', index: 'sex.id',sortable:false, width: 100, align: "left", editable: false, formatter:function(cellvalue, options, rowObject){
+					if(rowObject.sex && rowObject.sex.id){
+						return $.loy.dictValue(rowObject.sex.id,'demo.sex');
+					}
+		   			return "";
+				}} ,
+		   		{ name: 'company.name', index: 'company.name',sortable:false, width: 100, align: "left", editable: false, formatter:function(cellvalue, options, rowObject){
+					if(rowObject.company){
+						return rowObject.company.name;
+					}
+		   			return "";
+				}} ,
+		   		{ name: 'vip', index: 'vip',sortable:false,formatter:'checkbox' , width: 100, align: "left", editable: false} ,
+		   		{ name: 'dob', index: 'dob',sortable:false,formatter:'date' , width: 100, align: "left", editable: false} ,
+		   		{ name: 'phone', index: 'phone',sortable:false, width: 100, align: "left", editable: false} ,
+		   		{ name: 'address', index: 'address',sortable:false, width: 100, align: "left", editable: false}
+			],
+			pager: pager_selector,
+			//width:$(".page-content").width(),
+			//height: '310',
+			loadComplete:function(data){
+				loadComplete(data);
+				var list = data.data?data.data.content:null;
+				if(list){
+					for(var i=0;i<list.length;i++){
+						var editDivId = "jEditButton_"+list[i].id;
+						$('#'+editDivId,customerGrid).attr('onclick','').on('click',function(){
+							edit($(this).closest('tr').attr('id'));
+						});
+					}
+				}	
+			}
+		}).loyGrid('navGrid','#customer_grid-pager',{
+			"baseUrl":"demo/customer/",
+			accessCodePrefix:'customer',
+			"addfunc":function(){
+				add();
+			},
+			"editfunc":function(rowId){
+				edit(rowId);
+			},
+			"viewfunc":function(rowId){
+				view(rowId);
+			},
+			view: true
+		});
+		customerGrid.jqGrid('setFrozenColumns');
+	}
+});
+
+</script>

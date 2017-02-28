@@ -126,16 +126,48 @@ INSERT INTO e_menu_i18n (id,key_,lang_,value_,system_code) VALUES ('menu.upm.aut
 
 
 --demo
-INSERT INTO e_resource (id,created_time,creator_id,modified_time,modifier_id,available,name,parent_id,permission,resource_type,url,cls,lable_key,sort_num,access_code,system_id) VALUES ('03',NULL,NULL,NULL,NULL,1,'例子',NULL,NULL,'MENU','','menu-icon fa fa-book','menu.demo.example_manage',30,NULL,'demo');
-INSERT INTO e_resource (id,created_time,creator_id,modified_time,modifier_id,available,name,parent_id,permission,resource_type,url,cls,lable_key,sort_num,access_code,system_id)  VALUES ('0301',NULL,NULL,NULL,NULL,1,'HELLO WORLD','03',NULL,'MENU','demo-ui/demo/hello/firstHello_index.html','menu-icon fa fa-caret-right','menu.demo.firstHello_manage',20,NULL,'demo');
-INSERT INTO e_role_resource (role_id,resource_id) VALUES ('ADMIN','03');
-INSERT INTO e_role_resource (role_id,resource_id) VALUES ('ADMIN','0301');
 
+INSERT INTO e_resource (id,created_time,creator_id,modified_time,modifier_id,available,name,parent_id,permission,resource_type,url,cls,lable_key,sort_num,access_code,system_id) VALUES ('demo',NULL,NULL,NULL,NULL,1,'例子',NULL,NULL,'MENU','','menu-icon fa fa-book','menu.demo.example_manage',30,NULL,'demo');
+INSERT INTO e_role_resource (role_id,resource_id) VALUES ('ADMIN','demo');
 
 INSERT INTO e_menu_i18n (id,key_,lang_,value_,system_code) VALUES ('menu.demo.example_manage','menu.demo.example_manage','','例子','demo');
 INSERT INTO e_menu_i18n (id,key_,lang_,value_,system_code) VALUES ('menu.demo.example_manage_zh_CN','menu.demo.example_manage','zh_CN','例子','demo');
 INSERT INTO e_menu_i18n (id,key_,lang_,value_,system_code) VALUES ('menu.demo.example_manage_en_US','menu.demo.example_manage','en_US','EXAMPLE','demo');
 
-INSERT INTO e_menu_i18n (id,key_,lang_,value_,system_code) VALUES ('menu.demo.firstHello_manage','menu.demo.firstHello_manage','','例子一','demo');
-INSERT INTO e_menu_i18n (id,key_,lang_,value_,system_code) VALUES ('menu.demo.firstHello_manage_zh_CN','menu.demo.firstHello_manage','zh_CN','例子一','demo');
-INSERT INTO e_menu_i18n (id,key_,lang_,value_,system_code) VALUES ('menu.demo.firstHello_manage_en_US','menu.demo.firstHello_manage','en_US','HELLO ONE','demo');
+
+INSERT INTO e_resource (id,created_time,creator_id,modified_time,modifier_id,available,name,parent_id,permission,resource_type,url,cls,lable_key,sort_num,access_code,system_id)  VALUES ('com_xx_demo_test_company',NULL,NULL,NULL,NULL,1,'公司','demo',NULL,'MENU','demo-ui/demo/test/company_index.html','menu-icon fa fa-caret-right','menu.demo.test.company_manage',20,NULL,'demo');
+INSERT INTO e_role_resource (role_id,resource_id) VALUES ('ADMIN','com_xx_demo_test_company');
+INSERT INTO e_menu_i18n (id,key_,lang_,value_,system_code) VALUES ('menu.demo.test.company_manage','menu.demo.test.company_manage','','公司管理','demo');
+INSERT INTO e_menu_i18n (id,key_,lang_,value_,system_code) VALUES ('menu.demo.test.company_manage_zh_CN','menu.demo.test.company_manage','zh_CN','公司管理','demo');
+INSERT INTO e_menu_i18n (id,key_,lang_,value_,system_code) VALUES ('menu.demo.test.company_manage_en_US','menu.demo.test.company_manage','en_US','Company MGT','demo');
+
+
+INSERT INTO e_resource (id,created_time,creator_id,modified_time,modifier_id,available,name,parent_id,permission,resource_type,url,cls,lable_key,sort_num,access_code,system_id)  VALUES ('com_xx_demo_test_company_add',NULL,NULL,NULL,NULL,1,'新增','com_xx_demo_test_company',NULL,'BUTTON','company/save',NULL,'menu.add',NULL,'company:save','demo');
+INSERT INTO e_resource (id,created_time,creator_id,modified_time,modifier_id,available,name,parent_id,permission,resource_type,url,cls,lable_key,sort_num,access_code,system_id)   VALUES ('com_xx_demo_test_company_edit',NULL,NULL,NULL,NULL,1,'编辑','com_xx_demo_test_company',NULL,'BUTTON','company/update',NULL,'menu.edit',NULL,'company:update','demo');
+INSERT INTO e_resource (id,created_time,creator_id,modified_time,modifier_id,available,name,parent_id,permission,resource_type,url,cls,lable_key,sort_num,access_code,system_id)   VALUES ('com_xx_demo_test_company_delete',NULL,NULL,NULL,NULL,1,'删除','com_xx_demo_test_company',NULL,'BUTTON','company/delete',NULL,'menu.delete',NULL,'company:delete','demo');
+
+--demo customer
+
+INSERT INTO e_dictionary (id,i18n_key,code,name,parent_id) VALUES ('demo.sex','demo.sex','SEX','性别',NULL);
+INSERT INTO e_dictionary (id,i18n_key,code,name,sort_num,parent_id) VALUES ('demo.sex.male','demo.sex.male','MALE','男',1,'demo.sex');
+INSERT INTO e_dictionary (id,i18n_key,code,name,sort_num,parent_id) VALUES ('demo.sex.female','demo.sex.female','FEMALE','女',2,'demo.sex');
+
+INSERT INTO e_i18n (id,key_,lang_,value_,system_code) VALUES ('demo.sex.male','demo.sex.male','','男','demo');
+INSERT INTO e_i18n (id,key_,lang_,value_,system_code) VALUES ('demo.sex.male_zh_CN','demo.sex.male','zh_CN','男','demo');
+INSERT INTO e_i18n (id,key_,lang_,value_,system_code) VALUES ('demo.sex.male_en_US','demo.sex.male','en_US','MALE','demo');
+
+INSERT INTO e_i18n (id,key_,lang_,value_,system_code) VALUES ('demo.sex.female','demo.sex.female','','女','demo');
+INSERT INTO e_i18n (id,key_,lang_,value_,system_code) VALUES ('demo.sex.female_zh_CN','demo.sex.female','zh_CN','女','demo');
+INSERT INTO e_i18n (id,key_,lang_,value_,system_code) VALUES ('demo.sex.female_en_US','demo.sex.female','en_US','FEMALE','demo');
+
+
+INSERT INTO e_resource (id,created_time,creator_id,modified_time,modifier_id,available,name,parent_id,permission,resource_type,url,cls,lable_key,sort_num,access_code,system_id)  VALUES ('com_xx_demo_test_customer',NULL,NULL,NULL,NULL,1,'客户','demo',NULL,'MENU','demo-ui/demo/test/customer_index.html','menu-icon fa fa-caret-right','menu.demo.test.customer_manage',20,NULL,'demo');
+
+INSERT INTO e_menu_i18n (id,key_,lang_,value_,system_code) VALUES ('menu.demo.test.customer_manage','menu.demo.test.customer_manage','','客户管理','demo');
+INSERT INTO e_menu_i18n (id,key_,lang_,value_,system_code) VALUES ('menu.demo.test.customer_manage_zh_CN','menu.demo.test.customer_manage','zh_CN','客户管理','demo');
+INSERT INTO e_menu_i18n (id,key_,lang_,value_,system_code) VALUES ('menu.demo.test.customer_manage_en_US','menu.demo.test.customer_manage','en_US','Customer MGT','demo');
+
+
+INSERT INTO e_resource (id,created_time,creator_id,modified_time,modifier_id,available,name,parent_id,permission,resource_type,url,cls,lable_key,sort_num,access_code,system_id)  VALUES ('com_xx_demo_test_customer_add',NULL,NULL,NULL,NULL,1,'新增','com_xx_demo_test_customer',NULL,'BUTTON','customer/save',NULL,'menu.add',NULL,'customer:save','demo');
+INSERT INTO e_resource (id,created_time,creator_id,modified_time,modifier_id,available,name,parent_id,permission,resource_type,url,cls,lable_key,sort_num,access_code,system_id)   VALUES ('com_xx_demo_test_customer_edit',NULL,NULL,NULL,NULL,1,'编辑','com_xx_demo_test_customer',NULL,'BUTTON','customer/update',NULL,'menu.edit',NULL,'customer:update','demo');
+INSERT INTO e_resource (id,created_time,creator_id,modified_time,modifier_id,available,name,parent_id,permission,resource_type,url,cls,lable_key,sort_num,access_code,system_id)   VALUES ('com_xx_demo_test_customer_delete',NULL,NULL,NULL,NULL,1,'删除','com_xx_demo_test_customer',NULL,'BUTTON','customer/delete',NULL,'menu.delete',NULL,'customer:delete','demo');

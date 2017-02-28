@@ -16,8 +16,8 @@ bootRepackage {
     mainClass = "com.loy.ServiceAuthApplicationMain"
 }
 dependencies {
-	compile ("com.17jee:e-cloud-oauth:${version}")
-	compile ("com.17jee:e-security-jwt:${version}")
+	compile ("com.17jee:e-cloud-oauth:${eversion}")
+	compile ("com.17jee:e-security-jwt:${eversion}")
 	
 	compile("org.springframework.cloud:spring-cloud-starter-eureka:${springCloud}")
 	runtime("mysql:mysql-connector-java:${mysqlVersion}")

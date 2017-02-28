@@ -26,12 +26,12 @@ bootRepackage {
 dependencies {
 	compile project(":demo:demo-service")
 	compile project(":demo:demo-ui")
-	compile ("com.17jee:e-core-static:${version}")
-	compile ("com.17jee:e-upm-service:${version}")
-	compile ("com.17jee:e-upm-ui:${version}")
-	compile ("com.17jee:e-security-auth:${version}")
-	compile ("com.17jee:e-log-service:${version}")
-	compile ("com.17jee:e-log-ui:${version}")
+	compile ("com.17jee:e-core-static:${eversion}")
+	compile ("com.17jee:e-upm-service:${eversion}")
+	compile ("com.17jee:e-upm-ui:${eversion}")
+	compile ("com.17jee:e-security-auth:${eversion}")
+	compile ("com.17jee:e-log-service:${eversion}")
+	compile ("com.17jee:e-log-ui:${eversion}")
 	runtime ("com.h2database:h2:1.4.193")
 	runtime("mysql:mysql-connector-java:${mysqlVersion}")
 	

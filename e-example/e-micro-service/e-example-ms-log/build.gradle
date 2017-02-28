@@ -19,10 +19,10 @@ bootRepackage {
 
 
 dependencies {
-	compile ("com.17jee:e-core:${version}")
-	compile ("com.17jee:e-cloud-authorize:${version}")
-	compile ("com.17jee:e-security-jwt:${version}")
-	compile ("com.17jee:e-log-service:${version}")
+	compile ("com.17jee:e-core:${eversion}")
+	compile ("com.17jee:e-cloud-authorize:${eversion}")
+	compile ("com.17jee:e-security-jwt:${eversion}")
+	compile ("com.17jee:e-log-service:${eversion}")
     runtime("mysql:mysql-connector-java:${mysqlVersion}")
 	runtime ("com.h2database:h2:1.4.193")
     
