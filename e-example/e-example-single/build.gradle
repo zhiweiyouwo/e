@@ -32,7 +32,7 @@ dependencies {
 	compile ("com.17jee:e-security-auth:${eversion}")
 	compile ("com.17jee:e-log-service:${eversion}")
 	compile ("com.17jee:e-log-ui:${eversion}")
-	runtime ("com.h2database:h2:1.4.193")
+	compile ("com.h2database:h2:1.4.193")
 	runtime("mysql:mysql-connector-java:${mysqlVersion}")
 	
 	compile("org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}")
