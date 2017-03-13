@@ -148,19 +148,6 @@ INSERT INTO e_resource (id,created_time,creator_id,modified_time,modifier_id,ava
 
 --demo customer
 
-INSERT INTO e_dictionary (id,i18n_key,code,name,parent_id) VALUES ('demo.sex','demo.sex','SEX','性别',NULL);
-INSERT INTO e_dictionary (id,i18n_key,code,name,sort_num,parent_id) VALUES ('demo.sex.male','demo.sex.male','MALE','男',1,'demo.sex');
-INSERT INTO e_dictionary (id,i18n_key,code,name,sort_num,parent_id) VALUES ('demo.sex.female','demo.sex.female','FEMALE','女',2,'demo.sex');
-
-INSERT INTO e_i18n (id,key_,lang_,value_,system_code) VALUES ('demo.sex.male','demo.sex.male','','男','demo');
-INSERT INTO e_i18n (id,key_,lang_,value_,system_code) VALUES ('demo.sex.male_zh_CN','demo.sex.male','zh_CN','男','demo');
-INSERT INTO e_i18n (id,key_,lang_,value_,system_code) VALUES ('demo.sex.male_en_US','demo.sex.male','en_US','MALE','demo');
-
-INSERT INTO e_i18n (id,key_,lang_,value_,system_code) VALUES ('demo.sex.female','demo.sex.female','','女','demo');
-INSERT INTO e_i18n (id,key_,lang_,value_,system_code) VALUES ('demo.sex.female_zh_CN','demo.sex.female','zh_CN','女','demo');
-INSERT INTO e_i18n (id,key_,lang_,value_,system_code) VALUES ('demo.sex.female_en_US','demo.sex.female','en_US','FEMALE','demo');
-
-
 INSERT INTO e_resource (id,created_time,creator_id,modified_time,modifier_id,available,name,parent_id,permission,resource_type,url,cls,lable_key,sort_num,access_code,system_id)  VALUES ('com_xx_demo_test_customer',NULL,NULL,NULL,NULL,1,'客户','demo',NULL,'MENU','demo-ui/demo/test/customer_index.html','menu-icon fa fa-caret-right','menu.demo.test.customer_manage',20,NULL,'demo');
 
 INSERT INTO e_menu_i18n (id,key_,lang_,value_,system_code) VALUES ('menu.demo.test.customer_manage','menu.demo.test.customer_manage','','客户管理','demo');
