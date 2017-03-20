@@ -69,5 +69,3 @@ E框架的目的是让开发不必从零开始开发，让开发者只关注自�
 # 部署示例
 ![](deploy.png)
 
-# 微服务构架
-![](readme/architecture.png)
