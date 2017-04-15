@@ -75,4 +75,4 @@ E框架的目的是让开发不必从零开始开发，让开发者只关注自�
 # 关于源码
 框架本身源码是以jar的形式提供，在生成eclipse项目时会自动从maven库上下载，可以在开发工具中查看源码和debug。也可以在http://search.maven.org 上搜索com.17jee来查询框架代码
 
-![](resource.png)
+![](source.png)
