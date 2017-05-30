@@ -76,7 +76,7 @@
                                     <div class="row" style="padding-bottom: 2px">
 								         <div class="form-group">
 					                          <label class="col-sm-3 control-label"  i18n="com.xx.demo.test.customer.name"></label>
-					                          <div class="col-sm-6">
+					                          <div class="col-sm-9">
 					                             <input type="text"  class="form-control" id="name" name="name" />
 					                          </div>
 					                     </div>
@@ -84,23 +84,28 @@
                                     <div class="row" style="padding-bottom: 2px">
 								         <div class="form-group">
 					                          <label class="col-sm-3 control-label"  i18n="com.xx.demo.test.customer.sex"></label>
-					                          <div class="col-sm-6">
-					                             <select class="form-control chosen-select" group="demo.sex" id="sex" name="sex.id"> <option value=""></option> </select>
+					                          <div class="col-sm-9">
+					                          	<div class="input-group" style="width: 70%" >
+					                               <select class="form-control chosen-select"  group="demo.sex" id="sex" name="sex.id"> <option value=""></option> </select>
+					                            </div>
 					                          </div>
 					                     </div>
                                     </div>
                                     <div class="row" style="padding-bottom: 2px">
 								         <div class="form-group">
 					                          <label class="col-sm-3 control-label"  i18n="com.xx.demo.test.customer.company"></label>
-					                          <div class="col-sm-6">
-					                             <select class="form-control chosen-select" id="company" name="company.id" nameField="name" url="demo/select" entityName="com.xx.demo.test.domain.entity.CompanyEntity"> <option value=""></option> </select>
+					                          <div class="col-sm-9">
+					                           	<div class="input-group" style="width: 70%" >
+					                           		<select class="form-control chosen-select" id="company" name="company.id" nameField="name" url="demo/select" entityName="com.xx.demo.test.domain.entity.CompanyEntity"> <option value=""></option> </select>
+					                           	</div>
+					                             
 					                          </div>
 					                     </div>
                                     </div>
                                     <div class="row" style="padding-bottom: 2px">
 								         <div class="form-group">
 					                          <label class="col-sm-3 control-label"  i18n="com.xx.demo.test.customer.vip"></label>
-					                          <div class="col-sm-6">
+					                          <div class="col-sm-9">
 					                             <label class="inline"><input type="checkbox" value="true"  class="form-control ace ace-switch ace-switch-5" id="vip" name="vip" /><span class="lbl"></span></label>
 					                          </div>
 					                     </div>
@@ -108,15 +113,15 @@
                                     <div class="row" style="padding-bottom: 2px">
 								         <div class="form-group">
 					                          <label class="col-sm-3 control-label"  i18n="com.xx.demo.test.customer.dob"></label>
-					                          <div class="col-sm-6">
-					                             <div class="input-group"><input type="text"  class="form-control  date-picker" id="dob" name="dob" /><span class="input-group-addon"><i class="fa fa-calendar bigger-110"></i></span></div>
+					                          <div class="col-sm-9">
+					                             <div class="input-group" style="width: 70%" ><input type="text"  class="form-control  date-picker" id="dob" name="dob" /><span class="input-group-addon"><i class="fa fa-calendar bigger-110"></i></span></div>
 					                          </div>
 					                     </div>
                                     </div>
                                     <div class="row" style="padding-bottom: 2px">
 								         <div class="form-group">
 					                          <label class="col-sm-3 control-label"  i18n="com.xx.demo.test.customer.phone"></label>
-					                          <div class="col-sm-6">
+					                          <div class="col-sm-9">
 					                             <input type="text"  class="form-control" id="phone" name="phone" />
 					                          </div>
 					                     </div>
@@ -124,7 +129,7 @@
                                     <div class="row" style="padding-bottom: 2px">
 								         <div class="form-group">
 					                          <label class="col-sm-3 control-label"  i18n="com.xx.demo.test.customer.address"></label>
-					                          <div class="col-sm-6">
+					                          <div class="col-sm-9">
 					                             <input type="text"  class="form-control" id="address" name="address" />
 					                          </div>
 					                     </div>
@@ -311,12 +316,13 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	var $validateCustomerForm = $('#customerForm',$container).validate({
     	onsubmit:false,
     	rules : {
-			/**name : {
+			name : {
 				required : true,
-			}*/
+			}
 		}
     });
 	function clearCustomerForm(){
+		$validateCustomerForm.resetForm();
 		$('#name',$container).val('');
 		$('#sex',$container).val('');
 		$('#sex',$container).trigger("chosen:updated");
@@ -329,7 +335,7 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	}
 	function edit (id){
 		clearCustomerForm();
-		$('#submitCustomerBtn',$container).attr("url","customer/update");
+		$('#submitCustomerBtn',$container).attr("url","demo/customer/update");
 		$('#customerModalDiv',$container).modal("show");
 		$.loy.ajax({
 			url:'demo/customer/get',

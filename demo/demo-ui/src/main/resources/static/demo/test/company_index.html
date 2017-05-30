@@ -74,7 +74,7 @@
                                     <div class="row" style="padding-bottom: 2px">
 								         <div class="form-group">
 					                          <label class="col-sm-3 control-label"  i18n="com.xx.demo.test.company.name"></label>
-					                          <div class="col-sm-6">
+					                          <div class="col-sm-9">
 					                             <input type="text"  class="form-control" id="name" name="name" />
 					                          </div>
 					                     </div>
@@ -82,23 +82,25 @@
                                     <div class="row" style="padding-bottom: 2px">
 								         <div class="form-group">
 					                          <label class="col-sm-3 control-label"  i18n="com.xx.demo.test.company.registeredCapital"></label>
-					                          <div class="col-sm-6">
-					                             <input type="text"  class="form-control spinner" id="registeredCapital" name="registeredCapital" />
+					                          <div class="col-sm-9">
+						                          <div class="input-group" style="width: 70%" >
+						                             <input type="text"  class="form-control spinner" id="registeredCapital" name="registeredCapital" />
+						                          </div>
 					                          </div>
 					                     </div>
                                     </div>
                                     <div class="row" style="padding-bottom: 2px">
 								         <div class="form-group">
 					                          <label class="col-sm-3 control-label"  i18n="com.xx.demo.test.company.registerDate"></label>
-					                          <div class="col-sm-6">
-					                             <div class="input-group"><input type="text"  class="form-control  date-picker" id="registerDate" name="registerDate" /><span class="input-group-addon"><i class="fa fa-calendar bigger-110"></i></span></div>
+					                          <div class="col-sm-9">
+					                             <div class="input-group" style="width: 70%" ><input type="text"  class="form-control date-picker" id="registerDate" name="registerDate" /><span class="input-group-addon"><i class="fa fa-calendar bigger-110"></i></span></div>
 					                          </div>
 					                     </div>
                                     </div>
                                     <div class="row" style="padding-bottom: 2px">
 								         <div class="form-group">
 					                          <label class="col-sm-3 control-label"  i18n="com.xx.demo.test.company.contactName"></label>
-					                          <div class="col-sm-6">
+					                          <div class="col-sm-9">
 					                             <input type="text"  class="form-control" id="contactName" name="contactName" />
 					                          </div>
 					                     </div>
@@ -106,7 +108,7 @@
                                     <div class="row" style="padding-bottom: 2px">
 								         <div class="form-group">
 					                          <label class="col-sm-3 control-label"  i18n="com.xx.demo.test.company.phone"></label>
-					                          <div class="col-sm-6">
+					                          <div class="col-sm-9">
 					                             <input type="text"  class="form-control" id="phone" name="phone" />
 					                          </div>
 					                     </div>
@@ -114,7 +116,7 @@
                                     <div class="row" style="padding-bottom: 2px">
 								         <div class="form-group">
 					                          <label class="col-sm-3 control-label"  i18n="com.xx.demo.test.company.address"></label>
-					                          <div class="col-sm-6">
+					                          <div class="col-sm-9">
 					                             <input type="text"  class="form-control" id="address" name="address" />
 					                          </div>
 					                     </div>
@@ -278,9 +280,9 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 	var $validateCompanyForm = $('#companyForm',$container).validate({
     	onsubmit:false,
     	rules : {
-			/**name : {
+			name : {
 				required : true,
-			}*/
+			}
 		}
     });
 	function clearCompanyForm(){
@@ -290,10 +292,11 @@ $('.page-content-area').ace_ajax('loadScripts', scripts, function() {
 		$('#contactName',$container).val('');
 		$('#phone',$container).val('');
 		$('#address',$container).val('');
+		$validateCompanyForm.resetForm();
 	}
 	function edit (id){
 		clearCompanyForm();
-		$('#submitCompanyBtn',$container).attr("url","company/update");
+		$('#submitCompanyBtn',$container).attr("url","demo/company/update");
 		$('#companyModalDiv',$container).modal("show");
 		$.loy.ajax({
 			url:'demo/company/get',
