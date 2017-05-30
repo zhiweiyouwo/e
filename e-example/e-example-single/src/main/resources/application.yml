@@ -83,6 +83,7 @@ spring:
     discovery:
       enabled: false 
 server:
+  context-path: 
   port: 80
   tomcat:
     uri-encoding: UTF-8
