@@ -76,3 +76,9 @@ E框架的目的是让开发不必从零开始开发，让开发者只关注自�
 框架本身源码是以jar的形式提供，在生成eclipse项目时会自动从maven库上下载，可以在开发工具中查看源码和debug。也可以在http://search.maven.org 上搜索com.17jee来查询框架代码
 
 ![](source.png)
+
+# 关于修改主页信息（以e-example-single工程为例）
+
+*  1.只修改主页上的文字：可以在e-example-single工程src/main/resources下新建 i18n  包，将e-core-3.0.1.5.jar 下面  i18n 下的 .properties文件拷贝到新建的i18n下去做修改。
+*  2.修改主页文件：可以在e-example-single工程src/main/resources下新建 static 文件夹，将e-core-static-3.0.1.5.jar 下面  public 下的 home_tabs.html文件拷贝到新建的static下进行修改。
+*  3.修改主页文件：可以通过修改e-example-single工程下的配置文件application.yml  的e.conf.homePage来指定自己主页；
