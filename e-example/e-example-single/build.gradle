@@ -7,6 +7,7 @@ apply plugin: "com.bmuschko.docker-remote-api"
 import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
 configurations {
     compile.exclude  group: "org.springframework.cloud" ,module: "spring-cloud-starter-eureka" 
+    compile.exclude  group: "com.17jee" ,module: "e-core-ui" 
 }
 
 description = ""
