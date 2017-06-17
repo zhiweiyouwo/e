@@ -9,7 +9,7 @@ e:
     - zh_CN
     defaultPage: readme.html
     homePage: home_tabs.html
-    defaultPassword: 456789
+    defaultPassword: 123456
         
     homePageConfig: 
               staticResourceFolder: asssets
