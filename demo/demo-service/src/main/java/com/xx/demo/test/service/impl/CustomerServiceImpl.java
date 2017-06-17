@@ -2,28 +2,29 @@ package com.xx.demo.test.service.impl;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Date;
+
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.loy.e.basic.data.domain.entity.DictionaryEntity;
+import com.loy.e.basic.data.repository.DictionaryRepository;
+import com.loy.e.common.util.DateUtil;
 import com.loy.e.core.annotation.ControllerLogExeTime;
 import com.loy.e.core.util.TableToExcelUtil;
-
-import com.xx.demo.test.repository.CustomerRepository;
-import com.loy.e.common.util.DateUtil;
-import com.xx.demo.test.domain.entity.CustomerEntity;
-import com.xx.demo.test.domain.entity.CompanyEntity;
-import java.util.Date;
-import com.loy.e.basic.data.repository.DictionaryRepository;
 import com.xx.demo.test.domain.CustomerQueryParam;
+import com.xx.demo.test.domain.entity.CompanyEntity;
+import com.xx.demo.test.domain.entity.CustomerEntity;
 import com.xx.demo.test.repository.CompanyRepository;
-import com.loy.e.basic.data.domain.entity.DictionaryEntity;
+import com.xx.demo.test.repository.CustomerRepository;
 /**
  * 
  * @author Loy Fu qq群 540553957 website = http://www.17jee.com
@@ -41,6 +42,7 @@ public class CustomerServiceImpl{
     DictionaryRepository dictionaryRepository;
     @RequestMapping({ "/page" })
     @ControllerLogExeTime(description = "分页查询客户", log = false)
+   
     public Page<CustomerEntity> queryPage(CustomerQueryParam customerQueryParam, Pageable pageable) {
         if (customerQueryParam != null) {
             Date dobEnd = customerQueryParam.getDobEnd();
@@ -85,7 +87,7 @@ public class CustomerServiceImpl{
 	@RequestMapping({"/save"})
 	@ControllerLogExeTime(description="保存客户")
 	public CustomerEntity save(CustomerEntity customerEntity) {
-	customerEntity.setId(null);
+		customerEntity.setId(null);
 		DictionaryEntity sex = customerEntity.getSex();
 		if (sex != null) {
 			String sexId = (String)sex.getId();

@@ -2,26 +2,28 @@ package com.xx.demo.test.service.impl;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Date;
+
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.loy.e.core.annotation.ControllerLogExeTime;
-import com.loy.e.core.util.TableToExcelUtil;
-
-import com.loy.e.core.query.Direction;
 import com.loy.e.common.util.DateUtil;
-import com.xx.demo.test.domain.entity.CompanyEntity;
-import java.util.Date;
+import com.loy.e.core.annotation.ControllerLogExeTime;
+import com.loy.e.core.query.Direction;
+import com.loy.e.core.util.TableToExcelUtil;
+import com.loy.e.data.permission.annotation.DataPermission;
 import com.xx.demo.test.domain.CompanyQueryParam;
+import com.xx.demo.test.domain.entity.CompanyEntity;
 import com.xx.demo.test.repository.CompanyRepository;
-import org.apache.commons.lang.ArrayUtils;
 /**
  * 
  * @author Loy Fu qq群 540553957 website = http://www.17jee.com
@@ -35,6 +37,7 @@ public class CompanyServiceImpl{
     CompanyRepository companyRepository;
     @RequestMapping({ "/page" })
     @ControllerLogExeTime(description = "分页查询公司", log = false)
+    @DataPermission(uniqueKey="CompanyServiceImpl.queryPage",findAll=true)
     public Page<CompanyEntity> queryPage(CompanyQueryParam companyQueryParam, Pageable pageable) {
         if (companyQueryParam != null) {
             processSort(companyQueryParam);

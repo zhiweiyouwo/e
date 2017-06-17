@@ -14,7 +14,7 @@ import com.loy.e.core.repository.GenericRepository;
  */
 public interface CustomerRepository extends GenericRepository<CustomerEntity, String> {
 
-    @Query(value=" from CustomerEntity x where  1=1<notEmpty name='name'> and x.name like  '%${name}%' </notEmpty><notEmpty name='sexId'> and x.sex.id =  :sexId </notEmpty><notEmpty name='vip'> and x.vip =  :vip </notEmpty><notEmpty name='dobStart'> and x.dob &gt;=  :dobStart </notEmpty><notEmpty name='dobEnd'> and x.dob &lt;=  :dobEnd </notEmpty><notEmpty name='phone'> and x.phone like  '%${phone}%' </notEmpty>")
+    @Query(value=" from CustomerEntity x where  1=1  <notEmpty name='name'> and x.name like  '%${name}%' </notEmpty><notEmpty name='sexId'> and x.sex.id =  :sexId </notEmpty><notEmpty name='vip'> and x.vip =  :vip </notEmpty><notEmpty name='dobStart'> and x.dob &gt;=  :dobStart </notEmpty><notEmpty name='dobEnd'> and x.dob &lt;=  :dobEnd </notEmpty><notEmpty name='phone'> and x.phone like  '%${phone}%' </notEmpty>")
     @DynamicQuery
     Page<CustomerEntity> findCustomerPage(CustomerQueryParam customerQueryParam, Pageable pageable);
 

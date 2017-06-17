@@ -8,7 +8,8 @@ jar {
 dependencies {
 	compile ("com.17jee:e-core:${eversion}")
 	compile ("com.17jee:e-basic-data:${eversion}")
-    compile("io.springfox:springfox-swagger2:${springfoxSwaggerVersion}")
-    compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
-    runtime("mysql:mysql-connector-java:${mysqlVersion}") 
+	compile ("com.17jee:e-data-permission:${eversion}")
+    compile ("io.springfox:springfox-swagger2:${springfoxSwaggerVersion}")
+    compile ("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+    runtime ("mysql:mysql-connector-java:${mysqlVersion}") 
 }

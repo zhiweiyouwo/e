@@ -73,7 +73,7 @@ spring:
       hibernate:
         #dialect: com.loy.e.core.dialect.EMySQL5InnoDBDialect
         dialect: org.hibernate.dialect.H2Dialect
-    showSql: false
+    showSql: true
     hibernate:
       ddlAuto: update
   jackson:

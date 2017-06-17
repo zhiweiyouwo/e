@@ -1,14 +1,17 @@
 package com.xx.demo.test.domain;
 
 import java.util.Date;
-import com.loy.e.core.query.data.QueryParam;
+
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.loy.e.core.query.data.QueryParam;
+import com.loy.e.data.permission.data.DefaultDataPermissionQueryParam;
 
 /**
  * 
  * @author Loy Fu qq群 540553957 website = http://www.17jee.com
  */
-public class CustomerQueryParam  implements QueryParam {
+public class CustomerQueryParam  extends DefaultDataPermissionQueryParam implements QueryParam {
     private String name;
     private String sexId;
     private Boolean vip;

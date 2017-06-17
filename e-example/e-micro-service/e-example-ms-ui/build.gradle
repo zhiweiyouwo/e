@@ -24,6 +24,7 @@ dependencies {
 	compile ("com.17jee:e-core-ui:${eversion}")
 	compile ("com.17jee:e-upm-ui:${eversion}")
 	compile ("com.17jee:e-log-ui:${eversion}")
+	compile ("com.17jee:e-data-permission-ui:${eversion}")
 	compile project(":demo:demo-ui")
 }
 task erun(type:Exec, dependsOn: build) {

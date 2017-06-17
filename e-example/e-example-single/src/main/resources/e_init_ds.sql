@@ -1,8 +1,8 @@
 
 INSERT INTO e_resource (id,created_time,creator_id,modified_time,modifier_id,available,name,parent_id,permission,resource_type,url,cls,lable_key,sort_num,access_code,system_id) VALUES ('01',NULL,NULL,NULL,NULL,1,'系统管理',NULL,NULL,'MENU','','menu-icon fa fa-desktop','menu.upm.sys_manage',10,NULL,'upm');
  
-INSERT INTO e_resource (id,created_time,creator_id,modified_time,modifier_id,available,name,parent_id,permission,resource_type,url,cls,lable_key,sort_num,access_code,system_id)  VALUES ('0101',NULL,NULL,NULL,NULL,1,'用户管理','01',NULL,'MENU','upm-ui/sys/user_index.html','menu-icon fa fa-caret-right','menu.upm.user_manage',10,NULL,'upm');
-
+---INSERT INTO e_resource (id,created_time,creator_id,modified_time,modifier_id,available,name,parent_id,permission,resource_type,url,cls,lable_key,sort_num,access_code,system_id)  VALUES ('0101',NULL,NULL,NULL,NULL,1,'用户管理','01',NULL,'MENU','upm-ui/sys/user_index.html','menu-icon fa fa-user-circle-o','menu.upm.user_manage',10,NULL,'upm');
+INSERT INTO e_resource (id,created_time,creator_id,modified_time,modifier_id,available,name,parent_id,permission,resource_type,url,cls,lable_key,sort_num,access_code,system_id)  VALUES ('0101',NULL,NULL,NULL,NULL,1,'用户管理','01',NULL,'MENU','upm-ui/sys/user_data_permission_index.html','menu-icon fa fa fa-user-circle-o','menu.upm.user_manage',10,NULL,'upm');
 INSERT INTO e_resource (id,created_time,creator_id,modified_time,modifier_id,available,name,parent_id,permission,resource_type,url,cls,lable_key,sort_num,access_code,system_id)  VALUES ('010101',NULL,NULL,NULL,NULL,1,'新增','0101',NULL,'BUTTON','user/save',NULL,'menu.add',NULL,'user:save','upm');
  
 INSERT INTO e_resource (id,created_time,creator_id,modified_time,modifier_id,available,name,parent_id,permission,resource_type,url,cls,lable_key,sort_num,access_code,system_id)   VALUES ('010102',NULL,NULL,NULL,NULL,1,'编辑','0101',NULL,'BUTTON','user/update',NULL,'menu.edit',NULL,'user:update','upm');
@@ -11,12 +11,13 @@ INSERT INTO e_resource (id,created_time,creator_id,modified_time,modifier_id,ava
 
 
  
-INSERT INTO e_resource (id,created_time,creator_id,modified_time,modifier_id,available,name,parent_id,permission,resource_type,url,cls,lable_key,sort_num,access_code,system_id)  VALUES ('0102',NULL,NULL,NULL,NULL,1,'角色管理','01',NULL,'MENU','upm-ui/sys/role_index.html','menu-icon fa fa-caret-right','menu.upm.role_manage',20,NULL,'upm');
- 
+--INSERT INTO e_resource (id,created_time,creator_id,modified_time,modifier_id,available,name,parent_id,permission,resource_type,url,cls,lable_key,sort_num,access_code,system_id)  VALUES ('0102',NULL,NULL,NULL,NULL,1,'角色管理','01',NULL,'MENU','upm-ui/sys/role_index.html','menu-icon fa fa-caret-right','menu.upm.role_manage',20,NULL,'upm');
+INSERT INTO e_resource (id,created_time,creator_id,modified_time,modifier_id,available,name,parent_id,permission,resource_type,url,cls,lable_key,sort_num,access_code,system_id)  VALUES ('0102',NULL,NULL,NULL,NULL,1,'角色管理','01',NULL,'MENU','upm-ui/sys/role_data_permission_index.html','menu-icon fa fa-caret-right','menu.upm.role_manage',20,NULL,'upm'); 
 INSERT INTO e_resource (id,created_time,creator_id,modified_time,modifier_id,available,name,parent_id,permission,resource_type,url,cls,lable_key,sort_num,access_code,system_id)  VALUES ('010201',NULL,NULL,NULL,NULL,1,'新增','0102',NULL,'BUTTON','role/save',NULL,'menu.add',NULL,'role:save','upm');
 INSERT INTO e_resource (id,created_time,creator_id,modified_time,modifier_id,available,name,parent_id,permission,resource_type,url,cls,lable_key,sort_num,access_code,system_id)  VALUES ('010202',NULL,NULL,NULL,NULL,1,'编辑','0102',NULL,'BUTTON','role/update',NULL,'menu.edit',NULL,'role:update','upm');
 INSERT INTO e_resource (id,created_time,creator_id,modified_time,modifier_id,available,name,parent_id,permission,resource_type,url,cls,lable_key,sort_num,access_code,system_id)  VALUES ('010203',NULL,NULL,NULL,NULL,1,'授权','0102',NULL,'BUTTON','role/authority',NULL,'menu.upm.role_authority',NULL,'role:authority','upm');
 INSERT INTO e_resource (id,created_time,creator_id,modified_time,modifier_id,available,name,parent_id,permission,resource_type,url,cls,lable_key,sort_num,access_code,system_id)  VALUES ('010204',NULL,NULL,NULL,NULL,1,'删除','0102',NULL,'BUTTON','role/del',NULL,'menu.delete',NULL,'role:del','upm');
+INSERT INTO e_resource (id,created_time,creator_id,modified_time,modifier_id,available,name,parent_id,permission,resource_type,url,cls,lable_key,sort_num,access_code,system_id)  VALUES ('010205',NULL,NULL,NULL,NULL,1,'数据授权','0102',NULL,'BUTTON','strategy/role/data/authority',NULL,'menu.upm.strategy_manage',NULL,'role:data:authority','upm');
 
 INSERT INTO e_resource (id,created_time,creator_id,modified_time,modifier_id,available,name,parent_id,permission,resource_type,url,cls,lable_key,sort_num,access_code,system_id)  VALUES ('0103',NULL,NULL,NULL,NULL,1,'菜单资源','01',NULL,'MENU','upm-ui/sys/resource_index.html','menu-icon fa fa-caret-right','menu.upm.resource_manage',30,NULL,'upm');
 

@@ -25,8 +25,7 @@ bootRepackage {
     mainClass = "com.loy.SingleApplicationMain"
 }
 dependencies {
-	compile project(":demo:demo-service")
-	compile project(":demo:demo-ui")
+	
 	compile ("com.17jee:e-core-static:${eversion}")
 	compile ("com.17jee:e-upm-service:${eversion}")
 	compile ("com.17jee:e-upm-ui:${eversion}")
@@ -34,6 +33,13 @@ dependencies {
 	compile ("com.17jee:e-log-service:${eversion}")
 	compile ("com.17jee:e-log-ui:${eversion}")
 	compile ("com.h2database:h2:1.4.193")
+	compile ("com.17jee:e-data-permission-service:${eversion}")
+	compile ("com.17jee:e-data-permission-impl:${eversion}")
+	compile ("com.17jee:e-data-permission-ui:${eversion}")
+	
+	compile project(":demo:demo-service")
+	compile project(":demo:demo-ui")
+	
 	runtime("mysql:mysql-connector-java:${mysqlVersion}")
 	
 	compile("org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}")
