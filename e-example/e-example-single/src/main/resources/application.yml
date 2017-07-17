@@ -24,6 +24,8 @@ e:
       - classpath:/static/
       /demo-ui/**:
       - classpath:/static/
+      /pm-ui/**:
+      - classpath:/static/
     ignoreJsonResponseUrls:
       - /configuration/ui
       - /swagger-resources

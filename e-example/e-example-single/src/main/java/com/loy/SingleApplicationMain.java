@@ -48,12 +48,12 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableAutoConfiguration()
-@ComponentScan(basePackages = { "com.xx", "com.loy" })
+@ComponentScan(basePackages = { "com.xx", "com.loy","com.pm" })
 @EnableJpaRepositories(repositoryFactoryBeanClass = DefaultRepositoryFactoryBean.class, basePackages = {
-        "com.xx", "com.loy" })
+        "com.xx", "com.loy","com.pm" })
 @EnableCaching
 @EnableSwagger2
-@EntityScan({ "com.xx", "com.loy" })
+@EntityScan({ "com.xx", "com.loy","com.pm" })
 public class SingleApplicationMain {
     static final Log logger = LogFactory.getLog(SingleApplicationMain.class);
 
