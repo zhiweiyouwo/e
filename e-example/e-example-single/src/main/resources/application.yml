@@ -7,7 +7,7 @@ e:
     supportLocales:
     - en_US
     - zh_CN
-    defaultPage: readme.html
+    defaultPage: home_content.html
     homePage: home_tabs.html
     defaultPassword: 123456
         

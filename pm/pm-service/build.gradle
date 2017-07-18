@@ -2,7 +2,7 @@ apply plugin: "java"
 apply plugin: "eclipse"
 apply plugin: "idea"
 jar {
-	baseName = "demo-service"
+	baseName = "pm-service"
 }
 
 dependencies {
